@@ -47,7 +47,30 @@ public class CMD_AUTH_LOGON_CHALLENGE_Client {
         };
     }
 
-    public int Size() {
+    public async Task Write(Stream w) {
+        await WriteUtils.WriteByte(w, (byte)ProtocolVersion);
+
+        await WriteUtils.WriteUShort(w, (ushort)Size());
+
+        await WriteUtils.WriteUInt(w, 5730135);
+
+        await Version.Write(w);
+
+        await WriteUtils.WriteUInt(w, (uint)Platform);
+
+        await WriteUtils.WriteUInt(w, (uint)Os);
+
+        await WriteUtils.WriteUInt(w, (uint)Locale);
+
+        await WriteUtils.WriteUInt(w, UtcTimezoneOffset);
+
+        await WriteUtils.WriteUInt(w, ClientIpAddress);
+
+        await WriteUtils.WriteString(w, AccountName);
+
+    }
+
+    private int Size() {
         var size = 0;
 
         // protocol_version: Gtker.WowMessages.Generator.Generated.DataTypeEnum

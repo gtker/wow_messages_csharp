@@ -12,5 +12,10 @@ public class CMD_REALM_LIST_Client {
         };
     }
 
+    public async Task Write(Stream w) {
+        await WriteUtils.WriteUInt(w, 0);
+
+    }
+
 }
 

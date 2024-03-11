@@ -13,5 +13,10 @@ public class CMD_XFER_RESUME {
         };
     }
 
+    public async Task Write(Stream w) {
+        await WriteUtils.WriteULong(w, Offset);
+
+    }
+
 }
 

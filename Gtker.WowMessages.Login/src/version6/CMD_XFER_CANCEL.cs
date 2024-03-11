@@ -9,5 +9,8 @@ public class CMD_XFER_CANCEL {
         };
     }
 
+    public async Task Write(Stream w) {
+    }
+
 }
 

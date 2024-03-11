@@ -32,6 +32,9 @@ public static class WriteContainers
             WriteReadImplementation.WriteRead(s, e);
             s.Newline();
 
+            WriteWriteImplementation.WriteWrite(s, e);
+            s.Newline();
+
             if (e.ManualSizeSubtraction is { } manualSizeSubtraction)
             {
                 WriteSizeImplementation.WriteSize(s, e, manualSizeSubtraction);

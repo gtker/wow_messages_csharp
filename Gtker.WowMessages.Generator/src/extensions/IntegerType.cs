@@ -34,6 +34,21 @@ public static class IntegerTypeExtensions
             _ => throw new ArgumentOutOfRangeException(nameof(it), it, null)
         };
 
+    public static string WriteFunction(this IntegerType it) =>
+        it switch
+        {
+            IntegerType.I8 => "WriteSByte",
+            IntegerType.I16 => "WriteShort",
+            IntegerType.I32 => "WriteInt",
+            IntegerType.I64 => "WriteLong",
+            IntegerType.U8 => "WriteByte",
+            IntegerType.U16 => "WriteUShort",
+            IntegerType.U32 => "WriteUInt",
+            IntegerType.U48 => "WriteU48",
+            IntegerType.U64 => "WriteULong",
+            _ => throw new ArgumentOutOfRangeException(nameof(it), it, null)
+        };
+
     public static int SizeBytes(this IntegerType it) =>
         it switch
         {

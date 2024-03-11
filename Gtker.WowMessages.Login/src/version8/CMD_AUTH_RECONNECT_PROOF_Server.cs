@@ -16,5 +16,12 @@ public class CMD_AUTH_RECONNECT_PROOF_Server {
         };
     }
 
+    public async Task Write(Stream w) {
+        await WriteUtils.WriteByte(w, (byte)Result);
+
+        await WriteUtils.WriteUShort(w, 0);
+
+    }
+
 }
 

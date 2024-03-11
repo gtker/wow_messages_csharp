@@ -24,5 +24,16 @@ public class Version {
         };
     }
 
+    public async Task Write(Stream w) {
+        await WriteUtils.WriteByte(w, Major);
+
+        await WriteUtils.WriteByte(w, Minor);
+
+        await WriteUtils.WriteByte(w, Patch);
+
+        await WriteUtils.WriteUShort(w, Build);
+
+    }
+
 }
 

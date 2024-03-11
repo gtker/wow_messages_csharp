@@ -46,5 +46,26 @@ public class Realm {
         };
     }
 
+    public async Task Write(Stream w) {
+        await WriteUtils.WriteByte(w, (byte)RealmType);
+
+        await WriteUtils.WriteBool8(w, Locked);
+
+        await WriteUtils.WriteByte(w, (byte)Flag);
+
+        await WriteUtils.WriteCString(w, Name);
+
+        await WriteUtils.WriteCString(w, Address);
+
+        await WriteUtils.WritePopulation(w, Population);
+
+        await WriteUtils.WriteByte(w, NumberOfCharactersOnRealm);
+
+        await WriteUtils.WriteByte(w, (byte)Category);
+
+        await WriteUtils.WriteByte(w, RealmId);
+
+    }
+
 }
 

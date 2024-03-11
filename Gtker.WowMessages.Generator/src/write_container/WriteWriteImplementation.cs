@@ -3,124 +3,99 @@ using Gtker.WowMessages.Generator.Generated;
 
 namespace Gtker.WowMessages.Generator.write_container;
 
-public static class WriteReadImplementation
+public static class WriteWriteImplementation
 {
-    public static void WriteRead(Writer s, Container e)
+    public static void WriteWrite(Writer s, Container e)
     {
-        s.Body($"public static async Task<{e.Name}> Read(Stream r)", s =>
+        s.Body("public async Task Write(Stream w)", s =>
         {
             foreach (var member in e.Members)
             {
                 switch (member)
                 {
-                    case StructMemberDefinition definition:
-                    {
-                        var d = definition.StructMemberContent;
-
-                        WriteReadForType(s, d);
+                    case StructMemberDefinition d:
+                        WriteWriteForType(s, d.StructMemberContent);
+                        s.Newline();
                         break;
-                    }
-                    case StructMemberIfStatement:
+                    case StructMemberIfStatement structMemberIfStatement:
                         throw new NotImplementedException();
-                    case StructMemberOptional:
+                    case StructMemberOptional structMemberOptional:
                         throw new NotImplementedException();
                     default:
                         throw new ArgumentOutOfRangeException(nameof(member));
                 }
             }
-
-            s.Body($"return new {e.Name}", s =>
-            {
-                foreach (var member in e.Members)
-                {
-                    switch (member)
-                    {
-                        case StructMemberDefinition definition:
-                        {
-                            var d = definition.StructMemberContent;
-                            if (d.IsNotInType())
-                            {
-                                continue;
-                            }
-
-                            s.Wln($"{d.MemberName()} = {d.VariableName()},");
-
-                            break;
-                        }
-                        case StructMemberIfStatement:
-                            throw new NotImplementedException();
-                        case StructMemberOptional:
-                            throw new NotImplementedException();
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(member));
-                    }
-                }
-            }, ";");
         });
     }
 
-    private static void WriteReadForType(Writer s, Definition d)
+    private static void WriteWriteForType(Writer s, Definition d)
     {
-        if (d.IsNotInType())
+        var value = d.MemberName();
+        if (d.SizeOfFieldsBeforeSize is not null)
         {
-            s.Wln("// ReSharper disable once UnusedVariable.Compiler");
+            var cast = d.DataType.CsType();
+            value = $"({cast})Size()";
+        }
+        else if (d.ConstantValue is { } val)
+        {
+            value = val.value;
         }
 
         switch (d.DataType)
         {
             case DataTypeInteger i:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.{i.Content.ReadFunction()}(r);");
+                s.Wln($"await WriteUtils.{i.Content.WriteFunction()}(w, {value});");
                 break;
 
-            case DataTypeEnum dataTypeEnum:
+            case DataTypeEnum i:
                 s.Wln(
-                    $"var {d.VariableName()} = ({dataTypeEnum.CsType()})await ReadUtils.{dataTypeEnum.Content.IntegerType.ReadFunction()}(r);");
+                    $"await WriteUtils.{i.Content.IntegerType.WriteFunction()}(w, ({i.Content.IntegerType.CsType()}){value});");
                 break;
-            case DataTypeFlag dataTypeFlag:
+            case DataTypeFlag i:
                 s.Wln(
-                    $"var {d.VariableName()} = ({dataTypeFlag.CsType()})await ReadUtils.{dataTypeFlag.Content.IntegerType.ReadFunction()}(r);");
+                    $"await WriteUtils.{i.Content.IntegerType.WriteFunction()}(w, ({i.Content.IntegerType.CsType()}){value});");
                 break;
             case DataTypeStruct:
-                s.Wln($"var {d.VariableName()} = await {d.CsTypeName()}.Read(r);");
+                s.Wln($"await {d.MemberName()}.Write(w);");
                 break;
 
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds
                 or DataTypeMilliseconds or DataTypeGold or DataTypeDateTime:
             {
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadUInt(r);");
+                s.Wln($"await WriteUtils.WriteUInt(w, {value});");
             }
                 break;
             case DataTypeSpell16 or DataTypeLevel16:
             {
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadUShort(r);");
+                s.Wln($"await WriteUtils.WriteUShort(w, {value});");
             }
                 break;
             case DataTypeLevel:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadByte(r);");
+                s.Wln($"await WriteUtils.WriteByte(w, {value});");
                 break;
 
             case DataTypeGuid:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadULong(r);");
+                s.Wln($"await WriteUtils.WriteULong(w, {value});");
                 break;
 
             case DataTypeString:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadString(r);");
+                s.Wln($"await WriteUtils.WriteString(w, {value});");
                 break;
 
             case DataTypePopulation:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadPopulation(r);");
+                s.Wln($"await WriteUtils.WritePopulation(w, {value});");
                 break;
 
             case DataTypeFloatingPoint:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadFloat(r);");
+                s.Wln($"await WriteUtils.WriteFloat(w, {value});");
                 break;
 
             case DataTypeBool b:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadBool{b.Content.SizeBits()}(r);");
+                s.Wln($"await WriteUtils.WriteBool{b.Content.SizeBits()}(w, {value});");
                 break;
 
             case DataTypeCstring:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadCString(r);");
+                s.Wln($"await WriteUtils.WriteCString(w, {value});");
                 break;
 
             case DataTypeArray:
@@ -155,7 +130,5 @@ public static class WriteReadImplementation
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
-        s.Newline();
     }
 }

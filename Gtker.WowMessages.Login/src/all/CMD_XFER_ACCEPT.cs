@@ -9,5 +9,8 @@ public class CMD_XFER_ACCEPT {
         };
     }
 
+    public async Task Write(Stream w) {
+    }
+
 }
 
