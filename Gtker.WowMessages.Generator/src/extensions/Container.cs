@@ -24,6 +24,35 @@ public static class ContainerExtensions
             hasUnimplementedStatements = true;
         }
 
+        if (hasUnimplementedStatements)
+        {
+            Console.WriteLine($"Skipping {e.Name} because it has unimplemented statements");
+        }
+
         return hasUnimplementedStatements;
+    }
+
+    public static IEnumerable<Definition> AllMembers(this Container e)
+    {
+        foreach (var member in e.Members)
+        {
+            switch (member)
+            {
+                case StructMemberDefinition structMemberDefinition:
+                    yield return structMemberDefinition.StructMemberContent;
+                    break;
+                case StructMemberIfStatement statement:
+                    break;
+                case StructMemberOptional optional:
+                {
+                    foreach (var m in optional.StructMemberContent.Members)
+                    {
+                    }
+                }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(member));
+            }
+        }
     }
 }

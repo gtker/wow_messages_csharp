@@ -26,6 +26,8 @@ public static class DataTypeExtension
         DataTypeSeconds => "uint",
         DataTypeSizedCstring => "string",
         DataTypeFloatingPoint => "float",
+        DataTypeStruct s => s.Content.StructData.Name,
+        DataTypePopulation => "Population",
 
         DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
         DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray => throw new NotImplementedException(),
@@ -37,8 +39,6 @@ public static class DataTypeExtension
         DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
         DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline => throw new NotImplementedException(),
         DataTypeNamedGuid dataTypeNamedGuid => throw new NotImplementedException(),
-        DataTypePopulation dataTypePopulation => throw new NotImplementedException(),
-        DataTypeStruct dataTypeStruct => throw new NotImplementedException(),
         DataTypeUpdateMask dataTypeUpdateMask => throw new NotImplementedException(),
         DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty => throw new NotImplementedException(),
         _ => throw new ArgumentOutOfRangeException(nameof(d))

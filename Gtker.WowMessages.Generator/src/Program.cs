@@ -10,10 +10,7 @@ internal static class Program
 {
     private static string? _lazyValue;
 
-    private static string ProjectDir
-    {
-        get => _lazyValue ??= CalculatePath();
-    }
+    private static string ProjectDir => _lazyValue ??= CalculatePath();
 
     private static string CalculatePath()
     {
@@ -93,6 +90,21 @@ internal static class Program
         }
 
         foreach (var e in schema.Login.Structs.Value)
+        {
+            if (e.Tags.Version_.IsVersionAll() && version != 0)
+            {
+                continue;
+            }
+
+            var s = WriteContainers.WriteContainer(e, module, project);
+            if (s is not null)
+            {
+                File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/" + e.FileName(),
+                    s.Data());
+            }
+        }
+
+        foreach (var e in schema.Login.Messages.Value)
         {
             if (e.Tags.Version_.IsVersionAll() && version != 0)
             {

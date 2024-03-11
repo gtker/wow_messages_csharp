@@ -1,28 +1,28 @@
 namespace Gtker.WowMessages.Login.All;
 
-public class Version
-{
-    public byte Major { get; set; }
-    public byte Minor { get; set; }
-    public byte Patch { get; set; }
-    public ushort Build { get; set; }
+[System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
+public class Version {
+    public required byte Major { get; set; }
+    public required byte Minor { get; set; }
+    public required byte Patch { get; set; }
+    public required ushort Build { get; set; }
 
-    public static async Task<Version> Read(Stream r)
-    {
-        var major = await Utils.ReadByte(r);
+    public static async Task<Version> Read(Stream r) {
+        var major = await ReadUtils.ReadByte(r);
 
-        var minor = await Utils.ReadByte(r);
+        var minor = await ReadUtils.ReadByte(r);
 
-        var patch = await Utils.ReadByte(r);
+        var patch = await ReadUtils.ReadByte(r);
 
-        var build = await Utils.ReadUShort(r);
+        var build = await ReadUtils.ReadUShort(r);
 
-        return new Version
-        {
+        return new Version {
             Major = major,
             Minor = minor,
             Patch = patch,
-            Build = build
+            Build = build,
         };
     }
+
 }
+

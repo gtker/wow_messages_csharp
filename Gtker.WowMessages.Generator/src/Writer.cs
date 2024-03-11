@@ -39,22 +39,25 @@ public class Writer
 
     public void W(string line)
     {
-        for (var i = 0; i < _indentation; i++) _sb.Append("    ");
+        for (var i = 0; i < _indentation; i++)
+        {
+            _sb.Append("    ");
+        }
 
         _sb.Append(line);
     }
 
-    public void ClosingCurly()
+    public void ClosingCurly(string extra = "")
     {
         DecrementIndentation();
-        Wln("}");
+        Wln($"}}{extra}");
     }
 
-    public void Body(string line, Action<Writer> func)
+    public void Body(string line, Action<Writer> func, string end = "")
     {
         OpenCurly(line);
         func(this);
-        ClosingCurly();
+        ClosingCurly(end);
     }
 
     public void ExpressionBodiedMember(string line, Action<Writer> func)

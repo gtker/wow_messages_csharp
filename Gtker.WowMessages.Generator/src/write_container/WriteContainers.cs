@@ -13,34 +13,83 @@ public static class WriteContainers
         }
 
         var s = new Writer();
+        WriteIncludes(s, e);
+
         s.Wln($"namespace Gtker.WowMessages.{project}.{module};");
         s.Newline();
 
+        s.Wln("[System.CodeDom.Compiler.GeneratedCode(\"WoWM\", \"0.1.0\")]");
+        if (e.Name.Contains('_'))
+        {
+            s.Wln("// ReSharper disable once InconsistentNaming");
+        }
+
         s.Body($"public class {e.Name}", s =>
         {
-            foreach (var member in e.Members)
+            WriteDefinition(s, e);
+            s.Newline();
+
+            WriteReadImplementation.WriteRead(s, e);
+            s.Newline();
+
+            if (e.ManualSizeSubtraction is { } manualSizeSubtraction)
             {
-                if (member is StructMemberDefinition definition)
-                {
-                    var d = definition.StructMemberContent;
-                    var name = Utils.CamelCaseToPascalCase(d.Name);
-                    s.Wln($"public {d.DataType.CsType()} {name} {{ get; set; }}");
-                }
-                else if (member is StructMemberIfStatement)
-                {
-                    throw new NotImplementedException();
-                }
-                else if (member is StructMemberOptional)
-                {
-                    throw new NotImplementedException();
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException(nameof(member));
-                }
+                WriteSizeImplementation.WriteSize(s, e, manualSizeSubtraction);
+                s.Newline();
             }
         });
+        s.Newline();
 
         return s;
+    }
+
+    private static void WriteDefinition(Writer s, Container e)
+    {
+        foreach (var member in e.Members)
+        {
+            switch (member)
+            {
+                case StructMemberDefinition definition:
+                {
+                    var d = definition.StructMemberContent;
+                    if (d.IsNotInType())
+                    {
+                        continue;
+                    }
+
+                    s.Wln($"public required {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
+                    break;
+                }
+                case StructMemberIfStatement:
+                    throw new NotImplementedException();
+                case StructMemberOptional:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(member));
+            }
+        }
+    }
+
+    private static void WriteIncludes(Writer s, Container e)
+    {
+        var shouldNewline = false;
+
+        foreach (var member in e.AllMembers())
+        {
+            switch (member.DataType)
+            {
+                case DataTypePopulation:
+                    s.Wln("using Gtker.WowMessages.Login.All;");
+                    shouldNewline = true;
+                    break;
+                default:
+                    continue;
+            }
+        }
+
+        if (shouldNewline)
+        {
+            s.Newline();
+        }
     }
 }

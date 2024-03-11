@@ -2,7 +2,7 @@ namespace Gtker.WowMessages.Login.All;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
-public class CMD_AUTH_LOGON_CHALLENGE_Client {
+public class CMD_AUTH_RECONNECT_CHALLENGE_Client {
     public required ProtocolVersion ProtocolVersion { get; set; }
     public required Version Version { get; set; }
     public required Platform Platform { get; set; }
@@ -12,7 +12,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Client {
     public required uint ClientIpAddress { get; set; }
     public required string AccountName { get; set; }
 
-    public static async Task<CMD_AUTH_LOGON_CHALLENGE_Client> Read(Stream r) {
+    public static async Task<CMD_AUTH_RECONNECT_CHALLENGE_Client> Read(Stream r) {
         var protocolVersion = (ProtocolVersion)await ReadUtils.ReadByte(r);
 
         // ReSharper disable once UnusedVariable.Compiler
@@ -35,7 +35,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Client {
 
         var accountName = await ReadUtils.ReadString(r);
 
-        return new CMD_AUTH_LOGON_CHALLENGE_Client {
+        return new CMD_AUTH_RECONNECT_CHALLENGE_Client {
             ProtocolVersion = protocolVersion,
             Version = version,
             Platform = platform,
