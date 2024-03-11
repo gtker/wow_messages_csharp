@@ -1,0 +1,3 @@
+[submodule "Gtker.WowMessages.Generator/wow_messages"]
+	path = Gtker.WowMessages.Generator/wow_messages
+	url = https://github.com/gtker/wow_messages

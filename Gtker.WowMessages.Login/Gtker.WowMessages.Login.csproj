@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="src\version3\"/>
+        <Folder Include="src\version5\"/>
+        <Folder Include="src\version6\"/>
+        <Folder Include="src\version7\"/>
+        <Folder Include="src\version8\"/>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,106 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=00341e43_002D38f5_002D4a8c_002D9a6a_002D1bef48469358/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #10" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=07984351_002Dc62f_002D4235_002D9f76_002D86283b8c49cf/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #12" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0fbfbf14_002D7dba_002D4040_002Dbf32_002D9b495625e01a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=26ccf14f_002D751d_002D40d5_002Dabc0_002D92146f7a726d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #7" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=366e688c_002D2a8f_002D4e95_002D8a6b_002D738a12563fdc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=53ee2390_002Deef5_002D4c8e_002Db837_002Df701a8f68109/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=57c98b75_002D169c_002D403d_002Da7a6_002Dc699893cd745/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #17" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=61552426_002D959a_002D4762_002D9bc4_002Dc571058f2e17/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #14" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=704974bd_002D48fa_002D4099_002Dbe26_002De6b0f842229d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #9" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=73a3028a_002D731a_002D4c1e_002Da2e3_002De2fadf38f80a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #20" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7a986df8_002Dad3a_002D4eed_002D9dd6_002Dbb4e912f2eae/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #13" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=aed452a9_002D6ea2_002D4482_002Da9d0_002D6cef52add4d7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=be02ca9f_002D885e_002D4c88_002D82d8_002Db15abc9d23b7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cd6b8e37_002D19e3_002D4672_002D80df_002Dcfc3ba93ad60/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #16" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cdeb61a9_002D0370_002D4550_002Da1ad_002D5bd6d8bc6582/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Tests #21" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d25ffe3a_002Dcacb_002D4608_002Da904_002D8d005cd9807b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #6" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d2aa59c1_002D30a8_002D4998_002D8f41_002D102d6230ee4d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #18" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dba55823_002D5c45_002D406e_002D9c8e_002D8bba3d548534/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #8" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=df8996b3_002Dabb1_002D442c_002Da734_002Dd853d06f17de/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #19" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dff8a807_002De3a5_002D4538_002D94b3_002D1d2144ad4be7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #15" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fe2983a8_002D0651_002D44e4_002D9a80_002Dfff41aed91e3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests #11" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F874CC62-FA3C-47A8-AD5D-42650D6CC7ED::net8.0::Gtker.WowMessages.LoginTest.Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

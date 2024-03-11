@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtker.WowMessages.Generator", "Gtker.WowMessages.Generator\Gtker.WowMessages.Generator.csproj", "{0F9EABF3-682F-4CDE-932A-A17CBD53ACEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtker.WowMessages", "Gtker.WowMessages\Gtker.WowMessages.csproj", "{D7722293-F9BA-4FA0-AFF0-FEFAC1D61150}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtker.WowMessages.Login", "Gtker.WowMessages.Login\Gtker.WowMessages.Login.csproj", "{F3EA2B7C-A29F-4F2D-89B8-4428B0CF5938}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtker.WowMessages.LoginTest", "Gtker.WowMessages.LoginTest\Gtker.WowMessages.LoginTest.csproj", "{F874CC62-FA3C-47A8-AD5D-42650D6CC7ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F9EABF3-682F-4CDE-932A-A17CBD53ACEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F9EABF3-682F-4CDE-932A-A17CBD53ACEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F9EABF3-682F-4CDE-932A-A17CBD53ACEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F9EABF3-682F-4CDE-932A-A17CBD53ACEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7722293-F9BA-4FA0-AFF0-FEFAC1D61150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7722293-F9BA-4FA0-AFF0-FEFAC1D61150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7722293-F9BA-4FA0-AFF0-FEFAC1D61150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7722293-F9BA-4FA0-AFF0-FEFAC1D61150}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3EA2B7C-A29F-4F2D-89B8-4428B0CF5938}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3EA2B7C-A29F-4F2D-89B8-4428B0CF5938}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3EA2B7C-A29F-4F2D-89B8-4428B0CF5938}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3EA2B7C-A29F-4F2D-89B8-4428B0CF5938}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F874CC62-FA3C-47A8-AD5D-42650D6CC7ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F874CC62-FA3C-47A8-AD5D-42650D6CC7ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F874CC62-FA3C-47A8-AD5D-42650D6CC7ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F874CC62-FA3C-47A8-AD5D-42650D6CC7ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
