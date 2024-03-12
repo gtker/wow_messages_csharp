@@ -68,8 +68,27 @@ public static class Server
                 29, 30, 31, 32
             ],
             Generator = [7],
-            LargeSafePrime = 
+            LargeSafePrime =
+            [
+                0xb7, 0x9b, 0x3e, 0x2a, 0x87, 0x82, 0x3c, 0xab,
+                0x8f, 0x5e, 0xbf, 0xbf, 0x8e, 0xb1, 0x01, 0x08,
+                0x53, 0x50, 0x06, 0x29, 0x8b, 0x5b, 0xad, 0xbd,
+                0x5b, 0x53, 0xe1, 0x89, 0x5e, 0x64, 0x4b, 0x89
+            ],
+            Salt =
+            [
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            ],
+            CrcSalt =
+            [
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            ],
+            SecurityFlag = SecurityFlag.None
         }.WriteAsync(client.GetStream());
+
+        var c = await ClientOpcodeReader.ExpectOpcode<CMD_AUTH_LOGON_PROOF_Client>(client.GetStream());
+
 
         await Task.Delay(2000);
     }
