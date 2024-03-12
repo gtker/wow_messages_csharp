@@ -62,6 +62,10 @@ public static class Server
 
         Console.WriteLine("Received");
 
+        var cts = new CancellationTokenSource();
+        cts.CancelAfter(3500);
+
+
         await new CMD_AUTH_LOGON_CHALLENGE_Server
         {
             Result = LoginResult.Success,
@@ -88,15 +92,18 @@ public static class Server
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
             ],
             SecurityFlag = SecurityFlag.None
-        }.WriteAsync(client.GetStream());
+        }.WriteAsync(client.GetStream(), cts.Token);
         Console.WriteLine("Sent");
 
         var c =
             await WowMessages.Login.Version3.ClientOpcodeReader.ExpectOpcode<CMD_AUTH_LOGON_PROOF_Client>(
-                client.GetStream());
+                client.GetStream(), cts.Token);
         Console.WriteLine("Received");
 
-        await Task.Delay(2000);
-        Console.WriteLine("Waited");
+        while (true)
+        {
+            await Task.Delay(2000, cts.Token);
+            Console.WriteLine("Waited");
+        }
     }
 }
