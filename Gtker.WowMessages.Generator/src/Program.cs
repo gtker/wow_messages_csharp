@@ -75,7 +75,8 @@ internal static class Program
             }
 
             var s = WriteEnumAndFlag.WriteEnum(e, module, project, false);
-            File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/" + e.FileName(), s.Data());
+            File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/" + e.FileName(),
+                s.ToString());
         }
 
         foreach (var e in schema.Login.Flags.Value)
@@ -86,7 +87,8 @@ internal static class Program
             }
 
             var s = WriteEnumAndFlag.WriteEnum(e, module, project, true);
-            File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/" + e.FileName(), s.Data());
+            File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/" + e.FileName(),
+                s.ToString());
         }
 
 
@@ -101,7 +103,7 @@ internal static class Program
 
             var s = WriteContainers.WriteContainer(e, module, project);
             File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/" + e.FileName(),
-                s.Data());
+                s.ToString());
 
             if (e.ObjectType is not ObjectTypeStruct)
             {
@@ -110,6 +112,6 @@ internal static class Program
         }
 
         WriteTests.TestFooter(tests);
-        File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}Test/{module}.cs", tests.Data());
+        File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}Test/{module}.cs", tests.ToString());
     }
 }

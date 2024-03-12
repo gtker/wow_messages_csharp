@@ -71,8 +71,7 @@ public class Writer
         DecrementIndentation();
     }
 
-    public string Data() =>
-        _sb.ToString();
+    public override string ToString() => _sb.ToString();
 
     public void DecrementIndentation()
     {
