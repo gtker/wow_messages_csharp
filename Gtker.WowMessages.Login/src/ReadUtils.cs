@@ -10,9 +10,7 @@ public static class ReadUtils
     )
     {
         var b = new byte[1];
-        while (await r.ReadAsync(b, cancellationToken) != 1)
-        {
-        }
+        await r.ReadExactlyAsync(b, cancellationToken);
 
         return b[0];
     }
@@ -22,11 +20,7 @@ public static class ReadUtils
     )
     {
         var b = new byte[2];
-        var bytesRead = 0;
-        while (bytesRead != 2)
-        {
-            bytesRead += await r.ReadAsync(b, cancellationToken);
-        }
+        await r.ReadExactlyAsync(b, cancellationToken);
 
         return (ushort)(b[0] | (b[1] << 8));
     }
@@ -34,11 +28,7 @@ public static class ReadUtils
     public static async Task<uint> ReadUInt(Stream r, CancellationToken cancellationToken)
     {
         var b = new byte[4];
-        var bytesRead = 0;
-        while (bytesRead != 4)
-        {
-            bytesRead += await r.ReadAsync(b, cancellationToken);
-        }
+        await r.ReadExactlyAsync(b, cancellationToken);
 
         return (uint)(b[0] | (b[1] << 8) | (b[2] << 16) | (b[3] << 24));
     }
@@ -46,11 +36,7 @@ public static class ReadUtils
     public static async Task<ulong> ReadULong(Stream r, CancellationToken cancellationToken)
     {
         var b = new byte[8];
-        var bytesRead = 0;
-        while (bytesRead != 8)
-        {
-            bytesRead += await r.ReadAsync(b, cancellationToken);
-        }
+        await r.ReadExactlyAsync(b, cancellationToken);
 
         return b[0] | ((ulong)b[1] << 8) | ((ulong)b[2] << 16) | ((ulong)b[3] << 24) | ((ulong)b[4] << 32) |
                ((ulong)b[5] << 40) | ((ulong)b[6] << 48) |
