@@ -10,6 +10,7 @@ public static class Utils
         var nextIsUpper = true;
 
         foreach (var ch in s)
+        {
             if (nextIsUpper)
             {
                 newString.Append(char.ToUpper(ch));
@@ -23,6 +24,7 @@ public static class Utils
             {
                 newString.Append(char.ToLower(ch));
             }
+        }
 
         return newString.ToString();
     }
@@ -33,6 +35,7 @@ public static class Utils
         var nextIsUpper = false;
 
         foreach (var ch in s)
+        {
             if (nextIsUpper)
             {
                 newString.Append(char.ToUpper(ch));
@@ -46,6 +49,7 @@ public static class Utils
             {
                 newString.Append(char.ToLower(ch));
             }
+        }
 
         return newString.ToString();
     }

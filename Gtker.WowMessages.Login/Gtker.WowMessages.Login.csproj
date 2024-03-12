@@ -7,6 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Folder Include="src\all\"/>
+        <Folder Include="src\version2\"/>
         <Folder Include="src\version3\"/>
         <Folder Include="src\version5\"/>
         <Folder Include="src\version6\"/>

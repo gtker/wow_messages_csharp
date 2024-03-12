@@ -5,7 +5,7 @@ namespace Gtker.WowMessages.Generator.write_container;
 
 public static class WriteContainers
 {
-    public static Writer? WriteContainer(Container e, string module, string project)
+    public static Writer? WriteContainer(Container e, string module, string project, Writer tests)
     {
         if (e.ShouldSkip())
         {
@@ -42,6 +42,8 @@ public static class WriteContainers
             }
         });
         s.Newline();
+
+        WriteTests.WriteTest(tests, e);
 
         return s;
     }

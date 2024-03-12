@@ -1,0 +1,54 @@
+using Gtker.WowMessages.Login.Version8;
+
+namespace Gtker.WowMessages.LoginTest;
+
+public class Version8 {
+    [Test]
+    [Timeout(500)]
+    public async Task CMD_AUTH_RECONNECT_PROOF_Server0() {
+        var r = new MemoryStream([3, 0, 0, 0, ]);
+
+        var c = await CMD_AUTH_RECONNECT_PROOF_Server.Read(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.Write(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(500)]
+    public async Task CMD_AUTH_RECONNECT_PROOF_Server1() {
+        var r = new MemoryStream([3, 16, 0, 0, ]);
+
+        var c = await CMD_AUTH_RECONNECT_PROOF_Server.Read(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.Write(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(500)]
+    public async Task CMD_REALM_LIST_Client0() {
+        var r = new MemoryStream([16, 0, 0, 0, 0, ]);
+
+        var c = await CMD_REALM_LIST_Client.Read(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.Write(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+}

@@ -8,9 +8,6 @@ public class CMD_AUTH_RECONNECT_PROOF_Server {
     public static async Task<CMD_AUTH_RECONNECT_PROOF_Server> Read(Stream r) {
         var result = (LoginResult)await ReadUtils.ReadByte(r);
 
-        // ReSharper disable once UnusedVariable.Compiler
-        var padding = await ReadUtils.ReadUShort(r);
-
         return new CMD_AUTH_RECONNECT_PROOF_Server {
             Result = result,
         };
@@ -18,8 +15,6 @@ public class CMD_AUTH_RECONNECT_PROOF_Server {
 
     public async Task Write(Stream w) {
         await WriteUtils.WriteByte(w, (byte)Result);
-
-        await WriteUtils.WriteUShort(w, 0);
 
     }
 

@@ -5,7 +5,6 @@ namespace Gtker.WowMessages.Login.Version2;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class Realm {
     public required RealmType RealmType { get; set; }
-    public required bool Locked { get; set; }
     public required RealmFlag Flag { get; set; }
     public required string Name { get; set; }
     public required string Address { get; set; }
@@ -15,9 +14,7 @@ public class Realm {
     public required byte RealmId { get; set; }
 
     public static async Task<Realm> Read(Stream r) {
-        var realmType = (RealmType)await ReadUtils.ReadByte(r);
-
-        var locked = await ReadUtils.ReadBool8(r);
+        var realmType = (RealmType)await ReadUtils.ReadUInt(r);
 
         var flag = (RealmFlag)await ReadUtils.ReadByte(r);
 
@@ -35,7 +32,6 @@ public class Realm {
 
         return new Realm {
             RealmType = realmType,
-            Locked = locked,
             Flag = flag,
             Name = name,
             Address = address,
@@ -47,9 +43,7 @@ public class Realm {
     }
 
     public async Task Write(Stream w) {
-        await WriteUtils.WriteByte(w, (byte)RealmType);
-
-        await WriteUtils.WriteBool8(w, Locked);
+        await WriteUtils.WriteUInt(w, (uint)RealmType);
 
         await WriteUtils.WriteByte(w, (byte)Flag);
 

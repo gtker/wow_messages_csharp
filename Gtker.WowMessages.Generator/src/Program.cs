@@ -10,7 +10,10 @@ internal static class Program
 {
     private static string? _lazyValue;
 
-    private static string ProjectDir => _lazyValue ??= CalculatePath();
+    private static string ProjectDir
+    {
+        get => _lazyValue ??= CalculatePath();
+    }
 
     private static string CalculatePath()
     {
@@ -69,7 +72,7 @@ internal static class Program
 
         foreach (var e in schema.Login.Enums.Value)
         {
-            if (e.Tags.Version_.IsVersionAll() && version != 0)
+            if (!LoginVersionMatches(e.Tags.Version_, version))
             {
                 continue;
             }
@@ -80,7 +83,7 @@ internal static class Program
 
         foreach (var e in schema.Login.Flags.Value)
         {
-            if (e.Tags.Version_.IsVersionAll() && version != 0)
+            if (!LoginVersionMatches(e.Tags.Version_, version))
             {
                 continue;
             }
@@ -89,14 +92,17 @@ internal static class Program
             File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/" + e.FileName(), s.Data());
         }
 
+        var tests = new Writer();
+        WriteTests.TestHeader(tests, module);
+
         foreach (var e in schema.Login.Structs.Value)
         {
-            if (e.Tags.Version_.IsVersionAll() && version != 0)
+            if (!LoginVersionMatches(e.Tags.Version_, version))
             {
                 continue;
             }
 
-            var s = WriteContainers.WriteContainer(e, module, project);
+            var s = WriteContainers.WriteContainer(e, module, project, tests);
             if (s is not null)
             {
                 File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/" + e.FileName(),
@@ -106,17 +112,24 @@ internal static class Program
 
         foreach (var e in schema.Login.Messages.Value)
         {
-            if (e.Tags.Version_.IsVersionAll() && version != 0)
+            if (!LoginVersionMatches(e.Tags.Version_, version))
             {
                 continue;
             }
 
-            var s = WriteContainers.WriteContainer(e, module, project);
+            var s = WriteContainers.WriteContainer(e, module, project, tests);
             if (s is not null)
             {
                 File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/" + e.FileName(),
                     s.Data());
             }
         }
+
+        WriteTests.TestFooter(tests);
+        File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}Test/{module}.cs", tests.Data());
+        return;
+
+        bool LoginVersionMatches(ObjectVersions version, byte v) =>
+            version.IsSpecificLoginVersion(v);
     }
 }

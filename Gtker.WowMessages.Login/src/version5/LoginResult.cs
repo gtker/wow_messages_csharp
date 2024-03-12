@@ -17,6 +17,5 @@ public enum LoginResult : byte {
     FailNoAccess = 13,
     SuccessSurvey = 14,
     FailParentalcontrol = 15,
-    FailLockedEnforced = 16,
 }
 
