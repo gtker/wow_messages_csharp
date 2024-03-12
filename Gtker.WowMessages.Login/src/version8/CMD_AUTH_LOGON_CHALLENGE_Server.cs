@@ -87,6 +87,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
                 }
 
             }
+
             if (securityFlag.HasFlag(SecurityFlag.MatrixCard)) {
                 width = await ReadUtils.ReadByte(r);
 
@@ -99,11 +100,14 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
                 seed = await ReadUtils.ReadULong(r);
 
             }
+
             if (securityFlag.HasFlag(SecurityFlag.Authenticator)) {
                 required = await ReadUtils.ReadByte(r);
 
             }
+
         }
+
         return new CMD_AUTH_LOGON_CHALLENGE_Server {
             Result = result,
             ServerPublicKey = serverPublicKey,
@@ -167,6 +171,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
                 }
 
             }
+
             if (SecurityFlag.HasFlag(SecurityFlag.MatrixCard)) {
                 await WriteUtils.WriteByte(w, Width);
 
@@ -179,11 +184,14 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
                 await WriteUtils.WriteULong(w, Seed);
 
             }
+
             if (SecurityFlag.HasFlag(SecurityFlag.Authenticator)) {
                 await WriteUtils.WriteByte(w, Required);
 
             }
+
         }
+
     }
 
 }

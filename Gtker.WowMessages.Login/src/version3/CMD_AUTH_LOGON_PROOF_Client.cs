@@ -52,6 +52,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: ILoginMessage {
             }
 
         }
+
         return new CMD_AUTH_LOGON_PROOF_Client {
             ClientPublicKey = clientPublicKey,
             ClientProof = clientProof,
@@ -96,6 +97,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: ILoginMessage {
             }
 
         }
+
     }
 
 }

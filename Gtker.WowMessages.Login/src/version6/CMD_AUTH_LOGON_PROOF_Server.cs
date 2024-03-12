@@ -26,6 +26,7 @@ public class CMD_AUTH_LOGON_PROOF_Server: ILoginMessage {
             unknown = await ReadUtils.ReadUShort(r);
 
         }
+
         return new CMD_AUTH_LOGON_PROOF_Server {
             Result = result,
             ServerProof = serverProof,
@@ -49,6 +50,7 @@ public class CMD_AUTH_LOGON_PROOF_Server: ILoginMessage {
             await WriteUtils.WriteUShort(w, Unknown);
 
         }
+
     }
 
 }

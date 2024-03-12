@@ -22,6 +22,7 @@ public class CMD_AUTH_LOGON_PROOF_Server: ILoginMessage {
             hardwareSurveyId = await ReadUtils.ReadUInt(r);
 
         }
+
         return new CMD_AUTH_LOGON_PROOF_Server {
             Result = result,
             ServerProof = serverProof,
@@ -42,6 +43,7 @@ public class CMD_AUTH_LOGON_PROOF_Server: ILoginMessage {
             await WriteUtils.WriteUInt(w, HardwareSurveyId);
 
         }
+
     }
 
 }

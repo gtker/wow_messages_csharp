@@ -25,6 +25,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: ILoginMessage {
             }
 
         }
+
         return new CMD_AUTH_RECONNECT_CHALLENGE_Server {
             Result = result,
             ChallengeData = challengeData,
@@ -47,6 +48,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: ILoginMessage {
             }
 
         }
+
     }
 
 }

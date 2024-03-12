@@ -59,6 +59,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
             }
 
         }
+
         return new CMD_AUTH_LOGON_CHALLENGE_Server {
             Result = result,
             ServerPublicKey = serverPublicKey,
@@ -104,6 +105,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
             }
 
         }
+
     }
 
 }

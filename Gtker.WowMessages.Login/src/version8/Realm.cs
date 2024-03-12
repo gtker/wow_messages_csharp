@@ -41,6 +41,7 @@ public class Realm {
             version = await Version.ReadAsync(r);
 
         }
+
         return new Realm {
             RealmType = realmType,
             Locked = locked,
@@ -78,6 +79,7 @@ public class Realm {
             await Version.WriteAsync(w);
 
         }
+
     }
 
     public int Size() {
@@ -115,6 +117,7 @@ public class Realm {
             size += 5;
 
         }
+
         return size;
     }
 

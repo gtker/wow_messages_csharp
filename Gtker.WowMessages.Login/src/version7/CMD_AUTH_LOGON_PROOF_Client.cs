@@ -54,6 +54,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: ILoginMessage {
             }
 
         }
+
         if (securityFlag.HasFlag(SecurityFlag.MatrixCard)) {
             matrixCardProof = new List<byte>();
             for (var i = 0; i < 20; ++i) {
@@ -61,6 +62,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: ILoginMessage {
             }
 
         }
+
         return new CMD_AUTH_LOGON_PROOF_Client {
             ClientPublicKey = clientPublicKey,
             ClientProof = clientProof,
@@ -106,12 +108,14 @@ public class CMD_AUTH_LOGON_PROOF_Client: ILoginMessage {
             }
 
         }
+
         if (SecurityFlag.HasFlag(SecurityFlag.MatrixCard)) {
             foreach (var v in MatrixCardProof) {
                 await WriteUtils.WriteByte(w, v);
             }
 
         }
+
     }
 
 }
