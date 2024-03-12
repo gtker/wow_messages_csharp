@@ -1,3 +1,4 @@
+using Version = Gtker.WowMessages.Login.All.Version;
 namespace Gtker.WowMessages.Login.All;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]

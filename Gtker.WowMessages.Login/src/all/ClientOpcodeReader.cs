@@ -6,6 +6,7 @@ public class ClientOpcodeReader {
         return opcode switch {
             0 => await CMD_AUTH_LOGON_CHALLENGE_Client.ReadAsync(r),
             2 => await CMD_AUTH_RECONNECT_CHALLENGE_Client.ReadAsync(r),
+            _ => throw new NotImplementedException(),
         };
     }
 }

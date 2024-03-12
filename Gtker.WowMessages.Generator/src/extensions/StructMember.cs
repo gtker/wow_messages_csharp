@@ -4,7 +4,7 @@ namespace Gtker.WowMessages.Generator.Extensions;
 
 public static class StructMemberExtensions
 {
-    public static IEnumerable<Definition> AllMembers(this StructMember m)
+    public static IEnumerable<Definition> AllDefinitions(this StructMember m)
     {
         switch (m)
         {
@@ -12,14 +12,14 @@ public static class StructMemberExtensions
                 yield return structMemberDefinition.StructMemberContent;
                 break;
             case StructMemberIfStatement statement:
-                foreach (var d in statement.AllMembers())
+                foreach (var d in statement.StructMemberContent.AllDefinitions())
                 {
                     yield return d;
                 }
 
                 break;
             case StructMemberOptional optional:
-                foreach (var member in optional.StructMemberContent.AllMembers())
+                foreach (var member in optional.StructMemberContent.AllDefinitions())
                 {
                     yield return member;
                 }

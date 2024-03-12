@@ -168,6 +168,9 @@ internal static class Program
             }
         }
 
+        server.Wln("_ => throw new NotImplementedException(),");
+        client.Wln("_ => throw new NotImplementedException(),");
+
         if (project == "Login")
         {
             server.ClosingCurly(";"); // return opcode switch

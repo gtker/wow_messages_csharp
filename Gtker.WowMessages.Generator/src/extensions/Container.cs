@@ -11,27 +11,7 @@ public static class ContainerExtensions
         bool hasUnimplementedStatements;
         try
         {
-            hasUnimplementedStatements = e.Members.Any(c => c switch
-            {
-                StructMemberDefinition d => d.StructMemberContent.DataType switch
-                {
-                    DataTypeArray array => array.Content.InnerType switch
-                    {
-                        ArrayTypeCstring => false,
-                        ArrayTypeGuid => false,
-                        ArrayTypeInteger => false,
-                        ArrayTypePackedGuid => true,
-                        ArrayTypeSpell => true,
-                        ArrayTypeStruct s => s.Content.StructData.ShouldSkip(),
-                        _ => throw new ArgumentOutOfRangeException()
-                    },
-                    DataTypeStruct s => s.Content.StructData.ShouldSkip(),
-                    _ => d.StructMemberContent.DataType.CsType() == ""
-                },
-                StructMemberIfStatement statement => true,
-                StructMemberOptional optional => true,
-                _ => throw new ArgumentOutOfRangeException(nameof(c))
-            });
+            hasUnimplementedStatements = e.Members.Any(HasInvalidMember);
         }
         catch
         {
@@ -44,9 +24,35 @@ public static class ContainerExtensions
         }
 
         return hasUnimplementedStatements;
+
+        bool HasInvalidDefinition(Definition d) => d.DataType switch
+        {
+            DataTypeArray array => array.Content.InnerType switch
+            {
+                ArrayTypeCstring => false,
+                ArrayTypeGuid => false,
+                ArrayTypeInteger => false,
+                ArrayTypePackedGuid => true,
+                ArrayTypeSpell => true,
+                ArrayTypeStruct s => s.Content.StructData.ShouldSkip(),
+                _ => throw new ArgumentOutOfRangeException()
+            },
+            DataTypeStruct s => s.Content.StructData.ShouldSkip(),
+            _ => d.DataType.CsType() == ""
+        };
+
+
+        bool HasInvalidMember(StructMember c) =>
+            c switch
+            {
+                StructMemberDefinition d => HasInvalidDefinition(d.StructMemberContent),
+                StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition),
+                StructMemberOptional optional => true,
+                _ => throw new ArgumentOutOfRangeException(nameof(c))
+            };
     }
 
-    public static IEnumerable<Definition> AllMembers(this Container e)
+    public static IEnumerable<Definition> AllDefinitions(this Container e)
     {
         foreach (var member in e.Members)
         {
@@ -56,11 +62,20 @@ public static class ContainerExtensions
                     yield return structMemberDefinition.StructMemberContent;
                     break;
                 case StructMemberIfStatement statement:
+                    foreach (var d in statement.AllDefinitions())
+                    {
+                        yield return d;
+                    }
+
                     break;
                 case StructMemberOptional optional:
                 {
                     foreach (var m in optional.StructMemberContent.Members)
                     {
+                        foreach (var d in m.AllDefinitions())
+                        {
+                            yield return d;
+                        }
                     }
                 }
                     break;

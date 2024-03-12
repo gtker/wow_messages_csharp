@@ -9,24 +9,43 @@ public static class WriteReadImplementation
     {
         s.Body($"public static async Task<{e.Name}> ReadAsync(Stream r)", s =>
         {
+            var hasDefaultedMembers = false;
+
             foreach (var member in e.Members)
             {
                 switch (member)
                 {
-                    case StructMemberDefinition definition:
-                    {
-                        var d = definition.StructMemberContent;
-
-                        WriteReadForType(s, d);
+                    case StructMemberDefinition structMemberDefinition:
                         break;
-                    }
-                    case StructMemberIfStatement:
-                        throw new NotImplementedException();
-                    case StructMemberOptional:
-                        throw new NotImplementedException();
+                    case StructMemberIfStatement statement:
+                        hasDefaultedMembers = true;
+                        foreach (var d in statement.AllDefinitions())
+                        {
+                            s.Wln($"var {d.VariableName()} = default({d.CsTypeName()});");
+                        }
+
+                        break;
+                    case StructMemberOptional optional:
+                        hasDefaultedMembers = true;
+                        foreach (var d in optional.AllDefinitions())
+                        {
+                            s.Wln($"var {d.VariableName()} = default({d.CsTypeName()});");
+                        }
+
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(member));
                 }
+            }
+
+            if (hasDefaultedMembers)
+            {
+                s.Newline();
+            }
+
+            foreach (var member in e.Members)
+            {
+                WriteReadMember(s, e, member, true);
             }
 
             s.Body($"return new {e.Name}", s =>
@@ -47,10 +66,20 @@ public static class WriteReadImplementation
 
                             break;
                         }
-                        case StructMemberIfStatement:
-                            throw new NotImplementedException();
-                        case StructMemberOptional:
-                            throw new NotImplementedException();
+                        case StructMemberIfStatement statement:
+                            foreach (var d in statement.AllDefinitions())
+                            {
+                                s.Wln($"{d.MemberName()} = {d.VariableName()},");
+                            }
+
+                            break;
+                        case StructMemberOptional optional:
+                            foreach (var d in optional.AllDefinitions())
+                            {
+                                s.Wln($"{d.MemberName()} = {d.VariableName()},");
+                            }
+
+                            break;
                         default:
                             throw new ArgumentOutOfRangeException(nameof(member));
                     }
@@ -59,72 +88,96 @@ public static class WriteReadImplementation
         });
     }
 
-    private static void WriteReadForType(Writer s, Definition d)
+    private static void WriteReadMember(Writer s, Container e, StructMember member, bool declareTypes)
+    {
+        switch (member)
+        {
+            case StructMemberDefinition definition:
+            {
+                var d = definition.StructMemberContent;
+
+                WriteReadForType(s, d, declareTypes);
+                break;
+            }
+            case StructMemberIfStatement statement:
+                WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent,
+                    (s, e, member) => { WriteReadMember(s, e, member, false); }, false);
+                break;
+            case StructMemberOptional:
+                throw new NotImplementedException();
+            default:
+                throw new ArgumentOutOfRangeException(nameof(member));
+        }
+    }
+
+    private static void WriteReadForType(Writer s, Definition d, bool declareTypes)
     {
         if (d.IsNotInType())
         {
             s.Wln("// ReSharper disable once UnusedVariable.Compiler");
         }
 
+        var declare = declareTypes ? "var " : "";
+
         switch (d.DataType)
         {
             case DataTypeInteger i:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.{i.Content.ReadFunction()}(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.{i.Content.ReadFunction()}(r);");
                 break;
 
             case DataTypeEnum dataTypeEnum:
                 s.Wln(
-                    $"var {d.VariableName()} = ({dataTypeEnum.CsType()})await ReadUtils.{dataTypeEnum.Content.IntegerType.ReadFunction()}(r);");
+                    $"{declare}{d.VariableName()} = ({dataTypeEnum.CsType()})await ReadUtils.{dataTypeEnum.Content.IntegerType.ReadFunction()}(r);");
                 break;
             case DataTypeFlag dataTypeFlag:
                 s.Wln(
-                    $"var {d.VariableName()} = ({dataTypeFlag.CsType()})await ReadUtils.{dataTypeFlag.Content.IntegerType.ReadFunction()}(r);");
+                    $"{declare}{d.VariableName()} = ({dataTypeFlag.CsType()})await ReadUtils.{dataTypeFlag.Content.IntegerType.ReadFunction()}(r);");
                 break;
             case DataTypeStruct:
-                s.Wln($"var {d.VariableName()} = await {d.CsTypeName()}.ReadAsync(r);");
+                s.Wln($"{declare}{d.VariableName()} = await {d.CsTypeName()}.ReadAsync(r);");
                 break;
 
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds
                 or DataTypeMilliseconds or DataTypeGold or DataTypeDateTime:
             {
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadUInt(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadUInt(r);");
             }
                 break;
             case DataTypeSpell16 or DataTypeLevel16:
             {
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadUShort(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadUShort(r);");
             }
                 break;
             case DataTypeLevel:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadByte(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadByte(r);");
                 break;
 
             case DataTypeGuid:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadULong(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadULong(r);");
                 break;
 
             case DataTypeString:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadString(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadString(r);");
                 break;
 
             case DataTypePopulation:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadPopulation(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadPopulation(r);");
                 break;
 
             case DataTypeFloatingPoint:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadFloat(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadFloat(r);");
                 break;
 
             case DataTypeBool b:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadBool{b.Content.SizeBits()}(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadBool{b.Content.SizeBits()}(r);");
                 break;
 
             case DataTypeCstring:
-                s.Wln($"var {d.VariableName()} = await ReadUtils.ReadCString(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadCString(r);");
                 break;
 
             case DataTypeArray array:
-                WriteReadForArray(s, d, array);
+                WriteReadForArray(s, d, array, declare);
                 break;
 
 
@@ -161,14 +214,14 @@ public static class WriteReadImplementation
         s.Newline();
     }
 
-    private static void WriteReadForArray(Writer s, Definition d, DataTypeArray array)
+    private static void WriteReadForArray(Writer s, Definition d, DataTypeArray array, string declare)
     {
-        s.Wln($"var {d.VariableName()} = new List<{array.Content.InnerType.CsType()}>();");
+        s.Wln($"{declare}{d.VariableName()} = new List<{array.Content.InnerType.CsType()}>();");
 
         var loopHeader = array.Content.Size switch
         {
-            ArraySizeFixed v => $"for (var i = 0; i < {Utils.SnakeCaseToCamelCase(v.Size)}; ++i)",
-            ArraySizeVariable v => $"for (var i = 0; i < {Utils.SnakeCaseToCamelCase(v.Size)}; ++i)",
+            ArraySizeFixed v => $"for (var i = 0; i < {v.Size.ToCamelCase()}; ++i)",
+            ArraySizeVariable v => $"for (var i = 0; i < {v.Size.ToCamelCase()}; ++i)",
             ArraySizeEndless v => throw new NotImplementedException(),
             _ => throw new ArgumentOutOfRangeException()
         };

@@ -14,23 +14,30 @@ public class WriteSizeImplementation
 
             foreach (var member in e.Members)
             {
-                switch (member)
-                {
-                    case StructMemberDefinition d:
-                        s.Wln($"// {d.StructMemberContent.Name}: {d.StructMemberContent.DataType}");
-                        s.Wln($"size += {d.StructMemberContent.Size()};");
-                        s.Newline();
-                        break;
-                    case StructMemberIfStatement structMemberIfStatement:
-                        throw new NotImplementedException();
-                    case StructMemberOptional structMemberOptional:
-                        throw new NotImplementedException();
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(member));
-                }
+                WriteSizeMember(s, e, member);
             }
 
             s.Wln(manualSizeSubtraction == 0 ? "return size;" : $"return size - {manualSizeSubtraction};");
         });
+    }
+
+    private static void WriteSizeMember(Writer s, Container e, StructMember member)
+    {
+        switch (member)
+        {
+            case StructMemberDefinition d:
+                s.Wln($"// {d.StructMemberContent.Name}: {d.StructMemberContent.DataType}");
+                s.Wln($"size += {d.StructMemberContent.Size()};");
+                s.Newline();
+                break;
+            case StructMemberIfStatement statement:
+                WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, WriteSizeMember, true);
+
+                break;
+            case StructMemberOptional structMemberOptional:
+                throw new NotImplementedException();
+            default:
+                throw new ArgumentOutOfRangeException(nameof(member));
+        }
     }
 }

@@ -70,8 +70,13 @@ public static class WriteContainers
                     s.Wln($"public required {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
                     break;
                 }
-                case StructMemberIfStatement:
-                    throw new NotImplementedException();
+                case StructMemberIfStatement statement:
+                    foreach (var d in statement.AllDefinitions())
+                    {
+                        s.Wln($"public {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
+                    }
+
+                    break;
                 case StructMemberOptional:
                     throw new NotImplementedException();
                 default:
@@ -84,13 +89,20 @@ public static class WriteContainers
     {
         var shouldNewline = false;
 
-        foreach (var member in e.AllMembers())
+        foreach (var member in e.AllDefinitions())
         {
             switch (member.DataType)
             {
                 case DataTypePopulation:
                     s.Wln("using Gtker.WowMessages.Login.All;");
                     shouldNewline = true;
+                    break;
+                case DataTypeStruct c:
+                    if (c.Content.StructData.Name == "Version")
+                    {
+                        s.Wln("using Version = Gtker.WowMessages.Login.All.Version;");
+                    }
+
                     break;
                 default:
                     continue;
@@ -100,6 +112,40 @@ public static class WriteContainers
         if (shouldNewline)
         {
             s.Newline();
+        }
+    }
+
+    public static void WriteIfStatement(Writer s, Container e, IfStatement statement,
+        Action<Writer, Container, StructMember> invocation, bool upperCaseFirstChar)
+    {
+        Func<string, string> transform = upperCaseFirstChar ? Utils.SnakeCaseToPascalCase : Utils.SnakeCaseToCamelCase;
+
+        var ifHeader = "if (";
+        foreach (var cond in statement.CsConditionals())
+        {
+            ifHeader += $"{transform(statement.Conditional.VariableName)}{cond}";
+        }
+
+        ifHeader += ")";
+
+        s.Body(ifHeader, s =>
+        {
+            foreach (var member in statement.Members)
+            {
+                invocation(s, e, member);
+            }
+        });
+
+
+        if (statement.ElseMembers.Count != 0)
+        {
+            s.Body("else", s =>
+            {
+                foreach (var member in statement.ElseMembers)
+                {
+                    invocation(s, e, member);
+                }
+            });
         }
     }
 }

@@ -33,21 +33,27 @@ public static class WriteWriteImplementation
 
             foreach (var member in e.Members)
             {
-                switch (member)
-                {
-                    case StructMemberDefinition d:
-                        WriteWriteForType(s, d.StructMemberContent);
-                        s.Newline();
-                        break;
-                    case StructMemberIfStatement structMemberIfStatement:
-                        throw new NotImplementedException();
-                    case StructMemberOptional structMemberOptional:
-                        throw new NotImplementedException();
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(member));
-                }
+                WriteWriteMember(s, e, member);
             }
         });
+    }
+
+    private static void WriteWriteMember(Writer s, Container e, StructMember member)
+    {
+        switch (member)
+        {
+            case StructMemberDefinition d:
+                WriteWriteForType(s, d.StructMemberContent);
+                s.Newline();
+                break;
+            case StructMemberIfStatement statement:
+                WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, WriteWriteMember, true);
+                break;
+            case StructMemberOptional structMemberOptional:
+                throw new NotImplementedException();
+            default:
+                throw new ArgumentOutOfRangeException(nameof(member));
+        }
     }
 
     private static void WriteWriteForType(Writer s, Definition d)
@@ -64,7 +70,7 @@ public static class WriteWriteImplementation
         }
         else if (d.UsedAsSizeIn is { } v)
         {
-            value = $"({d.DataType.CsType()}){Utils.SnakeCaseToPascalCase(v)}.Count";
+            value = $"({d.DataType.CsType()}){v.ToPascalCase()}.Count";
         }
 
         switch (d.DataType)

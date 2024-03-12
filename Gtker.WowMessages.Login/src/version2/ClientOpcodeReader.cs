@@ -10,6 +10,7 @@ public class ClientOpcodeReader {
             50 => await CMD_XFER_ACCEPT.ReadAsync(r),
             51 => await CMD_XFER_RESUME.ReadAsync(r),
             52 => await CMD_XFER_CANCEL.ReadAsync(r),
+            _ => throw new NotImplementedException(),
         };
     }
 }
