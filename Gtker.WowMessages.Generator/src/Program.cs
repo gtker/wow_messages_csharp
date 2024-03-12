@@ -114,89 +114,26 @@ internal static class Program
         WriteTests.TestFooter(tests);
         File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}Test/{module}.cs", tests.ToString());
 
-        var messages =
-            schema.Login.Messages.Value.Where(e => e.Tags.Version_.IsSpecificLoginVersion(version) && !e.ShouldSkip());
-
-        WriteOpcodes(messages, module, modulePath, project, "ILoginMessage");
-    }
-
-    public static void WriteOpcodes(IEnumerable<Container> containers, string module, string modulePath,
-        string project, string interfaceName)
-    {
-        var server = new Writer();
-        server.Wln($"namespace Gtker.WowMessages.{project}.{module};");
-        server.Newline();
-        server.OpenCurly("public class ServerOpcodeReader");
-        server.OpenCurly($"public static async Task<{interfaceName}> ReadAsync(Stream r)");
-
-        var client = new Writer();
-        client.Wln($"namespace Gtker.WowMessages.{project}.{module};");
-        client.Newline();
-        client.OpenCurly("public class ClientOpcodeReader");
-        client.OpenCurly($"public static async Task<{interfaceName}> ReadAsync(Stream r)");
-
-        if (project == "Login")
-        {
-            server.Wln("var opcode = await ReadUtils.ReadByte(r);");
-            client.Wln("var opcode = await ReadUtils.ReadByte(r);");
-
-            server.OpenCurly("return opcode switch");
-            client.OpenCurly("return opcode switch");
-        }
-        else
-        {
-            throw new NotImplementedException();
-        }
-
-        var serverHasMembers = false;
-        var clientHasMembers = false;
-
-        foreach (var e in containers)
-        {
-            switch (e.ObjectType)
-            {
-                case ObjectTypeClogin o:
-                    clientHasMembers = true;
-                    client.Wln($"{o.Opcode} => await {e.Name}.ReadAsync(r),");
-                    break;
-                case ObjectTypeSlogin o:
-                    serverHasMembers = true;
-                    server.Wln($"{o.Opcode} => await {e.Name}.ReadAsync(r),");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        server.Wln("_ => throw new NotImplementedException(),");
-        client.Wln("_ => throw new NotImplementedException(),");
-
-        if (project == "Login")
-        {
-            server.ClosingCurly(";"); // return opcode switch
-            client.ClosingCurly(";"); // return opcode switch
-        }
-        else
-        {
-            throw new NotImplementedException();
-        }
-
-        server.ClosingCurly(); // public static async Task<>
-        client.ClosingCurly(); // public static async Task<>
-
-        server.ClosingCurly(); // public class ServerOpcodeReader
-        client.ClosingCurly(); // public class ClientOpcodeReader
-
-        if (serverHasMembers)
+        var serverMessages =
+            schema.Login.Messages.Value.Where(e =>
+                e.Tags.Version_.IsSpecificLoginVersion(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeSlogin);
+        var serverS =
+            WriteOpcodesImpl.WriteOpcodes(serverMessages, module, project, "ILoginMessage", "Server");
+        if (serverS is not null)
         {
             File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/ServerOpcodeReader.cs",
-                server.ToString());
+                serverS.ToString());
         }
 
-        if (clientHasMembers)
+        var clientMessages =
+            schema.Login.Messages.Value.Where(e =>
+                e.Tags.Version_.IsSpecificLoginVersion(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeClogin);
+        var clientS =
+            WriteOpcodesImpl.WriteOpcodes(clientMessages, module, project, "ILoginMessage", "Client");
+        if (clientS is not null)
         {
             File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/ClientOpcodeReader.cs",
-                client.ToString());
+                clientS.ToString());
         }
     }
 }

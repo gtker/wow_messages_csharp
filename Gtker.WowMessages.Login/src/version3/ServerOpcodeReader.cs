@@ -12,4 +12,12 @@ public class ServerOpcodeReader {
             _ => throw new NotImplementedException(),
         };
     }
+
+    public static async Task<T> ExpectOpcode<T>(Stream r) {
+        if (await ReadAsync(r) is T c) {
+            return c;
+        }
+
+        throw new NotImplementedException();
+    }
 }
