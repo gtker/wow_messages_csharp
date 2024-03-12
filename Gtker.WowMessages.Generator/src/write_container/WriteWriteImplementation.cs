@@ -12,10 +12,12 @@ public static class WriteWriteImplementation
             switch (e.ObjectType)
             {
                 case ObjectTypeClogin objectTypeClogin:
+                    s.Wln("// opcode: u8");
                     s.Wln($"await WriteUtils.WriteByte(w, {objectTypeClogin.Opcode});");
                     s.Newline();
                     break;
                 case ObjectTypeSlogin objectTypeSlogin:
+                    s.Wln("// opcode: u8");
                     s.Wln($"await WriteUtils.WriteByte(w, {objectTypeSlogin.Opcode});");
                     s.Newline();
                     break;

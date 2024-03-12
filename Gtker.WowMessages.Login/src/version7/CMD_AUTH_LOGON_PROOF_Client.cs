@@ -2,7 +2,7 @@ namespace Gtker.WowMessages.Login.Version7;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
-public class CMD_AUTH_LOGON_PROOF_Client: ILoginMessage {
+public class CMD_AUTH_LOGON_PROOF_Client: Version7ClientMessage, ILoginMessage {
     public required List<byte> ClientPublicKey { get; set; }
     public required List<byte> ClientProof { get; set; }
     public required List<byte> CrcHash { get; set; }
@@ -80,6 +80,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: ILoginMessage {
     }
 
     public async Task WriteAsync(Stream w) {
+        // opcode: u8
         await WriteUtils.WriteByte(w, 1);
 
         foreach (var v in ClientPublicKey) {

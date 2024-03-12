@@ -2,7 +2,7 @@ namespace Gtker.WowMessages.Login.Version7;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
-public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
+public class CMD_AUTH_LOGON_CHALLENGE_Server: Version7ServerMessage, ILoginMessage {
     public required LoginResult Result { get; set; }
     public List<byte> ServerPublicKey { get; set; }
     public List<byte> Generator { get; set; }
@@ -139,6 +139,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
     }
 
     public async Task WriteAsync(Stream w) {
+        // opcode: u8
         await WriteUtils.WriteByte(w, 0);
 
         await WriteUtils.WriteByte(w, 0);

@@ -5,14 +5,20 @@ namespace Gtker.WowMessages.Generator;
 public static class WriteOpcodesImpl
 {
     public static Writer? WriteOpcodes(IEnumerable<Container> containers, string module, string project,
-        string interfaceName, string side)
+        string side)
     {
         var s = new Writer();
 
+        var versionClass = $"{module}{side}Message";
+
         s.Wln($"namespace Gtker.WowMessages.{project}.{module};");
         s.Newline();
+
+        s.Wln($"public abstract class {versionClass} {{}}");
+        s.Newline();
+
         s.OpenCurly($"public static class {side}OpcodeReader");
-        s.OpenCurly($"public static async Task<{interfaceName}> ReadAsync(Stream r)");
+        s.OpenCurly($"public static async Task<{versionClass}> ReadAsync(Stream r)");
 
         if (project == "Login")
         {
@@ -64,7 +70,7 @@ public static class WriteOpcodesImpl
 
         s.Newline();
 
-        s.Body("public static async Task<T> ExpectOpcode<T>(Stream r)", s =>
+        s.Body($"public static async Task<T> ExpectOpcode<T>(Stream r) where T: {versionClass}", s =>
         {
             s.Body("if (await ReadAsync(r) is T c)", s => { s.Wln("return c;"); });
             s.Newline();

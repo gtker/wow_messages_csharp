@@ -2,7 +2,7 @@ namespace Gtker.WowMessages.Login.Version2;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
-public class CMD_XFER_INITIATE: ILoginMessage {
+public class CMD_XFER_INITIATE: Version2ServerMessage, ILoginMessage {
     public required string Filename { get; set; }
     public required ulong FileSize { get; set; }
     public required List<byte> FileMd5 { get; set; }
@@ -25,6 +25,7 @@ public class CMD_XFER_INITIATE: ILoginMessage {
     }
 
     public async Task WriteAsync(Stream w) {
+        // opcode: u8
         await WriteUtils.WriteByte(w, 48);
 
         await WriteUtils.WriteString(w, Filename);

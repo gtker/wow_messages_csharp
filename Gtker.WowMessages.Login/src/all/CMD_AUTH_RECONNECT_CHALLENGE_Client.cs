@@ -3,7 +3,7 @@ namespace Gtker.WowMessages.Login.All;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
-public class CMD_AUTH_RECONNECT_CHALLENGE_Client: ILoginMessage {
+public class CMD_AUTH_RECONNECT_CHALLENGE_Client: AllClientMessage, ILoginMessage {
     /// <summary>
     /// Determines which version of messages are used for further communication.
     /// </summary>
@@ -60,6 +60,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client: ILoginMessage {
     }
 
     public async Task WriteAsync(Stream w) {
+        // opcode: u8
         await WriteUtils.WriteByte(w, 2);
 
         await WriteUtils.WriteByte(w, (byte)ProtocolVersion);

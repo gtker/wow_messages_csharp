@@ -118,7 +118,7 @@ internal static class Program
             schema.Login.Messages.Value.Where(e =>
                 e.Tags.Version_.IsSpecificLoginVersion(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeSlogin);
         var serverS =
-            WriteOpcodesImpl.WriteOpcodes(serverMessages, module, project, "ILoginMessage", "Server");
+            WriteOpcodesImpl.WriteOpcodes(serverMessages, module, project, "Server");
         if (serverS is not null)
         {
             File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/ServerOpcodeReader.cs",
@@ -129,7 +129,7 @@ internal static class Program
             schema.Login.Messages.Value.Where(e =>
                 e.Tags.Version_.IsSpecificLoginVersion(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeClogin);
         var clientS =
-            WriteOpcodesImpl.WriteOpcodes(clientMessages, module, project, "ILoginMessage", "Client");
+            WriteOpcodesImpl.WriteOpcodes(clientMessages, module, project, "Client");
         if (clientS is not null)
         {
             File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/ClientOpcodeReader.cs",

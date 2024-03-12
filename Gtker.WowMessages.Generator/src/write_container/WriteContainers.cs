@@ -21,7 +21,8 @@ public static class WriteContainers
 
         var implements = e.ObjectType switch
         {
-            ObjectTypeClogin or ObjectTypeSlogin => ": ILoginMessage",
+            ObjectTypeClogin => $": {module}ClientMessage, ILoginMessage",
+            ObjectTypeSlogin => $": {module}ServerMessage, ILoginMessage",
             ObjectTypeStruct => "",
             _ => throw new ArgumentOutOfRangeException()
         };

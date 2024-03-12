@@ -1,7 +1,9 @@
 namespace Gtker.WowMessages.Login.Version8;
 
+public abstract class Version8ClientMessage {}
+
 public static class ClientOpcodeReader {
-    public static async Task<ILoginMessage> ReadAsync(Stream r) {
+    public static async Task<Version8ClientMessage> ReadAsync(Stream r) {
         var opcode = await ReadUtils.ReadByte(r);
         return opcode switch {
             1 => await CMD_AUTH_LOGON_PROOF_Client.ReadAsync(r),
@@ -14,7 +16,7 @@ public static class ClientOpcodeReader {
         };
     }
 
-    public static async Task<T> ExpectOpcode<T>(Stream r) {
+    public static async Task<T> ExpectOpcode<T>(Stream r) where T: Version8ClientMessage {
         if (await ReadAsync(r) is T c) {
             return c;
         }

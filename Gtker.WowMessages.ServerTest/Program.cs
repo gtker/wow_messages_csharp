@@ -41,6 +41,7 @@ public static class Server
         using (client)
         {
             var c = await ClientOpcodeReader.ReadAsync(client.GetStream());
+            Console.WriteLine("Received");
             switch (c)
             {
                 case CMD_AUTH_LOGON_CHALLENGE_Client l:
@@ -58,6 +59,8 @@ public static class Server
         {
             return;
         }
+
+        Console.WriteLine("Received");
 
         await new CMD_AUTH_LOGON_CHALLENGE_Server
         {
@@ -78,7 +81,7 @@ public static class Server
             Salt =
             [
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
             ],
             CrcSalt =
             [
@@ -86,10 +89,14 @@ public static class Server
             ],
             SecurityFlag = SecurityFlag.None
         }.WriteAsync(client.GetStream());
+        Console.WriteLine("Sent");
 
-        var c = await ClientOpcodeReader.ExpectOpcode<CMD_AUTH_LOGON_PROOF_Client>(client.GetStream());
-
+        var c =
+            await WowMessages.Login.Version3.ClientOpcodeReader.ExpectOpcode<CMD_AUTH_LOGON_PROOF_Client>(
+                client.GetStream());
+        Console.WriteLine("Received");
 
         await Task.Delay(2000);
+        Console.WriteLine("Waited");
     }
 }

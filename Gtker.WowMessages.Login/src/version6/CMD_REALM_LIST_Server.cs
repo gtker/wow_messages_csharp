@@ -2,7 +2,7 @@ namespace Gtker.WowMessages.Login.Version6;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
-public class CMD_REALM_LIST_Server: ILoginMessage {
+public class CMD_REALM_LIST_Server: Version6ServerMessage, ILoginMessage {
     public required List<Realm> Realms { get; set; }
 
     public static async Task<CMD_REALM_LIST_Server> ReadAsync(Stream r) {
@@ -29,6 +29,7 @@ public class CMD_REALM_LIST_Server: ILoginMessage {
     }
 
     public async Task WriteAsync(Stream w) {
+        // opcode: u8
         await WriteUtils.WriteByte(w, 16);
 
         await WriteUtils.WriteUShort(w, (ushort)Size());

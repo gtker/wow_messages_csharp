@@ -5,7 +5,7 @@ namespace Gtker.WowMessages.Login.Version3;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
-public class CMD_XFER_CANCEL: ILoginMessage {
+public class CMD_XFER_CANCEL: Version3ClientMessage, ILoginMessage {
 
     public static async Task<CMD_XFER_CANCEL> ReadAsync(Stream r) {
         return new CMD_XFER_CANCEL {
@@ -13,6 +13,7 @@ public class CMD_XFER_CANCEL: ILoginMessage {
     }
 
     public async Task WriteAsync(Stream w) {
+        // opcode: u8
         await WriteUtils.WriteByte(w, 52);
 
     }

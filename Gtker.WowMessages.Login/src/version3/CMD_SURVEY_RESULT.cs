@@ -2,7 +2,7 @@ namespace Gtker.WowMessages.Login.Version3;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
-public class CMD_SURVEY_RESULT: ILoginMessage {
+public class CMD_SURVEY_RESULT: Version3ClientMessage, ILoginMessage {
     public required uint SurveyId { get; set; }
     public required byte Error { get; set; }
     public required List<byte> Data { get; set; }
@@ -28,6 +28,7 @@ public class CMD_SURVEY_RESULT: ILoginMessage {
     }
 
     public async Task WriteAsync(Stream w) {
+        // opcode: u8
         await WriteUtils.WriteByte(w, 4);
 
         await WriteUtils.WriteUInt(w, SurveyId);
