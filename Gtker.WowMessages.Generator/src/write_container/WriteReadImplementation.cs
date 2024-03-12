@@ -69,6 +69,11 @@ public static class WriteReadImplementation
                         case StructMemberIfStatement statement:
                             foreach (var d in statement.AllDefinitions())
                             {
+                                if (d.IsNotInType())
+                                {
+                                    continue;
+                                }
+
                                 s.Wln($"{d.MemberName()} = {d.VariableName()},");
                             }
 
@@ -76,6 +81,11 @@ public static class WriteReadImplementation
                         case StructMemberOptional optional:
                             foreach (var d in optional.AllDefinitions())
                             {
+                                if (d.IsNotInType())
+                                {
+                                    continue;
+                                }
+
                                 s.Wln($"{d.MemberName()} = {d.VariableName()},");
                             }
 

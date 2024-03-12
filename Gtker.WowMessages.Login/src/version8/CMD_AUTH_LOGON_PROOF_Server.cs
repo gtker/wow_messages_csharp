@@ -8,7 +8,6 @@ public class CMD_AUTH_LOGON_PROOF_Server: ILoginMessage {
     public AccountFlag AccountFlag { get; set; }
     public uint HardwareSurveyId { get; set; }
     public ushort Unknown { get; set; }
-    public ushort Padding { get; set; }
 
     public static async Task<CMD_AUTH_LOGON_PROOF_Server> ReadAsync(Stream r) {
         var serverProof = default(List<byte>);
@@ -44,7 +43,6 @@ public class CMD_AUTH_LOGON_PROOF_Server: ILoginMessage {
             AccountFlag = accountFlag,
             HardwareSurveyId = hardwareSurveyId,
             Unknown = unknown,
-            Padding = padding,
         };
     }
 

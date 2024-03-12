@@ -5,9 +5,7 @@ namespace Gtker.WowMessages.Login.Version2;
 public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
     public required LoginResult Result { get; set; }
     public List<byte> ServerPublicKey { get; set; }
-    public byte GeneratorLength { get; set; }
     public List<byte> Generator { get; set; }
-    public byte LargeSafePrimeLength { get; set; }
     public List<byte> LargeSafePrime { get; set; }
     public List<byte> Salt { get; set; }
     public List<byte> CrcSalt { get; set; }
@@ -63,9 +61,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
         return new CMD_AUTH_LOGON_CHALLENGE_Server {
             Result = result,
             ServerPublicKey = serverPublicKey,
-            GeneratorLength = generatorLength,
             Generator = generator,
-            LargeSafePrimeLength = largeSafePrimeLength,
             LargeSafePrime = largeSafePrime,
             Salt = salt,
             CrcSalt = crcSalt,

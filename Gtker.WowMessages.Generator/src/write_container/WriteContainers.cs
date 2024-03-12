@@ -73,12 +73,27 @@ public static class WriteContainers
                 case StructMemberIfStatement statement:
                     foreach (var d in statement.AllDefinitions())
                     {
+                        if (d.IsNotInType())
+                        {
+                            continue;
+                        }
+
                         s.Wln($"public {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
                     }
 
                     break;
-                case StructMemberOptional:
-                    throw new NotImplementedException();
+                case StructMemberOptional optional:
+                    foreach (var d in optional.AllDefinitions())
+                    {
+                        if (d.IsNotInType())
+                        {
+                            continue;
+                        }
+
+                        s.Wln($"public {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
+                    }
+
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(member));
             }
