@@ -120,8 +120,9 @@ public static class WriteWriteImplementation
                 s.Wln($"await WriteUtils.WriteCString(w, {value});");
                 break;
 
-            case DataTypeArray:
-                throw new NotImplementedException();
+            case DataTypeArray array:
+                WriteWriteForArray(s, d, array);
+                break;
 
             case DataTypeAchievementDoneArray dataTypeAchievementDoneArray:
                 throw new NotImplementedException();
@@ -152,5 +153,32 @@ public static class WriteWriteImplementation
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+
+    private static void WriteWriteForArray(Writer s, Definition d, DataTypeArray array)
+    {
+        s.Body($"foreach (var v in {d.MemberName()})", s =>
+        {
+            switch (array.Content.InnerType)
+            {
+                case ArrayTypeCstring:
+                    s.Wln("await WriteUtils.WriteCString(w, v);");
+                    break;
+                case ArrayTypeGuid:
+                    s.Wln("await WriteUtils.WriteULong(w, v);");
+                    break;
+                case ArrayTypeInteger it:
+                    s.Wln($"await WriteUtils.{it.Content.WriteFunction()}(w, v);");
+                    break;
+                case ArrayTypeSpell:
+                    s.Wln("await WriteUtils.WriteUInt(w, v);");
+                    break;
+                case ArrayTypeStruct:
+                    s.Wln("await v.WriteAsync(w);");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        });
     }
 }

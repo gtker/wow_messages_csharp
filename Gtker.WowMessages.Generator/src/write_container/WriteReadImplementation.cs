@@ -123,8 +123,10 @@ public static class WriteReadImplementation
                 s.Wln($"var {d.VariableName()} = await ReadUtils.ReadCString(r);");
                 break;
 
-            case DataTypeArray:
-                throw new NotImplementedException();
+            case DataTypeArray array:
+                WriteReadForArray(s, d, array);
+                break;
+
 
             case DataTypeAchievementDoneArray dataTypeAchievementDoneArray:
                 throw new NotImplementedException();
@@ -157,5 +159,44 @@ public static class WriteReadImplementation
         }
 
         s.Newline();
+    }
+
+    private static void WriteReadForArray(Writer s, Definition d, DataTypeArray array)
+    {
+        s.Wln($"var {d.VariableName()} = new List<{array.Content.InnerType.CsType()}>();");
+
+        var loopHeader = array.Content.Size switch
+        {
+            ArraySizeFixed v => $"for (var i = 0; i < {Utils.SnakeCaseToCamelCase(v.Size)}; ++i)",
+            ArraySizeVariable v => $"for (var i = 0; i < {Utils.SnakeCaseToCamelCase(v.Size)}; ++i)",
+            ArraySizeEndless v => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        s.Body(loopHeader, s =>
+        {
+            switch (array.Content.InnerType)
+            {
+                case ArrayTypeCstring:
+                    s.Wln($"{d.VariableName()}.Add(await ReadUtils.ReadCString(r));");
+                    break;
+                case ArrayTypeGuid:
+                    s.Wln($"{d.VariableName()}.Add(await ReadUtils.ReadULong(r));");
+                    break;
+                case ArrayTypeInteger it:
+                    s.Wln($"{d.VariableName()}.Add(await ReadUtils.{it.Content.ReadFunction()}(r));");
+                    break;
+                case ArrayTypeSpell:
+                    s.Wln($"{d.VariableName()}.Add(await ReadUtils.ReadUInt(r));");
+                    break;
+                case ArrayTypeStruct e:
+                    s.Wln($"{d.VariableName()}.Add(await {e.Content.StructData.Name}.ReadAsync(r));");
+                    break;
+                case ArrayTypePackedGuid:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        });
     }
 }

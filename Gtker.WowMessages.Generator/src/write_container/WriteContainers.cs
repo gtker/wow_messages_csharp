@@ -19,7 +19,14 @@ public static class WriteContainers
             s.Wln("// ReSharper disable once InconsistentNaming");
         }
 
-        s.Body($"public class {e.Name} : ILoginMessage", s =>
+        var implements = e.ObjectType switch
+        {
+            ObjectTypeClogin or ObjectTypeSlogin => ": ILoginMessage",
+            ObjectTypeStruct => "",
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        s.Body($"public class {e.Name}{implements}", s =>
         {
             WriteDefinition(s, e);
             s.Newline();
@@ -33,6 +40,11 @@ public static class WriteContainers
             if (e.ManualSizeSubtraction is { } manualSizeSubtraction)
             {
                 WriteSizeImplementation.WriteSize(s, e, manualSizeSubtraction);
+                s.Newline();
+            }
+            else if (e is { ObjectType: ObjectTypeStruct, Sizes.ConstantSized: false })
+            {
+                WriteSizeImplementation.WriteSize(s, e, 0);
                 s.Newline();
             }
         });

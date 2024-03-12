@@ -28,11 +28,11 @@ public static class DataTypeExtension
         DataTypeFloatingPoint => "float",
         DataTypeStruct s => s.Content.StructData.Name,
         DataTypePopulation => "Population",
+        DataTypeArray array => array.CsType(),
 
         DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
         DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray => throw new NotImplementedException(),
         DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
-        DataTypeArray dataTypeArray => throw new NotImplementedException(),
         DataTypeAuraMask dataTypeAuraMask => throw new NotImplementedException(),
         DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
         DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),

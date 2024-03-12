@@ -1,7 +1,7 @@
 namespace Gtker.WowMessages.Login.All;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
-public class Version : ILoginMessage {
+public class Version {
     public required byte Major { get; set; }
     public required byte Minor { get; set; }
     public required byte Patch { get; set; }

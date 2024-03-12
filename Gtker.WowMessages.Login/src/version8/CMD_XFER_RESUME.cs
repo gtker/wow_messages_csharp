@@ -2,7 +2,7 @@ namespace Gtker.WowMessages.Login.Version8;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
-public class CMD_XFER_RESUME : ILoginMessage {
+public class CMD_XFER_RESUME: ILoginMessage {
     public required ulong Offset { get; set; }
 
     public static async Task<CMD_XFER_RESUME> ReadAsync(Stream r) {

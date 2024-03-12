@@ -2,7 +2,7 @@ namespace Gtker.WowMessages.Login.All;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
-public class CMD_AUTH_LOGON_CHALLENGE_Client : ILoginMessage {
+public class CMD_AUTH_LOGON_CHALLENGE_Client: ILoginMessage {
     public required ProtocolVersion ProtocolVersion { get; set; }
     public required Version Version { get; set; }
     public required Platform Platform { get; set; }
@@ -72,7 +72,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Client : ILoginMessage {
 
     }
 
-    private int Size() {
+    public int Size() {
         var size = 0;
 
         // protocol_version: Gtker.WowMessages.Generator.Generated.DataTypeEnum

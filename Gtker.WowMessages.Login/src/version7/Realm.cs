@@ -3,7 +3,7 @@ using Gtker.WowMessages.Login.All;
 namespace Gtker.WowMessages.Login.Version7;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
-public class Realm : ILoginMessage {
+public class Realm {
     public required RealmType RealmType { get; set; }
     public required bool Locked { get; set; }
     public required RealmFlag Flag { get; set; }
@@ -65,6 +65,39 @@ public class Realm : ILoginMessage {
 
         await WriteUtils.WriteByte(w, RealmId);
 
+    }
+
+    public int Size() {
+        var size = 0;
+
+        // realm_type: Gtker.WowMessages.Generator.Generated.DataTypeEnum
+        size += 1;
+
+        // locked: Gtker.WowMessages.Generator.Generated.DataTypeBool
+        size += 1;
+
+        // flag: Gtker.WowMessages.Generator.Generated.DataTypeFlag
+        size += 1;
+
+        // name: Gtker.WowMessages.Generator.Generated.DataTypeCstring
+        size += Name.Length + 1;
+
+        // address: Gtker.WowMessages.Generator.Generated.DataTypeCstring
+        size += Address.Length + 1;
+
+        // population: Gtker.WowMessages.Generator.Generated.DataTypePopulation
+        size += 4;
+
+        // number_of_characters_on_realm: Gtker.WowMessages.Generator.Generated.DataTypeInteger
+        size += 1;
+
+        // category: Gtker.WowMessages.Generator.Generated.DataTypeEnum
+        size += 1;
+
+        // realm_id: Gtker.WowMessages.Generator.Generated.DataTypeInteger
+        size += 1;
+
+        return size;
     }
 
 }

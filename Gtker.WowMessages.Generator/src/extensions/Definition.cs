@@ -44,10 +44,12 @@ public static class DefinitionExtensions
             ? s.Content.StructData.Sizes.MaximumSize.ToString()
             : $"{d.MemberName()}.Size()",
 
+        DataTypeArray array => array.Content.ArraySize(d),
+
         DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
+
         DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray => throw new NotImplementedException(),
         DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
-        DataTypeArray dataTypeArray => throw new NotImplementedException(),
         DataTypeAuraMask dataTypeAuraMask => throw new NotImplementedException(),
         DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
         DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),

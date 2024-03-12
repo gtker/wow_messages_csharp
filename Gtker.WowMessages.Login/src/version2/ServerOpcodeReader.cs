@@ -5,6 +5,9 @@ public class ServerOpcodeReader {
         var opcode = await ReadUtils.ReadByte(r);
         return opcode switch {
             3 => await CMD_AUTH_RECONNECT_PROOF_Server.ReadAsync(r),
+            16 => await CMD_REALM_LIST_Server.ReadAsync(r),
+            48 => await CMD_XFER_INITIATE.ReadAsync(r),
+            49 => await CMD_XFER_DATA.ReadAsync(r),
         };
     }
 }

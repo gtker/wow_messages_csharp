@@ -7,7 +7,7 @@ public class WriteSizeImplementation
 {
     public static void WriteSize(Writer s, Container e, ushort manualSizeSubtraction)
     {
-        s.Body("private int Size()", s =>
+        s.Body("public int Size()", s =>
         {
             s.Wln("var size = 0;");
             s.Newline();
