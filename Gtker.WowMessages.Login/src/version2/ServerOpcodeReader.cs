@@ -1,6 +1,6 @@
 namespace Gtker.WowMessages.Login.Version2;
 
-public class ServerOpcodeReader {
+public static class ServerOpcodeReader {
     public static async Task<ILoginMessage> ReadAsync(Stream r) {
         var opcode = await ReadUtils.ReadByte(r);
         return opcode switch {

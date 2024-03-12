@@ -11,7 +11,7 @@ public static class WriteOpcodesImpl
 
         s.Wln($"namespace Gtker.WowMessages.{project}.{module};");
         s.Newline();
-        s.OpenCurly($"public class {side}OpcodeReader");
+        s.OpenCurly($"public static class {side}OpcodeReader");
         s.OpenCurly($"public static async Task<{interfaceName}> ReadAsync(Stream r)");
 
         if (project == "Login")
