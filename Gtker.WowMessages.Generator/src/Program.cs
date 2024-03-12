@@ -89,21 +89,10 @@ internal static class Program
             File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/" + e.FileName(), s.Data());
         }
 
-        foreach (var e in schema.Login.Structs.Value)
-        {
-            if (!LoginVersionMatches(e.Tags.Version_, version) || e.ShouldSkip())
-            {
-                continue;
-            }
-
-            var s = WriteContainers.WriteContainer(e, module, project);
-            File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/" + e.FileName(),
-                s.Data());
-        }
 
         var tests = new Writer();
         WriteTests.TestHeader(tests, module);
-        foreach (var e in schema.Login.Messages.Value)
+        foreach (var e in schema.Login.Structs.Value.Concat(schema.Login.Messages.Value))
         {
             if (!LoginVersionMatches(e.Tags.Version_, version) || e.ShouldSkip())
             {
@@ -111,11 +100,13 @@ internal static class Program
             }
 
             var s = WriteContainers.WriteContainer(e, module, project);
-
             File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}/src/{modulePath}/" + e.FileName(),
                 s.Data());
 
-            WriteTests.WriteTest(tests, e);
+            if (e.ObjectType is not ObjectTypeStruct)
+            {
+                WriteTests.WriteTest(tests, e);
+            }
         }
 
         WriteTests.TestFooter(tests);
