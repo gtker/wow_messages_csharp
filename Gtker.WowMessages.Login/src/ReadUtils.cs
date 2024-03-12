@@ -97,7 +97,7 @@ public static class ReadUtils
 
         while (b != 0)
         {
-            s.Append((char)await ReadByte(r));
+            s.Append((char)b);
             b = await ReadByte(r);
         }
 
