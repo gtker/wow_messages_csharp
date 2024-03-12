@@ -6,7 +6,7 @@ public class CMD_AUTH_RECONNECT_PROOF_Server: Version2ServerMessage, ILoginMessa
     public required LoginResult Result { get; set; }
 
     public static async Task<CMD_AUTH_RECONNECT_PROOF_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken);
+        var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
         return new CMD_AUTH_RECONNECT_PROOF_Server {
             Result = result,
@@ -17,7 +17,7 @@ public class CMD_AUTH_RECONNECT_PROOF_Server: Version2ServerMessage, ILoginMessa
         // opcode: u8
         await WriteUtils.WriteByte(w, 3, cancellationToken);
 
-        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken);
+        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
 
     }
 

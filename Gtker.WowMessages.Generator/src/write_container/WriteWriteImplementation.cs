@@ -78,58 +78,60 @@ public static class WriteWriteImplementation
         switch (d.DataType)
         {
             case DataTypeInteger i:
-                s.Wln($"await WriteUtils.{i.Content.WriteFunction()}(w, {value}, cancellationToken);");
+                s.Wln(
+                    $"await WriteUtils.{i.Content.WriteFunction()}(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeEnum i:
                 s.Wln(
-                    $"await WriteUtils.{i.Content.IntegerType.WriteFunction()}(w, ({i.Content.IntegerType.CsType()}){value}, cancellationToken);");
+                    $"await WriteUtils.{i.Content.IntegerType.WriteFunction()}(w, ({i.Content.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeFlag i:
                 s.Wln(
-                    $"await WriteUtils.{i.Content.IntegerType.WriteFunction()}(w, ({i.Content.IntegerType.CsType()}){value}, cancellationToken);");
+                    $"await WriteUtils.{i.Content.IntegerType.WriteFunction()}(w, ({i.Content.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeStruct:
-                s.Wln($"await {d.MemberName()}.WriteAsync(w, cancellationToken);");
+                s.Wln($"await {d.MemberName()}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds
                 or DataTypeMilliseconds or DataTypeGold or DataTypeDateTime:
             {
-                s.Wln($"await WriteUtils.WriteUInt(w, {value}, cancellationToken);");
+                s.Wln($"await WriteUtils.WriteUInt(w, {value}, cancellationToken).ConfigureAwait(false);");
             }
                 break;
             case DataTypeSpell16 or DataTypeLevel16:
             {
-                s.Wln($"await WriteUtils.WriteUShort(w, {value}, cancellationToken);");
+                s.Wln($"await WriteUtils.WriteUShort(w, {value}, cancellationToken).ConfigureAwait(false);");
             }
                 break;
             case DataTypeLevel:
-                s.Wln($"await WriteUtils.WriteByte(w, {value}, cancellationToken);");
+                s.Wln($"await WriteUtils.WriteByte(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeGuid:
-                s.Wln($"await WriteUtils.WriteULong(w, {value}, cancellationToken);");
+                s.Wln($"await WriteUtils.WriteULong(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeString:
-                s.Wln($"await WriteUtils.WriteString(w, {value}, cancellationToken);");
+                s.Wln($"await WriteUtils.WriteString(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypePopulation:
-                s.Wln($"await WriteUtils.WritePopulation(w, {value}, cancellationToken);");
+                s.Wln($"await WriteUtils.WritePopulation(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeFloatingPoint:
-                s.Wln($"await WriteUtils.WriteFloat(w, {value}, cancellationToken);");
+                s.Wln($"await WriteUtils.WriteFloat(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeBool b:
-                s.Wln($"await WriteUtils.WriteBool{b.Content.SizeBits()}(w, {value}, cancellationToken);");
+                s.Wln(
+                    $"await WriteUtils.WriteBool{b.Content.SizeBits()}(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeCstring:
-                s.Wln($"await WriteUtils.WriteCString(w, {value}, cancellationToken);");
+                s.Wln($"await WriteUtils.WriteCString(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeArray array:
@@ -174,19 +176,20 @@ public static class WriteWriteImplementation
             switch (array.Content.InnerType)
             {
                 case ArrayTypeCstring:
-                    s.Wln("await WriteUtils.WriteCString(w, v, cancellationToken);");
+                    s.Wln("await WriteUtils.WriteCString(w, v, cancellationToken).ConfigureAwait(false);");
                     break;
                 case ArrayTypeGuid:
-                    s.Wln("await WriteUtils.WriteULong(w, v, cancellationToken);");
+                    s.Wln("await WriteUtils.WriteULong(w, v, cancellationToken).ConfigureAwait(false);");
                     break;
                 case ArrayTypeInteger it:
-                    s.Wln($"await WriteUtils.{it.Content.WriteFunction()}(w, v, cancellationToken);");
+                    s.Wln(
+                        $"await WriteUtils.{it.Content.WriteFunction()}(w, v, cancellationToken).ConfigureAwait(false);");
                     break;
                 case ArrayTypeSpell:
-                    s.Wln("await WriteUtils.WriteUInt(w, v, cancellationToken);");
+                    s.Wln("await WriteUtils.WriteUInt(w, v, cancellationToken).ConfigureAwait(false);");
                     break;
                 case ArrayTypeStruct:
-                    s.Wln("await v.WriteAsync(w, cancellationToken);");
+                    s.Wln("await v.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

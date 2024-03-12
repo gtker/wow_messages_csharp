@@ -7,11 +7,11 @@ public class CMD_XFER_DATA: Version3ServerMessage, ILoginMessage {
 
     public static async Task<CMD_XFER_DATA> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         // ReSharper disable once UnusedVariable.Compiler
-        var size = await ReadUtils.ReadUShort(r, cancellationToken);
+        var size = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
 
         var data = new List<byte>();
         for (var i = 0; i < size; ++i) {
-            data.Add(await ReadUtils.ReadByte(r, cancellationToken));
+            data.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
         }
 
         return new CMD_XFER_DATA {
@@ -23,10 +23,10 @@ public class CMD_XFER_DATA: Version3ServerMessage, ILoginMessage {
         // opcode: u8
         await WriteUtils.WriteByte(w, 49, cancellationToken);
 
-        await WriteUtils.WriteUShort(w, (ushort)Data.Count, cancellationToken);
+        await WriteUtils.WriteUShort(w, (ushort)Data.Count, cancellationToken).ConfigureAwait(false);
 
         foreach (var v in Data) {
-            await WriteUtils.WriteByte(w, v, cancellationToken);
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
         }
 
     }

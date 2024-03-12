@@ -25,27 +25,27 @@ public class CMD_AUTH_LOGON_CHALLENGE_Client: AllClientMessage, ILoginMessage {
     public required string AccountName { get; set; }
 
     public static async Task<CMD_AUTH_LOGON_CHALLENGE_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var protocolVersion = (ProtocolVersion)await ReadUtils.ReadByte(r, cancellationToken);
+        var protocolVersion = (ProtocolVersion)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var size = await ReadUtils.ReadUShort(r, cancellationToken);
+        var size = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var gameName = await ReadUtils.ReadUInt(r, cancellationToken);
+        var gameName = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
 
-        var version = await Version.ReadAsync(r, cancellationToken);
+        var version = await Version.ReadAsync(r, cancellationToken).ConfigureAwait(false);
 
-        var platform = (Platform)await ReadUtils.ReadUInt(r, cancellationToken);
+        var platform = (Platform)await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
 
-        var os = (Os)await ReadUtils.ReadUInt(r, cancellationToken);
+        var os = (Os)await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
 
-        var locale = (Locale)await ReadUtils.ReadUInt(r, cancellationToken);
+        var locale = (Locale)await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
 
-        var utcTimezoneOffset = await ReadUtils.ReadUInt(r, cancellationToken);
+        var utcTimezoneOffset = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
 
-        var clientIpAddress = await ReadUtils.ReadUInt(r, cancellationToken);
+        var clientIpAddress = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
 
-        var accountName = await ReadUtils.ReadString(r, cancellationToken);
+        var accountName = await ReadUtils.ReadString(r, cancellationToken).ConfigureAwait(false);
 
         return new CMD_AUTH_LOGON_CHALLENGE_Client {
             ProtocolVersion = protocolVersion,
@@ -63,25 +63,25 @@ public class CMD_AUTH_LOGON_CHALLENGE_Client: AllClientMessage, ILoginMessage {
         // opcode: u8
         await WriteUtils.WriteByte(w, 0, cancellationToken);
 
-        await WriteUtils.WriteByte(w, (byte)ProtocolVersion, cancellationToken);
+        await WriteUtils.WriteByte(w, (byte)ProtocolVersion, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUShort(w, (ushort)Size(), cancellationToken);
+        await WriteUtils.WriteUShort(w, (ushort)Size(), cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, 5730135, cancellationToken);
+        await WriteUtils.WriteUInt(w, 5730135, cancellationToken).ConfigureAwait(false);
 
-        await Version.WriteAsync(w, cancellationToken);
+        await Version.WriteAsync(w, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, (uint)Platform, cancellationToken);
+        await WriteUtils.WriteUInt(w, (uint)Platform, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, (uint)Os, cancellationToken);
+        await WriteUtils.WriteUInt(w, (uint)Os, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, (uint)Locale, cancellationToken);
+        await WriteUtils.WriteUInt(w, (uint)Locale, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, UtcTimezoneOffset, cancellationToken);
+        await WriteUtils.WriteUInt(w, UtcTimezoneOffset, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, ClientIpAddress, cancellationToken);
+        await WriteUtils.WriteUInt(w, ClientIpAddress, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteString(w, AccountName, cancellationToken);
+        await WriteUtils.WriteString(w, AccountName, cancellationToken).ConfigureAwait(false);
 
     }
 

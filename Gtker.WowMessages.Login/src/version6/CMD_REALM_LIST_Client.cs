@@ -6,7 +6,7 @@ public class CMD_REALM_LIST_Client: Version6ClientMessage, ILoginMessage {
 
     public static async Task<CMD_REALM_LIST_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         // ReSharper disable once UnusedVariable.Compiler
-        var padding = await ReadUtils.ReadUInt(r, cancellationToken);
+        var padding = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
 
         return new CMD_REALM_LIST_Client {
         };
@@ -16,7 +16,7 @@ public class CMD_REALM_LIST_Client: Version6ClientMessage, ILoginMessage {
         // opcode: u8
         await WriteUtils.WriteByte(w, 16, cancellationToken);
 
-        await WriteUtils.WriteUInt(w, 0, cancellationToken);
+        await WriteUtils.WriteUInt(w, 0, cancellationToken).ConfigureAwait(false);
 
     }
 

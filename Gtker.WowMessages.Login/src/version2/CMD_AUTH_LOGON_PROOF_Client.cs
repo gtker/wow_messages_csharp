@@ -11,25 +11,25 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version2ClientMessage, ILoginMessage {
     public static async Task<CMD_AUTH_LOGON_PROOF_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var clientPublicKey = new List<byte>();
         for (var i = 0; i < 32; ++i) {
-            clientPublicKey.Add(await ReadUtils.ReadByte(r, cancellationToken));
+            clientPublicKey.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
         }
 
         var clientProof = new List<byte>();
         for (var i = 0; i < 20; ++i) {
-            clientProof.Add(await ReadUtils.ReadByte(r, cancellationToken));
+            clientProof.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
         }
 
         var crcHash = new List<byte>();
         for (var i = 0; i < 20; ++i) {
-            crcHash.Add(await ReadUtils.ReadByte(r, cancellationToken));
+            crcHash.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
         }
 
         // ReSharper disable once UnusedVariable.Compiler
-        var numberOfTelemetryKeys = await ReadUtils.ReadByte(r, cancellationToken);
+        var numberOfTelemetryKeys = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
         var telemetryKeys = new List<TelemetryKey>();
         for (var i = 0; i < numberOfTelemetryKeys; ++i) {
-            telemetryKeys.Add(await TelemetryKey.ReadAsync(r, cancellationToken));
+            telemetryKeys.Add(await TelemetryKey.ReadAsync(r, cancellationToken).ConfigureAwait(false));
         }
 
         return new CMD_AUTH_LOGON_PROOF_Client {
@@ -45,21 +45,21 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version2ClientMessage, ILoginMessage {
         await WriteUtils.WriteByte(w, 1, cancellationToken);
 
         foreach (var v in ClientPublicKey) {
-            await WriteUtils.WriteByte(w, v, cancellationToken);
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
         }
 
         foreach (var v in ClientProof) {
-            await WriteUtils.WriteByte(w, v, cancellationToken);
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
         }
 
         foreach (var v in CrcHash) {
-            await WriteUtils.WriteByte(w, v, cancellationToken);
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
         }
 
-        await WriteUtils.WriteByte(w, (byte)TelemetryKeys.Count, cancellationToken);
+        await WriteUtils.WriteByte(w, (byte)TelemetryKeys.Count, cancellationToken).ConfigureAwait(false);
 
         foreach (var v in TelemetryKeys) {
-            await v.WriteAsync(w, cancellationToken);
+            await v.WriteAsync(w, cancellationToken).ConfigureAwait(false);
         }
 
     }

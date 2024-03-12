@@ -11,15 +11,15 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version3ServerMessage, ILoginMessage {
         var serverProof = default(List<byte>);
         var hardwareSurveyId = default(uint);
 
-        var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken);
+        var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
         if (result == LoginResult.Success) {
             serverProof = new List<byte>();
             for (var i = 0; i < 20; ++i) {
-                serverProof.Add(await ReadUtils.ReadByte(r, cancellationToken));
+                serverProof.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
             }
 
-            hardwareSurveyId = await ReadUtils.ReadUInt(r, cancellationToken);
+            hardwareSurveyId = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -34,14 +34,14 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version3ServerMessage, ILoginMessage {
         // opcode: u8
         await WriteUtils.WriteByte(w, 1, cancellationToken);
 
-        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken);
+        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
 
         if (Result == LoginResult.Success) {
             foreach (var v in ServerProof) {
-                await WriteUtils.WriteByte(w, v, cancellationToken);
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
 
-            await WriteUtils.WriteUInt(w, HardwareSurveyId, cancellationToken);
+            await WriteUtils.WriteUInt(w, HardwareSurveyId, cancellationToken).ConfigureAwait(false);
 
         }
 

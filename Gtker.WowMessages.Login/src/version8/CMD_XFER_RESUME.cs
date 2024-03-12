@@ -6,7 +6,7 @@ public class CMD_XFER_RESUME: Version8ClientMessage, ILoginMessage {
     public required ulong Offset { get; set; }
 
     public static async Task<CMD_XFER_RESUME> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var offset = await ReadUtils.ReadULong(r, cancellationToken);
+        var offset = await ReadUtils.ReadULong(r, cancellationToken).ConfigureAwait(false);
 
         return new CMD_XFER_RESUME {
             Offset = offset,
@@ -17,7 +17,7 @@ public class CMD_XFER_RESUME: Version8ClientMessage, ILoginMessage {
         // opcode: u8
         await WriteUtils.WriteByte(w, 51, cancellationToken);
 
-        await WriteUtils.WriteULong(w, Offset, cancellationToken);
+        await WriteUtils.WriteULong(w, Offset, cancellationToken).ConfigureAwait(false);
 
     }
 

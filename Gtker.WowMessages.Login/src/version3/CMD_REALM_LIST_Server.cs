@@ -7,21 +7,21 @@ public class CMD_REALM_LIST_Server: Version3ServerMessage, ILoginMessage {
 
     public static async Task<CMD_REALM_LIST_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         // ReSharper disable once UnusedVariable.Compiler
-        var size = await ReadUtils.ReadUShort(r, cancellationToken);
+        var size = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var headerPadding = await ReadUtils.ReadUInt(r, cancellationToken);
+        var headerPadding = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var numberOfRealms = await ReadUtils.ReadByte(r, cancellationToken);
+        var numberOfRealms = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
         var realms = new List<Realm>();
         for (var i = 0; i < numberOfRealms; ++i) {
-            realms.Add(await Realm.ReadAsync(r, cancellationToken));
+            realms.Add(await Realm.ReadAsync(r, cancellationToken).ConfigureAwait(false));
         }
 
         // ReSharper disable once UnusedVariable.Compiler
-        var footerPadding = await ReadUtils.ReadUShort(r, cancellationToken);
+        var footerPadding = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
 
         return new CMD_REALM_LIST_Server {
             Realms = realms,
@@ -32,17 +32,17 @@ public class CMD_REALM_LIST_Server: Version3ServerMessage, ILoginMessage {
         // opcode: u8
         await WriteUtils.WriteByte(w, 16, cancellationToken);
 
-        await WriteUtils.WriteUShort(w, (ushort)Size(), cancellationToken);
+        await WriteUtils.WriteUShort(w, (ushort)Size(), cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, 0, cancellationToken);
+        await WriteUtils.WriteUInt(w, 0, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteByte(w, (byte)Realms.Count, cancellationToken);
+        await WriteUtils.WriteByte(w, (byte)Realms.Count, cancellationToken).ConfigureAwait(false);
 
         foreach (var v in Realms) {
-            await v.WriteAsync(w, cancellationToken);
+            await v.WriteAsync(w, cancellationToken).ConfigureAwait(false);
         }
 
-        await WriteUtils.WriteUShort(w, 0, cancellationToken);
+        await WriteUtils.WriteUShort(w, 0, cancellationToken).ConfigureAwait(false);
 
     }
 

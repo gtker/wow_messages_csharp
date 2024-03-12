@@ -23,40 +23,40 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version2ServerMessage, ILoginMessa
         var crcSalt = default(List<byte>);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var protocolVersion = await ReadUtils.ReadByte(r, cancellationToken);
+        var protocolVersion = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
-        var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken);
+        var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
         if (result == LoginResult.Success) {
             serverPublicKey = new List<byte>();
             for (var i = 0; i < 32; ++i) {
-                serverPublicKey.Add(await ReadUtils.ReadByte(r, cancellationToken));
+                serverPublicKey.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
             }
 
             // ReSharper disable once UnusedVariable.Compiler
-            generatorLength = await ReadUtils.ReadByte(r, cancellationToken);
+            generatorLength = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
             generator = new List<byte>();
             for (var i = 0; i < generatorLength; ++i) {
-                generator.Add(await ReadUtils.ReadByte(r, cancellationToken));
+                generator.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
             }
 
             // ReSharper disable once UnusedVariable.Compiler
-            largeSafePrimeLength = await ReadUtils.ReadByte(r, cancellationToken);
+            largeSafePrimeLength = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
             largeSafePrime = new List<byte>();
             for (var i = 0; i < largeSafePrimeLength; ++i) {
-                largeSafePrime.Add(await ReadUtils.ReadByte(r, cancellationToken));
+                largeSafePrime.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
             }
 
             salt = new List<byte>();
             for (var i = 0; i < 32; ++i) {
-                salt.Add(await ReadUtils.ReadByte(r, cancellationToken));
+                salt.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
             }
 
             crcSalt = new List<byte>();
             for (var i = 0; i < 16; ++i) {
-                crcSalt.Add(await ReadUtils.ReadByte(r, cancellationToken));
+                crcSalt.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
             }
 
         }
@@ -75,33 +75,33 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version2ServerMessage, ILoginMessa
         // opcode: u8
         await WriteUtils.WriteByte(w, 0, cancellationToken);
 
-        await WriteUtils.WriteByte(w, 0, cancellationToken);
+        await WriteUtils.WriteByte(w, 0, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken);
+        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
 
         if (Result == LoginResult.Success) {
             foreach (var v in ServerPublicKey) {
-                await WriteUtils.WriteByte(w, v, cancellationToken);
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
 
-            await WriteUtils.WriteByte(w, (byte)Generator.Count, cancellationToken);
+            await WriteUtils.WriteByte(w, (byte)Generator.Count, cancellationToken).ConfigureAwait(false);
 
             foreach (var v in Generator) {
-                await WriteUtils.WriteByte(w, v, cancellationToken);
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
 
-            await WriteUtils.WriteByte(w, (byte)LargeSafePrime.Count, cancellationToken);
+            await WriteUtils.WriteByte(w, (byte)LargeSafePrime.Count, cancellationToken).ConfigureAwait(false);
 
             foreach (var v in LargeSafePrime) {
-                await WriteUtils.WriteByte(w, v, cancellationToken);
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
 
             foreach (var v in Salt) {
-                await WriteUtils.WriteByte(w, v, cancellationToken);
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
 
             foreach (var v in CrcSalt) {
-                await WriteUtils.WriteByte(w, v, cancellationToken);
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
 
         }
