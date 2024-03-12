@@ -21,6 +21,16 @@ public static class WriteTests
 
     public static void WriteTest(Writer s, Container e)
     {
+        var side = e.ObjectType switch
+        {
+            ObjectTypeClogin objectTypeClogin => "Client",
+            ObjectTypeCmsg objectTypeCmsg => "Client",
+            ObjectTypeMsg objectTypeMsg => throw new NotImplementedException(),
+            ObjectTypeSlogin objectTypeSlogin => "Server",
+            ObjectTypeSmsg objectTypeSmsg => "Server",
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
         for (var i = 0; i < e.Tests.Count; i++)
         {
             s.Wln("[Test]");
@@ -38,7 +48,7 @@ public static class WriteTests
                 s.WlnNoIndentation("]);");
                 s.Newline();
 
-                s.Wln($"var c = await {e.Name}.ReadAsync(r);");
+                s.Wln($"var c = ({e.Name})await {side}OpcodeReader.ReadAsync(r);");
                 s.Wln("Assert.That(r.Position, Is.EqualTo(r.Length));");
                 s.Newline();
 

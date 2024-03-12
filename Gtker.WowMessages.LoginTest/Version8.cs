@@ -8,7 +8,7 @@ public class Version8 {
     public async Task CMD_AUTH_RECONNECT_PROOF_Server0() {
         var r = new MemoryStream([3, 0, 0, 0, ]);
 
-        var c = await CMD_AUTH_RECONNECT_PROOF_Server.ReadAsync(r);
+        var c = (CMD_AUTH_RECONNECT_PROOF_Server)await ServerOpcodeReader.ReadAsync(r);
         Assert.That(r.Position, Is.EqualTo(r.Length));
 
         var w = new MemoryStream();
@@ -24,7 +24,7 @@ public class Version8 {
     public async Task CMD_AUTH_RECONNECT_PROOF_Server1() {
         var r = new MemoryStream([3, 16, 0, 0, ]);
 
-        var c = await CMD_AUTH_RECONNECT_PROOF_Server.ReadAsync(r);
+        var c = (CMD_AUTH_RECONNECT_PROOF_Server)await ServerOpcodeReader.ReadAsync(r);
         Assert.That(r.Position, Is.EqualTo(r.Length));
 
         var w = new MemoryStream();
@@ -40,7 +40,7 @@ public class Version8 {
     public async Task CMD_REALM_LIST_Client0() {
         var r = new MemoryStream([16, 0, 0, 0, 0, ]);
 
-        var c = await CMD_REALM_LIST_Client.ReadAsync(r);
+        var c = (CMD_REALM_LIST_Client)await ClientOpcodeReader.ReadAsync(r);
         Assert.That(r.Position, Is.EqualTo(r.Length));
 
         var w = new MemoryStream();

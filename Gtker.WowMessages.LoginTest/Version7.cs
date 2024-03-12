@@ -8,7 +8,7 @@ public class Version7 {
     public async Task CMD_REALM_LIST_Client0() {
         var r = new MemoryStream([16, 0, 0, 0, 0, ]);
 
-        var c = await CMD_REALM_LIST_Client.ReadAsync(r);
+        var c = (CMD_REALM_LIST_Client)await ClientOpcodeReader.ReadAsync(r);
         Assert.That(r.Position, Is.EqualTo(r.Length));
 
         var w = new MemoryStream();
