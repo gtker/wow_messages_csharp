@@ -10,7 +10,16 @@ public class CMD_AUTH_LOGON_PROOF_Client: ILoginMessage {
     public required SecurityFlag SecurityFlag { get; set; }
     public List<byte> PinSalt { get; set; }
     public List<byte> PinHash { get; set; }
+    /// <summary>
+    /// Client proof of matrix input.
+    /// Implementation details at `https://gist.github.com/barncastle/979c12a9c5e64d810a28ad1728e7e0f9`.
+    /// </summary>
     public List<byte> MatrixCardProof { get; set; }
+    /// <summary>
+    /// String entered by the user in the "Authenticator" popup.
+    /// Can be empty and up to 16 characters.
+    /// Is not used by the client in any way but just sent directly, so this could in theory be used for anything.
+    /// </summary>
     public string Authenticator { get; set; }
 
     public static async Task<CMD_AUTH_LOGON_PROOF_Client> ReadAsync(Stream r) {

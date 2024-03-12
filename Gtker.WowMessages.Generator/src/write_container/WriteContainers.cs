@@ -67,6 +67,8 @@ public static class WriteContainers
                         continue;
                     }
 
+                    WriteDefinitionComment(s, d.Tags.Comment);
+
                     s.Wln($"public required {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
                     break;
                 }
@@ -77,6 +79,8 @@ public static class WriteContainers
                         {
                             continue;
                         }
+
+                        WriteDefinitionComment(s, d.Tags.Comment);
 
                         s.Wln($"public {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
                     }
@@ -98,6 +102,25 @@ public static class WriteContainers
                     throw new ArgumentOutOfRangeException(nameof(member));
             }
         }
+    }
+
+    private static void WriteDefinitionComment(Writer s, string? comment)
+    {
+        if (comment is "" or null)
+        {
+            return;
+        }
+
+        s.Wln("/// <summary>");
+        using (var sr = new StringReader(comment))
+        {
+            while (sr.ReadLine() is { } line)
+            {
+                s.Wln($"/// {line}");
+            }
+        }
+
+        s.Wln("/// </summary>");
     }
 
     private static void WriteIncludes(Writer s, Container e)

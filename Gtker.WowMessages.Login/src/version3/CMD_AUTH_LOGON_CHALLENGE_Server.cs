@@ -8,8 +8,14 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
     public List<byte> Generator { get; set; }
     public List<byte> LargeSafePrime { get; set; }
     public List<byte> Salt { get; set; }
+    /// <summary>
+    /// Used for the `crc_hash` in [CMD_AUTH_LOGON_PROOF_Client].
+    /// </summary>
     public List<byte> CrcSalt { get; set; }
     public SecurityFlag SecurityFlag { get; set; }
+    /// <summary>
+    /// Used to randomize the layout of the PIN keypad.
+    /// </summary>
     public uint PinGridSeed { get; set; }
     public List<byte> PinSalt { get; set; }
 

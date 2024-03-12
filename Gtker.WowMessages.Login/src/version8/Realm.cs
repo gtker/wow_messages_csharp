@@ -5,6 +5,9 @@ namespace Gtker.WowMessages.Login.Version8;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class Realm {
+    /// <summary>
+    /// vmangos: this is the second column in Cfg_Configs.dbc
+    /// </summary>
     public required RealmType RealmType { get; set; }
     public required bool Locked { get; set; }
     public required RealmFlag Flag { get; set; }

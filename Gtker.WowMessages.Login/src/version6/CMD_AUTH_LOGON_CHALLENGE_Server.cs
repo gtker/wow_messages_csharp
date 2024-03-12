@@ -8,14 +8,35 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
     public List<byte> Generator { get; set; }
     public List<byte> LargeSafePrime { get; set; }
     public List<byte> Salt { get; set; }
+    /// <summary>
+    /// Used for the `crc_hash` in [CMD_AUTH_LOGON_PROOF_Client].
+    /// </summary>
     public List<byte> CrcSalt { get; set; }
     public SecurityFlag SecurityFlag { get; set; }
+    /// <summary>
+    /// Used to randomize the layout of the PIN keypad.
+    /// </summary>
     public uint PinGridSeed { get; set; }
     public List<byte> PinSalt { get; set; }
+    /// <summary>
+    /// Number of columns to display.
+    /// </summary>
     public byte Width { get; set; }
+    /// <summary>
+    /// Number of rows to display.
+    /// </summary>
     public byte Height { get; set; }
+    /// <summary>
+    /// Number of digits to be entered for each cell.
+    /// </summary>
     public byte DigitCount { get; set; }
+    /// <summary>
+    /// Number of cells to complete.
+    /// </summary>
     public byte ChallengeCount { get; set; }
+    /// <summary>
+    /// Seed value used to randomize cell selection.
+    /// </summary>
     public ulong Seed { get; set; }
 
     public static async Task<CMD_AUTH_LOGON_CHALLENGE_Server> ReadAsync(Stream r) {

@@ -5,6 +5,9 @@ public class TelemetryKey {
     public required ushort Unknown1 { get; set; }
     public required uint Unknown2 { get; set; }
     public required List<byte> Unknown3 { get; set; }
+    /// <summary>
+    /// SHA1 hash of the session key, server public key, and an unknown 20 byte value.
+    /// </summary>
     public required List<byte> CdKeyProof { get; set; }
 
     public static async Task<TelemetryKey> ReadAsync(Stream r) {

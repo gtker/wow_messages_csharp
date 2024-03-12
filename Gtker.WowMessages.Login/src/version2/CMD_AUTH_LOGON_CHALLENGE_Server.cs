@@ -8,6 +8,9 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: ILoginMessage {
     public List<byte> Generator { get; set; }
     public List<byte> LargeSafePrime { get; set; }
     public List<byte> Salt { get; set; }
+    /// <summary>
+    /// Used for the `crc_hash` in [CMD_AUTH_LOGON_PROOF_Client].
+    /// </summary>
     public List<byte> CrcSalt { get; set; }
 
     public static async Task<CMD_AUTH_LOGON_CHALLENGE_Server> ReadAsync(Stream r) {
