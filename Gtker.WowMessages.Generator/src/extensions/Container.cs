@@ -13,7 +13,21 @@ public static class ContainerExtensions
         {
             hasUnimplementedStatements = e.Members.Any(c => c switch
             {
-                StructMemberDefinition d => d.StructMemberContent.DataType.CsType() == "",
+                StructMemberDefinition d => d.StructMemberContent.DataType switch
+                {
+                    DataTypeArray array => array.Content.InnerType switch
+                    {
+                        ArrayTypeCstring => false,
+                        ArrayTypeGuid => false,
+                        ArrayTypeInteger => false,
+                        ArrayTypePackedGuid => true,
+                        ArrayTypeSpell => true,
+                        ArrayTypeStruct s => s.Content.StructData.ShouldSkip(),
+                        _ => throw new ArgumentOutOfRangeException()
+                    },
+                    DataTypeStruct s => s.Content.StructData.ShouldSkip(),
+                    _ => d.StructMemberContent.DataType.CsType() == ""
+                },
                 StructMemberIfStatement statement => true,
                 StructMemberOptional optional => true,
                 _ => throw new ArgumentOutOfRangeException(nameof(c))

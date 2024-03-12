@@ -67,36 +67,4 @@ public class Version8 {
         });
     }
 
-    [Test]
-    [Timeout(500)]
-    public async Task CMD_REALM_LIST_Server0() {
-        var r = new MemoryStream([16, 22, 0, 0, 0, 0, 0, 1, 0, 0, 0, 3, 65, 0, 65, 0, 0, 0, 200, 67, 1, 0, 2, 0, 0, ]);
-
-        var c = (CMD_REALM_LIST_Server)await ServerOpcodeReader.ReadAsync(r);
-        Assert.That(r.Position, Is.EqualTo(r.Length));
-
-        var w = new MemoryStream();
-        await c.WriteAsync(w);
-        Assert.Multiple(() => {
-            Assert.That(w.Position, Is.EqualTo(r.Position));
-            Assert.That(r, Is.EqualTo(w));
-        });
-    }
-
-    [Test]
-    [Timeout(500)]
-    public async Task CMD_REALM_LIST_Server1() {
-        var r = new MemoryStream([16, 27, 0, 0, 0, 0, 0, 1, 0, 0, 0, 4, 65, 0, 65, 0, 0, 0, 200, 67, 1, 0, 2, 1, 12, 1, 243, 22, 0, 0, ]);
-
-        var c = (CMD_REALM_LIST_Server)await ServerOpcodeReader.ReadAsync(r);
-        Assert.That(r.Position, Is.EqualTo(r.Length));
-
-        var w = new MemoryStream();
-        await c.WriteAsync(w);
-        Assert.Multiple(() => {
-            Assert.That(w.Position, Is.EqualTo(r.Position));
-            Assert.That(r, Is.EqualTo(w));
-        });
-    }
-
 }
