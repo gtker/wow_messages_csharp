@@ -5,7 +5,6 @@ namespace Gtker.WowMessages.Login.Version3;
 public class CMD_SURVEY_RESULT: ILoginMessage {
     public required uint SurveyId { get; set; }
     public required byte Error { get; set; }
-    public required ushort CompressedDataLength { get; set; }
     public required List<byte> Data { get; set; }
 
     public static async Task<CMD_SURVEY_RESULT> ReadAsync(Stream r) {
@@ -13,6 +12,7 @@ public class CMD_SURVEY_RESULT: ILoginMessage {
 
         var error = await ReadUtils.ReadByte(r);
 
+        // ReSharper disable once UnusedVariable.Compiler
         var compressedDataLength = await ReadUtils.ReadUShort(r);
 
         var data = new List<byte>();
@@ -23,7 +23,6 @@ public class CMD_SURVEY_RESULT: ILoginMessage {
         return new CMD_SURVEY_RESULT {
             SurveyId = surveyId,
             Error = error,
-            CompressedDataLength = compressedDataLength,
             Data = data,
         };
     }
@@ -35,7 +34,7 @@ public class CMD_SURVEY_RESULT: ILoginMessage {
 
         await WriteUtils.WriteByte(w, Error);
 
-        await WriteUtils.WriteUShort(w, CompressedDataLength);
+        await WriteUtils.WriteUShort(w, (ushort)Data.Count);
 
         foreach (var v in Data) {
             await WriteUtils.WriteByte(w, v);

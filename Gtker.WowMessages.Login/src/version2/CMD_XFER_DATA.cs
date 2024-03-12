@@ -3,10 +3,10 @@ namespace Gtker.WowMessages.Login.Version2;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMD_XFER_DATA: ILoginMessage {
-    public required ushort Size { get; set; }
     public required List<byte> Data { get; set; }
 
     public static async Task<CMD_XFER_DATA> ReadAsync(Stream r) {
+        // ReSharper disable once UnusedVariable.Compiler
         var size = await ReadUtils.ReadUShort(r);
 
         var data = new List<byte>();
@@ -15,7 +15,6 @@ public class CMD_XFER_DATA: ILoginMessage {
         }
 
         return new CMD_XFER_DATA {
-            Size = size,
             Data = data,
         };
     }
@@ -23,7 +22,7 @@ public class CMD_XFER_DATA: ILoginMessage {
     public async Task WriteAsync(Stream w) {
         await WriteUtils.WriteByte(w, 49);
 
-        await WriteUtils.WriteUShort(w, Size);
+        await WriteUtils.WriteUShort(w, (ushort)Data.Count);
 
         foreach (var v in Data) {
             await WriteUtils.WriteByte(w, v);

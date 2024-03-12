@@ -6,7 +6,6 @@ public class CMD_AUTH_LOGON_PROOF_Client: ILoginMessage {
     public required List<byte> ClientPublicKey { get; set; }
     public required List<byte> ClientProof { get; set; }
     public required List<byte> CrcHash { get; set; }
-    public required byte NumberOfTelemetryKeys { get; set; }
     public required List<TelemetryKey> TelemetryKeys { get; set; }
 
     public static async Task<CMD_AUTH_LOGON_PROOF_Client> ReadAsync(Stream r) {
@@ -25,6 +24,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: ILoginMessage {
             crcHash.Add(await ReadUtils.ReadByte(r));
         }
 
+        // ReSharper disable once UnusedVariable.Compiler
         var numberOfTelemetryKeys = await ReadUtils.ReadByte(r);
 
         var telemetryKeys = new List<TelemetryKey>();
@@ -36,7 +36,6 @@ public class CMD_AUTH_LOGON_PROOF_Client: ILoginMessage {
             ClientPublicKey = clientPublicKey,
             ClientProof = clientProof,
             CrcHash = crcHash,
-            NumberOfTelemetryKeys = numberOfTelemetryKeys,
             TelemetryKeys = telemetryKeys,
         };
     }
@@ -56,7 +55,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: ILoginMessage {
             await WriteUtils.WriteByte(w, v);
         }
 
-        await WriteUtils.WriteByte(w, NumberOfTelemetryKeys);
+        await WriteUtils.WriteByte(w, (byte)TelemetryKeys.Count);
 
         foreach (var v in TelemetryKeys) {
             await v.WriteAsync(w);

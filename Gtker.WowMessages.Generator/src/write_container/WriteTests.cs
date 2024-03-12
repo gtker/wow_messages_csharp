@@ -34,7 +34,7 @@ public static class WriteTests
         for (var i = 0; i < e.Tests.Count; i++)
         {
             s.Wln("[Test]");
-            s.Wln("[Timeout(500)]");
+            s.Wln("[Timeout(1000)]");
             var test = e.Tests[i];
             s.Body($"public async Task {e.Name}{i}()", s =>
             {

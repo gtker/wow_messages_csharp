@@ -3,7 +3,6 @@ namespace Gtker.WowMessages.Login.Version3;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMD_REALM_LIST_Server: ILoginMessage {
-    public required byte NumberOfRealms { get; set; }
     public required List<Realm> Realms { get; set; }
 
     public static async Task<CMD_REALM_LIST_Server> ReadAsync(Stream r) {
@@ -13,6 +12,7 @@ public class CMD_REALM_LIST_Server: ILoginMessage {
         // ReSharper disable once UnusedVariable.Compiler
         var headerPadding = await ReadUtils.ReadUInt(r);
 
+        // ReSharper disable once UnusedVariable.Compiler
         var numberOfRealms = await ReadUtils.ReadByte(r);
 
         var realms = new List<Realm>();
@@ -24,7 +24,6 @@ public class CMD_REALM_LIST_Server: ILoginMessage {
         var footerPadding = await ReadUtils.ReadUShort(r);
 
         return new CMD_REALM_LIST_Server {
-            NumberOfRealms = numberOfRealms,
             Realms = realms,
         };
     }
@@ -36,7 +35,7 @@ public class CMD_REALM_LIST_Server: ILoginMessage {
 
         await WriteUtils.WriteUInt(w, 0);
 
-        await WriteUtils.WriteByte(w, NumberOfRealms);
+        await WriteUtils.WriteByte(w, (byte)Realms.Count);
 
         foreach (var v in Realms) {
             await v.WriteAsync(w);

@@ -14,7 +14,7 @@ public static class DefinitionExtensions
         d.DataType.CsType();
 
     public static bool IsNotInType(this Definition d) =>
-        d.ConstantValue is not null || d.SizeOfFieldsBeforeSize is not null;
+        d.ConstantValue is not null || d.SizeOfFieldsBeforeSize is not null || d.UsedAsSizeIn is not null;
 
     public static string Size(this Definition d) => d.DataType switch
     {

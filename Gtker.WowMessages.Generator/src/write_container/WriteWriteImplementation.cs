@@ -62,6 +62,10 @@ public static class WriteWriteImplementation
         {
             value = val.value;
         }
+        else if (d.UsedAsSizeIn is { } v)
+        {
+            value = $"({d.DataType.CsType()}){Utils.SnakeCaseToPascalCase(v)}.Count";
+        }
 
         switch (d.DataType)
         {
