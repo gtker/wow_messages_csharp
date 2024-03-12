@@ -70,12 +70,15 @@ public static class WriteOpcodesImpl
 
         s.Newline();
 
-        s.Body($"public static async Task<T> ExpectOpcode<T>(Stream r) where T: {versionClass}", s =>
+        s.Wln("/// <summary>");
+        s.Wln("/// Expects an opcode to be the next sent. Returns null if type is not correct.");
+        s.Wln("/// </summary>");
+        s.Body($"public static async Task<T?> ExpectOpcode<T>(Stream r) where T: {versionClass}", s =>
         {
             s.Body("if (await ReadAsync(r) is T c)", s => { s.Wln("return c;"); });
             s.Newline();
 
-            s.Wln("throw new NotImplementedException();");
+            s.Wln("return null;");
         });
 
         s.ClosingCurly(); // public class ServerOpcodeReader

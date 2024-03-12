@@ -12,11 +12,14 @@ public static class ClientOpcodeReader {
         };
     }
 
-    public static async Task<T> ExpectOpcode<T>(Stream r) where T: AllClientMessage {
+    /// <summary>
+    /// Expects an opcode to be the next sent. Returns null if type is not correct.
+    /// </summary>
+    public static async Task<T?> ExpectOpcode<T>(Stream r) where T: AllClientMessage {
         if (await ReadAsync(r) is T c) {
             return c;
         }
 
-        throw new NotImplementedException();
+        return null;
     }
 }
