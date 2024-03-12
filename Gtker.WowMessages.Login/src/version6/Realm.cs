@@ -3,7 +3,7 @@ using Gtker.WowMessages.Login.All;
 namespace Gtker.WowMessages.Login.Version6;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
-public class Realm {
+public class Realm : ILoginMessage {
     public required RealmType RealmType { get; set; }
     public required bool Locked { get; set; }
     public required RealmFlag Flag { get; set; }
@@ -14,7 +14,7 @@ public class Realm {
     public required RealmCategory Category { get; set; }
     public required byte RealmId { get; set; }
 
-    public static async Task<Realm> Read(Stream r) {
+    public static async Task<Realm> ReadAsync(Stream r) {
         var realmType = (RealmType)await ReadUtils.ReadByte(r);
 
         var locked = await ReadUtils.ReadBool8(r);
@@ -46,7 +46,7 @@ public class Realm {
         };
     }
 
-    public async Task Write(Stream w) {
+    public async Task WriteAsync(Stream w) {
         await WriteUtils.WriteByte(w, (byte)RealmType);
 
         await WriteUtils.WriteBool8(w, Locked);

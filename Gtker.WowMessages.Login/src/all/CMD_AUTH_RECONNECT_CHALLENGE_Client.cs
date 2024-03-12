@@ -2,7 +2,7 @@ namespace Gtker.WowMessages.Login.All;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
-public class CMD_AUTH_RECONNECT_CHALLENGE_Client {
+public class CMD_AUTH_RECONNECT_CHALLENGE_Client : ILoginMessage {
     public required ProtocolVersion ProtocolVersion { get; set; }
     public required Version Version { get; set; }
     public required Platform Platform { get; set; }
@@ -12,7 +12,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client {
     public required uint ClientIpAddress { get; set; }
     public required string AccountName { get; set; }
 
-    public static async Task<CMD_AUTH_RECONNECT_CHALLENGE_Client> Read(Stream r) {
+    public static async Task<CMD_AUTH_RECONNECT_CHALLENGE_Client> ReadAsync(Stream r) {
         var protocolVersion = (ProtocolVersion)await ReadUtils.ReadByte(r);
 
         // ReSharper disable once UnusedVariable.Compiler
@@ -21,7 +21,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client {
         // ReSharper disable once UnusedVariable.Compiler
         var gameName = await ReadUtils.ReadUInt(r);
 
-        var version = await Version.Read(r);
+        var version = await Version.ReadAsync(r);
 
         var platform = (Platform)await ReadUtils.ReadUInt(r);
 
@@ -47,14 +47,16 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client {
         };
     }
 
-    public async Task Write(Stream w) {
+    public async Task WriteAsync(Stream w) {
+        await WriteUtils.WriteByte(w, 2);
+
         await WriteUtils.WriteByte(w, (byte)ProtocolVersion);
 
         await WriteUtils.WriteUShort(w, (ushort)Size());
 
         await WriteUtils.WriteUInt(w, 5730135);
 
-        await Version.Write(w);
+        await Version.WriteAsync(w);
 
         await WriteUtils.WriteUInt(w, (uint)Platform);
 

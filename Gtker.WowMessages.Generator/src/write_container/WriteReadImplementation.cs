@@ -7,7 +7,7 @@ public static class WriteReadImplementation
 {
     public static void WriteRead(Writer s, Container e)
     {
-        s.Body($"public static async Task<{e.Name}> Read(Stream r)", s =>
+        s.Body($"public static async Task<{e.Name}> ReadAsync(Stream r)", s =>
         {
             foreach (var member in e.Members)
             {
@@ -81,7 +81,7 @@ public static class WriteReadImplementation
                     $"var {d.VariableName()} = ({dataTypeFlag.CsType()})await ReadUtils.{dataTypeFlag.Content.IntegerType.ReadFunction()}(r);");
                 break;
             case DataTypeStruct:
-                s.Wln($"var {d.VariableName()} = await {d.CsTypeName()}.Read(r);");
+                s.Wln($"var {d.VariableName()} = await {d.CsTypeName()}.ReadAsync(r);");
                 break;
 
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds

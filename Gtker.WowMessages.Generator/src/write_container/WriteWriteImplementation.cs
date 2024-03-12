@@ -7,8 +7,30 @@ public static class WriteWriteImplementation
 {
     public static void WriteWrite(Writer s, Container e)
     {
-        s.Body("public async Task Write(Stream w)", s =>
+        s.Body("public async Task WriteAsync(Stream w)", s =>
         {
+            switch (e.ObjectType)
+            {
+                case ObjectTypeClogin objectTypeClogin:
+                    s.Wln($"await WriteUtils.WriteByte(w, {objectTypeClogin.Opcode});");
+                    s.Newline();
+                    break;
+                case ObjectTypeSlogin objectTypeSlogin:
+                    s.Wln($"await WriteUtils.WriteByte(w, {objectTypeSlogin.Opcode});");
+                    s.Newline();
+                    break;
+                case ObjectTypeCmsg objectTypeCmsg:
+                    throw new NotImplementedException();
+                case ObjectTypeMsg objectTypeMsg:
+                    throw new NotImplementedException();
+                case ObjectTypeSmsg objectTypeSmsg:
+                    throw new NotImplementedException();
+                case ObjectTypeStruct objectTypeStruct:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
             foreach (var member in e.Members)
             {
                 switch (member)
@@ -56,7 +78,7 @@ public static class WriteWriteImplementation
                     $"await WriteUtils.{i.Content.IntegerType.WriteFunction()}(w, ({i.Content.IntegerType.CsType()}){value});");
                 break;
             case DataTypeStruct:
-                s.Wln($"await {d.MemberName()}.Write(w);");
+                s.Wln($"await {d.MemberName()}.WriteAsync(w);");
                 break;
 
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds

@@ -5,13 +5,8 @@ namespace Gtker.WowMessages.Generator.write_container;
 
 public static class WriteContainers
 {
-    public static Writer? WriteContainer(Container e, string module, string project, Writer tests)
+    public static Writer WriteContainer(Container e, string module, string project)
     {
-        if (e.ShouldSkip())
-        {
-            return null;
-        }
-
         var s = new Writer();
         WriteIncludes(s, e);
 
@@ -24,7 +19,7 @@ public static class WriteContainers
             s.Wln("// ReSharper disable once InconsistentNaming");
         }
 
-        s.Body($"public class {e.Name}", s =>
+        s.Body($"public class {e.Name} : ILoginMessage", s =>
         {
             WriteDefinition(s, e);
             s.Newline();
@@ -42,8 +37,6 @@ public static class WriteContainers
             }
         });
         s.Newline();
-
-        WriteTests.WriteTest(tests, e);
 
         return s;
     }

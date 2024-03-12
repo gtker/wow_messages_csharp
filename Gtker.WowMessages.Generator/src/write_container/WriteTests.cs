@@ -38,12 +38,12 @@ public static class WriteTests
                 s.WlnNoIndentation("]);");
                 s.Newline();
 
-                s.Wln($"var c = await {e.Name}.Read(r);");
+                s.Wln($"var c = await {e.Name}.ReadAsync(r);");
                 s.Wln("Assert.That(r.Position, Is.EqualTo(r.Length));");
                 s.Newline();
 
                 s.Wln("var w = new MemoryStream();");
-                s.Wln("await c.Write(w);");
+                s.Wln("await c.WriteAsync(w);");
                 s.Body("Assert.Multiple(() =>", s =>
                 {
                     s.Wln("Assert.That(w.Position, Is.EqualTo(r.Position));");

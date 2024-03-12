@@ -2,5 +2,7 @@ namespace Gtker.WowMessages.Login;
 
 public interface ILoginMessage
 {
-    public Task Write(Stream w);
+    public Task WriteAsync(Stream w);
+
+    public static Task<ILoginMessage> ReadAsync(Stream r) => throw new NotImplementedException();
 }
