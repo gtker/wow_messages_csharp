@@ -3,7 +3,7 @@
 
 namespace Gtker.WowMessages.Login.All;
 
-public class Population(float v)
+public struct Population(float v)
 {
     public float Value { get; set; } = v;
 
