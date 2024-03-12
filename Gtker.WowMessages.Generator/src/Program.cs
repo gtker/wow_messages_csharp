@@ -69,7 +69,7 @@ internal static class Program
 
         foreach (var e in schema.Login.Enums.Value)
         {
-            if (!LoginVersionMatches(e.Tags.Version_, version))
+            if (!e.Tags.Version_.IsSpecificLoginVersion(version))
             {
                 continue;
             }
@@ -80,7 +80,7 @@ internal static class Program
 
         foreach (var e in schema.Login.Flags.Value)
         {
-            if (!LoginVersionMatches(e.Tags.Version_, version))
+            if (!e.Tags.Version_.IsSpecificLoginVersion(version))
             {
                 continue;
             }
@@ -94,7 +94,7 @@ internal static class Program
         WriteTests.TestHeader(tests, module);
         foreach (var e in schema.Login.Structs.Value.Concat(schema.Login.Messages.Value))
         {
-            if (!LoginVersionMatches(e.Tags.Version_, version) || e.ShouldSkip())
+            if (!e.Tags.Version_.IsSpecificLoginVersion(version) || e.ShouldSkip())
             {
                 continue;
             }
@@ -111,9 +111,5 @@ internal static class Program
 
         WriteTests.TestFooter(tests);
         File.WriteAllText(ProjectDir + $"Gtker.WowMessages.{project}Test/{module}.cs", tests.Data());
-        return;
-
-        bool LoginVersionMatches(ObjectVersions objectVersions, byte v) =>
-            objectVersions.IsSpecificLoginVersion(v);
     }
 }
