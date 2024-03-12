@@ -3,15 +3,15 @@ namespace Gtker.WowMessages.Login.Version8;
 public abstract class Version8ClientMessage {}
 
 public static class ClientOpcodeReader {
-    public static async Task<Version8ClientMessage> ReadAsync(Stream r) {
-        var opcode = await ReadUtils.ReadByte(r);
+    public static async Task<Version8ClientMessage> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
+        var opcode = await ReadUtils.ReadByte(r, cancellationToken);
         return opcode switch {
-            1 => await CMD_AUTH_LOGON_PROOF_Client.ReadAsync(r),
-            3 => await CMD_AUTH_RECONNECT_PROOF_Client.ReadAsync(r),
-            16 => await CMD_REALM_LIST_Client.ReadAsync(r),
-            50 => await CMD_XFER_ACCEPT.ReadAsync(r),
-            51 => await CMD_XFER_RESUME.ReadAsync(r),
-            52 => await CMD_XFER_CANCEL.ReadAsync(r),
+            1 => await CMD_AUTH_LOGON_PROOF_Client.ReadAsync(r, cancellationToken),
+            3 => await CMD_AUTH_RECONNECT_PROOF_Client.ReadAsync(r, cancellationToken),
+            16 => await CMD_REALM_LIST_Client.ReadAsync(r, cancellationToken),
+            50 => await CMD_XFER_ACCEPT.ReadAsync(r, cancellationToken),
+            51 => await CMD_XFER_RESUME.ReadAsync(r, cancellationToken),
+            52 => await CMD_XFER_CANCEL.ReadAsync(r, cancellationToken),
             _ => throw new NotImplementedException(),
         };
     }
@@ -19,8 +19,8 @@ public static class ClientOpcodeReader {
     /// <summary>
     /// Expects an opcode to be the next sent. Returns null if type is not correct.
     /// </summary>
-    public static async Task<T?> ExpectOpcode<T>(Stream r) where T: Version8ClientMessage {
-        if (await ReadAsync(r) is T c) {
+    public static async Task<T?> ExpectOpcode<T>(Stream r, CancellationToken cancellationToken = default) where T: Version8ClientMessage {
+        if (await ReadAsync(r, cancellationToken) is T c) {
             return c;
         }
 

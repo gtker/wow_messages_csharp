@@ -7,14 +7,14 @@ public class CMD_XFER_INITIATE: Version2ServerMessage, ILoginMessage {
     public required ulong FileSize { get; set; }
     public required List<byte> FileMd5 { get; set; }
 
-    public static async Task<CMD_XFER_INITIATE> ReadAsync(Stream r) {
-        var filename = await ReadUtils.ReadString(r);
+    public static async Task<CMD_XFER_INITIATE> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
+        var filename = await ReadUtils.ReadString(r, cancellationToken);
 
-        var fileSize = await ReadUtils.ReadULong(r);
+        var fileSize = await ReadUtils.ReadULong(r, cancellationToken);
 
         var fileMd5 = new List<byte>();
         for (var i = 0; i < 16; ++i) {
-            fileMd5.Add(await ReadUtils.ReadByte(r));
+            fileMd5.Add(await ReadUtils.ReadByte(r, cancellationToken));
         }
 
         return new CMD_XFER_INITIATE {
@@ -24,16 +24,16 @@ public class CMD_XFER_INITIATE: Version2ServerMessage, ILoginMessage {
         };
     }
 
-    public async Task WriteAsync(Stream w) {
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 48);
+        await WriteUtils.WriteByte(w, 48, cancellationToken);
 
-        await WriteUtils.WriteString(w, Filename);
+        await WriteUtils.WriteString(w, Filename, cancellationToken);
 
-        await WriteUtils.WriteULong(w, FileSize);
+        await WriteUtils.WriteULong(w, FileSize, cancellationToken);
 
         foreach (var v in FileMd5) {
-            await WriteUtils.WriteByte(w, v);
+            await WriteUtils.WriteByte(w, v, cancellationToken);
         }
 
     }

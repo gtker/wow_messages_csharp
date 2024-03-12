@@ -2,7 +2,8 @@ namespace Gtker.WowMessages.Login;
 
 public interface ILoginMessage
 {
-    public Task WriteAsync(Stream w);
+    public Task WriteAsync(Stream w, CancellationToken cancellationToken = default);
 
-    public static Task<ILoginMessage> ReadAsync(Stream r) => throw new NotImplementedException();
+    public static Task<ILoginMessage> ReadAsync(Stream r, CancellationToken cancellationToken = default) =>
+        throw new NotImplementedException();
 }

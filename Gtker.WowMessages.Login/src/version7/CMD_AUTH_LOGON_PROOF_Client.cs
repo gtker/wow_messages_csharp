@@ -16,45 +16,45 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version7ClientMessage, ILoginMessage {
     /// </summary>
     public List<byte> MatrixCardProof { get; set; }
 
-    public static async Task<CMD_AUTH_LOGON_PROOF_Client> ReadAsync(Stream r) {
+    public static async Task<CMD_AUTH_LOGON_PROOF_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var pinSalt = default(List<byte>);
         var pinHash = default(List<byte>);
         var matrixCardProof = default(List<byte>);
 
         var clientPublicKey = new List<byte>();
         for (var i = 0; i < 32; ++i) {
-            clientPublicKey.Add(await ReadUtils.ReadByte(r));
+            clientPublicKey.Add(await ReadUtils.ReadByte(r, cancellationToken));
         }
 
         var clientProof = new List<byte>();
         for (var i = 0; i < 20; ++i) {
-            clientProof.Add(await ReadUtils.ReadByte(r));
+            clientProof.Add(await ReadUtils.ReadByte(r, cancellationToken));
         }
 
         var crcHash = new List<byte>();
         for (var i = 0; i < 20; ++i) {
-            crcHash.Add(await ReadUtils.ReadByte(r));
+            crcHash.Add(await ReadUtils.ReadByte(r, cancellationToken));
         }
 
         // ReSharper disable once UnusedVariable.Compiler
-        var numberOfTelemetryKeys = await ReadUtils.ReadByte(r);
+        var numberOfTelemetryKeys = await ReadUtils.ReadByte(r, cancellationToken);
 
         var telemetryKeys = new List<TelemetryKey>();
         for (var i = 0; i < numberOfTelemetryKeys; ++i) {
-            telemetryKeys.Add(await TelemetryKey.ReadAsync(r));
+            telemetryKeys.Add(await TelemetryKey.ReadAsync(r, cancellationToken));
         }
 
-        var securityFlag = (SecurityFlag)await ReadUtils.ReadByte(r);
+        var securityFlag = (SecurityFlag)await ReadUtils.ReadByte(r, cancellationToken);
 
         if (securityFlag.HasFlag(SecurityFlag.Pin)) {
             pinSalt = new List<byte>();
             for (var i = 0; i < 16; ++i) {
-                pinSalt.Add(await ReadUtils.ReadByte(r));
+                pinSalt.Add(await ReadUtils.ReadByte(r, cancellationToken));
             }
 
             pinHash = new List<byte>();
             for (var i = 0; i < 20; ++i) {
-                pinHash.Add(await ReadUtils.ReadByte(r));
+                pinHash.Add(await ReadUtils.ReadByte(r, cancellationToken));
             }
 
         }
@@ -62,7 +62,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version7ClientMessage, ILoginMessage {
         if (securityFlag.HasFlag(SecurityFlag.MatrixCard)) {
             matrixCardProof = new List<byte>();
             for (var i = 0; i < 20; ++i) {
-                matrixCardProof.Add(await ReadUtils.ReadByte(r));
+                matrixCardProof.Add(await ReadUtils.ReadByte(r, cancellationToken));
             }
 
         }
@@ -79,44 +79,44 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version7ClientMessage, ILoginMessage {
         };
     }
 
-    public async Task WriteAsync(Stream w) {
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 1);
+        await WriteUtils.WriteByte(w, 1, cancellationToken);
 
         foreach (var v in ClientPublicKey) {
-            await WriteUtils.WriteByte(w, v);
+            await WriteUtils.WriteByte(w, v, cancellationToken);
         }
 
         foreach (var v in ClientProof) {
-            await WriteUtils.WriteByte(w, v);
+            await WriteUtils.WriteByte(w, v, cancellationToken);
         }
 
         foreach (var v in CrcHash) {
-            await WriteUtils.WriteByte(w, v);
+            await WriteUtils.WriteByte(w, v, cancellationToken);
         }
 
-        await WriteUtils.WriteByte(w, (byte)TelemetryKeys.Count);
+        await WriteUtils.WriteByte(w, (byte)TelemetryKeys.Count, cancellationToken);
 
         foreach (var v in TelemetryKeys) {
-            await v.WriteAsync(w);
+            await v.WriteAsync(w, cancellationToken);
         }
 
-        await WriteUtils.WriteByte(w, (byte)SecurityFlag);
+        await WriteUtils.WriteByte(w, (byte)SecurityFlag, cancellationToken);
 
         if (SecurityFlag.HasFlag(SecurityFlag.Pin)) {
             foreach (var v in PinSalt) {
-                await WriteUtils.WriteByte(w, v);
+                await WriteUtils.WriteByte(w, v, cancellationToken);
             }
 
             foreach (var v in PinHash) {
-                await WriteUtils.WriteByte(w, v);
+                await WriteUtils.WriteByte(w, v, cancellationToken);
             }
 
         }
 
         if (SecurityFlag.HasFlag(SecurityFlag.MatrixCard)) {
             foreach (var v in MatrixCardProof) {
-                await WriteUtils.WriteByte(w, v);
+                await WriteUtils.WriteByte(w, v, cancellationToken);
             }
 
         }

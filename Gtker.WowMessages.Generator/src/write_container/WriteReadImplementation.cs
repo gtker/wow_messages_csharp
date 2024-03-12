@@ -7,86 +7,30 @@ public static class WriteReadImplementation
 {
     public static void WriteRead(Writer s, Container e)
     {
-        s.Body($"public static async Task<{e.Name}> ReadAsync(Stream r)", s =>
-        {
-            var hasDefaultedMembers = false;
-
-            foreach (var member in e.Members)
+        s.Body($"public static async Task<{e.Name}> ReadAsync(Stream r, CancellationToken cancellationToken = default)",
+            s =>
             {
-                switch (member)
-                {
-                    case StructMemberDefinition structMemberDefinition:
-                        break;
-                    case StructMemberIfStatement statement:
-                        hasDefaultedMembers = true;
-                        foreach (var d in statement.AllDefinitions())
-                        {
-                            s.Wln($"var {d.VariableName()} = default({d.CsTypeName()});");
-                        }
+                var hasDefaultedMembers = false;
 
-                        break;
-                    case StructMemberOptional optional:
-                        hasDefaultedMembers = true;
-                        foreach (var d in optional.AllDefinitions())
-                        {
-                            s.Wln($"var {d.VariableName()} = default({d.CsTypeName()});");
-                        }
-
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(member));
-                }
-            }
-
-            if (hasDefaultedMembers)
-            {
-                s.Newline();
-            }
-
-            foreach (var member in e.Members)
-            {
-                WriteReadMember(s, e, member, true);
-            }
-
-            s.Body($"return new {e.Name}", s =>
-            {
                 foreach (var member in e.Members)
                 {
                     switch (member)
                     {
-                        case StructMemberDefinition definition:
-                        {
-                            var d = definition.StructMemberContent;
-                            if (d.IsNotInType())
-                            {
-                                continue;
-                            }
-
-                            s.Wln($"{d.MemberName()} = {d.VariableName()},");
-
+                        case StructMemberDefinition structMemberDefinition:
                             break;
-                        }
                         case StructMemberIfStatement statement:
+                            hasDefaultedMembers = true;
                             foreach (var d in statement.AllDefinitions())
                             {
-                                if (d.IsNotInType())
-                                {
-                                    continue;
-                                }
-
-                                s.Wln($"{d.MemberName()} = {d.VariableName()},");
+                                s.Wln($"var {d.VariableName()} = default({d.CsTypeName()});");
                             }
 
                             break;
                         case StructMemberOptional optional:
+                            hasDefaultedMembers = true;
                             foreach (var d in optional.AllDefinitions())
                             {
-                                if (d.IsNotInType())
-                                {
-                                    continue;
-                                }
-
-                                s.Wln($"{d.MemberName()} = {d.VariableName()},");
+                                s.Wln($"var {d.VariableName()} = default({d.CsTypeName()});");
                             }
 
                             break;
@@ -94,8 +38,65 @@ public static class WriteReadImplementation
                             throw new ArgumentOutOfRangeException(nameof(member));
                     }
                 }
-            }, ";");
-        });
+
+                if (hasDefaultedMembers)
+                {
+                    s.Newline();
+                }
+
+                foreach (var member in e.Members)
+                {
+                    WriteReadMember(s, e, member, true);
+                }
+
+                s.Body($"return new {e.Name}", s =>
+                {
+                    foreach (var member in e.Members)
+                    {
+                        switch (member)
+                        {
+                            case StructMemberDefinition definition:
+                            {
+                                var d = definition.StructMemberContent;
+                                if (d.IsNotInType())
+                                {
+                                    continue;
+                                }
+
+                                s.Wln($"{d.MemberName()} = {d.VariableName()},");
+
+                                break;
+                            }
+                            case StructMemberIfStatement statement:
+                                foreach (var d in statement.AllDefinitions())
+                                {
+                                    if (d.IsNotInType())
+                                    {
+                                        continue;
+                                    }
+
+                                    s.Wln($"{d.MemberName()} = {d.VariableName()},");
+                                }
+
+                                break;
+                            case StructMemberOptional optional:
+                                foreach (var d in optional.AllDefinitions())
+                                {
+                                    if (d.IsNotInType())
+                                    {
+                                        continue;
+                                    }
+
+                                    s.Wln($"{d.MemberName()} = {d.VariableName()},");
+                                }
+
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(member));
+                        }
+                    }
+                }, ";");
+            });
     }
 
     private static void WriteReadMember(Writer s, Container e, StructMember member, bool declareTypes)
@@ -132,58 +133,60 @@ public static class WriteReadImplementation
         switch (d.DataType)
         {
             case DataTypeInteger i:
-                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.{i.Content.ReadFunction()}(r);");
+                s.Wln(
+                    $"{declare}{d.VariableName()} = await ReadUtils.{i.Content.ReadFunction()}(r, cancellationToken);");
                 break;
 
             case DataTypeEnum dataTypeEnum:
                 s.Wln(
-                    $"{declare}{d.VariableName()} = ({dataTypeEnum.CsType()})await ReadUtils.{dataTypeEnum.Content.IntegerType.ReadFunction()}(r);");
+                    $"{declare}{d.VariableName()} = ({dataTypeEnum.CsType()})await ReadUtils.{dataTypeEnum.Content.IntegerType.ReadFunction()}(r, cancellationToken);");
                 break;
             case DataTypeFlag dataTypeFlag:
                 s.Wln(
-                    $"{declare}{d.VariableName()} = ({dataTypeFlag.CsType()})await ReadUtils.{dataTypeFlag.Content.IntegerType.ReadFunction()}(r);");
+                    $"{declare}{d.VariableName()} = ({dataTypeFlag.CsType()})await ReadUtils.{dataTypeFlag.Content.IntegerType.ReadFunction()}(r, cancellationToken);");
                 break;
             case DataTypeStruct:
-                s.Wln($"{declare}{d.VariableName()} = await {d.CsTypeName()}.ReadAsync(r);");
+                s.Wln($"{declare}{d.VariableName()} = await {d.CsTypeName()}.ReadAsync(r, cancellationToken);");
                 break;
 
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds
                 or DataTypeMilliseconds or DataTypeGold or DataTypeDateTime:
             {
-                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadUInt(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadUInt(r, cancellationToken);");
             }
                 break;
             case DataTypeSpell16 or DataTypeLevel16:
             {
-                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadUShort(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadUShort(r, cancellationToken);");
             }
                 break;
             case DataTypeLevel:
-                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadByte(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadByte(r, cancellationToken);");
                 break;
 
             case DataTypeGuid:
-                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadULong(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadULong(r, cancellationToken);");
                 break;
 
             case DataTypeString:
-                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadString(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadString(r, cancellationToken);");
                 break;
 
             case DataTypePopulation:
-                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadPopulation(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadPopulation(r, cancellationToken);");
                 break;
 
             case DataTypeFloatingPoint:
-                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadFloat(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadFloat(r, cancellationToken);");
                 break;
 
             case DataTypeBool b:
-                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadBool{b.Content.SizeBits()}(r);");
+                s.Wln(
+                    $"{declare}{d.VariableName()} = await ReadUtils.ReadBool{b.Content.SizeBits()}(r, cancellationToken);");
                 break;
 
             case DataTypeCstring:
-                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadCString(r);");
+                s.Wln($"{declare}{d.VariableName()} = await ReadUtils.ReadCString(r, cancellationToken);");
                 break;
 
             case DataTypeArray array:
@@ -241,19 +244,21 @@ public static class WriteReadImplementation
             switch (array.Content.InnerType)
             {
                 case ArrayTypeCstring:
-                    s.Wln($"{d.VariableName()}.Add(await ReadUtils.ReadCString(r));");
+                    s.Wln($"{d.VariableName()}.Add(await ReadUtils.ReadCString(r, cancellationToken));");
                     break;
                 case ArrayTypeGuid:
-                    s.Wln($"{d.VariableName()}.Add(await ReadUtils.ReadULong(r));");
+                    s.Wln($"{d.VariableName()}.Add(await ReadUtils.ReadULong(r, cancellationToken));");
                     break;
                 case ArrayTypeInteger it:
-                    s.Wln($"{d.VariableName()}.Add(await ReadUtils.{it.Content.ReadFunction()}(r));");
+                    s.Wln(
+                        $"{d.VariableName()}.Add(await ReadUtils.{it.Content.ReadFunction()}(r, cancellationToken));");
                     break;
                 case ArrayTypeSpell:
-                    s.Wln($"{d.VariableName()}.Add(await ReadUtils.ReadUInt(r));");
+                    s.Wln($"{d.VariableName()}.Add(await ReadUtils.ReadUInt(r, cancellationToken));");
                     break;
                 case ArrayTypeStruct e:
-                    s.Wln($"{d.VariableName()}.Add(await {e.Content.StructData.Name}.ReadAsync(r));");
+                    s.Wln(
+                        $"{d.VariableName()}.Add(await {e.Content.StructData.Name}.ReadAsync(r, cancellationToken));");
                     break;
                 case ArrayTypePackedGuid:
                     throw new NotImplementedException();

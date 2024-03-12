@@ -9,31 +9,31 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version8ServerMessage, ILoginMessage {
     public uint HardwareSurveyId { get; set; }
     public ushort Unknown { get; set; }
 
-    public static async Task<CMD_AUTH_LOGON_PROOF_Server> ReadAsync(Stream r) {
+    public static async Task<CMD_AUTH_LOGON_PROOF_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var serverProof = default(List<byte>);
         var accountFlag = default(AccountFlag);
         var hardwareSurveyId = default(uint);
         var unknown = default(ushort);
         var padding = default(ushort);
 
-        var result = (LoginResult)await ReadUtils.ReadByte(r);
+        var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken);
 
         if (result == LoginResult.Success) {
             serverProof = new List<byte>();
             for (var i = 0; i < 20; ++i) {
-                serverProof.Add(await ReadUtils.ReadByte(r));
+                serverProof.Add(await ReadUtils.ReadByte(r, cancellationToken));
             }
 
-            accountFlag = (AccountFlag)await ReadUtils.ReadUInt(r);
+            accountFlag = (AccountFlag)await ReadUtils.ReadUInt(r, cancellationToken);
 
-            hardwareSurveyId = await ReadUtils.ReadUInt(r);
+            hardwareSurveyId = await ReadUtils.ReadUInt(r, cancellationToken);
 
-            unknown = await ReadUtils.ReadUShort(r);
+            unknown = await ReadUtils.ReadUShort(r, cancellationToken);
 
         }
         else {
             // ReSharper disable once UnusedVariable.Compiler
-            padding = await ReadUtils.ReadUShort(r);
+            padding = await ReadUtils.ReadUShort(r, cancellationToken);
 
         }
 
@@ -46,26 +46,26 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version8ServerMessage, ILoginMessage {
         };
     }
 
-    public async Task WriteAsync(Stream w) {
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 1);
+        await WriteUtils.WriteByte(w, 1, cancellationToken);
 
-        await WriteUtils.WriteByte(w, (byte)Result);
+        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken);
 
         if (Result == LoginResult.Success) {
             foreach (var v in ServerProof) {
-                await WriteUtils.WriteByte(w, v);
+                await WriteUtils.WriteByte(w, v, cancellationToken);
             }
 
-            await WriteUtils.WriteUInt(w, (uint)AccountFlag);
+            await WriteUtils.WriteUInt(w, (uint)AccountFlag, cancellationToken);
 
-            await WriteUtils.WriteUInt(w, HardwareSurveyId);
+            await WriteUtils.WriteUInt(w, HardwareSurveyId, cancellationToken);
 
-            await WriteUtils.WriteUShort(w, Unknown);
+            await WriteUtils.WriteUShort(w, Unknown, cancellationToken);
 
         }
         else {
-            await WriteUtils.WriteUShort(w, 0);
+            await WriteUtils.WriteUShort(w, 0, cancellationToken);
 
         }
 

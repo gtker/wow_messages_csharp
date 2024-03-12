@@ -18,11 +18,12 @@ public static class WriteOpcodesImpl
         s.Newline();
 
         s.OpenCurly($"public static class {side}OpcodeReader");
-        s.OpenCurly($"public static async Task<{versionClass}> ReadAsync(Stream r)");
+        s.OpenCurly(
+            $"public static async Task<{versionClass}> ReadAsync(Stream r, CancellationToken cancellationToken = default)");
 
         if (project == "Login")
         {
-            s.Wln("var opcode = await ReadUtils.ReadByte(r);");
+            s.Wln("var opcode = await ReadUtils.ReadByte(r, cancellationToken);");
 
             s.OpenCurly("return opcode switch");
         }
@@ -39,11 +40,11 @@ public static class WriteOpcodesImpl
             {
                 case ObjectTypeClogin o:
                     hasMembers = true;
-                    s.Wln($"{o.Opcode} => await {e.Name}.ReadAsync(r),");
+                    s.Wln($"{o.Opcode} => await {e.Name}.ReadAsync(r, cancellationToken),");
                     break;
                 case ObjectTypeSlogin o:
                     hasMembers = true;
-                    s.Wln($"{o.Opcode} => await {e.Name}.ReadAsync(r),");
+                    s.Wln($"{o.Opcode} => await {e.Name}.ReadAsync(r, cancellationToken),");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -73,13 +74,15 @@ public static class WriteOpcodesImpl
         s.Wln("/// <summary>");
         s.Wln("/// Expects an opcode to be the next sent. Returns null if type is not correct.");
         s.Wln("/// </summary>");
-        s.Body($"public static async Task<T?> ExpectOpcode<T>(Stream r) where T: {versionClass}", s =>
-        {
-            s.Body("if (await ReadAsync(r) is T c)", s => { s.Wln("return c;"); });
-            s.Newline();
+        s.Body(
+            $"public static async Task<T?> ExpectOpcode<T>(Stream r, CancellationToken cancellationToken = default) where T: {versionClass}",
+            s =>
+            {
+                s.Body("if (await ReadAsync(r, cancellationToken) is T c)", s => { s.Wln("return c;"); });
+                s.Newline();
 
-            s.Wln("return null;");
-        });
+                s.Wln("return null;");
+            });
 
         s.ClosingCurly(); // public class ServerOpcodeReader
 

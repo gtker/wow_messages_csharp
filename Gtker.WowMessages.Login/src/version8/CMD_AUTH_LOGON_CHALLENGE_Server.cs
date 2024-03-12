@@ -43,7 +43,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version8ServerMessage, ILoginMessa
     /// </summary>
     public byte Required { get; set; }
 
-    public static async Task<CMD_AUTH_LOGON_CHALLENGE_Server> ReadAsync(Stream r) {
+    public static async Task<CMD_AUTH_LOGON_CHALLENGE_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var serverPublicKey = default(List<byte>);
         var generatorLength = default(byte);
         var generator = default(List<byte>);
@@ -62,69 +62,69 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version8ServerMessage, ILoginMessa
         var required = default(byte);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var protocolVersion = await ReadUtils.ReadByte(r);
+        var protocolVersion = await ReadUtils.ReadByte(r, cancellationToken);
 
-        var result = (LoginResult)await ReadUtils.ReadByte(r);
+        var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken);
 
         if (result == LoginResult.Success) {
             serverPublicKey = new List<byte>();
             for (var i = 0; i < 32; ++i) {
-                serverPublicKey.Add(await ReadUtils.ReadByte(r));
+                serverPublicKey.Add(await ReadUtils.ReadByte(r, cancellationToken));
             }
 
             // ReSharper disable once UnusedVariable.Compiler
-            generatorLength = await ReadUtils.ReadByte(r);
+            generatorLength = await ReadUtils.ReadByte(r, cancellationToken);
 
             generator = new List<byte>();
             for (var i = 0; i < generatorLength; ++i) {
-                generator.Add(await ReadUtils.ReadByte(r));
+                generator.Add(await ReadUtils.ReadByte(r, cancellationToken));
             }
 
             // ReSharper disable once UnusedVariable.Compiler
-            largeSafePrimeLength = await ReadUtils.ReadByte(r);
+            largeSafePrimeLength = await ReadUtils.ReadByte(r, cancellationToken);
 
             largeSafePrime = new List<byte>();
             for (var i = 0; i < largeSafePrimeLength; ++i) {
-                largeSafePrime.Add(await ReadUtils.ReadByte(r));
+                largeSafePrime.Add(await ReadUtils.ReadByte(r, cancellationToken));
             }
 
             salt = new List<byte>();
             for (var i = 0; i < 32; ++i) {
-                salt.Add(await ReadUtils.ReadByte(r));
+                salt.Add(await ReadUtils.ReadByte(r, cancellationToken));
             }
 
             crcSalt = new List<byte>();
             for (var i = 0; i < 16; ++i) {
-                crcSalt.Add(await ReadUtils.ReadByte(r));
+                crcSalt.Add(await ReadUtils.ReadByte(r, cancellationToken));
             }
 
-            securityFlag = (SecurityFlag)await ReadUtils.ReadByte(r);
+            securityFlag = (SecurityFlag)await ReadUtils.ReadByte(r, cancellationToken);
 
             if (securityFlag.HasFlag(SecurityFlag.Pin)) {
-                pinGridSeed = await ReadUtils.ReadUInt(r);
+                pinGridSeed = await ReadUtils.ReadUInt(r, cancellationToken);
 
                 pinSalt = new List<byte>();
                 for (var i = 0; i < 16; ++i) {
-                    pinSalt.Add(await ReadUtils.ReadByte(r));
+                    pinSalt.Add(await ReadUtils.ReadByte(r, cancellationToken));
                 }
 
             }
 
             if (securityFlag.HasFlag(SecurityFlag.MatrixCard)) {
-                width = await ReadUtils.ReadByte(r);
+                width = await ReadUtils.ReadByte(r, cancellationToken);
 
-                height = await ReadUtils.ReadByte(r);
+                height = await ReadUtils.ReadByte(r, cancellationToken);
 
-                digitCount = await ReadUtils.ReadByte(r);
+                digitCount = await ReadUtils.ReadByte(r, cancellationToken);
 
-                challengeCount = await ReadUtils.ReadByte(r);
+                challengeCount = await ReadUtils.ReadByte(r, cancellationToken);
 
-                seed = await ReadUtils.ReadULong(r);
+                seed = await ReadUtils.ReadULong(r, cancellationToken);
 
             }
 
             if (securityFlag.HasFlag(SecurityFlag.Authenticator)) {
-                required = await ReadUtils.ReadByte(r);
+                required = await ReadUtils.ReadByte(r, cancellationToken);
 
             }
 
@@ -149,65 +149,65 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version8ServerMessage, ILoginMessa
         };
     }
 
-    public async Task WriteAsync(Stream w) {
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 0);
+        await WriteUtils.WriteByte(w, 0, cancellationToken);
 
-        await WriteUtils.WriteByte(w, 0);
+        await WriteUtils.WriteByte(w, 0, cancellationToken);
 
-        await WriteUtils.WriteByte(w, (byte)Result);
+        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken);
 
         if (Result == LoginResult.Success) {
             foreach (var v in ServerPublicKey) {
-                await WriteUtils.WriteByte(w, v);
+                await WriteUtils.WriteByte(w, v, cancellationToken);
             }
 
-            await WriteUtils.WriteByte(w, (byte)Generator.Count);
+            await WriteUtils.WriteByte(w, (byte)Generator.Count, cancellationToken);
 
             foreach (var v in Generator) {
-                await WriteUtils.WriteByte(w, v);
+                await WriteUtils.WriteByte(w, v, cancellationToken);
             }
 
-            await WriteUtils.WriteByte(w, (byte)LargeSafePrime.Count);
+            await WriteUtils.WriteByte(w, (byte)LargeSafePrime.Count, cancellationToken);
 
             foreach (var v in LargeSafePrime) {
-                await WriteUtils.WriteByte(w, v);
+                await WriteUtils.WriteByte(w, v, cancellationToken);
             }
 
             foreach (var v in Salt) {
-                await WriteUtils.WriteByte(w, v);
+                await WriteUtils.WriteByte(w, v, cancellationToken);
             }
 
             foreach (var v in CrcSalt) {
-                await WriteUtils.WriteByte(w, v);
+                await WriteUtils.WriteByte(w, v, cancellationToken);
             }
 
-            await WriteUtils.WriteByte(w, (byte)SecurityFlag);
+            await WriteUtils.WriteByte(w, (byte)SecurityFlag, cancellationToken);
 
             if (SecurityFlag.HasFlag(SecurityFlag.Pin)) {
-                await WriteUtils.WriteUInt(w, PinGridSeed);
+                await WriteUtils.WriteUInt(w, PinGridSeed, cancellationToken);
 
                 foreach (var v in PinSalt) {
-                    await WriteUtils.WriteByte(w, v);
+                    await WriteUtils.WriteByte(w, v, cancellationToken);
                 }
 
             }
 
             if (SecurityFlag.HasFlag(SecurityFlag.MatrixCard)) {
-                await WriteUtils.WriteByte(w, Width);
+                await WriteUtils.WriteByte(w, Width, cancellationToken);
 
-                await WriteUtils.WriteByte(w, Height);
+                await WriteUtils.WriteByte(w, Height, cancellationToken);
 
-                await WriteUtils.WriteByte(w, DigitCount);
+                await WriteUtils.WriteByte(w, DigitCount, cancellationToken);
 
-                await WriteUtils.WriteByte(w, ChallengeCount);
+                await WriteUtils.WriteByte(w, ChallengeCount, cancellationToken);
 
-                await WriteUtils.WriteULong(w, Seed);
+                await WriteUtils.WriteULong(w, Seed, cancellationToken);
 
             }
 
             if (SecurityFlag.HasFlag(SecurityFlag.Authenticator)) {
-                await WriteUtils.WriteByte(w, Required);
+                await WriteUtils.WriteByte(w, Required, cancellationToken);
 
             }
 

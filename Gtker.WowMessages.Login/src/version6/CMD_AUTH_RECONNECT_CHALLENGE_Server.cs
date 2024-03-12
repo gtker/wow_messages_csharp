@@ -7,21 +7,21 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: Version6ServerMessage, ILoginM
     public List<byte> ChallengeData { get; set; }
     public List<byte> ChecksumSalt { get; set; }
 
-    public static async Task<CMD_AUTH_RECONNECT_CHALLENGE_Server> ReadAsync(Stream r) {
+    public static async Task<CMD_AUTH_RECONNECT_CHALLENGE_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var challengeData = default(List<byte>);
         var checksumSalt = default(List<byte>);
 
-        var result = (LoginResult)await ReadUtils.ReadByte(r);
+        var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken);
 
         if (result == LoginResult.Success) {
             challengeData = new List<byte>();
             for (var i = 0; i < 16; ++i) {
-                challengeData.Add(await ReadUtils.ReadByte(r));
+                challengeData.Add(await ReadUtils.ReadByte(r, cancellationToken));
             }
 
             checksumSalt = new List<byte>();
             for (var i = 0; i < 16; ++i) {
-                checksumSalt.Add(await ReadUtils.ReadByte(r));
+                checksumSalt.Add(await ReadUtils.ReadByte(r, cancellationToken));
             }
 
         }
@@ -33,19 +33,19 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: Version6ServerMessage, ILoginM
         };
     }
 
-    public async Task WriteAsync(Stream w) {
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 2);
+        await WriteUtils.WriteByte(w, 2, cancellationToken);
 
-        await WriteUtils.WriteByte(w, (byte)Result);
+        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken);
 
         if (Result == LoginResult.Success) {
             foreach (var v in ChallengeData) {
-                await WriteUtils.WriteByte(w, v);
+                await WriteUtils.WriteByte(w, v, cancellationToken);
             }
 
             foreach (var v in ChecksumSalt) {
-                await WriteUtils.WriteByte(w, v);
+                await WriteUtils.WriteByte(w, v, cancellationToken);
             }
 
         }

@@ -5,19 +5,19 @@ namespace Gtker.WowMessages.Login.Version6;
 public class CMD_XFER_RESUME: Version6ClientMessage, ILoginMessage {
     public required ulong Offset { get; set; }
 
-    public static async Task<CMD_XFER_RESUME> ReadAsync(Stream r) {
-        var offset = await ReadUtils.ReadULong(r);
+    public static async Task<CMD_XFER_RESUME> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
+        var offset = await ReadUtils.ReadULong(r, cancellationToken);
 
         return new CMD_XFER_RESUME {
             Offset = offset,
         };
     }
 
-    public async Task WriteAsync(Stream w) {
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 51);
+        await WriteUtils.WriteByte(w, 51, cancellationToken);
 
-        await WriteUtils.WriteULong(w, Offset);
+        await WriteUtils.WriteULong(w, Offset, cancellationToken);
 
     }
 

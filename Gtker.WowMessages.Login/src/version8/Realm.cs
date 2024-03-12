@@ -19,29 +19,29 @@ public class Realm {
     public required byte RealmId { get; set; }
     public Version Version { get; set; }
 
-    public static async Task<Realm> ReadAsync(Stream r) {
+    public static async Task<Realm> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var version = default(Version);
 
-        var realmType = (RealmType)await ReadUtils.ReadByte(r);
+        var realmType = (RealmType)await ReadUtils.ReadByte(r, cancellationToken);
 
-        var locked = await ReadUtils.ReadBool8(r);
+        var locked = await ReadUtils.ReadBool8(r, cancellationToken);
 
-        var flag = (RealmFlag)await ReadUtils.ReadByte(r);
+        var flag = (RealmFlag)await ReadUtils.ReadByte(r, cancellationToken);
 
-        var name = await ReadUtils.ReadCString(r);
+        var name = await ReadUtils.ReadCString(r, cancellationToken);
 
-        var address = await ReadUtils.ReadCString(r);
+        var address = await ReadUtils.ReadCString(r, cancellationToken);
 
-        var population = await ReadUtils.ReadPopulation(r);
+        var population = await ReadUtils.ReadPopulation(r, cancellationToken);
 
-        var numberOfCharactersOnRealm = await ReadUtils.ReadByte(r);
+        var numberOfCharactersOnRealm = await ReadUtils.ReadByte(r, cancellationToken);
 
-        var category = (RealmCategory)await ReadUtils.ReadByte(r);
+        var category = (RealmCategory)await ReadUtils.ReadByte(r, cancellationToken);
 
-        var realmId = await ReadUtils.ReadByte(r);
+        var realmId = await ReadUtils.ReadByte(r, cancellationToken);
 
         if (flag.HasFlag(RealmFlag.SpecifyBuild)) {
-            version = await Version.ReadAsync(r);
+            version = await Version.ReadAsync(r, cancellationToken);
 
         }
 
@@ -59,27 +59,27 @@ public class Realm {
         };
     }
 
-    public async Task WriteAsync(Stream w) {
-        await WriteUtils.WriteByte(w, (byte)RealmType);
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        await WriteUtils.WriteByte(w, (byte)RealmType, cancellationToken);
 
-        await WriteUtils.WriteBool8(w, Locked);
+        await WriteUtils.WriteBool8(w, Locked, cancellationToken);
 
-        await WriteUtils.WriteByte(w, (byte)Flag);
+        await WriteUtils.WriteByte(w, (byte)Flag, cancellationToken);
 
-        await WriteUtils.WriteCString(w, Name);
+        await WriteUtils.WriteCString(w, Name, cancellationToken);
 
-        await WriteUtils.WriteCString(w, Address);
+        await WriteUtils.WriteCString(w, Address, cancellationToken);
 
-        await WriteUtils.WritePopulation(w, Population);
+        await WriteUtils.WritePopulation(w, Population, cancellationToken);
 
-        await WriteUtils.WriteByte(w, NumberOfCharactersOnRealm);
+        await WriteUtils.WriteByte(w, NumberOfCharactersOnRealm, cancellationToken);
 
-        await WriteUtils.WriteByte(w, (byte)Category);
+        await WriteUtils.WriteByte(w, (byte)Category, cancellationToken);
 
-        await WriteUtils.WriteByte(w, RealmId);
+        await WriteUtils.WriteByte(w, RealmId, cancellationToken);
 
         if (Flag.HasFlag(RealmFlag.SpecifyBuild)) {
-            await Version.WriteAsync(w);
+            await Version.WriteAsync(w, cancellationToken);
 
         }
 

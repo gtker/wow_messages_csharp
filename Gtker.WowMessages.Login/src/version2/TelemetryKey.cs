@@ -10,19 +10,19 @@ public class TelemetryKey {
     /// </summary>
     public required List<byte> CdKeyProof { get; set; }
 
-    public static async Task<TelemetryKey> ReadAsync(Stream r) {
-        var unknown1 = await ReadUtils.ReadUShort(r);
+    public static async Task<TelemetryKey> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
+        var unknown1 = await ReadUtils.ReadUShort(r, cancellationToken);
 
-        var unknown2 = await ReadUtils.ReadUInt(r);
+        var unknown2 = await ReadUtils.ReadUInt(r, cancellationToken);
 
         var unknown3 = new List<byte>();
         for (var i = 0; i < 4; ++i) {
-            unknown3.Add(await ReadUtils.ReadByte(r));
+            unknown3.Add(await ReadUtils.ReadByte(r, cancellationToken));
         }
 
         var cdKeyProof = new List<byte>();
         for (var i = 0; i < 20; ++i) {
-            cdKeyProof.Add(await ReadUtils.ReadByte(r));
+            cdKeyProof.Add(await ReadUtils.ReadByte(r, cancellationToken));
         }
 
         return new TelemetryKey {
@@ -33,17 +33,17 @@ public class TelemetryKey {
         };
     }
 
-    public async Task WriteAsync(Stream w) {
-        await WriteUtils.WriteUShort(w, Unknown1);
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        await WriteUtils.WriteUShort(w, Unknown1, cancellationToken);
 
-        await WriteUtils.WriteUInt(w, Unknown2);
+        await WriteUtils.WriteUInt(w, Unknown2, cancellationToken);
 
         foreach (var v in Unknown3) {
-            await WriteUtils.WriteByte(w, v);
+            await WriteUtils.WriteByte(w, v, cancellationToken);
         }
 
         foreach (var v in CdKeyProof) {
-            await WriteUtils.WriteByte(w, v);
+            await WriteUtils.WriteByte(w, v, cancellationToken);
         }
 
     }

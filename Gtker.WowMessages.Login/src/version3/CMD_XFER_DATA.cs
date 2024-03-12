@@ -5,13 +5,13 @@ namespace Gtker.WowMessages.Login.Version3;
 public class CMD_XFER_DATA: Version3ServerMessage, ILoginMessage {
     public required List<byte> Data { get; set; }
 
-    public static async Task<CMD_XFER_DATA> ReadAsync(Stream r) {
+    public static async Task<CMD_XFER_DATA> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         // ReSharper disable once UnusedVariable.Compiler
-        var size = await ReadUtils.ReadUShort(r);
+        var size = await ReadUtils.ReadUShort(r, cancellationToken);
 
         var data = new List<byte>();
         for (var i = 0; i < size; ++i) {
-            data.Add(await ReadUtils.ReadByte(r));
+            data.Add(await ReadUtils.ReadByte(r, cancellationToken));
         }
 
         return new CMD_XFER_DATA {
@@ -19,14 +19,14 @@ public class CMD_XFER_DATA: Version3ServerMessage, ILoginMessage {
         };
     }
 
-    public async Task WriteAsync(Stream w) {
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 49);
+        await WriteUtils.WriteByte(w, 49, cancellationToken);
 
-        await WriteUtils.WriteUShort(w, (ushort)Data.Count);
+        await WriteUtils.WriteUShort(w, (ushort)Data.Count, cancellationToken);
 
         foreach (var v in Data) {
-            await WriteUtils.WriteByte(w, v);
+            await WriteUtils.WriteByte(w, v, cancellationToken);
         }
 
     }

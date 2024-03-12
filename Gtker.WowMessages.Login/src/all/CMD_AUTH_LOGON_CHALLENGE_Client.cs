@@ -24,28 +24,28 @@ public class CMD_AUTH_LOGON_CHALLENGE_Client: AllClientMessage, ILoginMessage {
     /// </summary>
     public required string AccountName { get; set; }
 
-    public static async Task<CMD_AUTH_LOGON_CHALLENGE_Client> ReadAsync(Stream r) {
-        var protocolVersion = (ProtocolVersion)await ReadUtils.ReadByte(r);
+    public static async Task<CMD_AUTH_LOGON_CHALLENGE_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
+        var protocolVersion = (ProtocolVersion)await ReadUtils.ReadByte(r, cancellationToken);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var size = await ReadUtils.ReadUShort(r);
+        var size = await ReadUtils.ReadUShort(r, cancellationToken);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var gameName = await ReadUtils.ReadUInt(r);
+        var gameName = await ReadUtils.ReadUInt(r, cancellationToken);
 
-        var version = await Version.ReadAsync(r);
+        var version = await Version.ReadAsync(r, cancellationToken);
 
-        var platform = (Platform)await ReadUtils.ReadUInt(r);
+        var platform = (Platform)await ReadUtils.ReadUInt(r, cancellationToken);
 
-        var os = (Os)await ReadUtils.ReadUInt(r);
+        var os = (Os)await ReadUtils.ReadUInt(r, cancellationToken);
 
-        var locale = (Locale)await ReadUtils.ReadUInt(r);
+        var locale = (Locale)await ReadUtils.ReadUInt(r, cancellationToken);
 
-        var utcTimezoneOffset = await ReadUtils.ReadUInt(r);
+        var utcTimezoneOffset = await ReadUtils.ReadUInt(r, cancellationToken);
 
-        var clientIpAddress = await ReadUtils.ReadUInt(r);
+        var clientIpAddress = await ReadUtils.ReadUInt(r, cancellationToken);
 
-        var accountName = await ReadUtils.ReadString(r);
+        var accountName = await ReadUtils.ReadString(r, cancellationToken);
 
         return new CMD_AUTH_LOGON_CHALLENGE_Client {
             ProtocolVersion = protocolVersion,
@@ -59,29 +59,29 @@ public class CMD_AUTH_LOGON_CHALLENGE_Client: AllClientMessage, ILoginMessage {
         };
     }
 
-    public async Task WriteAsync(Stream w) {
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 0);
+        await WriteUtils.WriteByte(w, 0, cancellationToken);
 
-        await WriteUtils.WriteByte(w, (byte)ProtocolVersion);
+        await WriteUtils.WriteByte(w, (byte)ProtocolVersion, cancellationToken);
 
-        await WriteUtils.WriteUShort(w, (ushort)Size());
+        await WriteUtils.WriteUShort(w, (ushort)Size(), cancellationToken);
 
-        await WriteUtils.WriteUInt(w, 5730135);
+        await WriteUtils.WriteUInt(w, 5730135, cancellationToken);
 
-        await Version.WriteAsync(w);
+        await Version.WriteAsync(w, cancellationToken);
 
-        await WriteUtils.WriteUInt(w, (uint)Platform);
+        await WriteUtils.WriteUInt(w, (uint)Platform, cancellationToken);
 
-        await WriteUtils.WriteUInt(w, (uint)Os);
+        await WriteUtils.WriteUInt(w, (uint)Os, cancellationToken);
 
-        await WriteUtils.WriteUInt(w, (uint)Locale);
+        await WriteUtils.WriteUInt(w, (uint)Locale, cancellationToken);
 
-        await WriteUtils.WriteUInt(w, UtcTimezoneOffset);
+        await WriteUtils.WriteUInt(w, UtcTimezoneOffset, cancellationToken);
 
-        await WriteUtils.WriteUInt(w, ClientIpAddress);
+        await WriteUtils.WriteUInt(w, ClientIpAddress, cancellationToken);
 
-        await WriteUtils.WriteString(w, AccountName);
+        await WriteUtils.WriteString(w, AccountName, cancellationToken);
 
     }
 

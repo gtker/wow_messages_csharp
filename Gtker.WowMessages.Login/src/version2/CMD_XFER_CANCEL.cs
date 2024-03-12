@@ -7,14 +7,14 @@ namespace Gtker.WowMessages.Login.Version2;
 // ReSharper disable once InconsistentNaming
 public class CMD_XFER_CANCEL: Version2ClientMessage, ILoginMessage {
 
-    public static async Task<CMD_XFER_CANCEL> ReadAsync(Stream r) {
+    public static async Task<CMD_XFER_CANCEL> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         return new CMD_XFER_CANCEL {
         };
     }
 
-    public async Task WriteAsync(Stream w) {
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 52);
+        await WriteUtils.WriteByte(w, 52, cancellationToken);
 
     }
 
