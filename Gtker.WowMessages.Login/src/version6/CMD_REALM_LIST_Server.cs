@@ -46,7 +46,7 @@ public class CMD_REALM_LIST_Server: Version6ServerMessage, ILoginMessage {
 
     }
 
-    public int Size() {
+    internal int Size() {
         var size = 0;
 
         // size: Gtker.WowMessages.Generator.Generated.DataTypeInteger

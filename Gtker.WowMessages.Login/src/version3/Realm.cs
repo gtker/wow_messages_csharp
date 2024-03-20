@@ -61,7 +61,7 @@ public class Realm {
 
     }
 
-    public int Size() {
+    internal int Size() {
         var size = 0;
 
         // realm_type: Gtker.WowMessages.Generator.Generated.DataTypeEnum

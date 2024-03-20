@@ -85,7 +85,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Client: AllClientMessage, ILoginMessage {
 
     }
 
-    public int Size() {
+    internal int Size() {
         var size = 0;
 
         // protocol_version: Gtker.WowMessages.Generator.Generated.DataTypeEnum
