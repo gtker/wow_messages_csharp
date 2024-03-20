@@ -140,7 +140,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version5ServerMessage, ILoginMessa
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 0, cancellationToken);
+        await WriteUtils.WriteByte(w, 0, cancellationToken).ConfigureAwait(false);
 
         await WriteUtils.WriteByte(w, 0, cancellationToken).ConfigureAwait(false);
 

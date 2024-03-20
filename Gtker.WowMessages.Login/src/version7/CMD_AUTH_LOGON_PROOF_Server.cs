@@ -37,7 +37,7 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version7ServerMessage, ILoginMessage {
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 1, cancellationToken);
+        await WriteUtils.WriteByte(w, 1, cancellationToken).ConfigureAwait(false);
 
         await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
 

@@ -81,7 +81,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version7ClientMessage, ILoginMessage {
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 1, cancellationToken);
+        await WriteUtils.WriteByte(w, 1, cancellationToken).ConfigureAwait(false);
 
         foreach (var v in ClientPublicKey) {
             await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);

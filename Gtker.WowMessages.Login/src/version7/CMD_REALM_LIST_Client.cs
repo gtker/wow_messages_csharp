@@ -14,7 +14,7 @@ public class CMD_REALM_LIST_Client: Version7ClientMessage, ILoginMessage {
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 16, cancellationToken);
+        await WriteUtils.WriteByte(w, 16, cancellationToken).ConfigureAwait(false);
 
         await WriteUtils.WriteUInt(w, 0, cancellationToken).ConfigureAwait(false);
 

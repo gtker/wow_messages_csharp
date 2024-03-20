@@ -29,7 +29,7 @@ public class CMD_SURVEY_RESULT: Version3ClientMessage, ILoginMessage {
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 4, cancellationToken);
+        await WriteUtils.WriteByte(w, 4, cancellationToken).ConfigureAwait(false);
 
         await WriteUtils.WriteUInt(w, SurveyId, cancellationToken).ConfigureAwait(false);
 

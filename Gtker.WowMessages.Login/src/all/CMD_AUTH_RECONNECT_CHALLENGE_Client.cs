@@ -61,7 +61,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client: AllClientMessage, ILoginMessag
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 2, cancellationToken);
+        await WriteUtils.WriteByte(w, 2, cancellationToken).ConfigureAwait(false);
 
         await WriteUtils.WriteByte(w, (byte)ProtocolVersion, cancellationToken).ConfigureAwait(false);
 

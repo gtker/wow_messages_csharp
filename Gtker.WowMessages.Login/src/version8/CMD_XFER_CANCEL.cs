@@ -14,7 +14,7 @@ public class CMD_XFER_CANCEL: Version8ClientMessage, ILoginMessage {
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 52, cancellationToken);
+        await WriteUtils.WriteByte(w, 52, cancellationToken).ConfigureAwait(false);
 
     }
 

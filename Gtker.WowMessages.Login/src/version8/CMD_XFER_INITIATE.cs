@@ -26,7 +26,7 @@ public class CMD_XFER_INITIATE: Version8ServerMessage, ILoginMessage {
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 48, cancellationToken);
+        await WriteUtils.WriteByte(w, 48, cancellationToken).ConfigureAwait(false);
 
         await WriteUtils.WriteString(w, Filename, cancellationToken).ConfigureAwait(false);
 

@@ -21,7 +21,7 @@ public class CMD_XFER_DATA: Version3ServerMessage, ILoginMessage {
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 49, cancellationToken);
+        await WriteUtils.WriteByte(w, 49, cancellationToken).ConfigureAwait(false);
 
         await WriteUtils.WriteUShort(w, (ushort)Data.Count, cancellationToken).ConfigureAwait(false);
 
