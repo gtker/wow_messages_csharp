@@ -9,10 +9,10 @@ public static class ArrayTypeExtensions
         {
             ArrayTypeCstring => "string",
             ArrayTypeGuid => "ulong",
-            ArrayTypeInteger arrayTypeInteger => arrayTypeInteger.Content.CsType(),
+            ArrayTypeInteger arrayTypeInteger => arrayTypeInteger.IntegerType.CsType(),
             ArrayTypePackedGuid => "ulong",
             ArrayTypeSpell => "uint",
-            ArrayTypeStruct arrayTypeStruct => arrayTypeStruct.Content.StructData.Name,
+            ArrayTypeStruct arrayTypeStruct => arrayTypeStruct.StructData.Name,
             _ => throw new ArgumentOutOfRangeException(nameof(t))
         };
 }

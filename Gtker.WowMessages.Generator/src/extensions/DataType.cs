@@ -6,9 +6,9 @@ public static class DataTypeExtension
 {
     public static string CsType(this DataType d) => d switch
     {
-        DataTypeInteger i => i.Content.CsType(),
-        DataTypeEnum e => e.Content.TypeName,
-        DataTypeFlag e => e.Content.TypeName,
+        DataTypeInteger i => i.IntegerType.CsType(),
+        DataTypeEnum e => e.TypeName,
+        DataTypeFlag e => e.TypeName,
         DataTypeBool => "bool",
         DataTypeLevel => "byte",
         DataTypeLevel16 => "ushort",
@@ -26,7 +26,7 @@ public static class DataTypeExtension
         DataTypeSeconds => "uint",
         DataTypeSizedCstring => "string",
         DataTypeFloatingPoint => "float",
-        DataTypeStruct s => s.Content.StructData.Name,
+        DataTypeStruct s => s.StructData.Name,
         DataTypePopulation => "Population",
         DataTypeArray array => array.CsType(),
 

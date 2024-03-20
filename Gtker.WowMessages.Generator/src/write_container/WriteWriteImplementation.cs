@@ -81,16 +81,16 @@ public static class WriteWriteImplementation
         {
             case DataTypeInteger i:
                 s.Wln(
-                    $"await WriteUtils.{i.Content.WriteFunction()}(w, {value}, cancellationToken).ConfigureAwait(false);");
+                    $"await WriteUtils.{i.IntegerType.WriteFunction()}(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeEnum i:
                 s.Wln(
-                    $"await WriteUtils.{i.Content.IntegerType.WriteFunction()}(w, ({i.Content.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
+                    $"await WriteUtils.{i.IntegerType.WriteFunction()}(w, ({i.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeFlag i:
                 s.Wln(
-                    $"await WriteUtils.{i.Content.IntegerType.WriteFunction()}(w, ({i.Content.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
+                    $"await WriteUtils.{i.IntegerType.WriteFunction()}(w, ({i.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeStruct:
                 s.Wln($"await {d.MemberName()}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
@@ -129,7 +129,7 @@ public static class WriteWriteImplementation
 
             case DataTypeBool b:
                 s.Wln(
-                    $"await WriteUtils.WriteBool{b.Content.SizeBits()}(w, {value}, cancellationToken).ConfigureAwait(false);");
+                    $"await WriteUtils.WriteBool{b.IntegerType.SizeBits()}(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeCstring:
@@ -175,7 +175,7 @@ public static class WriteWriteImplementation
     {
         s.Body($"foreach (var v in {d.MemberName()})", s =>
         {
-            switch (array.Content.InnerType)
+            switch (array.InnerType)
             {
                 case ArrayTypeCstring:
                     s.Wln("await WriteUtils.WriteCString(w, v, cancellationToken).ConfigureAwait(false);");
@@ -185,7 +185,7 @@ public static class WriteWriteImplementation
                     break;
                 case ArrayTypeInteger it:
                     s.Wln(
-                        $"await WriteUtils.{it.Content.WriteFunction()}(w, v, cancellationToken).ConfigureAwait(false);");
+                        $"await WriteUtils.{it.IntegerType.WriteFunction()}(w, v, cancellationToken).ConfigureAwait(false);");
                     break;
                 case ArrayTypeSpell:
                     s.Wln("await WriteUtils.WriteUInt(w, v, cancellationToken).ConfigureAwait(false);");

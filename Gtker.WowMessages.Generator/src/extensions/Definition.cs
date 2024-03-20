@@ -18,10 +18,10 @@ public static class DefinitionExtensions
 
     public static string Size(this Definition d) => d.DataType switch
     {
-        DataTypeInteger i => i.Content.SizeBytes().ToString(),
-        DataTypeEnum e => e.Content.IntegerType.SizeBytes().ToString(),
-        DataTypeFlag e => e.Content.IntegerType.SizeBytes().ToString(),
-        DataTypeBool e => e.Content.SizeBytes().ToString(),
+        DataTypeInteger i => i.IntegerType.SizeBytes().ToString(),
+        DataTypeEnum e => e.IntegerType.SizeBytes().ToString(),
+        DataTypeFlag e => e.IntegerType.SizeBytes().ToString(),
+        DataTypeBool e => e.IntegerType.SizeBytes().ToString(),
 
         DataTypeGold => 4.ToString(),
         DataTypeGuid => 8.ToString(),
@@ -40,11 +40,11 @@ public static class DefinitionExtensions
 
         DataTypeString or DataTypeCstring => $"{d.MemberName()}.Length + 1",
 
-        DataTypeStruct s => s.Content.StructData.Sizes.ConstantSized
-            ? s.Content.StructData.Sizes.MaximumSize.ToString()
+        DataTypeStruct s => s.StructData.Sizes.ConstantSized
+            ? s.StructData.Sizes.MaximumSize.ToString()
             : $"{d.MemberName()}.Size()",
 
-        DataTypeArray array => array.Content.ArraySize(d),
+        DataTypeArray array => array.ArraySize(d),
 
         DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
 

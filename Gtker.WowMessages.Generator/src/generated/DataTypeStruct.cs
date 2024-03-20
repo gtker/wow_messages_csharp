@@ -9,7 +9,7 @@ namespace Gtker.WowMessages.Generator.Generated
         [JsonPropertyName("data_type_tag")]
         public string DataTypeTag { get => "Struct"; }
 
-        [JsonPropertyName("content")]
-        public DataTypeStructContent Content { get; init; }
+        [JsonPropertyName("struct_data")]
+        public Container StructData { get; init; }
     }
 }

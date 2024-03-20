@@ -9,7 +9,13 @@ namespace Gtker.WowMessages.Generator.Generated
         [JsonPropertyName("data_type_tag")]
         public string DataTypeTag { get => "Flag"; }
 
-        [JsonPropertyName("content")]
-        public DataTypeFlagContent Content { get; init; }
+        [JsonPropertyName("integer_type")]
+        public IntegerType IntegerType { get; init; }
+
+        [JsonPropertyName("type_name")]
+        public string TypeName { get; init; }
+
+        [JsonPropertyName("upcast")]
+        public bool Upcast { get; init; }
     }
 }

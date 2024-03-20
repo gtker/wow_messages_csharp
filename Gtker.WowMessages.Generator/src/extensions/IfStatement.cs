@@ -36,17 +36,17 @@ public static class IfStatementExtensions
         var conditions = new List<string>();
         var originalType = statement.OriginalType.CsType();
 
-        switch (statement.Conditional.Equations)
+        switch (statement.Equations)
         {
-            case ConditionalEquationsBitwiseAnd c:
-                conditions.AddRange(c.Values.Value.Select(cond => $".HasFlag({originalType}.{cond.ToEnumerator()})"));
+            case IfStatementEquationsBitwiseAnd c:
+                conditions.AddRange(c.Value.Select(cond => $".HasFlag({originalType}.{cond.ToEnumerator()})"));
                 break;
-            case ConditionalEquationsEquals c:
-                conditions.AddRange(c.Values.Value.Select(cond =>
+            case IfStatementEquationsEquals c:
+                conditions.AddRange(c.Value.Select(cond =>
                     $" == {originalType}.{cond.ToEnumerator()}"));
                 break;
-            case ConditionalEquationsNotEquals c:
-                conditions.Add($" != {originalType}.{c.Values.Value.ToEnumerator()}");
+            case IfStatementEquationsNotEquals c:
+                conditions.Add($" != {originalType}.{c.Value.ToEnumerator()}");
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

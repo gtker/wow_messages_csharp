@@ -9,7 +9,7 @@ namespace Gtker.WowMessages.Generator.Generated
         [JsonPropertyName("array_type_tag")]
         public string ArrayTypeTag { get => "Integer"; }
 
-        [JsonPropertyName("content")]
-        public IntegerType Content { get; init; }
+        [JsonPropertyName("integer_type")]
+        public IntegerType IntegerType { get; init; }
     }
 }

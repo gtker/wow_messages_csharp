@@ -145,7 +145,7 @@ public static class WriteContainers
                     shouldNewline = true;
                     break;
                 case DataTypeStruct c:
-                    if (c.Content.StructData.Name == "Version")
+                    if (c.StructData.Name == "Version")
                     {
                         s.Wln("using Version = Gtker.WowMessages.Login.All.Version;");
                     }
@@ -170,7 +170,7 @@ public static class WriteContainers
         var ifHeader = "if (";
         foreach (var cond in statement.CsConditionals())
         {
-            ifHeader += $"{transform(statement.Conditional.VariableName)}{cond}";
+            ifHeader += $"{transform(statement.VariableName)}{cond}";
         }
 
         ifHeader += ")";

@@ -134,16 +134,16 @@ public static class WriteReadImplementation
         {
             case DataTypeInteger i:
                 s.Wln(
-                    $"{declare}{d.VariableName()} = await ReadUtils.{i.Content.ReadFunction()}(r, cancellationToken).ConfigureAwait(false);");
+                    $"{declare}{d.VariableName()} = await ReadUtils.{i.IntegerType.ReadFunction()}(r, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeEnum dataTypeEnum:
                 s.Wln(
-                    $"{declare}{d.VariableName()} = ({dataTypeEnum.CsType()})await ReadUtils.{dataTypeEnum.Content.IntegerType.ReadFunction()}(r, cancellationToken).ConfigureAwait(false);");
+                    $"{declare}{d.VariableName()} = ({dataTypeEnum.CsType()})await ReadUtils.{dataTypeEnum.IntegerType.ReadFunction()}(r, cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeFlag dataTypeFlag:
                 s.Wln(
-                    $"{declare}{d.VariableName()} = ({dataTypeFlag.CsType()})await ReadUtils.{dataTypeFlag.Content.IntegerType.ReadFunction()}(r, cancellationToken).ConfigureAwait(false);");
+                    $"{declare}{d.VariableName()} = ({dataTypeFlag.CsType()})await ReadUtils.{dataTypeFlag.IntegerType.ReadFunction()}(r, cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeStruct:
                 s.Wln(
@@ -190,7 +190,7 @@ public static class WriteReadImplementation
 
             case DataTypeBool b:
                 s.Wln(
-                    $"{declare}{d.VariableName()} = await ReadUtils.ReadBool{b.Content.SizeBits()}(r, cancellationToken).ConfigureAwait(false);");
+                    $"{declare}{d.VariableName()} = await ReadUtils.ReadBool{b.IntegerType.SizeBits()}(r, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeCstring:
@@ -238,9 +238,9 @@ public static class WriteReadImplementation
 
     private static void WriteReadForArray(Writer s, Definition d, DataTypeArray array, string declare)
     {
-        s.Wln($"{declare}{d.VariableName()} = new List<{array.Content.InnerType.CsType()}>();");
+        s.Wln($"{declare}{d.VariableName()} = new List<{array.InnerType.CsType()}>();");
 
-        var loopHeader = array.Content.Size switch
+        var loopHeader = array.Size switch
         {
             ArraySizeFixed v => $"for (var i = 0; i < {v.Size.ToCamelCase()}; ++i)",
             ArraySizeVariable v => $"for (var i = 0; i < {v.Size.ToCamelCase()}; ++i)",
@@ -250,7 +250,7 @@ public static class WriteReadImplementation
 
         s.Body(loopHeader, s =>
         {
-            switch (array.Content.InnerType)
+            switch (array.InnerType)
             {
                 case ArrayTypeCstring:
                     s.Wln(
@@ -262,7 +262,7 @@ public static class WriteReadImplementation
                     break;
                 case ArrayTypeInteger it:
                     s.Wln(
-                        $"{d.VariableName()}.Add(await ReadUtils.{it.Content.ReadFunction()}(r, cancellationToken).ConfigureAwait(false));");
+                        $"{d.VariableName()}.Add(await ReadUtils.{it.IntegerType.ReadFunction()}(r, cancellationToken).ConfigureAwait(false));");
                     break;
                 case ArrayTypeSpell:
                     s.Wln(
@@ -270,7 +270,7 @@ public static class WriteReadImplementation
                     break;
                 case ArrayTypeStruct e:
                     s.Wln(
-                        $"{d.VariableName()}.Add(await {e.Content.StructData.Name}.ReadAsync(r, cancellationToken).ConfigureAwait(false));");
+                        $"{d.VariableName()}.Add(await {e.StructData.Name}.ReadAsync(r, cancellationToken).ConfigureAwait(false));");
                     break;
                 case ArrayTypePackedGuid:
                     throw new NotImplementedException();

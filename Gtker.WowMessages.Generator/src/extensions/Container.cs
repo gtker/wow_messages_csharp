@@ -27,17 +27,17 @@ public static class ContainerExtensions
 
         bool HasInvalidDefinition(Definition d) => d.DataType switch
         {
-            DataTypeArray array => array.Content.InnerType switch
+            DataTypeArray array => array.InnerType switch
             {
                 ArrayTypeCstring => false,
                 ArrayTypeGuid => false,
                 ArrayTypeInteger => false,
                 ArrayTypePackedGuid => true,
                 ArrayTypeSpell => true,
-                ArrayTypeStruct s => s.Content.StructData.ShouldSkip(),
+                ArrayTypeStruct s => s.StructData.ShouldSkip(),
                 _ => throw new ArgumentOutOfRangeException()
             },
-            DataTypeStruct s => s.Content.StructData.ShouldSkip(),
+            DataTypeStruct s => s.StructData.ShouldSkip(),
             _ => d.DataType.CsType() == ""
         };
 

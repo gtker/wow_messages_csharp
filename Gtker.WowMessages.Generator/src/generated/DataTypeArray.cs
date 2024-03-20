@@ -9,7 +9,13 @@ namespace Gtker.WowMessages.Generator.Generated
         [JsonPropertyName("data_type_tag")]
         public string DataTypeTag { get => "Array"; }
 
-        [JsonPropertyName("content")]
-        public Array_ Content { get; init; }
+        [JsonPropertyName("compressed")]
+        public bool Compressed { get; init; }
+
+        [JsonPropertyName("inner_type")]
+        public ArrayType InnerType { get; init; }
+
+        [JsonPropertyName("size")]
+        public ArraySize Size { get; init; }
     }
 }
