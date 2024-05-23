@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Gtker.WowMessages.Login\Gtker.WowMessages.Login.csproj"/>
+        <PackageReference Include="WowSrp" Version="0.1.3"/>
     </ItemGroup>
 
 </Project>

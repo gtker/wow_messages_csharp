@@ -2,6 +2,8 @@
 using System.Net.Sockets;
 using Gtker.WowMessages.Login.All;
 using Gtker.WowMessages.Login.Version3;
+using WowSrp;
+using WowSrp.Server;
 using ClientOpcodeReader = Gtker.WowMessages.Login.All.ClientOpcodeReader;
 
 namespace Gtker.WowMessages.ServerTest;
@@ -15,11 +17,11 @@ public static class Server
         {
             const int port = 3724;
             var localAddr = IPAddress.Parse("0.0.0.0");
-
+            
             server = new TcpListener(localAddr, port);
-
+            
             server.Start();
-
+            
             while (true)
             {
                 var client = await server.AcceptTcpClientAsync().ConfigureAwait(false);
@@ -35,75 +37,115 @@ public static class Server
             server?.Stop();
         }
     }
-
+    
     private static async Task RunClient(TcpClient client)
     {
-        using (client)
+        try
         {
-            var c = await ClientOpcodeReader.ReadAsync(client.GetStream());
-            Console.WriteLine("Received");
-            switch (c)
+            using (client)
             {
-                case CMD_AUTH_LOGON_CHALLENGE_Client l:
-                    await Login(client, l);
-                    break;
-                case CMD_AUTH_RECONNECT_CHALLENGE_Client r:
-                    break;
+                var c = await ClientOpcodeReader.ReadAsync(client.GetStream());
+                Console.WriteLine("Received");
+                switch (c)
+                {
+                    case CMD_AUTH_LOGON_CHALLENGE_Client l:
+                        await Login(client, l);
+                        break;
+                    case CMD_AUTH_RECONNECT_CHALLENGE_Client r:
+                        break;
+                }
             }
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
-
+    
     private static async Task Login(TcpClient client, CMD_AUTH_LOGON_CHALLENGE_Client l)
     {
         if (l.ProtocolVersion != ProtocolVersion.Three)
         {
             return;
         }
-
+        
         Console.WriteLine("Received");
-
+        
         var cts = new CancellationTokenSource();
         cts.CancelAfter(3500);
-
-
+        
+        var proof = new SrpVerifier(l.AccountName, l.AccountName).IntoProof();
+        
         await new CMD_AUTH_LOGON_CHALLENGE_Server
         {
             Result = LoginResult.Success,
-            ServerPublicKey =
-            [
-                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-                29, 30, 31, 32
-            ],
-            Generator = [7],
-            LargeSafePrime =
-            [
-                0xb7, 0x9b, 0x3e, 0x2a, 0x87, 0x82, 0x3c, 0xab,
-                0x8f, 0x5e, 0xbf, 0xbf, 0x8e, 0xb1, 0x01, 0x08,
-                0x53, 0x50, 0x06, 0x29, 0x8b, 0x5b, 0xad, 0xbd,
-                0x5b, 0x53, 0xe1, 0x89, 0x5e, 0x64, 0x4b, 0x89
-            ],
-            Salt =
-            [
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-            ],
-            CrcSalt =
-            [
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-            ],
+            ServerPublicKey = proof.ServerPublicKey.ToList(),
+            Generator = [Constants.Generator],
+            LargeSafePrime = Constants.LargeSafePrimeLittleEndian.ToList(),
+            Salt = proof.Salt.ToList(),
+            CrcSalt = Pin.RandomPinSalt().ToList(),
             SecurityFlag = SecurityFlag.None
         }.WriteAsync(client.GetStream(), cts.Token);
         Console.WriteLine("Sent");
-
+        
         var c =
             await WowMessages.Login.Version3.ClientOpcodeReader.ExpectOpcode<CMD_AUTH_LOGON_PROOF_Client>(
                 client.GetStream(), cts.Token);
-        Console.WriteLine("Received");
-
-        while (true)
+        
+        if (c is null)
         {
-            await Task.Delay(2000, cts.Token);
-            Console.WriteLine("Waited");
+            await new CMD_AUTH_LOGON_PROOF_Server
+            {
+                Result = LoginResult.FailBanned
+            }.WriteAsync(client.GetStream(), cts.Token);
+            
+            return;
+        }
+        
+        Console.WriteLine("Received");
+        var success = proof.IntoServer(c.ClientPublicKey.ToArray(), c.ClientProof.ToArray());
+        
+        if (success is null)
+        {
+            await new CMD_AUTH_LOGON_PROOF_Server
+            {
+                Result = LoginResult.FailBanned
+            }.WriteAsync(client.GetStream(), cts.Token);
+            
+            return;
+        }
+        
+        var (server, serverProof) = success.Value;
+        
+        await new CMD_AUTH_LOGON_PROOF_Server
+        {
+            Result = LoginResult.Success,
+            ServerProof = serverProof.ToList(),
+            HardwareSurveyId = 0
+        }.WriteAsync(client.GetStream(), cts.Token);
+        
+        while (await WowMessages.Login.Version3.ClientOpcodeReader.ExpectOpcode<CMD_REALM_LIST_Client>(
+                   client.GetStream(),
+                   cts.Token) is not null)
+        {
+            await new CMD_REALM_LIST_Server
+            {
+                Realms =
+                [
+                    new Realm
+                    {
+                        RealmType = RealmType.PlayerVsEnvironment,
+                        Flag = RealmFlag.None,
+                        Name = "Realm Name",
+                        Address = "localhost:8085",
+                        Population = Population.RedFull(),
+                        NumberOfCharactersOnRealm = 6,
+                        Category = RealmCategory.Default,
+                        RealmId = 0
+                    }
+                ]
+            }.WriteAsync(client.GetStream(), cts.Token);
+            Console.WriteLine("Sent realm");
         }
     }
 }
