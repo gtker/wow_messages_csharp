@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtker.WowMessages.Generator", "Gtker.WowMessages.Generator\Gtker.WowMessages.Generator.csproj", "{0F9EABF3-682F-4CDE-932A-A17CBD53ACEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WowMessages.Generator", "WowMessages.Generator\WowMessages.Generator.csproj", "{0F9EABF3-682F-4CDE-932A-A17CBD53ACEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtker.WowMessages.Login", "Gtker.WowMessages.Login\Gtker.WowMessages.Login.csproj", "{F3EA2B7C-A29F-4F2D-89B8-4428B0CF5938}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WowMessages.Login", "WowMessages.Login\WowMessages.Login.csproj", "{F3EA2B7C-A29F-4F2D-89B8-4428B0CF5938}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtker.WowMessages.LoginTest", "Gtker.WowMessages.LoginTest\Gtker.WowMessages.LoginTest.csproj", "{F874CC62-FA3C-47A8-AD5D-42650D6CC7ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WowMessages.LoginTest", "WowMessages.LoginTest\WowMessages.LoginTest.csproj", "{F874CC62-FA3C-47A8-AD5D-42650D6CC7ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtker.WowMessages.ServerTest", "Gtker.WowMessages.ServerTest\Gtker.WowMessages.ServerTest.csproj", "{DB3B6AAC-6D7F-4A35-8D8C-A9E4F4A27E2C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WowMessages.ServerTest", "WowMessages.ServerTest\WowMessages.ServerTest.csproj", "{DB3B6AAC-6D7F-4A35-8D8C-A9E4F4A27E2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
