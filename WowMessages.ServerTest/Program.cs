@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using System.Net.Sockets;
-using WowMessages.Login.All;
-using WowMessages.Login.Version3;
+using WowLoginMessages.All;
+using WowLoginMessages.Version3;
 using WowSrp;
 using WowSrp.Server;
-using ClientOpcodeReader = WowMessages.Login.All.ClientOpcodeReader;
+using ClientOpcodeReader = WowLoginMessages.All.ClientOpcodeReader;
 
 namespace WowMessages.ServerTest;
 
@@ -89,7 +89,7 @@ public static class Server
         Console.WriteLine("Sent");
         
         var c =
-            await WowMessages.Login.Version3.ClientOpcodeReader.ExpectOpcode<CMD_AUTH_LOGON_PROOF_Client>(
+            await WowLoginMessages.Version3.ClientOpcodeReader.ExpectOpcode<CMD_AUTH_LOGON_PROOF_Client>(
                 client.GetStream(), cts.Token);
         
         if (c is null)
@@ -124,7 +124,7 @@ public static class Server
             HardwareSurveyId = 0
         }.WriteAsync(client.GetStream(), cts.Token);
         
-        while (await WowMessages.Login.Version3.ClientOpcodeReader.ExpectOpcode<CMD_REALM_LIST_Client>(
+        while (await WowLoginMessages.Version3.ClientOpcodeReader.ExpectOpcode<CMD_REALM_LIST_Client>(
                    client.GetStream(),
                    cts.Token) is not null)
         {

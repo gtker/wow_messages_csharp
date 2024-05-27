@@ -9,16 +9,16 @@ public static class WriteContainers
     {
         var s = new Writer();
         WriteIncludes(s, e);
-
-        s.Wln($"namespace WowMessages.{project}.{module};");
+        
+        s.Wln($"namespace Wow{project}Messages.{module};");
         s.Newline();
-
+        
         s.Wln("[System.CodeDom.Compiler.GeneratedCode(\"WoWM\", \"0.1.0\")]");
         if (e.Name.Contains('_'))
         {
             s.Wln("// ReSharper disable once InconsistentNaming");
         }
-
+        
         var implements = e.ObjectType switch
         {
             ObjectTypeClogin => $": {module}ClientMessage, ILoginMessage",
@@ -26,18 +26,18 @@ public static class WriteContainers
             ObjectTypeStruct => "",
             _ => throw new ArgumentOutOfRangeException()
         };
-
+        
         s.Body($"public class {e.Name}{implements}", s =>
         {
             WriteDefinition(s, e);
             s.Newline();
-
+            
             WriteReadImplementation.WriteRead(s, e);
             s.Newline();
-
+            
             WriteWriteImplementation.WriteWrite(s, e);
             s.Newline();
-
+            
             if (e.ManualSizeSubtraction is { } manualSizeSubtraction)
             {
                 WriteSizeImplementation.WriteSize(s, e, manualSizeSubtraction);
@@ -50,10 +50,10 @@ public static class WriteContainers
             }
         });
         s.Newline();
-
+        
         return s;
     }
-
+    
     private static void WriteDefinition(Writer s, Container e)
     {
         foreach (var member in e.Members)
@@ -67,9 +67,9 @@ public static class WriteContainers
                     {
                         continue;
                     }
-
+                    
                     WriteDefinitionComment(s, d.Tags.Comment);
-
+                    
                     s.Wln($"public required {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
                     break;
                 }
@@ -80,12 +80,12 @@ public static class WriteContainers
                         {
                             continue;
                         }
-
+                        
                         WriteDefinitionComment(s, d.Tags.Comment);
-
+                        
                         s.Wln($"public {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
                     }
-
+                    
                     break;
                 case StructMemberOptional optional:
                     foreach (var d in optional.AllDefinitions())
@@ -94,24 +94,24 @@ public static class WriteContainers
                         {
                             continue;
                         }
-
+                        
                         s.Wln($"public {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
                     }
-
+                    
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(member));
             }
         }
     }
-
+    
     private static void WriteDefinitionComment(Writer s, string? comment)
     {
         if (comment is "" or null)
         {
             return;
         }
-
+        
         s.Wln("/// <summary>");
         using (var sr = new StringReader(comment))
         {
@@ -120,14 +120,14 @@ public static class WriteContainers
                 s.Wln($"/// {line}");
             }
         }
-
+        
         s.Wln("/// </summary>");
     }
-
+    
     private static void WriteIncludes(Writer s, Container e)
     {
         var shouldNewline = false;
-
+        
         if (e.Members.Count == 0)
         {
             s.Wln(
@@ -135,46 +135,46 @@ public static class WriteContainers
             s.Wln("// Empty reads will have an unnecessary async keyword");
             s.Wln("#pragma warning disable 1998");
         }
-
+        
         foreach (var member in e.AllDefinitions())
         {
             switch (member.DataType)
             {
                 case DataTypePopulation:
-                    s.Wln("using WowMessages.Login.All;");
+                    s.Wln("using WowLoginMessages.All;");
                     shouldNewline = true;
                     break;
                 case DataTypeStruct c:
                     if (c.StructData.Name == "Version")
                     {
-                        s.Wln("using Version = WowMessages.Login.All.Version;");
+                        s.Wln("using Version = WowLoginMessages.All.Version;");
                     }
-
+                    
                     break;
                 default:
                     continue;
             }
         }
-
+        
         if (shouldNewline)
         {
             s.Newline();
         }
     }
-
+    
     public static void WriteIfStatement(Writer s, Container e, IfStatement statement,
         Action<Writer, Container, StructMember> invocation, bool upperCaseFirstChar)
     {
         Func<string, string> transform = upperCaseFirstChar ? Utils.SnakeCaseToPascalCase : Utils.SnakeCaseToCamelCase;
-
+        
         var ifHeader = "if (";
         foreach (var cond in statement.CsConditionals())
         {
             ifHeader += $"{transform(statement.VariableName)}{cond}";
         }
-
+        
         ifHeader += ")";
-
+        
         s.Body(ifHeader, s =>
         {
             foreach (var member in statement.Members)
@@ -182,8 +182,8 @@ public static class WriteContainers
                 invocation(s, e, member);
             }
         });
-
-
+        
+        
         if (statement.ElseMembers.Count != 0)
         {
             s.Body("else", s =>
@@ -194,7 +194,7 @@ public static class WriteContainers
                 }
             });
         }
-
+        
         s.Newline();
     }
 }

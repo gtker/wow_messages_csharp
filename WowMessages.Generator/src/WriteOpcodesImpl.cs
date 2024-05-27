@@ -11,7 +11,7 @@ public static class WriteOpcodesImpl
 
         var versionClass = $"{module}{side}Message";
 
-        s.Wln($"namespace WowMessages.{project}.{module};");
+        s.Wln($"namespace Wow{project}Messages.{module};");
         s.Newline();
 
         s.Wln($"public abstract class {versionClass} {{}}");
