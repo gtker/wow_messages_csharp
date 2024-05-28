@@ -28,6 +28,16 @@ namespace WowMessages.Generator.Generated
         [JsonPropertyName("only_has_io_error")]
         public bool OnlyHasIoError { get; init; }
 
+        /// <summary>
+        /// Is a structured representation of the object where fields that
+        /// are inside if statements will be put inside the enumerators they
+        /// are present in. This is used for example when wanting to represent
+        /// conditionally present fields through e.g. discriminated unions or
+        /// inheritance.
+        /// </summary>
+        [JsonPropertyName("prepared_objects")]
+        public IList<PreparedObject> PreparedObjects { get; init; }
+
         [JsonPropertyName("sizes")]
         public Sizes Sizes { get; init; }
 
@@ -36,16 +46,5 @@ namespace WowMessages.Generator.Generated
 
         [JsonPropertyName("tests")]
         public IList<TestCase> Tests { get; init; }
-
-        /// <summary>
-        /// Present for objects that contain if statements. Is a structured
-        /// representation of the object where fields that are inside if
-        /// statements will be put inside the enumerators they are present in.
-        /// This is used for example when wanting to represent conditionally
-        /// present fields through e.g. discriminated unions or inheritance.
-        /// </summary>
-        [JsonPropertyName("prepared_objects")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public IList<PreparedObject> PreparedObjects { get; init; }
     }
 }
