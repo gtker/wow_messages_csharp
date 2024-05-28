@@ -339,4 +339,84 @@ public class Version8 {
         });
     }
 
+    [Test]
+    [Timeout(1000)]
+    public async Task CMD_XFER_INITIATE0() {
+        var r = new MemoryStream([48, 5, 80, 97, 116, 99, 104, 188, 9, 0, 0, 0, 0, 0, 0, 17, 91, 85, 89, 127, 183, 223, 14, 134, 217, 179, 174, 90, 235, 203, 98, ]);
+
+        var c = (CMD_XFER_INITIATE)await ServerOpcodeReader.ReadAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task CMD_XFER_DATA0() {
+        var r = new MemoryStream([49, 64, 0, 77, 80, 81, 26, 44, 0, 0, 0, 60, 224, 38, 0, 1, 0, 3, 0, 252, 217, 38, 0, 252, 221, 38, 0, 64, 0, 0, 0, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 120, 218, 236, 125, 123, 124, 84, 197, 245, 248, 110, 246, 134, 92, 116, 37, 11, 174, 184, ]);
+
+        var c = (CMD_XFER_DATA)await ServerOpcodeReader.ReadAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task CMD_XFER_ACCEPT0() {
+        var r = new MemoryStream([50, ]);
+
+        var c = (CMD_XFER_ACCEPT)await ClientOpcodeReader.ReadAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task CMD_XFER_RESUME0() {
+        var r = new MemoryStream([51, 64, 0, 0, 0, 0, 0, 0, 0, ]);
+
+        var c = (CMD_XFER_RESUME)await ClientOpcodeReader.ReadAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task CMD_XFER_CANCEL0() {
+        var r = new MemoryStream([52, ]);
+
+        var c = (CMD_XFER_CANCEL)await ClientOpcodeReader.ReadAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
 }

@@ -13,7 +13,7 @@ public class CMD_REALM_LIST_Server: Version5ServerMessage, ILoginMessage {
         var headerPadding = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var numberOfRealms = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
+        var numberOfRealms = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
         var realms = new List<Realm>();
         for (var i = 0; i < numberOfRealms; ++i) {
@@ -36,7 +36,7 @@ public class CMD_REALM_LIST_Server: Version5ServerMessage, ILoginMessage {
 
         await WriteUtils.WriteUInt(w, 0, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUShort(w, (ushort)Realms.Count, cancellationToken).ConfigureAwait(false);
+        await WriteUtils.WriteByte(w, (byte)Realms.Count, cancellationToken).ConfigureAwait(false);
 
         foreach (var v in Realms) {
             await v.WriteAsync(w, cancellationToken).ConfigureAwait(false);
@@ -56,7 +56,7 @@ public class CMD_REALM_LIST_Server: Version5ServerMessage, ILoginMessage {
         size += 4;
 
         // number_of_realms: WowMessages.Generator.Generated.DataTypeInteger
-        size += 2;
+        size += 1;
 
         // realms: WowMessages.Generator.Generated.DataTypeArray
         size += Realms.Sum(e => e.Size());
