@@ -17,4 +17,12 @@
         <Folder Include="src\version8\"/>
     </ItemGroup>
 
+    <!-- Documentation and Debug info -->
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <EmbedAllSources>true</EmbedAllSources>
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
 </Project>
