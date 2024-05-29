@@ -7,6 +7,17 @@ public class Version {
     public required byte Patch { get; set; }
     public required ushort Build { get; set; }
 
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        await WriteUtils.WriteByte(w, Major, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteByte(w, Minor, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteByte(w, Patch, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUShort(w, Build, cancellationToken).ConfigureAwait(false);
+
+    }
+
     public static async Task<Version> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var major = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
@@ -22,17 +33,6 @@ public class Version {
             Patch = patch,
             Build = build,
         };
-    }
-
-    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
-        await WriteUtils.WriteByte(w, Major, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteByte(w, Minor, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteByte(w, Patch, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUShort(w, Build, cancellationToken).ConfigureAwait(false);
-
     }
 
 }

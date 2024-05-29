@@ -56,17 +56,17 @@ public static class WriteReadImplementation
                         switch (member)
                         {
                             case StructMemberDefinition definition:
-                            {
-                                var d = definition.StructMemberContent;
-                                if (d.IsNotInType())
                                 {
-                                    continue;
+                                    var d = definition.StructMemberContent;
+                                    if (d.IsNotInType())
+                                    {
+                                        continue;
+                                    }
+
+                                    s.Wln($"{d.MemberName()} = {d.VariableName()},");
+
+                                    break;
                                 }
-
-                                s.Wln($"{d.MemberName()} = {d.VariableName()},");
-
-                                break;
-                            }
                             case StructMemberIfStatement statement:
                                 foreach (var d in statement.AllDefinitions())
                                 {
@@ -104,12 +104,12 @@ public static class WriteReadImplementation
         switch (member)
         {
             case StructMemberDefinition definition:
-            {
-                var d = definition.StructMemberContent;
+                {
+                    var d = definition.StructMemberContent;
 
-                WriteReadForType(s, d, declareTypes);
-                break;
-            }
+                    WriteReadForType(s, d, declareTypes);
+                    break;
+                }
             case StructMemberIfStatement statement:
                 WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent,
                     (s, e, member) => { WriteReadMember(s, e, member, false); }, false);
@@ -152,16 +152,16 @@ public static class WriteReadImplementation
 
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds
                 or DataTypeMilliseconds or DataTypeGold or DataTypeDateTime:
-            {
-                s.Wln(
-                    $"{declare}{d.VariableName()} = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);");
-            }
+                {
+                    s.Wln(
+                        $"{declare}{d.VariableName()} = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);");
+                }
                 break;
             case DataTypeSpell16 or DataTypeLevel16:
-            {
-                s.Wln(
-                    $"{declare}{d.VariableName()} = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);");
-            }
+                {
+                    s.Wln(
+                        $"{declare}{d.VariableName()} = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);");
+                }
                 break;
             case DataTypeLevel:
                 s.Wln(

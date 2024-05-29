@@ -7,6 +7,25 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: Version2ServerMessage, ILoginM
     public List<byte> ChallengeData { get; set; }
     public List<byte> ChecksumSalt { get; set; }
 
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        // opcode: u8
+        await WriteUtils.WriteByte(w, 2, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
+
+        if (Result == LoginResult.Success) {
+            foreach (var v in ChallengeData) {
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            }
+
+            foreach (var v in ChecksumSalt) {
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            }
+
+        }
+
+    }
+
     public static async Task<CMD_AUTH_RECONNECT_CHALLENGE_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var challengeData = default(List<byte>);
         var checksumSalt = default(List<byte>);
@@ -31,25 +50,6 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: Version2ServerMessage, ILoginM
             ChallengeData = challengeData,
             ChecksumSalt = checksumSalt,
         };
-    }
-
-    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
-        // opcode: u8
-        await WriteUtils.WriteByte(w, 2, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
-
-        if (Result == LoginResult.Success) {
-            foreach (var v in ChallengeData) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-            }
-
-            foreach (var v in ChecksumSalt) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-            }
-
-        }
-
     }
 
 }

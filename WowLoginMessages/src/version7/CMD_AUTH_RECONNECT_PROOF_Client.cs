@@ -7,6 +7,26 @@ public class CMD_AUTH_RECONNECT_PROOF_Client: Version7ClientMessage, ILoginMessa
     public required List<byte> ClientProof { get; set; }
     public required List<byte> ClientChecksum { get; set; }
 
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        // opcode: u8
+        await WriteUtils.WriteByte(w, 3, cancellationToken).ConfigureAwait(false);
+
+        foreach (var v in ProofData) {
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+        }
+
+        foreach (var v in ClientProof) {
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+        }
+
+        foreach (var v in ClientChecksum) {
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+        }
+
+        await WriteUtils.WriteByte(w, 0, cancellationToken).ConfigureAwait(false);
+
+    }
+
     public static async Task<CMD_AUTH_RECONNECT_PROOF_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var proofData = new List<byte>();
         for (var i = 0; i < 16; ++i) {
@@ -31,26 +51,6 @@ public class CMD_AUTH_RECONNECT_PROOF_Client: Version7ClientMessage, ILoginMessa
             ClientProof = clientProof,
             ClientChecksum = clientChecksum,
         };
-    }
-
-    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
-        // opcode: u8
-        await WriteUtils.WriteByte(w, 3, cancellationToken).ConfigureAwait(false);
-
-        foreach (var v in ProofData) {
-            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-        }
-
-        foreach (var v in ClientProof) {
-            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-        }
-
-        foreach (var v in ClientChecksum) {
-            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-        }
-
-        await WriteUtils.WriteByte(w, 0, cancellationToken).ConfigureAwait(false);
-
     }
 
 }

@@ -8,36 +8,36 @@ public class WriteUtils
     public static async Task WriteByte(Stream w, byte v, CancellationToken cancellationToken)
     {
         var b = new[] { v };
-        
+
         await w.WriteAsync(b, cancellationToken).ConfigureAwait(false);
     }
-    
+
     public static async Task WriteUShort(Stream w, ushort v, CancellationToken cancellationToken)
     {
         var b = new byte[2];
-        
+
         b[0] = (byte)(v & 0xFF);
         b[1] = (byte)((v >> 8) & 0xFF);
-        
+
         await w.WriteAsync(b, cancellationToken).ConfigureAwait(false);
     }
-    
+
     public static async Task WriteUInt(Stream w, uint v, CancellationToken cancellationToken)
     {
         var b = new byte[4];
-        
+
         b[0] = (byte)(v & 0xFF);
         b[1] = (byte)((v >> 8) & 0xFF);
         b[2] = (byte)((v >> 16) & 0xFF);
         b[3] = (byte)((v >> 24) & 0xFF);
-        
+
         await w.WriteAsync(b, cancellationToken).ConfigureAwait(false);
     }
-    
+
     public static async Task WriteULong(Stream w, ulong v, CancellationToken cancellationToken)
     {
         var b = new byte[8];
-        
+
         b[0] = (byte)(v & 0xFF);
         b[1] = (byte)((v >> 8) & 0xFF);
         b[2] = (byte)((v >> 16) & 0xFF);
@@ -46,44 +46,44 @@ public class WriteUtils
         b[5] = (byte)((v >> 40) & 0xFF);
         b[6] = (byte)((v >> 48) & 0xFF);
         b[7] = (byte)((v >> 56) & 0xFF);
-        
+
         await w.WriteAsync(b, cancellationToken).ConfigureAwait(false);
     }
-    
+
     public static async Task WriteCString(Stream w, string v, CancellationToken cancellationToken)
     {
         await w.WriteAsync(Encoding.UTF8.GetBytes(v), cancellationToken).ConfigureAwait(false);
         await WriteByte(w, 0, cancellationToken).ConfigureAwait(false);
     }
-    
+
     public static async Task WriteString(Stream w, string v, CancellationToken cancellationToken)
     {
         await WriteByte(w, (byte)v.Length, cancellationToken).ConfigureAwait(false);
-        
+
         await w.WriteAsync(Encoding.UTF8.GetBytes(v), cancellationToken).ConfigureAwait(false);
     }
-    
+
     public static async Task WritePopulation(Stream w, Population v, CancellationToken cancellationToken)
     {
         await WriteFloat(w, v.Value, cancellationToken).ConfigureAwait(false);
     }
-    
+
     public static async Task WriteFloat(Stream w, float v, CancellationToken cancellationToken)
     {
         var s = BitConverter.ToUInt32(BitConverter.GetBytes(v));
         await WriteUInt(w, s, cancellationToken).ConfigureAwait(false);
     }
-    
+
     public static async Task WriteBool8(Stream w, bool v, CancellationToken cancellationToken)
     {
         await WriteByte(w, v ? (byte)1 : (byte)0, cancellationToken).ConfigureAwait(false);
     }
-    
+
     public static async Task WriteBool16(Stream w, bool v, CancellationToken cancellationToken)
     {
         await WriteUShort(w, v ? (ushort)1 : (ushort)0, cancellationToken).ConfigureAwait(false);
     }
-    
+
     public static async Task WriteBool32(Stream w, bool v, CancellationToken cancellationToken)
     {
         await WriteUInt(w, v ? 1 : (uint)0, cancellationToken).ConfigureAwait(false);

@@ -98,14 +98,14 @@ public static class WriteWriteImplementation
 
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds
                 or DataTypeMilliseconds or DataTypeGold or DataTypeDateTime:
-            {
-                s.Wln($"await WriteUtils.WriteUInt(w, {value}, cancellationToken).ConfigureAwait(false);");
-            }
+                {
+                    s.Wln($"await WriteUtils.WriteUInt(w, {value}, cancellationToken).ConfigureAwait(false);");
+                }
                 break;
             case DataTypeSpell16 or DataTypeLevel16:
-            {
-                s.Wln($"await WriteUtils.WriteUShort(w, {value}, cancellationToken).ConfigureAwait(false);");
-            }
+                {
+                    s.Wln($"await WriteUtils.WriteUShort(w, {value}, cancellationToken).ConfigureAwait(false);");
+                }
                 break;
             case DataTypeLevel:
                 s.Wln($"await WriteUtils.WriteByte(w, {value}, cancellationToken).ConfigureAwait(false);");

@@ -10,6 +10,21 @@ public class TelemetryKey {
     /// </summary>
     public required List<byte> CdKeyProof { get; set; }
 
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        await WriteUtils.WriteUShort(w, Unknown1, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUInt(w, Unknown2, cancellationToken).ConfigureAwait(false);
+
+        foreach (var v in Unknown3) {
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+        }
+
+        foreach (var v in CdKeyProof) {
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+        }
+
+    }
+
     public static async Task<TelemetryKey> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var unknown1 = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
 
@@ -31,21 +46,6 @@ public class TelemetryKey {
             Unknown3 = unknown3,
             CdKeyProof = cdKeyProof,
         };
-    }
-
-    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
-        await WriteUtils.WriteUShort(w, Unknown1, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUInt(w, Unknown2, cancellationToken).ConfigureAwait(false);
-
-        foreach (var v in Unknown3) {
-            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-        }
-
-        foreach (var v in CdKeyProof) {
-            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-        }
-
     }
 
 }

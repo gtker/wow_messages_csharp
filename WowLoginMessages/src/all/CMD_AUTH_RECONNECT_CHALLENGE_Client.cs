@@ -24,6 +24,32 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client: AllClientMessage, ILoginMessag
     /// </summary>
     public required string AccountName { get; set; }
 
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        // opcode: u8
+        await WriteUtils.WriteByte(w, 2, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteByte(w, (byte)ProtocolVersion, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUShort(w, (ushort)Size(), cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUInt(w, 5730135, cancellationToken).ConfigureAwait(false);
+
+        await Version.WriteAsync(w, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUInt(w, (uint)Platform, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUInt(w, (uint)Os, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUInt(w, (uint)Locale, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUInt(w, UtcTimezoneOffset, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUInt(w, ClientIpAddress, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteString(w, AccountName, cancellationToken).ConfigureAwait(false);
+
+    }
+
     public static async Task<CMD_AUTH_RECONNECT_CHALLENGE_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var protocolVersion = (ProtocolVersion)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
@@ -57,32 +83,6 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client: AllClientMessage, ILoginMessag
             ClientIpAddress = clientIpAddress,
             AccountName = accountName,
         };
-    }
-
-    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
-        // opcode: u8
-        await WriteUtils.WriteByte(w, 2, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteByte(w, (byte)ProtocolVersion, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUShort(w, (ushort)Size(), cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUInt(w, 5730135, cancellationToken).ConfigureAwait(false);
-
-        await Version.WriteAsync(w, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUInt(w, (uint)Platform, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUInt(w, (uint)Os, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUInt(w, (uint)Locale, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUInt(w, UtcTimezoneOffset, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUInt(w, ClientIpAddress, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteString(w, AccountName, cancellationToken).ConfigureAwait(false);
-
     }
 
     internal int Size() {

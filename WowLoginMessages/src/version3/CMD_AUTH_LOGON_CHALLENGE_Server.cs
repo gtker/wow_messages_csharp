@@ -19,6 +19,54 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version3ServerMessage, ILoginMessa
     public uint PinGridSeed { get; set; }
     public List<byte> PinSalt { get; set; }
 
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        // opcode: u8
+        await WriteUtils.WriteByte(w, 0, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteByte(w, 0, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
+
+        if (Result == LoginResult.Success) {
+            foreach (var v in ServerPublicKey) {
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            }
+
+            await WriteUtils.WriteByte(w, (byte)Generator.Count, cancellationToken).ConfigureAwait(false);
+
+            foreach (var v in Generator) {
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            }
+
+            await WriteUtils.WriteByte(w, (byte)LargeSafePrime.Count, cancellationToken).ConfigureAwait(false);
+
+            foreach (var v in LargeSafePrime) {
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            }
+
+            foreach (var v in Salt) {
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            }
+
+            foreach (var v in CrcSalt) {
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            }
+
+            await WriteUtils.WriteByte(w, (byte)SecurityFlag, cancellationToken).ConfigureAwait(false);
+
+            if (SecurityFlag == SecurityFlag.Pin) {
+                await WriteUtils.WriteUInt(w, PinGridSeed, cancellationToken).ConfigureAwait(false);
+
+                foreach (var v in PinSalt) {
+                    await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+                }
+
+            }
+
+        }
+
+    }
+
     public static async Task<CMD_AUTH_LOGON_CHALLENGE_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var serverPublicKey = default(List<byte>);
         var generatorLength = default(byte);
@@ -93,54 +141,6 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version3ServerMessage, ILoginMessa
             PinGridSeed = pinGridSeed,
             PinSalt = pinSalt,
         };
-    }
-
-    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
-        // opcode: u8
-        await WriteUtils.WriteByte(w, 0, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteByte(w, 0, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
-
-        if (Result == LoginResult.Success) {
-            foreach (var v in ServerPublicKey) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-            }
-
-            await WriteUtils.WriteByte(w, (byte)Generator.Count, cancellationToken).ConfigureAwait(false);
-
-            foreach (var v in Generator) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-            }
-
-            await WriteUtils.WriteByte(w, (byte)LargeSafePrime.Count, cancellationToken).ConfigureAwait(false);
-
-            foreach (var v in LargeSafePrime) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-            }
-
-            foreach (var v in Salt) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-            }
-
-            foreach (var v in CrcSalt) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-            }
-
-            await WriteUtils.WriteByte(w, (byte)SecurityFlag, cancellationToken).ConfigureAwait(false);
-
-            if (SecurityFlag == SecurityFlag.Pin) {
-                await WriteUtils.WriteUInt(w, PinGridSeed, cancellationToken).ConfigureAwait(false);
-
-                foreach (var v in PinSalt) {
-                    await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-                }
-
-            }
-
-        }
-
     }
 
 }

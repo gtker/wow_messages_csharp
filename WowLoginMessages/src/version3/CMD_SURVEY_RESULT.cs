@@ -7,6 +7,22 @@ public class CMD_SURVEY_RESULT: Version3ClientMessage, ILoginMessage {
     public required byte Error { get; set; }
     public required List<byte> Data { get; set; }
 
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        // opcode: u8
+        await WriteUtils.WriteByte(w, 4, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUInt(w, SurveyId, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteByte(w, Error, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUShort(w, (ushort)Data.Count, cancellationToken).ConfigureAwait(false);
+
+        foreach (var v in Data) {
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+        }
+
+    }
+
     public static async Task<CMD_SURVEY_RESULT> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var surveyId = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
 
@@ -25,22 +41,6 @@ public class CMD_SURVEY_RESULT: Version3ClientMessage, ILoginMessage {
             Error = error,
             Data = data,
         };
-    }
-
-    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
-        // opcode: u8
-        await WriteUtils.WriteByte(w, 4, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUInt(w, SurveyId, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteByte(w, Error, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUShort(w, (ushort)Data.Count, cancellationToken).ConfigureAwait(false);
-
-        foreach (var v in Data) {
-            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-        }
-
     }
 
 }

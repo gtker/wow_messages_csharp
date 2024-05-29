@@ -19,6 +19,32 @@ public class Realm {
     public required byte RealmId { get; set; }
     public Version Version { get; set; }
 
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        await WriteUtils.WriteByte(w, (byte)RealmType, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteBool8(w, Locked, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteByte(w, (byte)Flag, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteCString(w, Name, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteCString(w, Address, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WritePopulation(w, Population, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteByte(w, NumberOfCharactersOnRealm, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteByte(w, (byte)Category, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteByte(w, RealmId, cancellationToken).ConfigureAwait(false);
+
+        if (Flag.HasFlag(RealmFlag.SpecifyBuild)) {
+            await Version.WriteAsync(w, cancellationToken).ConfigureAwait(false);
+
+        }
+
+    }
+
     public static async Task<Realm> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var version = default(Version);
 
@@ -57,32 +83,6 @@ public class Realm {
             RealmId = realmId,
             Version = version,
         };
-    }
-
-    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
-        await WriteUtils.WriteByte(w, (byte)RealmType, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteBool8(w, Locked, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteByte(w, (byte)Flag, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteCString(w, Name, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteCString(w, Address, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WritePopulation(w, Population, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteByte(w, NumberOfCharactersOnRealm, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteByte(w, (byte)Category, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteByte(w, RealmId, cancellationToken).ConfigureAwait(false);
-
-        if (Flag.HasFlag(RealmFlag.SpecifyBuild)) {
-            await Version.WriteAsync(w, cancellationToken).ConfigureAwait(false);
-
-        }
-
     }
 
     internal int Size() {

@@ -69,15 +69,15 @@ public static class ContainerExtensions
 
                     break;
                 case StructMemberOptional optional:
-                {
-                    foreach (var m in optional.StructMemberContent.Members)
                     {
-                        foreach (var d in m.AllDefinitions())
+                        foreach (var m in optional.StructMemberContent.Members)
                         {
-                            yield return d;
+                            foreach (var d in m.AllDefinitions())
+                            {
+                                yield return d;
+                            }
                         }
                     }
-                }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(member));

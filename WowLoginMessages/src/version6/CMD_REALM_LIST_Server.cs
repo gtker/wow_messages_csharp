@@ -5,6 +5,24 @@ namespace WowLoginMessages.Version6;
 public class CMD_REALM_LIST_Server: Version6ServerMessage, ILoginMessage {
     public required List<Realm> Realms { get; set; }
 
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        // opcode: u8
+        await WriteUtils.WriteByte(w, 16, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUShort(w, (ushort)Size(), cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUInt(w, 0, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUShort(w, (ushort)Realms.Count, cancellationToken).ConfigureAwait(false);
+
+        foreach (var v in Realms) {
+            await v.WriteAsync(w, cancellationToken).ConfigureAwait(false);
+        }
+
+        await WriteUtils.WriteUShort(w, 0, cancellationToken).ConfigureAwait(false);
+
+    }
+
     public static async Task<CMD_REALM_LIST_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         // ReSharper disable once UnusedVariable.Compiler
         var size = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
@@ -26,24 +44,6 @@ public class CMD_REALM_LIST_Server: Version6ServerMessage, ILoginMessage {
         return new CMD_REALM_LIST_Server {
             Realms = realms,
         };
-    }
-
-    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
-        // opcode: u8
-        await WriteUtils.WriteByte(w, 16, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUShort(w, (ushort)Size(), cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUInt(w, 0, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUShort(w, (ushort)Realms.Count, cancellationToken).ConfigureAwait(false);
-
-        foreach (var v in Realms) {
-            await v.WriteAsync(w, cancellationToken).ConfigureAwait(false);
-        }
-
-        await WriteUtils.WriteUShort(w, 0, cancellationToken).ConfigureAwait(false);
-
     }
 
     internal int Size() {

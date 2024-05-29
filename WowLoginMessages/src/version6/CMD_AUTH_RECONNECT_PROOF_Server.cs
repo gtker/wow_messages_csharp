@@ -5,6 +5,16 @@ namespace WowLoginMessages.Version6;
 public class CMD_AUTH_RECONNECT_PROOF_Server: Version6ServerMessage, ILoginMessage {
     public required LoginResult Result { get; set; }
 
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        // opcode: u8
+        await WriteUtils.WriteByte(w, 3, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
+
+        await WriteUtils.WriteUShort(w, 0, cancellationToken).ConfigureAwait(false);
+
+    }
+
     public static async Task<CMD_AUTH_RECONNECT_PROOF_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
@@ -14,16 +24,6 @@ public class CMD_AUTH_RECONNECT_PROOF_Server: Version6ServerMessage, ILoginMessa
         return new CMD_AUTH_RECONNECT_PROOF_Server {
             Result = result,
         };
-    }
-
-    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
-        // opcode: u8
-        await WriteUtils.WriteByte(w, 3, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
-
-        await WriteUtils.WriteUShort(w, 0, cancellationToken).ConfigureAwait(false);
-
     }
 
 }

@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Sockets;
 using WowLoginMessages.All;
 using WowLoginMessages.Version3;
@@ -17,11 +17,11 @@ public static class Server
         {
             const int port = 3724;
             var localAddr = IPAddress.Parse("0.0.0.0");
-            
+
             server = new TcpListener(localAddr, port);
-            
+
             server.Start();
-            
+
             while (true)
             {
                 var client = await server.AcceptTcpClientAsync().ConfigureAwait(false);
@@ -37,7 +37,7 @@ public static class Server
             server?.Stop();
         }
     }
-    
+
     private static async Task RunClient(TcpClient client)
     {
         try
@@ -61,21 +61,21 @@ public static class Server
             Console.WriteLine(e);
         }
     }
-    
+
     private static async Task Login(TcpClient client, CMD_AUTH_LOGON_CHALLENGE_Client l)
     {
         if (l.ProtocolVersion != ProtocolVersion.Three)
         {
             return;
         }
-        
+
         Console.WriteLine("Received");
-        
+
         var cts = new CancellationTokenSource();
         cts.CancelAfter(3500);
-        
+
         var proof = new SrpVerifier(l.AccountName, l.AccountName).IntoProof();
-        
+
         await new CMD_AUTH_LOGON_CHALLENGE_Server
         {
             Result = LoginResult.Success,
@@ -87,43 +87,43 @@ public static class Server
             SecurityFlag = SecurityFlag.None
         }.WriteAsync(client.GetStream(), cts.Token);
         Console.WriteLine("Sent");
-        
+
         var c =
             await WowLoginMessages.Version3.ClientOpcodeReader.ExpectOpcode<CMD_AUTH_LOGON_PROOF_Client>(
                 client.GetStream(), cts.Token);
-        
+
         if (c is null)
         {
             await new CMD_AUTH_LOGON_PROOF_Server
             {
                 Result = LoginResult.FailBanned
             }.WriteAsync(client.GetStream(), cts.Token);
-            
+
             return;
         }
-        
+
         Console.WriteLine("Received");
         var success = proof.IntoServer(c.ClientPublicKey.ToArray(), c.ClientProof.ToArray());
-        
+
         if (success is null)
         {
             await new CMD_AUTH_LOGON_PROOF_Server
             {
                 Result = LoginResult.FailBanned
             }.WriteAsync(client.GetStream(), cts.Token);
-            
+
             return;
         }
-        
+
         var (server, serverProof) = success.Value;
-        
+
         await new CMD_AUTH_LOGON_PROOF_Server
         {
             Result = LoginResult.Success,
             ServerProof = serverProof.ToList(),
             HardwareSurveyId = 0
         }.WriteAsync(client.GetStream(), cts.Token);
-        
+
         while (await WowLoginMessages.Version3.ClientOpcodeReader.ExpectOpcode<CMD_REALM_LIST_Client>(
                    client.GetStream(),
                    cts.Token) is not null)

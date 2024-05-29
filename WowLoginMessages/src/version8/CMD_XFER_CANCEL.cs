@@ -7,15 +7,15 @@ namespace WowLoginMessages.Version8;
 // ReSharper disable once InconsistentNaming
 public class CMD_XFER_CANCEL: Version8ClientMessage, ILoginMessage {
 
-    public static async Task<CMD_XFER_CANCEL> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        return new CMD_XFER_CANCEL {
-        };
-    }
-
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
         await WriteUtils.WriteByte(w, 52, cancellationToken).ConfigureAwait(false);
 
+    }
+
+    public static async Task<CMD_XFER_CANCEL> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
+        return new CMD_XFER_CANCEL {
+        };
     }
 
 }

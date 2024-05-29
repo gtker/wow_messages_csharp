@@ -22,6 +22,55 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version8ClientMessage, ILoginMessage {
     /// </summary>
     public string Authenticator { get; set; }
 
+    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
+        // opcode: u8
+        await WriteUtils.WriteByte(w, 1, cancellationToken).ConfigureAwait(false);
+
+        foreach (var v in ClientPublicKey) {
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+        }
+
+        foreach (var v in ClientProof) {
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+        }
+
+        foreach (var v in CrcHash) {
+            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+        }
+
+        await WriteUtils.WriteByte(w, (byte)TelemetryKeys.Count, cancellationToken).ConfigureAwait(false);
+
+        foreach (var v in TelemetryKeys) {
+            await v.WriteAsync(w, cancellationToken).ConfigureAwait(false);
+        }
+
+        await WriteUtils.WriteByte(w, (byte)SecurityFlag, cancellationToken).ConfigureAwait(false);
+
+        if (SecurityFlag.HasFlag(SecurityFlag.Pin)) {
+            foreach (var v in PinSalt) {
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            }
+
+            foreach (var v in PinHash) {
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            }
+
+        }
+
+        if (SecurityFlag.HasFlag(SecurityFlag.MatrixCard)) {
+            foreach (var v in MatrixCardProof) {
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            }
+
+        }
+
+        if (SecurityFlag.HasFlag(SecurityFlag.Authenticator)) {
+            await WriteUtils.WriteString(w, Authenticator, cancellationToken).ConfigureAwait(false);
+
+        }
+
+    }
+
     public static async Task<CMD_AUTH_LOGON_PROOF_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         var pinSalt = default(List<byte>);
         var pinHash = default(List<byte>);
@@ -90,55 +139,6 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version8ClientMessage, ILoginMessage {
             MatrixCardProof = matrixCardProof,
             Authenticator = authenticator,
         };
-    }
-
-    public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
-        // opcode: u8
-        await WriteUtils.WriteByte(w, 1, cancellationToken).ConfigureAwait(false);
-
-        foreach (var v in ClientPublicKey) {
-            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-        }
-
-        foreach (var v in ClientProof) {
-            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-        }
-
-        foreach (var v in CrcHash) {
-            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-        }
-
-        await WriteUtils.WriteByte(w, (byte)TelemetryKeys.Count, cancellationToken).ConfigureAwait(false);
-
-        foreach (var v in TelemetryKeys) {
-            await v.WriteAsync(w, cancellationToken).ConfigureAwait(false);
-        }
-
-        await WriteUtils.WriteByte(w, (byte)SecurityFlag, cancellationToken).ConfigureAwait(false);
-
-        if (SecurityFlag.HasFlag(SecurityFlag.Pin)) {
-            foreach (var v in PinSalt) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-            }
-
-            foreach (var v in PinHash) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-            }
-
-        }
-
-        if (SecurityFlag.HasFlag(SecurityFlag.MatrixCard)) {
-            foreach (var v in MatrixCardProof) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-            }
-
-        }
-
-        if (SecurityFlag.HasFlag(SecurityFlag.Authenticator)) {
-            await WriteUtils.WriteString(w, Authenticator, cancellationToken).ConfigureAwait(false);
-
-        }
-
     }
 
 }
