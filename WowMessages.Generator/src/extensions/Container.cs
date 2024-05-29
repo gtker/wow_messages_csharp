@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using WowMessages.Generator.Generated;
 
 namespace WowMessages.Generator.Extensions;
@@ -69,19 +70,96 @@ public static class ContainerExtensions
 
                     break;
                 case StructMemberOptional optional:
+                {
+                    foreach (var m in optional.StructMemberContent.Members)
                     {
-                        foreach (var m in optional.StructMemberContent.Members)
+                        foreach (var d in m.AllDefinitions())
                         {
-                            foreach (var d in m.AllDefinitions())
-                            {
-                                yield return d;
-                            }
+                            yield return d;
                         }
                     }
+                }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(member));
             }
+        }
+    }
+
+    public static Definition FindDefinitionByName(this Container e, string name)
+    {
+        foreach (var d in e.AllDefinitions())
+        {
+            if (d.Name == name)
+            {
+                return d;
+            }
+        }
+
+        throw new UnreachableException($"definition {name} not in container {e.Name}");
+    }
+
+    public static IEnumerable<PreparedObject> AllPreparedObjects(this Container e)
+    {
+        foreach (var preparedObject in e.PreparedObjects)
+        {
+            yield return preparedObject;
+            foreach (var po in preparedObject.AllPreparedObjects())
+            {
+                yield return po;
+            }
+        }
+    }
+
+    public static PreparedObject FindPreparedObject(this Container e, string variableName)
+    {
+        foreach (var preparedObject in e.AllPreparedObjects())
+        {
+            if (preparedObject.Name == variableName)
+            {
+                return preparedObject;
+            }
+        }
+
+        throw new UnreachableException();
+    }
+
+    public static string GetPrefixForPreparedObject(this Container e, string variableName)
+    {
+        foreach (var preparedObject in e.PreparedObjects)
+        {
+            if (GetPrefix(e, preparedObject, "") is { } ret)
+            {
+                return ret;
+            }
+        }
+
+        throw new UnreachableException();
+
+        string? GetPrefix(Container e, PreparedObject po, string prefix)
+        {
+            if (po.Name == variableName)
+            {
+                return prefix;
+            }
+
+            var d = e.FindDefinitionByName(po.Name);
+            if (po.Enumerators is { } enumerators)
+            {
+                foreach (var (enumerator, members) in enumerators)
+                {
+                    foreach (var member in members)
+                    {
+                        if (GetPrefix(e, member, $"{prefix}{d.PreparedObjectTypeName(enumerator)}.") is
+                            { } ret)
+                        {
+                            return ret;
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -43,7 +43,7 @@ public static class IfStatementExtensions
                 break;
             case IfStatementEquationsEquals c:
                 conditions.AddRange(c.Value.Select(cond =>
-                    $" == {originalType}.{cond.ToEnumerator()}"));
+                    $" is {originalType}.{cond.ToEnumerator()}"));
                 break;
             case IfStatementEquationsNotEquals c:
                 conditions.Add($" != {originalType}.{c.Value.ToEnumerator()}");
