@@ -24,5 +24,7 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <EmbedAllSources>true</EmbedAllSources>
         <DebugType>embedded</DebugType>
+        <!-- CS1591 is required XML doc -->
+        <NoWarn>1701;1702;CS1591</NoWarn>
     </PropertyGroup>
 </Project>
