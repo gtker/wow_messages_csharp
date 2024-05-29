@@ -54,6 +54,18 @@ public static class WriteContainers
         return s;
     }
 
+    private static void WriteMemberDefinition(Writer s, Container e, Definition d)
+    {
+        if (d.IsNotInType())
+        {
+            return;
+        }
+
+        WriteDefinitionComment(s, d.Tags.Comment);
+
+        s.Wln($"public required {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
+    }
+
     private static void WriteDefinition(Writer s, Container e)
     {
         foreach (var member in e.Members)
@@ -61,18 +73,10 @@ public static class WriteContainers
             switch (member)
             {
                 case StructMemberDefinition definition:
-                    {
-                        var d = definition.StructMemberContent;
-                        if (d.IsNotInType())
-                        {
-                            continue;
-                        }
-
-                        WriteDefinitionComment(s, d.Tags.Comment);
-
-                        s.Wln($"public required {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
-                        break;
-                    }
+                {
+                    WriteMemberDefinition(s, e, definition.StructMemberContent);
+                    break;
+                }
                 case StructMemberIfStatement statement:
                     foreach (var d in statement.AllDefinitions())
                     {
