@@ -13,7 +13,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: Version7ServerMessage, ILoginM
 
         await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
 
-        if (Result == LoginResult.Success) {
+        if (Result is LoginResult.Success) {
             foreach (var v in ChallengeData) {
                 await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
@@ -32,7 +32,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: Version7ServerMessage, ILoginM
 
         var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
-        if (result == LoginResult.Success) {
+        if (result is LoginResult.Success) {
             challengeData = new List<byte>();
             for (var i = 0; i < 16; ++i) {
                 challengeData.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));

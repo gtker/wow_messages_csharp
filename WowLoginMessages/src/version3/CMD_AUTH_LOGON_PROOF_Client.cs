@@ -35,7 +35,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version3ClientMessage, ILoginMessage {
 
         await WriteUtils.WriteByte(w, (byte)SecurityFlag, cancellationToken).ConfigureAwait(false);
 
-        if (SecurityFlag == SecurityFlag.Pin) {
+        if (SecurityFlag is SecurityFlag.Pin) {
             foreach (var v in PinSalt) {
                 await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
@@ -77,7 +77,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version3ClientMessage, ILoginMessage {
 
         var securityFlag = (SecurityFlag)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
-        if (securityFlag == SecurityFlag.Pin) {
+        if (securityFlag is SecurityFlag.Pin) {
             pinSalt = new List<byte>();
             for (var i = 0; i < 16; ++i) {
                 pinSalt.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));

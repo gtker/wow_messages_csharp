@@ -21,7 +21,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version2ServerMessage, ILoginMessa
 
         await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
 
-        if (Result == LoginResult.Success) {
+        if (Result is LoginResult.Success) {
             foreach (var v in ServerPublicKey) {
                 await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
@@ -64,7 +64,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version2ServerMessage, ILoginMessa
 
         var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
-        if (result == LoginResult.Success) {
+        if (result is LoginResult.Success) {
             serverPublicKey = new List<byte>();
             for (var i = 0; i < 32; ++i) {
                 serverPublicKey.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));

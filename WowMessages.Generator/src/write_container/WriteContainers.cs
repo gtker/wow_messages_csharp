@@ -171,22 +171,19 @@ public static class WriteContainers
     {
         Func<string, string> transform = upperCaseFirstChar ? Utils.SnakeCaseToPascalCase : Utils.SnakeCaseToCamelCase;
 
-        var ifHeader = "if (";
-        foreach (var cond in statement.CsConditionals())
+        foreach (var (i, cond) in statement.CsConditionals().Select((v, i) => (i, v)))
         {
-            ifHeader += $"{transform(statement.VariableName)}{cond}";
-        }
+            var prefix = i != 0 ? "else " : "";
+            var ifHeader = $"{prefix}if ({transform(statement.VariableName)}{cond})";
 
-        ifHeader += ")";
-
-        s.Body(ifHeader, s =>
-        {
-            foreach (var member in statement.Members)
+            s.Body(ifHeader, s =>
             {
-                invocation(s, e, member);
-            }
-        });
-
+                foreach (var member in statement.Members)
+                {
+                    invocation(s, e, member);
+                }
+            });
+        }
 
         if (statement.ElseMembers.Count != 0)
         {

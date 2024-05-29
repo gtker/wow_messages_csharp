@@ -14,7 +14,7 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version6ServerMessage, ILoginMessage {
 
         await WriteUtils.WriteByte(w, (byte)Result, cancellationToken).ConfigureAwait(false);
 
-        if (Result == LoginResult.Success) {
+        if (Result is LoginResult.Success) {
             foreach (var v in ServerProof) {
                 await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
@@ -34,7 +34,7 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version6ServerMessage, ILoginMessage {
 
         var result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
-        if (result == LoginResult.Success) {
+        if (result is LoginResult.Success) {
             serverProof = new List<byte>();
             for (var i = 0; i < 20; ++i) {
                 serverProof.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
