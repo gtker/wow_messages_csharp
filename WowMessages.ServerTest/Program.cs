@@ -78,13 +78,15 @@ public static class Server
 
         await new CMD_AUTH_LOGON_CHALLENGE_Server
         {
-            Result = LoginResult.Success,
-            ServerPublicKey = proof.ServerPublicKey.ToList(),
-            Generator = [Constants.Generator],
-            LargeSafePrime = Constants.LargeSafePrimeLittleEndian.ToList(),
-            Salt = proof.Salt.ToList(),
-            CrcSalt = Pin.RandomPinSalt().ToList(),
-            SecurityFlag = SecurityFlag.None
+            Result = new CMD_AUTH_LOGON_CHALLENGE_Server.LoginResultSuccess
+            {
+                ServerPublicKey = proof.ServerPublicKey.ToList(),
+                Generator = [Constants.Generator],
+                LargeSafePrime = Constants.LargeSafePrimeLittleEndian.ToList(),
+                Salt = proof.Salt.ToList(),
+                CrcSalt = Pin.RandomPinSalt().ToList(),
+                SecurityFlag = SecurityFlag.None
+            }
         }.WriteAsync(client.GetStream(), cts.Token);
         Console.WriteLine("Sent");
 
@@ -119,9 +121,11 @@ public static class Server
 
         await new CMD_AUTH_LOGON_PROOF_Server
         {
-            Result = LoginResult.Success,
-            ServerProof = serverProof.ToList(),
-            HardwareSurveyId = 0
+            Result = new CMD_AUTH_LOGON_PROOF_Server.LoginResultSuccess
+            {
+                ServerProof = serverProof.ToList(),
+                HardwareSurveyId = 0
+            }
         }.WriteAsync(client.GetStream(), cts.Token);
 
         while (await WowLoginMessages.Version3.ClientOpcodeReader.ExpectOpcode<CMD_REALM_LIST_Client>(

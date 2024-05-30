@@ -31,22 +31,38 @@ public static class IfStatementExtensions
         }
     }
 
-    public static List<string> CsConditionals(this IfStatement statement)
+    public static List<(string, string)> CsConditionals(this IfStatement statement, string module, string containerName,
+        bool isWrite)
     {
-        var conditions = new List<string>();
+        var conditions = new List<(string, string)>();
         var originalType = statement.OriginalType.CsType();
+
+        var variableBinding = isWrite ? $" {statement.VariableName.ToVariableName()}" : "";
+        var modulePrefix = isWrite ? containerName : module;
+        var dot = isWrite ? "" : ".";
 
         switch (statement.Equations)
         {
             case IfStatementEquationsBitwiseAnd c:
-                conditions.AddRange(c.Value.Select(cond => $".HasFlag({originalType}.{cond.ToEnumerator()})"));
+                if (isWrite)
+                {
+                    conditions.AddRange(c.Value.Select(cond =>
+                        ($" is {{}} {cond.ToVariableName()}", cond)));
+                }
+                else
+                {
+                    conditions.AddRange(c.Value.Select(cond =>
+                        ($".HasFlag({modulePrefix}.{originalType}{dot}{cond.ToEnumerator()})", cond)));
+                }
+
                 break;
             case IfStatementEquationsEquals c:
                 conditions.AddRange(c.Value.Select(cond =>
-                    $" is {originalType}.{cond.ToEnumerator()}"));
+                    ($" is {modulePrefix}.{originalType}{dot}{cond.ToEnumerator()}{variableBinding}", cond)));
                 break;
             case IfStatementEquationsNotEquals c:
-                conditions.Add($" != {originalType}.{c.Value.ToEnumerator()}");
+                conditions.Add(($" != {modulePrefix}.{originalType}{dot}{c.Value.ToEnumerator()}{variableBinding}",
+                    c.Value));
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -54,4 +70,6 @@ public static class IfStatementExtensions
 
         return conditions;
     }
+
+    public static bool IsFlag(this IfStatement statement) => statement.OriginalType is DataTypeFlag;
 }

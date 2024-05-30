@@ -13,6 +13,37 @@ public static class WriteContainers
         s.Wln($"namespace Wow{project}Messages.{module};");
         s.Newline();
 
+        var newline = false;
+
+        foreach (var po in e.AllPreparedObjects())
+        {
+            if (po.Enumerators is { } enumerators)
+            {
+                newline = true;
+
+                var d = e.FindDefinitionByName(po.Name);
+                if (d.DataType is DataTypeEnum)
+                {
+                    s.W($"using {d.CsTypeName()}Type = OneOf.OneOf<");
+
+                    foreach (var (enumerator, members) in enumerators)
+                    {
+                        if (members.Any(m => e.FindDefinitionByName(m.Name).IsInType()))
+                        {
+                            s.WNoIndentation($"{e.Name}.{d.PreparedObjectTypeName(enumerator)}, ");
+                        }
+                    }
+
+                    s.WlnNoIndentation($"{d.CsTypeName()}>;");
+                }
+            }
+        }
+
+        if (newline)
+        {
+            s.Newline();
+        }
+
         s.Wln("[System.CodeDom.Compiler.GeneratedCode(\"WoWM\", \"0.1.0\")]");
         if (e.Name.Contains('_'))
         {
@@ -29,23 +60,23 @@ public static class WriteContainers
 
         s.Body($"public class {e.Name}{implements}", s =>
         {
-            WriteDefinition(s, e);
+            WriteDefinition(s, e, module);
             s.Newline();
 
-            WriteWriteImplementation.WriteWrite(s, e);
+            WriteWriteImplementation.WriteWrite(s, e, module);
             s.Newline();
 
-            WriteReadImplementation.WriteRead(s, e);
+            WriteReadImplementation.WriteRead(s, e, module);
             s.Newline();
 
             if (e.ManualSizeSubtraction is { } manualSizeSubtraction)
             {
-                WriteSizeImplementation.WriteSize(s, e, manualSizeSubtraction);
+                WriteSizeImplementation.WriteSize(s, e, module, manualSizeSubtraction);
                 s.Newline();
             }
             else if (e is { ObjectType: ObjectTypeStruct, Sizes.ConstantSized: false })
             {
-                WriteSizeImplementation.WriteSize(s, e, 0);
+                WriteSizeImplementation.WriteSize(s, e, module, 0);
                 s.Newline();
             }
         });
@@ -63,49 +94,95 @@ public static class WriteContainers
 
         WriteDefinitionComment(s, d.Tags.Comment);
 
-        s.Wln($"public required {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
+        var postfix = d.UsedInIf ? "Type" : "";
+
+        s.Wln($"public required {d.CsTypeName()}{postfix} {d.MemberName()} {{ get; set; }}");
     }
 
-    private static void WriteDefinition(Writer s, Container e)
+    private static void WriteEnumValue(Writer s, PreparedObject po, Definition d, Container e, string module)
     {
-        foreach (var member in e.Members)
+        if (po.Enumerators is { } enumerators)
         {
-            switch (member)
+            if (d.DataType is DataTypeEnum)
             {
-                case StructMemberDefinition definition:
+                s.Wln(
+                    $"internal {d.CsTypeName()} {d.MemberName()}Value => {d.MemberName()}.Match(");
+                s.IncrementIndentation();
+                foreach (var (enumerator, members) in enumerators)
                 {
-                    WriteMemberDefinition(s, e, definition.StructMemberContent);
-                    break;
+                    if (members.Any(m => e.FindDefinitionByName(m.Name).IsInType()))
+                    {
+                        s.Wln($"_ => {module}.{d.CsTypeName()}.{enumerator.ToEnumerator()},");
+                    }
                 }
-                case StructMemberIfStatement statement:
-                    foreach (var d in statement.AllDefinitions())
-                    {
-                        if (d.IsNotInType())
-                        {
-                            continue;
-                        }
 
-                        WriteDefinitionComment(s, d.Tags.Comment);
-
-                        s.Wln($"public {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
-                    }
-
-                    break;
-                case StructMemberOptional optional:
-                    foreach (var d in optional.AllDefinitions())
-                    {
-                        if (d.IsNotInType())
-                        {
-                            continue;
-                        }
-
-                        s.Wln($"public {d.CsTypeName()} {d.MemberName()} {{ get; set; }}");
-                    }
-
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(member));
+                s.Wln("v => v");
+                s.DecrementIndentation();
+                s.Wln(");");
             }
+        }
+    }
+
+    private static void WriteDefinition(Writer s, Container e, string module)
+    {
+        foreach (var po in e.AllPreparedObjects())
+        {
+            if (po.Enumerators is { } enumerators)
+            {
+                var d = e.FindDefinitionByName(po.Name);
+                if (d.DataType is DataTypeEnum)
+                {
+                    foreach (var (enumerator, members) in enumerators)
+                    {
+                        if (members.Any(m => e.FindDefinitionByName(m.Name).IsInType()))
+                        {
+                            s.Body($"public class {d.PreparedObjectTypeName(enumerator)}", s =>
+                            {
+                                foreach (var member in members)
+                                {
+                                    var d = e.FindDefinitionByName(member.Name);
+                                    WriteMemberDefinition(s, e, d);
+
+                                    WriteEnumValue(s, member, d, e, module);
+                                }
+                            });
+                        }
+                    }
+                }
+                else
+                {
+                    s.Body($"public class {d.CsTypeName()}Type", s =>
+                    {
+                        s.Wln($"public required {d.CsTypeName()} Inner;");
+
+                        foreach (var (enumerator, _) in enumerators)
+                        {
+                            s.Wln(
+                                $"public {d.PreparedObjectTypeName(enumerator)}? {enumerator.ToEnumerator()};");
+                        }
+                    });
+
+                    foreach (var (enumerator, members) in enumerators)
+                    {
+                        s.Body($"public class {d.PreparedObjectTypeName(enumerator)}", s =>
+                        {
+                            foreach (var member in members)
+                            {
+                                var d = e.FindDefinitionByName(member.Name);
+                                WriteMemberDefinition(s, e, d);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        foreach (var po in e.PreparedObjects)
+        {
+            var d = e.FindDefinitionByName(po.Name);
+            WriteMemberDefinition(s, e, d);
+
+            WriteEnumValue(s, po, d, e, module);
         }
     }
 
@@ -166,22 +243,32 @@ public static class WriteContainers
         }
     }
 
-    public static void WriteIfStatement(Writer s, Container e, IfStatement statement,
-        Action<Writer, Container, StructMember> invocation, bool upperCaseFirstChar)
+    public static void WriteIfStatement(Writer s, Container e, IfStatement statement, string module,
+        Action<Writer, Container, StructMember, string> invocation,
+        Action<Writer, Definition, IList<PreparedObject>, string> end,
+        bool isWrite, string variablePrefix)
     {
-        Func<string, string> transform = upperCaseFirstChar ? Utils.SnakeCaseToPascalCase : Utils.SnakeCaseToCamelCase;
+        Func<string, string> transform = isWrite ? Utils.SnakeCaseToPascalCase : Utils.SnakeCaseToCamelCase;
 
-        foreach (var (i, cond) in statement.CsConditionals().Select((v, i) => (i, v)))
+        foreach (var (i, (cond, enumerator)) in statement.CsConditionals(module, e.Name, isWrite)
+                     .Select((v, i) => (i, v)))
         {
+            var flag = statement.OriginalType is DataTypeFlag;
             var prefix = i != 0 ? "else " : "";
-            var ifHeader = $"{prefix}if ({transform(statement.VariableName)}{cond})";
+            var value = flag ? isWrite ? $".{enumerator.ToMemberName()}" : ".Inner" : ".Value";
+            var ifHeader = $"{prefix}if ({variablePrefix}{transform(statement.VariableName)}{value}{cond})";
 
             s.Body(ifHeader, s =>
             {
                 foreach (var member in statement.Members)
                 {
-                    invocation(s, e, member);
+                    invocation(s, e, member, enumerator);
                 }
+
+                var po = e.FindPreparedObject(statement.VariableName);
+                var d = e.FindDefinitionByName(statement.VariableName);
+
+                end(s, d, po.Enumerators[enumerator], enumerator);
             });
         }
 
@@ -191,7 +278,7 @@ public static class WriteContainers
             {
                 foreach (var member in statement.ElseMembers)
                 {
-                    invocation(s, e, member);
+                    invocation(s, e, member, "TODO");
                 }
             });
         }

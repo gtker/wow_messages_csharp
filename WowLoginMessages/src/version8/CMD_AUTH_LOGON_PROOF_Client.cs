@@ -1,26 +1,39 @@
 namespace WowLoginMessages.Version8;
 
+
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMD_AUTH_LOGON_PROOF_Client: Version8ClientMessage, ILoginMessage {
+    public class SecurityFlagType {
+        public required SecurityFlag Inner;
+        public SecurityFlagAuthenticator? Authenticator;
+        public SecurityFlagMatrixCard? MatrixCard;
+        public SecurityFlagPin? Pin;
+    }
+    public class SecurityFlagAuthenticator {
+        /// <summary>
+        /// String entered by the user in the "Authenticator" popup.
+        /// Can be empty and up to 16 characters.
+        /// Is not used by the client in any way but just sent directly, so this could in theory be used for anything.
+        /// </summary>
+        public required string Authenticator { get; set; }
+    }
+    public class SecurityFlagMatrixCard {
+        /// <summary>
+        /// Client proof of matrix input.
+        /// Implementation details at `https://gist.github.com/barncastle/979c12a9c5e64d810a28ad1728e7e0f9`.
+        /// </summary>
+        public required List<byte> MatrixCardProof { get; set; }
+    }
+    public class SecurityFlagPin {
+        public required List<byte> PinHash { get; set; }
+        public required List<byte> PinSalt { get; set; }
+    }
     public required List<byte> ClientPublicKey { get; set; }
     public required List<byte> ClientProof { get; set; }
     public required List<byte> CrcHash { get; set; }
     public required List<TelemetryKey> TelemetryKeys { get; set; }
-    public required SecurityFlag SecurityFlag { get; set; }
-    public List<byte> PinSalt { get; set; }
-    public List<byte> PinHash { get; set; }
-    /// <summary>
-    /// Client proof of matrix input.
-    /// Implementation details at `https://gist.github.com/barncastle/979c12a9c5e64d810a28ad1728e7e0f9`.
-    /// </summary>
-    public List<byte> MatrixCardProof { get; set; }
-    /// <summary>
-    /// String entered by the user in the "Authenticator" popup.
-    /// Can be empty and up to 16 characters.
-    /// Is not used by the client in any way but just sent directly, so this could in theory be used for anything.
-    /// </summary>
-    public string Authenticator { get; set; }
+    public required SecurityFlagType SecurityFlag { get; set; }
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
@@ -44,39 +57,34 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version8ClientMessage, ILoginMessage {
             await v.WriteAsync(w, cancellationToken).ConfigureAwait(false);
         }
 
-        await WriteUtils.WriteByte(w, (byte)SecurityFlag, cancellationToken).ConfigureAwait(false);
+        await WriteUtils.WriteByte(w, (byte)SecurityFlag.Inner, cancellationToken).ConfigureAwait(false);
 
-        if (SecurityFlag.HasFlag(SecurityFlag.Pin)) {
-            foreach (var v in PinSalt) {
+        if (SecurityFlag.Pin is {} pin) {
+            foreach (var v in pin.PinSalt) {
                 await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
 
-            foreach (var v in PinHash) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
-            }
-
-        }
-
-        if (SecurityFlag.HasFlag(SecurityFlag.MatrixCard)) {
-            foreach (var v in MatrixCardProof) {
+            foreach (var v in pin.PinHash) {
                 await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
 
         }
 
-        if (SecurityFlag.HasFlag(SecurityFlag.Authenticator)) {
-            await WriteUtils.WriteString(w, Authenticator, cancellationToken).ConfigureAwait(false);
+        if (SecurityFlag.MatrixCard is {} matrixCard) {
+            foreach (var v in matrixCard.MatrixCardProof) {
+                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            }
+
+        }
+
+        if (SecurityFlag.Authenticator is {} authenticator) {
+            await WriteUtils.WriteString(w, authenticator.Authenticator, cancellationToken).ConfigureAwait(false);
 
         }
 
     }
 
     public static async Task<CMD_AUTH_LOGON_PROOF_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var pinSalt = default(List<byte>);
-        var pinHash = default(List<byte>);
-        var matrixCardProof = default(List<byte>);
-        var authenticator = default(string);
-
         var clientPublicKey = new List<byte>();
         for (var i = 0; i < 32; ++i) {
             clientPublicKey.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
@@ -100,32 +108,44 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version8ClientMessage, ILoginMessage {
             telemetryKeys.Add(await TelemetryKey.ReadAsync(r, cancellationToken).ConfigureAwait(false));
         }
 
-        var securityFlag = (SecurityFlag)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
+        var securityFlag = new SecurityFlagType {
+            Inner = (SecurityFlag)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false),
+        };
 
-        if (securityFlag.HasFlag(SecurityFlag.Pin)) {
-            pinSalt = new List<byte>();
+        if (securityFlag.Inner.HasFlag(Version8.SecurityFlag.Pin)) {
+            var pinSalt = new List<byte>();
             for (var i = 0; i < 16; ++i) {
                 pinSalt.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
             }
 
-            pinHash = new List<byte>();
+            var pinHash = new List<byte>();
             for (var i = 0; i < 20; ++i) {
                 pinHash.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
             }
 
+            securityFlag.Pin = new SecurityFlagPin {
+                PinHash = pinHash,
+                PinSalt = pinSalt,
+            };
         }
 
-        if (securityFlag.HasFlag(SecurityFlag.MatrixCard)) {
-            matrixCardProof = new List<byte>();
+        if (securityFlag.Inner.HasFlag(Version8.SecurityFlag.MatrixCard)) {
+            var matrixCardProof = new List<byte>();
             for (var i = 0; i < 20; ++i) {
                 matrixCardProof.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
             }
 
+            securityFlag.MatrixCard = new SecurityFlagMatrixCard {
+                MatrixCardProof = matrixCardProof,
+            };
         }
 
-        if (securityFlag.HasFlag(SecurityFlag.Authenticator)) {
-            authenticator = await ReadUtils.ReadString(r, cancellationToken).ConfigureAwait(false);
+        if (securityFlag.Inner.HasFlag(Version8.SecurityFlag.Authenticator)) {
+            var authenticator = await ReadUtils.ReadString(r, cancellationToken).ConfigureAwait(false);
 
+            securityFlag.Authenticator = new SecurityFlagAuthenticator {
+                Authenticator = authenticator,
+            };
         }
 
         return new CMD_AUTH_LOGON_PROOF_Client {
@@ -134,10 +154,6 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version8ClientMessage, ILoginMessage {
             CrcHash = crcHash,
             TelemetryKeys = telemetryKeys,
             SecurityFlag = securityFlag,
-            PinSalt = pinSalt,
-            PinHash = pinHash,
-            MatrixCardProof = matrixCardProof,
-            Authenticator = authenticator,
         };
     }
 

@@ -16,6 +16,8 @@ public static class DefinitionExtensions
     public static bool IsNotInType(this Definition d) =>
         d.ConstantValue is not null || d.SizeOfFieldsBeforeSize is not null || d.UsedAsSizeIn is not null;
 
+    public static bool IsInType(this Definition d) => !IsNotInType(d);
+
     public static string PreparedObjectTypeName(this Definition d, string enumerator) =>
         $"{d.CsTypeName()}{enumerator.ToEnumerator()}";
 

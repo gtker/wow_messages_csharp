@@ -3,28 +3,35 @@ using Version = WowLoginMessages.All.Version;
 
 namespace WowLoginMessages.Version8;
 
+
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class Realm {
+    public class RealmFlagType {
+        public required RealmFlag Inner;
+        public RealmFlagSpecifyBuild? SpecifyBuild;
+    }
+    public class RealmFlagSpecifyBuild {
+        public required Version Version { get; set; }
+    }
     /// <summary>
     /// vmangos: this is the second column in Cfg_Configs.dbc
     /// </summary>
     public required RealmType RealmType { get; set; }
     public required bool Locked { get; set; }
-    public required RealmFlag Flag { get; set; }
+    public required RealmFlagType Flag { get; set; }
     public required string Name { get; set; }
     public required string Address { get; set; }
     public required Population Population { get; set; }
     public required byte NumberOfCharactersOnRealm { get; set; }
     public required RealmCategory Category { get; set; }
     public required byte RealmId { get; set; }
-    public Version Version { get; set; }
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         await WriteUtils.WriteByte(w, (byte)RealmType, cancellationToken).ConfigureAwait(false);
 
         await WriteUtils.WriteBool8(w, Locked, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteByte(w, (byte)Flag, cancellationToken).ConfigureAwait(false);
+        await WriteUtils.WriteByte(w, (byte)Flag.Inner, cancellationToken).ConfigureAwait(false);
 
         await WriteUtils.WriteCString(w, Name, cancellationToken).ConfigureAwait(false);
 
@@ -38,21 +45,21 @@ public class Realm {
 
         await WriteUtils.WriteByte(w, RealmId, cancellationToken).ConfigureAwait(false);
 
-        if (Flag.HasFlag(RealmFlag.SpecifyBuild)) {
-            await Version.WriteAsync(w, cancellationToken).ConfigureAwait(false);
+        if (Flag.SpecifyBuild is {} specifyBuild) {
+            await specifyBuild.Version.WriteAsync(w, cancellationToken).ConfigureAwait(false);
 
         }
 
     }
 
     public static async Task<Realm> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var version = default(Version);
-
         var realmType = (RealmType)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
         var locked = await ReadUtils.ReadBool8(r, cancellationToken).ConfigureAwait(false);
 
-        var flag = (RealmFlag)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
+        var flag = new RealmFlagType {
+            Inner = (RealmFlag)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false),
+        };
 
         var name = await ReadUtils.ReadCString(r, cancellationToken).ConfigureAwait(false);
 
@@ -66,9 +73,12 @@ public class Realm {
 
         var realmId = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
-        if (flag.HasFlag(RealmFlag.SpecifyBuild)) {
-            version = await Version.ReadAsync(r, cancellationToken).ConfigureAwait(false);
+        if (flag.Inner.HasFlag(Version8.RealmFlag.SpecifyBuild)) {
+            var version = await Version.ReadAsync(r, cancellationToken).ConfigureAwait(false);
 
+            flag.SpecifyBuild = new RealmFlagSpecifyBuild {
+                Version = version,
+            };
         }
 
         return new Realm {
@@ -81,7 +91,6 @@ public class Realm {
             NumberOfCharactersOnRealm = numberOfCharactersOnRealm,
             Category = category,
             RealmId = realmId,
-            Version = version,
         };
     }
 
@@ -115,7 +124,7 @@ public class Realm {
         // realm_id: WowMessages.Generator.Generated.DataTypeInteger
         size += 1;
 
-        if (Flag.HasFlag(RealmFlag.SpecifyBuild)) {
+        if (Flag.SpecifyBuild is {} specifyBuild) {
             // version: WowMessages.Generator.Generated.DataTypeStruct
             size += 5;
 

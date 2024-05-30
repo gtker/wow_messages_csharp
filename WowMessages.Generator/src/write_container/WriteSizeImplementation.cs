@@ -5,7 +5,7 @@ namespace WowMessages.Generator.write_container;
 
 public class WriteSizeImplementation
 {
-    public static void WriteSize(Writer s, Container e, ushort manualSizeSubtraction)
+    public static void WriteSize(Writer s, Container e, string module, ushort manualSizeSubtraction)
     {
         s.Body("internal int Size()", s =>
         {
@@ -14,14 +14,14 @@ public class WriteSizeImplementation
 
             foreach (var member in e.Members)
             {
-                WriteSizeMember(s, e, member);
+                WriteSizeMember(s, e, member, module);
             }
 
             s.Wln(manualSizeSubtraction == 0 ? "return size;" : $"return size - {manualSizeSubtraction};");
         });
     }
 
-    private static void WriteSizeMember(Writer s, Container e, StructMember member)
+    private static void WriteSizeMember(Writer s, Container e, StructMember member, string module)
     {
         switch (member)
         {
@@ -31,7 +31,10 @@ public class WriteSizeImplementation
                 s.Newline();
                 break;
             case StructMemberIfStatement statement:
-                WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, WriteSizeMember, true);
+                WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, module,
+                    (s, e, member, _) => { WriteSizeMember(s, e, member, module); },
+                    (_, _, _, _) => { },
+                    true, "");
 
                 break;
             case StructMemberOptional structMemberOptional:

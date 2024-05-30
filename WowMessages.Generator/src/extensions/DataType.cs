@@ -4,6 +4,13 @@ namespace WowMessages.Generator.Extensions;
 
 public static class DataTypeExtension
 {
+    public static IntegerType EnumOrFlagIntegerType(this DataType d) => d switch
+    {
+        DataTypeEnum dataTypeEnum => dataTypeEnum.IntegerType,
+        DataTypeFlag dataTypeFlag => dataTypeFlag.IntegerType,
+        _ => throw new ArgumentOutOfRangeException(nameof(d))
+    };
+
     public static string CsType(this DataType d) => d switch
     {
         DataTypeInteger i => i.IntegerType.CsType(),

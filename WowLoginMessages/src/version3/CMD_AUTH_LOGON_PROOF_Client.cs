@@ -1,15 +1,23 @@
 namespace WowLoginMessages.Version3;
 
+using SecurityFlagType = OneOf.OneOf<CMD_AUTH_LOGON_PROOF_Client.SecurityFlagPin, SecurityFlag>;
+
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMD_AUTH_LOGON_PROOF_Client: Version3ClientMessage, ILoginMessage {
+    public class SecurityFlagPin {
+        public required List<byte> PinHash { get; set; }
+        public required List<byte> PinSalt { get; set; }
+    }
     public required List<byte> ClientPublicKey { get; set; }
     public required List<byte> ClientProof { get; set; }
     public required List<byte> CrcHash { get; set; }
     public required List<TelemetryKey> TelemetryKeys { get; set; }
-    public required SecurityFlag SecurityFlag { get; set; }
-    public List<byte> PinSalt { get; set; }
-    public List<byte> PinHash { get; set; }
+    public required SecurityFlagType SecurityFlag { get; set; }
+    internal SecurityFlag SecurityFlagValue => SecurityFlag.Match(
+        _ => Version3.SecurityFlag.Pin,
+        v => v
+    );
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
@@ -33,14 +41,14 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version3ClientMessage, ILoginMessage {
             await v.WriteAsync(w, cancellationToken).ConfigureAwait(false);
         }
 
-        await WriteUtils.WriteByte(w, (byte)SecurityFlag, cancellationToken).ConfigureAwait(false);
+        await WriteUtils.WriteByte(w, (byte)SecurityFlagValue, cancellationToken).ConfigureAwait(false);
 
-        if (SecurityFlag is SecurityFlag.Pin) {
-            foreach (var v in PinSalt) {
+        if (SecurityFlag.Value is CMD_AUTH_LOGON_PROOF_Client.SecurityFlagPin securityFlag) {
+            foreach (var v in securityFlag.PinSalt) {
                 await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
 
-            foreach (var v in PinHash) {
+            foreach (var v in securityFlag.PinHash) {
                 await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
             }
 
@@ -49,9 +57,6 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version3ClientMessage, ILoginMessage {
     }
 
     public static async Task<CMD_AUTH_LOGON_PROOF_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var pinSalt = default(List<byte>);
-        var pinHash = default(List<byte>);
-
         var clientPublicKey = new List<byte>();
         for (var i = 0; i < 32; ++i) {
             clientPublicKey.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
@@ -75,19 +80,23 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version3ClientMessage, ILoginMessage {
             telemetryKeys.Add(await TelemetryKey.ReadAsync(r, cancellationToken).ConfigureAwait(false));
         }
 
-        var securityFlag = (SecurityFlag)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
+        SecurityFlagType securityFlag = (SecurityFlag)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
 
-        if (securityFlag is SecurityFlag.Pin) {
-            pinSalt = new List<byte>();
+        if (securityFlag.Value is Version3.SecurityFlag.Pin) {
+            var pinSalt = new List<byte>();
             for (var i = 0; i < 16; ++i) {
                 pinSalt.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
             }
 
-            pinHash = new List<byte>();
+            var pinHash = new List<byte>();
             for (var i = 0; i < 20; ++i) {
                 pinHash.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
             }
 
+            securityFlag = new SecurityFlagPin {
+                PinHash = pinHash,
+                PinSalt = pinSalt,
+            };
         }
 
         return new CMD_AUTH_LOGON_PROOF_Client {
@@ -96,8 +105,6 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version3ClientMessage, ILoginMessage {
             CrcHash = crcHash,
             TelemetryKeys = telemetryKeys,
             SecurityFlag = securityFlag,
-            PinSalt = pinSalt,
-            PinHash = pinHash,
         };
     }
 

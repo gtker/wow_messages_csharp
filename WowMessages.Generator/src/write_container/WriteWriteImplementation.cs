@@ -5,7 +5,7 @@ namespace WowMessages.Generator.write_container;
 
 public static class WriteWriteImplementation
 {
-    public static void WriteWrite(Writer s, Container e)
+    public static void WriteWrite(Writer s, Container e, string module)
     {
         s.Body("public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default)", s =>
         {
@@ -37,21 +37,30 @@ public static class WriteWriteImplementation
 
             foreach (var member in e.Members)
             {
-                WriteWriteMember(s, e, member);
+                WriteWriteMember(s, e, member, module, "");
             }
         });
     }
 
-    private static void WriteWriteMember(Writer s, Container e, StructMember member)
+    private static void WriteWriteMember(Writer s, Container e, StructMember member, string module, string prefix)
     {
         switch (member)
         {
             case StructMemberDefinition d:
-                WriteWriteForType(s, d.StructMemberContent);
+                WriteWriteForType(s, d.StructMemberContent, prefix);
                 s.Newline();
                 break;
             case StructMemberIfStatement statement:
-                WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, WriteWriteMember, true);
+                WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, module,
+                    (s, e, member, enumerator) =>
+                    {
+                        var newPrefix = statement.StructMemberContent.IsFlag()
+                            ? $"{enumerator.ToVariableName()}."
+                            : $"{statement.StructMemberContent.VariableName.ToVariableName()}.";
+                        WriteWriteMember(s, e, member, module, newPrefix);
+                    },
+                    (_, _, _, _) => { },
+                    true, prefix);
                 break;
             case StructMemberOptional structMemberOptional:
                 throw new NotImplementedException();
@@ -60,9 +69,9 @@ public static class WriteWriteImplementation
         }
     }
 
-    private static void WriteWriteForType(Writer s, Definition d)
+    private static void WriteWriteForType(Writer s, Definition d, string prefix)
     {
-        var value = d.MemberName();
+        var value = $"{prefix}{d.MemberName()}";
         if (d.SizeOfFieldsBeforeSize is not null)
         {
             var cast = d.DataType.CsType();
@@ -74,7 +83,7 @@ public static class WriteWriteImplementation
         }
         else if (d.UsedAsSizeIn is { } v)
         {
-            value = $"({d.DataType.CsType()}){v.ToPascalCase()}.Count";
+            value = $"({d.DataType.CsType()}){prefix}{v.ToPascalCase()}.Count";
         }
 
         switch (d.DataType)
@@ -85,27 +94,37 @@ public static class WriteWriteImplementation
                 break;
 
             case DataTypeEnum i:
+                if (d.UsedInIf)
+                {
+                    value += "Value";
+                }
+
                 s.Wln(
                     $"await WriteUtils.{i.IntegerType.WriteFunction()}(w, ({i.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeFlag i:
+                if (d.UsedInIf)
+                {
+                    value += ".Inner";
+                }
+
                 s.Wln(
                     $"await WriteUtils.{i.IntegerType.WriteFunction()}(w, ({i.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeStruct:
-                s.Wln($"await {d.MemberName()}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
+                s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds
                 or DataTypeMilliseconds or DataTypeGold or DataTypeDateTime:
-                {
-                    s.Wln($"await WriteUtils.WriteUInt(w, {value}, cancellationToken).ConfigureAwait(false);");
-                }
+            {
+                s.Wln($"await WriteUtils.WriteUInt(w, {value}, cancellationToken).ConfigureAwait(false);");
+            }
                 break;
             case DataTypeSpell16 or DataTypeLevel16:
-                {
-                    s.Wln($"await WriteUtils.WriteUShort(w, {value}, cancellationToken).ConfigureAwait(false);");
-                }
+            {
+                s.Wln($"await WriteUtils.WriteUShort(w, {value}, cancellationToken).ConfigureAwait(false);");
+            }
                 break;
             case DataTypeLevel:
                 s.Wln($"await WriteUtils.WriteByte(w, {value}, cancellationToken).ConfigureAwait(false);");
@@ -137,7 +156,7 @@ public static class WriteWriteImplementation
                 break;
 
             case DataTypeArray array:
-                WriteWriteForArray(s, d, array);
+                WriteWriteForArray(s, d, array, prefix);
                 break;
 
             case DataTypeAchievementDoneArray dataTypeAchievementDoneArray:
@@ -171,9 +190,9 @@ public static class WriteWriteImplementation
         }
     }
 
-    private static void WriteWriteForArray(Writer s, Definition d, DataTypeArray array)
+    private static void WriteWriteForArray(Writer s, Definition d, DataTypeArray array, string prefix)
     {
-        s.Body($"foreach (var v in {d.MemberName()})", s =>
+        s.Body($"foreach (var v in {prefix}{d.MemberName()})", s =>
         {
             switch (array.InnerType)
             {
