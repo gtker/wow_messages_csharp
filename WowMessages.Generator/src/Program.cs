@@ -53,6 +53,78 @@ internal static class Program
         {
             WriteLoginFiles(schema, version);
         }
+
+        Console.WriteLine("Wrote all login files");
+
+        WriteWorldFiles(schema, new WorldVersion { Major = 1, Minor = 12, Patch = 1, Build = 5875 });
+        Console.WriteLine("Wrote all world files");
+    }
+
+    private static void WriteDefiners(IList<Definer> enums, string module, string modulePath, string project,
+        ObjectVersions version, bool isFlag)
+    {
+        foreach (var e in enums)
+        {
+            if (e.Tags.Version_.ShouldNotWriteObject(version))
+            {
+                continue;
+            }
+
+            var s = WriteEnumAndFlag.WriteEnum(e, module, project, isFlag);
+            File.WriteAllText(ProjectDir + $"Wow{project}Messages/src/{modulePath}/" + e.FileName(), s.ToString());
+        }
+    }
+
+    private static void WriteContainersAndTests(IEnumerable<Container> containers, string module, string modulePath,
+        string project, ObjectVersions version)
+    {
+        var tests = new Writer();
+        WriteTests.TestHeader(tests, module);
+        foreach (var e in containers)
+        {
+            if (e.Tags.Version_.ShouldNotWriteObject(version) || e.ShouldSkip())
+            {
+                continue;
+            }
+
+            var s = WriteContainers.WriteContainer(e, module, project);
+            File.WriteAllText(ProjectDir + $"Wow{project}Messages/src/{modulePath}/" + e.FileName(),
+                s.ToString());
+
+            if (e.ObjectType is not ObjectTypeStruct)
+            {
+                WriteTests.WriteTest(tests, e);
+            }
+        }
+
+        WriteTests.TestFooter(tests);
+        File.WriteAllText(ProjectDir + $"Wow{project}Messages.Test/{module}.cs", tests.ToString());
+    }
+
+    private static void WriteOpcodes(IList<Container> messages, string module, string modulePath, string project,
+        ObjectVersions version)
+    {
+        var serverMessages =
+            messages.Where(e =>
+                e.Tags.Version_.ShouldWriteObject(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeSlogin);
+        var serverS =
+            WriteOpcodesImpl.WriteOpcodes(serverMessages, module, project, "Server");
+        if (serverS is not null)
+        {
+            File.WriteAllText(ProjectDir + $"Wow{project}Messages/src/{modulePath}/ServerOpcodeReader.cs",
+                serverS.ToString());
+        }
+
+        var clientMessages =
+            messages.Where(e =>
+                e.Tags.Version_.ShouldWriteObject(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeClogin);
+        var clientS =
+            WriteOpcodesImpl.WriteOpcodes(clientMessages, module, project, "Client");
+        if (clientS is not null)
+        {
+            File.WriteAllText(ProjectDir + $"Wow{project}Messages/src/{modulePath}/ClientOpcodeReader.cs",
+                clientS.ToString());
+        }
     }
 
     private static void WriteLoginFiles(IntermediateRepresentationSchema schema, byte version)
@@ -70,73 +142,24 @@ internal static class Program
 
         const string project = "Login";
 
-        foreach (var e in schema.Login.Enums.Value)
-        {
-            if (!e.Tags.Version_.IsSpecificLoginVersion(version))
-            {
-                continue;
-            }
-
-            var s = WriteEnumAndFlag.WriteEnum(e, module, project, false);
-            File.WriteAllText(ProjectDir + $"Wow{project}Messages/src/{modulePath}/" + e.FileName(),
-                s.ToString());
-        }
-
-        foreach (var e in schema.Login.Flags.Value)
-        {
-            if (!e.Tags.Version_.IsSpecificLoginVersion(version))
-            {
-                continue;
-            }
-
-            var s = WriteEnumAndFlag.WriteEnum(e, module, project, true);
-            File.WriteAllText(ProjectDir + $"Wow{project}Messages/src/{modulePath}/" + e.FileName(),
-                s.ToString());
-        }
+        WriteDefiners(schema.Login.Enums.Value, module, modulePath, project, version.ToLoginVersion(), false);
+        WriteDefiners(schema.Login.Flags.Value, module, modulePath, project, version.ToLoginVersion(), true);
 
 
-        var tests = new Writer();
-        WriteTests.TestHeader(tests, module);
-        foreach (var e in schema.Login.Structs.Value.Concat(schema.Login.Messages.Value))
-        {
-            if (!e.Tags.Version_.IsSpecificLoginVersion(version) || e.ShouldSkip())
-            {
-                continue;
-            }
+        WriteContainersAndTests(schema.Login.Structs.Value.Concat(schema.Login.Messages.Value), module, modulePath,
+            project, version.ToLoginVersion());
 
-            var s = WriteContainers.WriteContainer(e, module, project);
-            File.WriteAllText(ProjectDir + $"Wow{project}Messages/src/{modulePath}/" + e.FileName(),
-                s.ToString());
+        WriteOpcodes(schema.Login.Messages.Value, module, modulePath, project, version.ToLoginVersion());
+    }
 
-            if (e.ObjectType is not ObjectTypeStruct)
-            {
-                WriteTests.WriteTest(tests, e);
-            }
-        }
+    private static void WriteWorldFiles(IntermediateRepresentationSchema schema, WorldVersion v)
+    {
+        const string project = "World";
+        var module = v.Module();
+        var modulePath = v.ModulePath();
+        var version = v.ToObjectVersionsWorld();
 
-        WriteTests.TestFooter(tests);
-        File.WriteAllText(ProjectDir + $"Wow{project}Messages.Test/{module}.cs", tests.ToString());
-
-        var serverMessages =
-            schema.Login.Messages.Value.Where(e =>
-                e.Tags.Version_.IsSpecificLoginVersion(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeSlogin);
-        var serverS =
-            WriteOpcodesImpl.WriteOpcodes(serverMessages, module, project, "Server");
-        if (serverS is not null)
-        {
-            File.WriteAllText(ProjectDir + $"Wow{project}Messages/src/{modulePath}/ServerOpcodeReader.cs",
-                serverS.ToString());
-        }
-
-        var clientMessages =
-            schema.Login.Messages.Value.Where(e =>
-                e.Tags.Version_.IsSpecificLoginVersion(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeClogin);
-        var clientS =
-            WriteOpcodesImpl.WriteOpcodes(clientMessages, module, project, "Client");
-        if (clientS is not null)
-        {
-            File.WriteAllText(ProjectDir + $"Wow{project}Messages/src/{modulePath}/ClientOpcodeReader.cs",
-                clientS.ToString());
-        }
+        WriteDefiners(schema.World.Enums.Value, module, modulePath, project, version, false);
+        WriteDefiners(schema.World.Flags.Value, module, modulePath, project, version, true);
     }
 }

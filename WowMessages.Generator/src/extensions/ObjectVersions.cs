@@ -1,42 +1,32 @@
+using System.Diagnostics;
 using WowMessages.Generator.Generated;
 
 namespace WowMessages.Generator.Extensions;
 
 public static class ObjectVersionsExtensions
 {
-    public static bool IsSpecificLoginVersion(this ObjectVersions versions, byte version)
+    public static bool Overlaps(this ObjectVersions versions, ObjectVersions other)
     {
-        switch (versions)
+        return (versions, other) switch
         {
-            case ObjectVersionsLogin l:
-                switch (l.VersionType)
-                {
-                    case LoginVersionsAll:
-                        return version == 0;
-                    case LoginVersionsSpecific specific:
-                        return specific.Versions.Contains(version);
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                break;
-            case ObjectVersionsWorld:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(versions));
-        }
-
-        return false;
+            (ObjectVersionsLogin, ObjectVersionsWorld) => false,
+            (ObjectVersionsWorld, ObjectVersionsLogin) => false,
+            (ObjectVersionsWorld v, ObjectVersionsWorld o) => v.VersionType.Overlaps(o.VersionType),
+            (ObjectVersionsLogin v, ObjectVersionsLogin o) => v.VersionType.Overlaps(o.VersionType),
+            _ => throw new UnreachableException()
+        };
     }
 
+    public static bool ShouldNotWriteObject(this ObjectVersions versions, ObjectVersions other)
+    {
+        var versionsDontMatch = !versions.Overlaps(other);
+        var versionIsAllButObjectIsNot = other.IsVersionAll() && !versions.IsVersionAll();
+        var objectIsAllButVersionIsNot = !other.IsVersionAll() && versions.IsVersionAll();
+        return versionsDontMatch || versionIsAllButObjectIsNot || objectIsAllButVersionIsNot;
+    }
 
-    public static bool IsLoginVersion(this ObjectVersions versions) =>
-        versions switch
-        {
-            ObjectVersionsLogin => true,
-            ObjectVersionsWorld => false,
-            _ => throw new ArgumentOutOfRangeException(nameof(versions))
-        };
+    public static bool ShouldWriteObject(this ObjectVersions versions, ObjectVersions other) =>
+        !ShouldNotWriteObject(versions, other);
 
     public static bool IsVersionAll(this ObjectVersions versions) =>
         versions switch
