@@ -41,23 +41,23 @@ public static class IfStatementExtensions
         var modulePrefix = isWrite ? containerName : module;
         var dot = isWrite ? "" : ".";
 
-        switch (statement.Equations)
+        switch (statement.DefinerType)
         {
-            case IfStatementEquationsBitwiseAnd c:
+            case IfStatementDefinerType.Flag:
                 if (isWrite)
                 {
-                    conditions.AddRange(c.Value.Select(cond =>
+                    conditions.AddRange(statement.Values.Select(cond =>
                         ($" is {{}} {cond.ToVariableName()}", cond)));
                 }
                 else
                 {
-                    conditions.AddRange(c.Value.Select(cond =>
+                    conditions.AddRange(statement.Values.Select(cond =>
                         ($".HasFlag({modulePrefix}.{originalType}{dot}{cond.ToEnumerator()})", cond)));
                 }
 
                 break;
-            case IfStatementEquationsEquals c:
-                conditions.AddRange(c.Value.Select(cond =>
+            case IfStatementDefinerType.Enum_:
+                conditions.AddRange(statement.Values.Select(cond =>
                     ($" is {modulePrefix}.{originalType}{dot}{cond.ToEnumerator()}{variableBinding}", cond)));
                 break;
             default:

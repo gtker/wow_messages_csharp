@@ -7,14 +7,14 @@ namespace WowMessages.Generator.Generated
 {
     public class IfStatement
     {
+        [JsonPropertyName("definer_type")]
+        public IfStatementDefinerType DefinerType { get; init; }
+
         [JsonPropertyName("else_if_statements")]
         public IList<IfStatement> ElseIfStatements { get; init; }
 
         [JsonPropertyName("else_members")]
         public IList<StructMember> ElseMembers { get; init; }
-
-        [JsonPropertyName("equations")]
-        public IfStatementEquations Equations { get; init; }
 
         [JsonPropertyName("is_else_if_flag")]
         public bool IsElseIfFlag { get; init; }
@@ -27,6 +27,9 @@ namespace WowMessages.Generator.Generated
 
         [JsonPropertyName("part_of_separate_if_statement")]
         public bool PartOfSeparateIfStatement { get; init; }
+
+        [JsonPropertyName("values")]
+        public IList<string> Values { get; init; }
 
         [JsonPropertyName("variable_name")]
         public string VariableName { get; init; }
