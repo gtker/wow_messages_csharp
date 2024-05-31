@@ -1,14 +1,15 @@
+using WowMessages.Generator.Extensions;
 using WowMessages.Generator.Generated;
 
 namespace WowMessages.Generator.write_container;
 
 public static class WriteTests
 {
-    public static void TestHeader(Writer s, string module)
+    public static void TestHeader(Writer s, string project, string module)
     {
-        s.Wln($"using WowLoginMessages.{module};");
+        s.Wln($"using Wow{project}Messages.{module};");
         s.Newline();
-        s.Wln("namespace WowLoginMessages.Test;");
+        s.Wln($"namespace Wow{project}Messages.Test;");
         s.Newline();
 
         s.OpenCurly($"public class {module}");
@@ -23,13 +24,16 @@ public static class WriteTests
     {
         var side = e.ObjectType switch
         {
-            ObjectTypeClogin objectTypeClogin => "Client",
-            ObjectTypeCmsg objectTypeCmsg => "Client",
-            ObjectTypeMsg objectTypeMsg => throw new NotImplementedException(),
-            ObjectTypeSlogin objectTypeSlogin => "Server",
-            ObjectTypeSmsg objectTypeSmsg => "Server",
+            ObjectTypeClogin => "Client",
+            ObjectTypeCmsg => "Client",
+            ObjectTypeSlogin => "Server",
+            ObjectTypeSmsg => "Server",
+            ObjectTypeMsg => throw new NotImplementedException(),
             _ => throw new ArgumentOutOfRangeException()
         };
+
+        var crypt = e.IsWorld() ? "Unencrypted" : "";
+        var writeSide = e.IsWorld() ? side : "";
 
         for (var i = 0; i < e.Tests.Count; i++)
         {
@@ -48,12 +52,12 @@ public static class WriteTests
                 s.WlnNoIndentation("]);");
                 s.Newline();
 
-                s.Wln($"var c = ({e.Name})await {side}OpcodeReader.ReadAsync(r);");
+                s.Wln($"var c = ({e.Name})await {side}OpcodeReader.Read{crypt}Async(r);");
                 s.Wln("Assert.That(r.Position, Is.EqualTo(r.Length));");
                 s.Newline();
 
                 s.Wln("var w = new MemoryStream();");
-                s.Wln("await c.WriteAsync(w);");
+                s.Wln($"await c.Write{crypt}{writeSide}Async(w);");
                 s.Body("Assert.Multiple(() =>", s =>
                 {
                     s.Wln("Assert.That(w.Position, Is.EqualTo(r.Position));");

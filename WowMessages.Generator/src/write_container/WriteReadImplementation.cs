@@ -5,9 +5,10 @@ namespace WowMessages.Generator.write_container;
 
 public static class WriteReadImplementation
 {
-    public static void WriteRead(Writer s, Container e, string module)
+    public static void WriteRead(Writer s, Container e, string module, string functionName)
     {
-        s.Body($"public static async Task<{e.Name}> ReadAsync(Stream r, CancellationToken cancellationToken = default)",
+        s.Body(
+            $"public static async Task<{e.Name}> Read{functionName}Async(Stream r, CancellationToken cancellationToken = default)",
             s =>
             {
                 foreach (var member in e.Members)

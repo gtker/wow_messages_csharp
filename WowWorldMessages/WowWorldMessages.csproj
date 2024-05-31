@@ -8,7 +8,6 @@
 
     <ItemGroup>
         <Folder Include="src\tbc\"/>
-        <Folder Include="src\vanilla\"/>
         <Folder Include="src\wrath\"/>
     </ItemGroup>
 

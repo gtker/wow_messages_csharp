@@ -5,41 +5,42 @@ namespace WowMessages.Generator.write_container;
 
 public static class WriteWriteImplementation
 {
-    public static void WriteWrite(Writer s, Container e, string module)
+    public static void WriteWrite(Writer s, Container e, string module, string functionName)
     {
-        s.Body("public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default)", s =>
-        {
-            switch (e.ObjectType)
+        s.Body($"public async Task Write{functionName}Async(Stream w, CancellationToken cancellationToken = default)",
+            s =>
             {
-                case ObjectTypeClogin objectTypeClogin:
-                    s.Wln("// opcode: u8");
-                    s.Wln(
-                        $"await WriteUtils.WriteByte(w, {objectTypeClogin.Opcode}, cancellationToken).ConfigureAwait(false);");
-                    s.Newline();
-                    break;
-                case ObjectTypeSlogin objectTypeSlogin:
-                    s.Wln("// opcode: u8");
-                    s.Wln(
-                        $"await WriteUtils.WriteByte(w, {objectTypeSlogin.Opcode}, cancellationToken).ConfigureAwait(false);");
-                    s.Newline();
-                    break;
-                case ObjectTypeCmsg objectTypeCmsg:
-                    throw new NotImplementedException();
-                case ObjectTypeMsg objectTypeMsg:
-                    throw new NotImplementedException();
-                case ObjectTypeSmsg objectTypeSmsg:
-                    throw new NotImplementedException();
-                case ObjectTypeStruct objectTypeStruct:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                switch (e.ObjectType)
+                {
+                    case ObjectTypeClogin objectTypeClogin:
+                        s.Wln("// opcode: u8");
+                        s.Wln(
+                            $"await WriteUtils.WriteByte(w, {objectTypeClogin.Opcode}, cancellationToken).ConfigureAwait(false);");
+                        s.Newline();
+                        break;
+                    case ObjectTypeSlogin objectTypeSlogin:
+                        s.Wln("// opcode: u8");
+                        s.Wln(
+                            $"await WriteUtils.WriteByte(w, {objectTypeSlogin.Opcode}, cancellationToken).ConfigureAwait(false);");
+                        s.Newline();
+                        break;
+                    case ObjectTypeCmsg objectTypeCmsg:
+                        break;
+                    case ObjectTypeMsg objectTypeMsg:
+                        break;
+                    case ObjectTypeSmsg objectTypeSmsg:
+                        break;
+                    case ObjectTypeStruct objectTypeStruct:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
 
-            foreach (var member in e.Members)
-            {
-                WriteWriteMember(s, e, member, module, "");
-            }
-        });
+                foreach (var member in e.Members)
+                {
+                    WriteWriteMember(s, e, member, module, "");
+                }
+            });
     }
 
     private static void WriteWriteMember(Writer s, Container e, StructMember member, string module, string prefix)

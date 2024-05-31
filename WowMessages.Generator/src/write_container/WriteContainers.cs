@@ -55,6 +55,8 @@ public static class WriteContainers
             ObjectTypeClogin => $": {module}ClientMessage, ILoginMessage",
             ObjectTypeSlogin => $": {module}ServerMessage, ILoginMessage",
             ObjectTypeStruct => "",
+            ObjectTypeSmsg => $": {module}ServerMessage, IWorldMessage",
+            ObjectTypeCmsg => $": {module}ClientMessage, IWorldMessage",
             _ => throw new ArgumentOutOfRangeException()
         };
 
@@ -63,10 +65,16 @@ public static class WriteContainers
             WriteDefinition(s, e, module);
             s.Newline();
 
-            WriteWriteImplementation.WriteWrite(s, e, module);
+            var functionName = e.IsWorld() ? "Body" : "";
+            WriteWriteImplementation.WriteWrite(s, e, module, functionName);
             s.Newline();
 
-            WriteReadImplementation.WriteRead(s, e, module);
+            if (e.IsWorld())
+            {
+                WriteWorldHeader.WriteHeaders(s, e, module);
+            }
+
+            WriteReadImplementation.WriteRead(s, e, module, functionName);
             s.Newline();
 
             if (e.ManualSizeSubtraction is { } manualSizeSubtraction)
@@ -215,6 +223,12 @@ public static class WriteContainers
                 "// This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.");
             s.Wln("// Empty reads will have an unnecessary async keyword");
             s.Wln("#pragma warning disable 1998");
+        }
+
+        if (e.IsWorld())
+        {
+            s.Wln("using WowSrp.Header;");
+            s.Newline();
         }
 
         foreach (var member in e.AllDefinitions())

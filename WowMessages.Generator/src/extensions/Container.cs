@@ -22,9 +22,22 @@ public static class ContainerExtensions
         if (hasUnimplementedStatements)
         {
             Console.WriteLine($"Skipping {e.Name} because it has unimplemented statements");
+            return true;
         }
 
-        return hasUnimplementedStatements;
+        if (e.ObjectType is ObjectTypeMsg)
+        {
+            Console.WriteLine($"Skipping {e.Name} because is MSG type");
+            return true;
+        }
+
+        if (e.IsWorld() && e.Name is not ("CMSG_AUTH_SESSION" or "SMSG_AUTH_CHALLENGE"))
+        {
+            Console.WriteLine($"Skipping {e.Name} because is world");
+            return true;
+        }
+
+        return false;
 
         bool HasInvalidDefinition(Definition d) => d.DataType switch
         {
@@ -47,7 +60,8 @@ public static class ContainerExtensions
             c switch
             {
                 StructMemberDefinition d => HasInvalidDefinition(d.StructMemberContent),
-                StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition),
+                StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition) ||
+                                                     statement.StructMemberContent.ElseIfStatements.Count != 0,
                 StructMemberOptional optional => true,
                 _ => throw new ArgumentOutOfRangeException(nameof(c))
             };
@@ -110,6 +124,21 @@ public static class ContainerExtensions
             }
         }
     }
+
+    public static ushort Opcode(this Container e) => e.ObjectType switch
+    {
+        ObjectTypeClogin objectTypeClogin => objectTypeClogin.Opcode,
+        ObjectTypeCmsg objectTypeCmsg => objectTypeCmsg.Opcode,
+        ObjectTypeMsg objectTypeMsg => objectTypeMsg.Opcode,
+        ObjectTypeSlogin objectTypeSlogin => objectTypeSlogin.Opcode,
+        ObjectTypeSmsg objectTypeSmsg => objectTypeSmsg.Opcode,
+        ObjectTypeStruct => throw new UnreachableException(),
+        _ => throw new ArgumentOutOfRangeException()
+    };
+
+    public static bool IsWorld(this Container e) => e.Tags.Version_.IsWorld();
+
+    public static ushort HeaderSize(this Container e, bool isServer) => !isServer ? (ushort)4 : (ushort)2;
 
     public static PreparedObject FindPreparedObject(this Container e, string variableName)
     {

@@ -30,26 +30,29 @@ public static class WriteOpcodesImpl
         WriteWorldRead(s, versionClass, module, side, EncryptOrDecrypt.Encrypt);
         WriteWorldRead(s, versionClass, module, side, EncryptOrDecrypt.Decrypt);
 
-        s.Body($"private static async Task<{versionClass}> ReadBodyAsync(Stream r, HeaderData header, CancellationToken cancellationToken = default)",
+        s.Body(
+            $"private static async Task<{versionClass}> ReadBodyAsync(Stream r, HeaderData header, CancellationToken cancellationToken = default)",
             s =>
             {
                 s.Body("return header.Opcode switch", s =>
                 {
-
                     foreach (var e in containers)
                     {
                         switch (e.ObjectType)
                         {
                             case ObjectTypeCmsg o:
-                                s.Wln($"{o.Opcode} => await {e.Name}.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),");
+                                s.Wln(
+                                    $"{o.Opcode} => await {e.Name}.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),");
                                 break;
                             case ObjectTypeSmsg o:
-                                s.Wln($"{o.Opcode} => await {e.Name}.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),");
+                                s.Wln(
+                                    $"{o.Opcode} => await {e.Name}.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),");
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();
                         }
                     }
+
                     s.Wln("_ => throw new NotImplementedException()");
                 }, ";");
             });
@@ -68,7 +71,7 @@ public static class WriteOpcodesImpl
         var encrypted = encrypt == EncryptOrDecrypt.Encrypt;
         var functionName = encrypted ? "Encrypted" : "Unencrypted";
         var extraArgument = encrypted ? $", {module}Decryption decrypter" : "";
-        var extraParameter = encrypted ? $", decrypter" : "";
+        var extraParameter = encrypted ? ", decrypter" : "";
 
         s.Wln("/// <summary>");
         s.Wln("/// Expects an opcode to be the next sent. Returns null if type is not correct.");
@@ -77,7 +80,9 @@ public static class WriteOpcodesImpl
             $"public static async Task<T?> Expect{functionName}Opcode<T>(Stream r{extraArgument}, CancellationToken cancellationToken = default) where T: {versionClass}",
             s =>
             {
-                s.Body($"if (await Read{functionName}Async(r{extraParameter}, cancellationToken).ConfigureAwait(false) is T c)", s => { s.Wln("return c;"); });
+                s.Body(
+                    $"if (await Read{functionName}Async(r{extraParameter}, cancellationToken).ConfigureAwait(false) is T c)",
+                    s => { s.Wln("return c;"); });
                 s.Newline();
 
                 s.Wln("return null;");
@@ -107,7 +112,8 @@ public static class WriteOpcodesImpl
                     }
                 }
 
-                s.Wln($"var header = await decrypter.Read{side}HeaderAsync(r, cancellationToken).ConfigureAwait(false);");
+                s.Wln(
+                    $"var header = await decrypter.Read{side}HeaderAsync(r, cancellationToken).ConfigureAwait(false);");
                 s.Newline();
 
                 s.Wln("return await ReadBodyAsync(r, header, cancellationToken).ConfigureAwait(false);");
@@ -139,10 +145,12 @@ public static class WriteOpcodesImpl
                         switch (e.ObjectType)
                         {
                             case ObjectTypeClogin o:
-                                s.Wln($"{o.Opcode} => await {e.Name}.ReadAsync(r, cancellationToken).ConfigureAwait(false),");
+                                s.Wln(
+                                    $"{o.Opcode} => await {e.Name}.ReadAsync(r, cancellationToken).ConfigureAwait(false),");
                                 break;
                             case ObjectTypeSlogin o:
-                                s.Wln($"{o.Opcode} => await {e.Name}.ReadAsync(r, cancellationToken).ConfigureAwait(false),");
+                                s.Wln(
+                                    $"{o.Opcode} => await {e.Name}.ReadAsync(r, cancellationToken).ConfigureAwait(false),");
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();
@@ -162,7 +170,8 @@ public static class WriteOpcodesImpl
             $"public static async Task<T?> ExpectOpcode<T>(Stream r, CancellationToken cancellationToken = default) where T: {versionClass}",
             s =>
             {
-                s.Body("if (await ReadAsync(r, cancellationToken).ConfigureAwait(false) is T c)", s => { s.Wln("return c;"); });
+                s.Body("if (await ReadAsync(r, cancellationToken).ConfigureAwait(false) is T c)",
+                    s => { s.Wln("return c;"); });
                 s.Newline();
 
                 s.Wln("return null;");
@@ -186,10 +195,10 @@ public static class WriteOpcodesImpl
 
         return versionClass;
     }
+}
 
-    private enum EncryptOrDecrypt
-    {
-        Encrypt,
-        Decrypt
-    }
+public enum EncryptOrDecrypt
+{
+    Encrypt,
+    Decrypt
 }

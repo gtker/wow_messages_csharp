@@ -85,7 +85,7 @@ internal static class Program
         string project, ObjectVersions version)
     {
         var tests = new Writer();
-        WriteTests.TestHeader(tests, module);
+        WriteTests.TestHeader(tests, project, module);
         foreach (var e in containers)
         {
             if (e.Tags.Version_.ShouldNotWriteObject(version) || e.ShouldSkip())
@@ -112,7 +112,8 @@ internal static class Program
     {
         var serverMessages =
             messages.Where(e =>
-                    e.Tags.Version_.ShouldWriteObject(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeSlogin)
+                    e.Tags.Version_.ShouldWriteObject(version) && !e.ShouldSkip() &&
+                    e.ObjectType is ObjectTypeSlogin or ObjectTypeSmsg)
                 .ToList();
         var serverS =
             WriteOpcodesImpl.WriteOpcodes(serverMessages, module, project, "Server");
@@ -124,7 +125,8 @@ internal static class Program
 
         var clientMessages =
             messages.Where(e =>
-                    e.Tags.Version_.ShouldWriteObject(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeClogin)
+                    e.Tags.Version_.ShouldWriteObject(version) && !e.ShouldSkip() &&
+                    e.ObjectType is ObjectTypeClogin or ObjectTypeCmsg)
                 .ToList();
         var clientS =
             WriteOpcodesImpl.WriteOpcodes(clientMessages, module, project, "Client");
@@ -169,6 +171,9 @@ internal static class Program
 
         WriteDefiners(schema.World.Enums, module, modulePath, project, version, false);
         WriteDefiners(schema.World.Flags, module, modulePath, project, version, true);
+
+        WriteContainersAndTests(schema.World.Structs.Concat(schema.World.Messages), module, modulePath,
+            project, version);
 
         WriteOpcodes(schema.World.Messages, module, modulePath, project, version);
     }

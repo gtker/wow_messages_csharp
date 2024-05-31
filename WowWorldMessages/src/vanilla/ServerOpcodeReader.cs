@@ -18,6 +18,7 @@ public static class ServerOpcodeReader {
     }
     private static async Task<VanillaServerMessage> ReadBodyAsync(Stream r, HeaderData header, CancellationToken cancellationToken = default) {
         return header.Opcode switch {
+            492 => await SMSG_AUTH_CHALLENGE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             _ => throw new NotImplementedException()
         };
     }
