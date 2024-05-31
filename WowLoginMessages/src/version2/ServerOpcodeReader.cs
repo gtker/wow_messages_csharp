@@ -4,15 +4,15 @@ public abstract class Version2ServerMessage {}
 
 public static class ServerOpcodeReader {
     public static async Task<Version2ServerMessage> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var opcode = await ReadUtils.ReadByte(r, cancellationToken);
+        var opcode = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
         return opcode switch {
-            0 => await CMD_AUTH_LOGON_CHALLENGE_Server.ReadAsync(r, cancellationToken),
-            1 => await CMD_AUTH_LOGON_PROOF_Server.ReadAsync(r, cancellationToken),
-            2 => await CMD_AUTH_RECONNECT_CHALLENGE_Server.ReadAsync(r, cancellationToken),
-            3 => await CMD_AUTH_RECONNECT_PROOF_Server.ReadAsync(r, cancellationToken),
-            16 => await CMD_REALM_LIST_Server.ReadAsync(r, cancellationToken),
-            48 => await CMD_XFER_INITIATE.ReadAsync(r, cancellationToken),
-            49 => await CMD_XFER_DATA.ReadAsync(r, cancellationToken),
+            0 => await CMD_AUTH_LOGON_CHALLENGE_Server.ReadAsync(r, cancellationToken).ConfigureAwait(false),
+            1 => await CMD_AUTH_LOGON_PROOF_Server.ReadAsync(r, cancellationToken).ConfigureAwait(false),
+            2 => await CMD_AUTH_RECONNECT_CHALLENGE_Server.ReadAsync(r, cancellationToken).ConfigureAwait(false),
+            3 => await CMD_AUTH_RECONNECT_PROOF_Server.ReadAsync(r, cancellationToken).ConfigureAwait(false),
+            16 => await CMD_REALM_LIST_Server.ReadAsync(r, cancellationToken).ConfigureAwait(false),
+            48 => await CMD_XFER_INITIATE.ReadAsync(r, cancellationToken).ConfigureAwait(false),
+            49 => await CMD_XFER_DATA.ReadAsync(r, cancellationToken).ConfigureAwait(false),
             _ => throw new NotImplementedException(),
         };
     }
@@ -21,7 +21,7 @@ public static class ServerOpcodeReader {
     /// Expects an opcode to be the next sent. Returns null if type is not correct.
     /// </summary>
     public static async Task<T?> ExpectOpcode<T>(Stream r, CancellationToken cancellationToken = default) where T: Version2ServerMessage {
-        if (await ReadAsync(r, cancellationToken) is T c) {
+        if (await ReadAsync(r, cancellationToken).ConfigureAwait(false) is T c) {
             return c;
         }
 

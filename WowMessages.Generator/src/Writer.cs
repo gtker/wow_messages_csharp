@@ -77,8 +77,7 @@ public class Writer
     {
         if (_indentation == 0)
         {
-            Console.WriteLine("indentation underflow");
-            Environment.Exit(1);
+            throw new Exception("indentation underflow");
         }
 
         _indentation -= 1;
@@ -88,8 +87,7 @@ public class Writer
     {
         if (_indentation == 255)
         {
-            Console.WriteLine("indentation overflow");
-            Environment.Exit(1);
+            throw new Exception("indentation overflow");
         }
 
         _indentation += 1;

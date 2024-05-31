@@ -35,4 +35,10 @@ public static class ObjectVersionsExtensions
             ObjectVersionsWorld w => w.VersionType is WorldVersionsAll,
             _ => throw new ArgumentOutOfRangeException(nameof(versions))
         };
+
+    public static bool IsWorld(this ObjectVersions versions) => versions switch
+    {
+        ObjectVersionsWorld => true,
+        _ => false
+    };
 }

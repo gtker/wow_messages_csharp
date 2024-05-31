@@ -106,7 +106,8 @@ internal static class Program
     {
         var serverMessages =
             messages.Where(e =>
-                e.Tags.Version_.ShouldWriteObject(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeSlogin);
+                    e.Tags.Version_.ShouldWriteObject(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeSlogin)
+                .ToList();
         var serverS =
             WriteOpcodesImpl.WriteOpcodes(serverMessages, module, project, "Server");
         if (serverS is not null)
@@ -117,7 +118,8 @@ internal static class Program
 
         var clientMessages =
             messages.Where(e =>
-                e.Tags.Version_.ShouldWriteObject(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeClogin);
+                    e.Tags.Version_.ShouldWriteObject(version) && !e.ShouldSkip() && e.ObjectType is ObjectTypeClogin)
+                .ToList();
         var clientS =
             WriteOpcodesImpl.WriteOpcodes(clientMessages, module, project, "Client");
         if (clientS is not null)
@@ -161,5 +163,7 @@ internal static class Program
 
         WriteDefiners(schema.World.Enums.Value, module, modulePath, project, version, false);
         WriteDefiners(schema.World.Flags.Value, module, modulePath, project, version, true);
+
+        WriteOpcodes(schema.Login.Messages.Value, module, modulePath, project, version);
     }
 }

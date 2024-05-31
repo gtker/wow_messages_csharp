@@ -10,7 +10,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\WowLoginMessages\WowLoginMessages.csproj"/>
-        <PackageReference Include="WowSrp" Version="0.1.3"/>
+        <ProjectReference Include="..\WowWorldMessages\WowWorldMessages.csproj"/>
     </ItemGroup>
 
 </Project>
