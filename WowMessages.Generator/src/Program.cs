@@ -144,14 +144,14 @@ internal static class Program
 
         const string project = "Login";
 
-        WriteDefiners(schema.Login.Enums.Value, module, modulePath, project, version.ToLoginVersion(), false);
-        WriteDefiners(schema.Login.Flags.Value, module, modulePath, project, version.ToLoginVersion(), true);
+        WriteDefiners(schema.Login.Enums, module, modulePath, project, version.ToLoginVersion(), false);
+        WriteDefiners(schema.Login.Flags, module, modulePath, project, version.ToLoginVersion(), true);
 
 
-        WriteContainersAndTests(schema.Login.Structs.Value.Concat(schema.Login.Messages.Value), module, modulePath,
+        WriteContainersAndTests(schema.Login.Structs.Concat(schema.Login.Messages), module, modulePath,
             project, version.ToLoginVersion());
 
-        WriteOpcodes(schema.Login.Messages.Value, module, modulePath, project, version.ToLoginVersion());
+        WriteOpcodes(schema.Login.Messages, module, modulePath, project, version.ToLoginVersion());
     }
 
     private static void WriteWorldFiles(IntermediateRepresentationSchema schema, WorldVersion v)
@@ -161,9 +161,9 @@ internal static class Program
         var modulePath = v.ModulePath();
         var version = v.ToObjectVersionsWorld();
 
-        WriteDefiners(schema.World.Enums.Value, module, modulePath, project, version, false);
-        WriteDefiners(schema.World.Flags.Value, module, modulePath, project, version, true);
+        WriteDefiners(schema.World.Enums, module, modulePath, project, version, false);
+        WriteDefiners(schema.World.Flags, module, modulePath, project, version, true);
 
-        WriteOpcodes(schema.Login.Messages.Value, module, modulePath, project, version);
+        WriteOpcodes(schema.World.Messages, module, modulePath, project, version);
     }
 }
