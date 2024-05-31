@@ -24,8 +24,6 @@ namespace WowMessages.Generator.Generated
                     return JsonSerializer.Deserialize<IfStatementEquationsBitwiseAnd>(ref readerCopy, options);
                 case "Equals":
                     return JsonSerializer.Deserialize<IfStatementEquationsEquals>(ref readerCopy, options);
-                case "NotEquals":
-                    return JsonSerializer.Deserialize<IfStatementEquationsNotEquals>(ref readerCopy, options);
                 default:
                     throw new ArgumentException(String.Format("Bad EquationTag value: {0}", tagValue));
             }

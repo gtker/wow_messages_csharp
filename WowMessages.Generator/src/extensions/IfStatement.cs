@@ -60,10 +60,6 @@ public static class IfStatementExtensions
                 conditions.AddRange(c.Value.Select(cond =>
                     ($" is {modulePrefix}.{originalType}{dot}{cond.ToEnumerator()}{variableBinding}", cond)));
                 break;
-            case IfStatementEquationsNotEquals c:
-                conditions.Add(($" != {modulePrefix}.{originalType}{dot}{c.Value.ToEnumerator()}{variableBinding}",
-                    c.Value));
-                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
