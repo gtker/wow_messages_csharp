@@ -24,16 +24,11 @@ public static class WorldVersionExtensions
             }
         };
 
-    public static bool Overlaps(this WorldVersion version, WorldVersionsSpecific specific)
-    {
-        return specific.Versions.Any(v => version.Overlaps(v));
-    }
-
     public static bool Overlaps(this WorldVersion version, WorldVersion other)
     {
-        if (version.Major == other.Major)
+        if (version.Major != other.Major)
         {
-            return true;
+            return false;
         }
 
         if (Test(version.Minor, other.Minor) is { } m)

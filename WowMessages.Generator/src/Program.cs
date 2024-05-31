@@ -10,6 +10,8 @@ internal static class Program
 {
     private static string? _lazyValue;
 
+    public static readonly WorldVersion Vanilla = new() { Major = 1, Minor = 12, Patch = 1, Build = 5875 };
+
     private static string ProjectDir
     {
         get => _lazyValue ??= CalculatePath();
@@ -29,6 +31,10 @@ internal static class Program
 
     private static void Main()
     {
+        Console.WriteLine("Running tests");
+        Tests.RunTests();
+        Console.WriteLine("Tests finished");
+
         var path = ProjectDir + "WowMessages.Generator/wow_messages/intermediate_representation.json";
         Console.WriteLine(path);
         var contents = File.ReadAllText(path);
@@ -56,7 +62,7 @@ internal static class Program
 
         Console.WriteLine("Wrote all login files");
 
-        WriteWorldFiles(schema, new WorldVersion { Major = 1, Minor = 12, Patch = 1, Build = 5875 });
+        WriteWorldFiles(schema, Vanilla);
         Console.WriteLine("Wrote all world files");
     }
 
