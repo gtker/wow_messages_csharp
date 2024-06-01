@@ -31,7 +31,7 @@ public static class ContainerExtensions
             return true;
         }
 
-        if (e.IsWorld() && e.Name is not ("CMSG_AUTH_SESSION" or "SMSG_AUTH_CHALLENGE"))
+        if (e.IsWorld() && e.Name is not ("CMSG_AUTH_SESSION" or "SMSG_AUTH_CHALLENGE" or "AddonInfo"))
         {
             Console.WriteLine($"Skipping {e.Name} because is world");
             return true;

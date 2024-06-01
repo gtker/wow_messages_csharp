@@ -42,7 +42,7 @@ public static class WriteWorldHeader
                 var isServer = side == "Server";
                 var size = e.Sizes.ConstantSized
                     ? (e.Sizes.MinimumSize + e.HeaderSize(isServer)).ToString()
-                    : $"Size() + {e.HeaderSize(isServer)}";
+                    : $"(uint)Size() + {e.HeaderSize(isServer)}";
                 var opcode = e.Opcode();
 
                 if (encryptOrDecrypt == EncryptOrDecrypt.Decrypt)

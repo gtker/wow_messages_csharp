@@ -35,7 +35,7 @@ public class CMD_REALM_LIST_Server: Version7ServerMessage, ILoginMessage {
 
         var realms = new List<Realm>();
         for (var i = 0; i < numberOfRealms; ++i) {
-            realms.Add(await Realm.ReadAsync(r, cancellationToken).ConfigureAwait(false));
+            realms.Add(await Version7.Realm.ReadAsync(r, cancellationToken).ConfigureAwait(false));
         }
 
         // ReSharper disable once UnusedVariable.Compiler

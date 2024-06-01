@@ -47,7 +47,7 @@ public static class WriteReadImplementation
             {
                 var d = definition.StructMemberContent;
 
-                WriteReadForType(s, d, e.NeedsBodySize());
+                WriteReadForType(s, d, e.NeedsBodySize(), module);
                 break;
             }
             case StructMemberIfStatement statement:
@@ -80,7 +80,7 @@ public static class WriteReadImplementation
         }
     }
 
-    private static void WriteReadForType(Writer s, Definition d, bool needsSize)
+    private static void WriteReadForType(Writer s, Definition d, bool needsSize, string module)
     {
         if (d.IsNotInType())
         {
@@ -169,7 +169,7 @@ public static class WriteReadImplementation
                 break;
 
             case DataTypeArray array:
-                WriteReadForArray(s, d, array);
+                WriteReadForArray(s, d, array, module, needsSize);
                 break;
 
 
@@ -203,23 +203,42 @@ public static class WriteReadImplementation
                 throw new ArgumentOutOfRangeException();
         }
 
-        if (needsSize)
+        if (needsSize && d.DataType is not DataTypeArray)
         {
-            s.Wln($"size += {d.Size()}");
+            s.Wln($"size += {d.Size(false)};");
         }
 
         s.Newline();
     }
 
-    private static void WriteReadForArray(Writer s, Definition d, DataTypeArray array)
+    private static void WriteReadForArray(Writer s, Definition d, DataTypeArray array, string module, bool needsSize)
     {
+        if (array.Compressed)
+        {
+            s.Wln("var decompressedLength = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);");
+            s.Wln("size += 4;");
+            s.Newline();
+
+            s.Wln("var decompressed = new byte[decompressedLength];");
+            s.Wln("var remaining = new byte[bodySize - size];");
+            s.Wln("r.ReadExactly(remaining);");
+            s.Newline();
+
+            s.Wln(
+                "var zlib = new System.IO.Compression.ZLibStream(new MemoryStream(remaining), System.IO.Compression.CompressionMode.Decompress);");
+            s.Wln("zlib.ReadAtLeast(decompressed, remaining.Length);");
+            s.Newline();
+
+            s.Wln("r = new MemoryStream(decompressed);");
+        }
+
         s.Wln($"var {d.VariableName()} = new List<{array.InnerType.CsType()}>();");
 
         var loopHeader = array.Size switch
         {
             ArraySizeFixed v => $"for (var i = 0; i < {v.Size.ToCamelCase()}; ++i)",
             ArraySizeVariable v => $"for (var i = 0; i < {v.Size.ToCamelCase()}; ++i)",
-            ArraySizeEndless v => throw new NotImplementedException(),
+            ArraySizeEndless v => array.Compressed ? "while (r.Position < r.Length)" : "while (size <= bodySize)",
             _ => throw new ArgumentOutOfRangeException()
         };
 
@@ -244,13 +263,49 @@ public static class WriteReadImplementation
                         $"{d.VariableName()}.Add(await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false));");
                     break;
                 case ArrayTypeStruct e:
+                    var body = e.StructData.IsWorld() ? "Body" : "";
                     s.Wln(
-                        $"{d.VariableName()}.Add(await {e.StructData.Name}.ReadAsync(r, cancellationToken).ConfigureAwait(false));");
+                        $"{d.VariableName()}.Add(await {module}.{e.StructData.Name}.Read{body}Async(r, cancellationToken).ConfigureAwait(false));");
                     break;
                 case ArrayTypePackedGuid:
                     throw new NotImplementedException();
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+
+            if (needsSize)
+            {
+                switch (array.InnerType)
+                {
+                    case ArrayTypeCstring:
+                        s.Wln($"size += {d.VariableName()}[^1].Length + 1;");
+                        break;
+                    case ArrayTypeGuid:
+                        s.Wln("size += 8;");
+                        break;
+                    case ArrayTypeSpell:
+                        s.Wln("size += 4;");
+                        break;
+                    case ArrayTypeInteger arrayTypeInteger:
+                        s.Wln($"size += {arrayTypeInteger.IntegerType.SizeBytes()};");
+                        break;
+                    case ArrayTypeStruct arrayTypeStruct:
+                        if (arrayTypeStruct.StructData.Sizes.ConstantSized)
+                        {
+                            s.Wln($"size += {arrayTypeStruct.StructData.Sizes.MinimumSize};");
+                        }
+                        else
+                        {
+                            s.Wln($"size += {d.VariableName()}[^1].Size();");
+                        }
+
+                        break;
+                    case ArrayTypePackedGuid:
+                        throw new NotImplementedException();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         });
     }

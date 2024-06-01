@@ -105,7 +105,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version8ClientMessage, ILoginMessage {
 
         var telemetryKeys = new List<TelemetryKey>();
         for (var i = 0; i < numberOfTelemetryKeys; ++i) {
-            telemetryKeys.Add(await TelemetryKey.ReadAsync(r, cancellationToken).ConfigureAwait(false));
+            telemetryKeys.Add(await Version8.TelemetryKey.ReadAsync(r, cancellationToken).ConfigureAwait(false));
         }
 
         var securityFlag = new SecurityFlagType {

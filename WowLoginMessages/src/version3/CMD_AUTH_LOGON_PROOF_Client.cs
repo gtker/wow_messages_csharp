@@ -77,7 +77,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version3ClientMessage, ILoginMessage {
 
         var telemetryKeys = new List<TelemetryKey>();
         for (var i = 0; i < numberOfTelemetryKeys; ++i) {
-            telemetryKeys.Add(await TelemetryKey.ReadAsync(r, cancellationToken).ConfigureAwait(false));
+            telemetryKeys.Add(await Version3.TelemetryKey.ReadAsync(r, cancellationToken).ConfigureAwait(false));
         }
 
         SecurityFlagType securityFlag = (SecurityFlag)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);

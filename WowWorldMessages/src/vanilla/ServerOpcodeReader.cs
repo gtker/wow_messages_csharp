@@ -8,12 +8,18 @@ public static class ServerOpcodeReader {
     public static async Task<VanillaServerMessage> ReadEncryptedAsync(Stream r, VanillaDecryption decrypter, CancellationToken cancellationToken = default) {
         var header = await decrypter.ReadServerHeaderAsync(r, cancellationToken).ConfigureAwait(false);
 
+        unchecked {
+            header.Size -= 2;
+        }
         return await ReadBodyAsync(r, header, cancellationToken).ConfigureAwait(false);
     }
     public static async Task<VanillaServerMessage> ReadUnencryptedAsync(Stream r, CancellationToken cancellationToken = default) {
         var decrypter = new NullCrypter();
         var header = await decrypter.ReadServerHeaderAsync(r, cancellationToken).ConfigureAwait(false);
 
+        unchecked {
+            header.Size -= 2;
+        }
         return await ReadBodyAsync(r, header, cancellationToken).ConfigureAwait(false);
     }
     private static async Task<VanillaServerMessage> ReadBodyAsync(Stream r, HeaderData header, CancellationToken cancellationToken = default) {

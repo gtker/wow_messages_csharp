@@ -8,16 +8,23 @@ public static class ClientOpcodeReader {
     public static async Task<VanillaClientMessage> ReadEncryptedAsync(Stream r, VanillaDecryption decrypter, CancellationToken cancellationToken = default) {
         var header = await decrypter.ReadClientHeaderAsync(r, cancellationToken).ConfigureAwait(false);
 
+        unchecked {
+            header.Size -= 4;
+        }
         return await ReadBodyAsync(r, header, cancellationToken).ConfigureAwait(false);
     }
     public static async Task<VanillaClientMessage> ReadUnencryptedAsync(Stream r, CancellationToken cancellationToken = default) {
         var decrypter = new NullCrypter();
         var header = await decrypter.ReadClientHeaderAsync(r, cancellationToken).ConfigureAwait(false);
 
+        unchecked {
+            header.Size -= 4;
+        }
         return await ReadBodyAsync(r, header, cancellationToken).ConfigureAwait(false);
     }
     private static async Task<VanillaClientMessage> ReadBodyAsync(Stream r, HeaderData header, CancellationToken cancellationToken = default) {
         return header.Opcode switch {
+            493 => await CMSG_AUTH_SESSION.ReadBodyAsync(r, header.Size, cancellationToken).ConfigureAwait(false),
             _ => throw new NotImplementedException()
         };
     }

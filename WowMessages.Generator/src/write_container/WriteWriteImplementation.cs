@@ -24,13 +24,13 @@ public static class WriteWriteImplementation
                             $"await WriteUtils.WriteByte(w, {objectTypeSlogin.Opcode}, cancellationToken).ConfigureAwait(false);");
                         s.Newline();
                         break;
-                    case ObjectTypeCmsg objectTypeCmsg:
+                    case ObjectTypeCmsg:
                         break;
-                    case ObjectTypeMsg objectTypeMsg:
+                    case ObjectTypeMsg:
                         break;
-                    case ObjectTypeSmsg objectTypeSmsg:
+                    case ObjectTypeSmsg:
                         break;
-                    case ObjectTypeStruct objectTypeStruct:
+                    case ObjectTypeStruct:
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -63,7 +63,7 @@ public static class WriteWriteImplementation
                     (_, _, _, _) => { },
                     true, prefix);
                 break;
-            case StructMemberOptional structMemberOptional:
+            case StructMemberOptional:
                 throw new NotImplementedException();
             default:
                 throw new ArgumentOutOfRangeException(nameof(member));
@@ -112,8 +112,9 @@ public static class WriteWriteImplementation
                 s.Wln(
                     $"await WriteUtils.{i.IntegerType.WriteFunction()}(w, ({i.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
                 break;
-            case DataTypeStruct:
-                s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
+            case DataTypeStruct dataTypeStruct:
+                var body = dataTypeStruct.StructData.IsWorld() ? "Body" : "";
+                s.Wln($"await {value}.Write{body}Async(w, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds
@@ -193,6 +194,12 @@ public static class WriteWriteImplementation
 
     private static void WriteWriteForArray(Writer s, Definition d, DataTypeArray array, string prefix)
     {
+        if (d.IsCompressed())
+        {
+            s.Wln("var oldStream = w;");
+            s.Wln("w = new MemoryStream();");
+        }
+
         s.Body($"foreach (var v in {prefix}{d.MemberName()})", s =>
         {
             switch (array.InnerType)
@@ -210,12 +217,30 @@ public static class WriteWriteImplementation
                 case ArrayTypeSpell:
                     s.Wln("await WriteUtils.WriteUInt(w, v, cancellationToken).ConfigureAwait(false);");
                     break;
-                case ArrayTypeStruct:
-                    s.Wln("await v.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
+                case ArrayTypeStruct dataTypeStruct:
+                    var body = dataTypeStruct.StructData.IsWorld() ? "Body" : "";
+                    s.Wln($"await v.Write{body}Async(w, cancellationToken).ConfigureAwait(false);");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         });
+
+        if (d.IsCompressed())
+        {
+            s.Wln("var uncompressedLength = w.Position;");
+            s.Newline();
+
+            s.Wln("var compressedOutput = new MemoryStream();");
+            s.Wln(
+                "var zlib = new System.IO.Compression.ZLibStream(compressedOutput, System.IO.Compression.CompressionMode.Compress);");
+            s.Wln("zlib.Write((w as MemoryStream)!.ToArray());");
+            s.Wln("zlib.Flush();");
+            s.Newline();
+
+            s.Wln("w = oldStream;");
+            s.Wln("await WriteUtils.WriteUInt(w, (uint)uncompressedLength, cancellationToken).ConfigureAwait(false);");
+            s.Wln("await w.WriteAsync(compressedOutput.ToArray(), cancellationToken).ConfigureAwait(false);");
+        }
     }
 }

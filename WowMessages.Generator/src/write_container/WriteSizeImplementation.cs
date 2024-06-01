@@ -9,15 +9,24 @@ public class WriteSizeImplementation
     {
         s.Body("internal int Size()", s =>
         {
-            s.Wln("var size = 0;");
-            s.Newline();
-
-            foreach (var member in e.Members)
+            if (!e.AllDefinitions().Any(d => d.IsCompressed()))
             {
-                WriteSizeMember(s, e, member, module);
-            }
+                s.Wln("var size = 0;");
+                s.Newline();
 
-            s.Wln(manualSizeSubtraction == 0 ? "return size;" : $"return size - {manualSizeSubtraction};");
+                foreach (var member in e.Members)
+                {
+                    WriteSizeMember(s, e, member, module);
+                }
+
+                s.Wln(manualSizeSubtraction == 0 ? "return size;" : $"return size - {manualSizeSubtraction};");
+            }
+            else
+            {
+                s.Wln("var memory = new MemoryStream();");
+                s.Wln("Task.WaitAll(WriteBodyAsync(memory));");
+                s.Wln("return (int)memory.Position;");
+            }
         });
     }
 

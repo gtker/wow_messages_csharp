@@ -82,7 +82,11 @@ public static class WriteContainers
                 WriteSizeImplementation.WriteSize(s, e, module, manualSizeSubtraction);
                 s.Newline();
             }
-            else if (e is { ObjectType: ObjectTypeStruct, Sizes.ConstantSized: false })
+            else if (e is
+                     {
+                         ObjectType: ObjectTypeStruct or ObjectTypeCmsg or ObjectTypeSmsg or ObjectTypeMsg,
+                         Sizes.ConstantSized: false
+                     })
             {
                 WriteSizeImplementation.WriteSize(s, e, module, 0);
                 s.Newline();

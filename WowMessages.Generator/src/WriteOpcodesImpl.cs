@@ -118,6 +118,9 @@ public static class WriteOpcodesImpl
                     $"var header = await decrypter.Read{side}HeaderAsync(r, cancellationToken).ConfigureAwait(false);");
                 s.Newline();
 
+                var size = side == "Server" ? 2 : 4;
+                s.Body("unchecked", s => { s.Wln($"header.Size -= {size};"); });
+
                 s.Wln("return await ReadBodyAsync(r, header, cancellationToken).ConfigureAwait(false);");
             });
     }

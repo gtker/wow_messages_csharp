@@ -21,56 +21,62 @@ public static class DefinitionExtensions
     public static string PreparedObjectTypeName(this Definition d, string enumerator) =>
         $"{d.CsTypeName()}{enumerator.ToEnumerator()}";
 
-    public static string Size(this Definition d) => d.DataType switch
+    public static string Size(this Definition d, bool isMember = true)
     {
-        DataTypeInteger i => i.IntegerType.SizeBytes().ToString(),
-        DataTypeEnum e => e.IntegerType.SizeBytes().ToString(),
-        DataTypeFlag e => e.IntegerType.SizeBytes().ToString(),
-        DataTypeBool e => e.IntegerType.SizeBytes().ToString(),
+        var name = isMember ? d.MemberName() : d.VariableName();
+        return d.DataType switch
+        {
+            DataTypeInteger i => i.IntegerType.SizeBytes().ToString(),
+            DataTypeEnum e => e.IntegerType.SizeBytes().ToString(),
+            DataTypeFlag e => e.IntegerType.SizeBytes().ToString(),
+            DataTypeBool e => e.IntegerType.SizeBytes().ToString(),
 
-        DataTypeGold => 4.ToString(),
-        DataTypeGuid => 8.ToString(),
-        DataTypeFloatingPoint => 4.ToString(),
-        DataTypeDateTime => 4.ToString(),
-        DataTypeIpAddress => 4.ToString(),
-        DataTypeItem => 4.ToString(),
-        DataTypeLevel => 1.ToString(),
-        DataTypeLevel16 => 2.ToString(),
-        DataTypeLevel32 => 4.ToString(),
-        DataTypeMilliseconds => 4.ToString(),
-        DataTypePopulation => 4.ToString(),
-        DataTypeSeconds => 4.ToString(),
-        DataTypeSpell => 4.ToString(),
-        DataTypeSpell16 => 2.ToString(),
+            DataTypeGold => 4.ToString(),
+            DataTypeGuid => 8.ToString(),
+            DataTypeFloatingPoint => 4.ToString(),
+            DataTypeDateTime => 4.ToString(),
+            DataTypeIpAddress => 4.ToString(),
+            DataTypeItem => 4.ToString(),
+            DataTypeLevel => 1.ToString(),
+            DataTypeLevel16 => 2.ToString(),
+            DataTypeLevel32 => 4.ToString(),
+            DataTypeMilliseconds => 4.ToString(),
+            DataTypePopulation => 4.ToString(),
+            DataTypeSeconds => 4.ToString(),
+            DataTypeSpell => 4.ToString(),
+            DataTypeSpell16 => 2.ToString(),
 
-        DataTypeString or DataTypeCstring => $"{d.MemberName()}.Length + 1",
+            DataTypeString or DataTypeCstring => $"{name}.Length + 1",
 
-        DataTypeStruct s => s.StructData.Sizes.ConstantSized
-            ? s.StructData.Sizes.MaximumSize.ToString()
-            : $"{d.MemberName()}.Size()",
+            DataTypeStruct s => s.StructData.Sizes.ConstantSized
+                ? s.StructData.Sizes.MaximumSize.ToString()
+                : $"{name}.Size()",
 
-        DataTypeArray array => array.ArraySize(d),
+            DataTypeArray array => array.ArraySize(d, name),
 
-        DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
+            DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
 
-        DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray => throw new NotImplementedException(),
-        DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
-        DataTypeAuraMask dataTypeAuraMask => throw new NotImplementedException(),
-        DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
-        DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),
-        DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
-        DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline => throw new NotImplementedException(),
-        DataTypeNamedGuid dataTypeNamedGuid => throw new NotImplementedException(),
-        DataTypePackedGuid dataTypePackedGuid => throw new NotImplementedException(),
-        DataTypeSizedCstring dataTypeSizedCstring => throw new NotImplementedException(),
-        DataTypeUpdateMask dataTypeUpdateMask => throw new NotImplementedException(),
-        DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty => throw new NotImplementedException(),
-        _ => throw new ArgumentOutOfRangeException(nameof(d))
-    };
+            DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray =>
+                throw new NotImplementedException(),
+            DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
+            DataTypeAuraMask dataTypeAuraMask => throw new NotImplementedException(),
+            DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
+            DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),
+            DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
+            DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline => throw new NotImplementedException(),
+            DataTypeNamedGuid dataTypeNamedGuid => throw new NotImplementedException(),
+            DataTypePackedGuid dataTypePackedGuid => throw new NotImplementedException(),
+            DataTypeSizedCstring dataTypeSizedCstring => throw new NotImplementedException(),
+            DataTypeUpdateMask dataTypeUpdateMask => throw new NotImplementedException(),
+            DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty =>
+                throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(d))
+        };
+    }
 
     public static bool IsCompressed(this Definition d) => d.DataType switch
     {
         DataTypeArray dataTypeArray => dataTypeArray.Compressed,
-        _ => false,
+        _ => false
     };
 }

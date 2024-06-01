@@ -58,11 +58,23 @@ public static class WriteTests
 
                 s.Wln("var w = new MemoryStream();");
                 s.Wln($"await c.Write{crypt}{writeSide}Async(w);");
-                s.Body("Assert.Multiple(() =>", s =>
+
+                if (!e.AllDefinitions().Any(d => d.IsCompressed()))
                 {
-                    s.Wln("Assert.That(w.Position, Is.EqualTo(r.Position));");
-                    s.Wln("Assert.That(r, Is.EqualTo(w));");
-                }, ");");
+                    s.Body("Assert.Multiple(() =>", s =>
+                    {
+                        s.Wln("Assert.That(w.Position, Is.EqualTo(r.Position));");
+                        s.Wln("Assert.That(r, Is.EqualTo(w));");
+                    }, ");");
+                }
+                else
+                {
+                    s.Wln("w.Seek(0, SeekOrigin.Begin);");
+                    s.Wln($"var s = ({e.Name})await {side}OpcodeReader.Read{crypt}Async(w);");
+                    s.Wln("var cJson = System.Text.Json.JsonSerializer.Serialize(c);");
+                    s.Wln("var sJson = System.Text.Json.JsonSerializer.Serialize(s);");
+                    s.Wln("Assert.That(cJson, Is.EqualTo(sJson));");
+                }
             });
 
             s.Newline();
