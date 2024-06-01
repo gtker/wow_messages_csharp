@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using WowMessages.Generator.Extensions;
 using WowMessages.Generator.Generated;
 using Container = WowMessages.Generator.Generated.Container;
 
@@ -38,15 +39,16 @@ public static class WriteOpcodesImpl
                 {
                     foreach (var e in containers)
                     {
+                        var bodySize = e.NeedsBodySize() ? "header.Size, " : "";
                         switch (e.ObjectType)
                         {
                             case ObjectTypeCmsg o:
                                 s.Wln(
-                                    $"{o.Opcode} => await {e.Name}.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),");
+                                    $"{o.Opcode} => await {e.Name}.ReadBodyAsync(r, {bodySize}cancellationToken).ConfigureAwait(false),");
                                 break;
                             case ObjectTypeSmsg o:
                                 s.Wln(
-                                    $"{o.Opcode} => await {e.Name}.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),");
+                                    $"{o.Opcode} => await {e.Name}.ReadBodyAsync(r, {bodySize}cancellationToken).ConfigureAwait(false),");
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();

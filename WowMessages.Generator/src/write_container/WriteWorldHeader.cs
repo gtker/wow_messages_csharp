@@ -17,6 +17,8 @@ public static class WriteWorldHeader
                 WriteWriteHeader(s, e, "Server", module, EncryptOrDecrypt.Encrypt);
                 WriteWriteHeader(s, e, "Server", module, EncryptOrDecrypt.Decrypt);
                 break;
+            case ObjectTypeStruct:
+                break;
             case ObjectTypeMsg:
                 throw new NotImplementedException();
             default:

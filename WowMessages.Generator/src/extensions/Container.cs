@@ -67,6 +67,8 @@ public static class ContainerExtensions
             };
     }
 
+    public static bool NeedsBodySize(this Container e) => e.IsWorld() && e.AllDefinitions().Any(d => d.IsCompressed());
+
     public static IEnumerable<Definition> AllDefinitions(this Container e)
     {
         foreach (var member in e.Members)

@@ -7,13 +7,20 @@ public static class WriteReadImplementation
 {
     public static void WriteRead(Writer s, Container e, string module, string functionName)
     {
+        var bodySize = e.NeedsBodySize() ? " uint bodySize," : "";
+
         s.Body(
-            $"public static async Task<{e.Name}> Read{functionName}Async(Stream r, CancellationToken cancellationToken = default)",
+            $"public static async Task<{e.Name}> Read{functionName}Async(Stream r,{bodySize} CancellationToken cancellationToken = default)",
             s =>
             {
+                if (e.NeedsBodySize())
+                {
+                    s.Wln("var size = 0;");
+                }
+
                 foreach (var member in e.Members)
                 {
-                    WriteReadMember(s, e, member, module, true);
+                    WriteReadMember(s, e, member, module);
                 }
 
                 s.Body($"return new {e.Name}", s =>
@@ -32,7 +39,7 @@ public static class WriteReadImplementation
             });
     }
 
-    private static void WriteReadMember(Writer s, Container e, StructMember member, string module, bool declareTypes)
+    private static void WriteReadMember(Writer s, Container e, StructMember member, string module)
     {
         switch (member)
         {
@@ -40,12 +47,12 @@ public static class WriteReadImplementation
             {
                 var d = definition.StructMemberContent;
 
-                WriteReadForType(s, d);
+                WriteReadForType(s, d, e.NeedsBodySize());
                 break;
             }
             case StructMemberIfStatement statement:
                 WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, module,
-                    (s, e, member, _) => { WriteReadMember(s, e, member, module, false); },
+                    (s, e, member, _) => { WriteReadMember(s, e, member, module); },
                     (s, d, members, enumerator) =>
                     {
                         var flagExtra = statement.StructMemberContent.IsFlag() ? $".{enumerator.ToMemberName()}" : "";
@@ -73,7 +80,7 @@ public static class WriteReadImplementation
         }
     }
 
-    private static void WriteReadForType(Writer s, Definition d)
+    private static void WriteReadForType(Writer s, Definition d, bool needsSize)
     {
         if (d.IsNotInType())
         {
@@ -194,6 +201,11 @@ public static class WriteReadImplementation
                 throw new NotImplementedException();
             default:
                 throw new ArgumentOutOfRangeException();
+        }
+
+        if (needsSize)
+        {
+            s.Wln($"size += {d.Size()}");
         }
 
         s.Newline();

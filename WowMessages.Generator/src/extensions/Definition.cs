@@ -67,4 +67,10 @@ public static class DefinitionExtensions
         DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty => throw new NotImplementedException(),
         _ => throw new ArgumentOutOfRangeException(nameof(d))
     };
+
+    public static bool IsCompressed(this Definition d) => d.DataType switch
+    {
+        DataTypeArray dataTypeArray => dataTypeArray.Compressed,
+        _ => false,
+    };
 }
