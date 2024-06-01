@@ -7,31 +7,31 @@ public class CMD_REALM_LIST_Server: Version8ServerMessage, ILoginMessage {
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 16, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte(16, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUShort(w, (ushort)Size(), cancellationToken).ConfigureAwait(false);
+        await w.WriteUShort((ushort)Size(), cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, 0, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt(0, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUShort(w, (ushort)Realms.Count, cancellationToken).ConfigureAwait(false);
+        await w.WriteUShort((ushort)Realms.Count, cancellationToken).ConfigureAwait(false);
 
         foreach (var v in Realms) {
             await v.WriteAsync(w, cancellationToken).ConfigureAwait(false);
         }
 
-        await WriteUtils.WriteUShort(w, 0, cancellationToken).ConfigureAwait(false);
+        await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
 
     }
 
     public static async Task<CMD_REALM_LIST_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
         // ReSharper disable once UnusedVariable.Compiler
-        var size = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
+        var size = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var headerPadding = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var headerPadding = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var numberOfRealms = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
+        var numberOfRealms = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
 
         var realms = new List<Realm>();
         for (var i = 0; i < numberOfRealms; ++i) {
@@ -39,7 +39,7 @@ public class CMD_REALM_LIST_Server: Version8ServerMessage, ILoginMessage {
         }
 
         // ReSharper disable once UnusedVariable.Compiler
-        var footerPadding = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
+        var footerPadding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
 
         return new CMD_REALM_LIST_Server {
             Realms = realms,

@@ -3,9 +3,9 @@ using WowLoginMessages.All;
 
 namespace WowLoginMessages;
 
-public static class ReadUtils
+internal static class StreamReadExtensions
 {
-    public static async Task<byte> ReadByte(Stream r,
+    internal static async Task<byte> ReadByte(this Stream r,
         CancellationToken cancellationToken
     )
     {
@@ -15,7 +15,7 @@ public static class ReadUtils
         return b[0];
     }
 
-    public static async Task<ushort> ReadUShort(Stream r,
+    internal static async Task<ushort> ReadUShort(this Stream r,
         CancellationToken cancellationToken
     )
     {
@@ -25,7 +25,7 @@ public static class ReadUtils
         return (ushort)(b[0] | (b[1] << 8));
     }
 
-    public static async Task<uint> ReadUInt(Stream r, CancellationToken cancellationToken)
+    internal static async Task<uint> ReadUInt(this Stream r, CancellationToken cancellationToken)
     {
         var b = new byte[4];
         await r.ReadExactlyAsync(b, cancellationToken).ConfigureAwait(false);
@@ -33,7 +33,7 @@ public static class ReadUtils
         return (uint)(b[0] | (b[1] << 8) | (b[2] << 16) | (b[3] << 24));
     }
 
-    public static async Task<ulong> ReadULong(Stream r, CancellationToken cancellationToken)
+    internal static async Task<ulong> ReadULong(this Stream r, CancellationToken cancellationToken)
     {
         var b = new byte[8];
         await r.ReadExactlyAsync(b, cancellationToken).ConfigureAwait(false);
@@ -43,7 +43,7 @@ public static class ReadUtils
                ((ulong)b[7] << 56);
     }
 
-    public static async Task<bool> ReadBool8(Stream r, CancellationToken cancellationToken) =>
+    internal static async Task<bool> ReadBool8(this Stream r, CancellationToken cancellationToken) =>
         await ReadByte(r, cancellationToken).ConfigureAwait(false) switch
         {
             1 => true,
@@ -51,7 +51,7 @@ public static class ReadUtils
             _ => throw new ArgumentOutOfRangeException()
         };
 
-    public static async Task<bool> ReadBool16(Stream r, CancellationToken cancellationToken) =>
+    internal static async Task<bool> ReadBool16(this Stream r, CancellationToken cancellationToken) =>
         await ReadUShort(r, cancellationToken).ConfigureAwait(false) switch
         {
             1 => true,
@@ -59,7 +59,7 @@ public static class ReadUtils
             _ => throw new ArgumentOutOfRangeException()
         };
 
-    public static async Task<bool> ReadBool32(Stream r, CancellationToken cancellationToken) =>
+    internal static async Task<bool> ReadBool32(this Stream r, CancellationToken cancellationToken) =>
         await ReadUInt(r, cancellationToken).ConfigureAwait(false) switch
         {
             1 => true,
@@ -67,7 +67,7 @@ public static class ReadUtils
             _ => throw new ArgumentOutOfRangeException()
         };
 
-    public static async Task<string> ReadString(Stream r, CancellationToken cancellationToken)
+    internal static async Task<string> ReadString(this Stream r, CancellationToken cancellationToken)
     {
         var length = await ReadByte(r, cancellationToken).ConfigureAwait(false);
         var s = new StringBuilder();
@@ -80,7 +80,7 @@ public static class ReadUtils
         return s.ToString();
     }
 
-    public static async Task<string> ReadCString(Stream r, CancellationToken cancellationToken)
+    internal static async Task<string> ReadCString(this Stream r, CancellationToken cancellationToken)
     {
         var s = new StringBuilder();
         var b = await ReadByte(r, cancellationToken).ConfigureAwait(false);
@@ -95,7 +95,7 @@ public static class ReadUtils
     }
 
 
-    public static async Task<Population> ReadPopulation(Stream r, CancellationToken cancellationToken)
+    internal static async Task<Population> ReadPopulation(this Stream r, CancellationToken cancellationToken)
     {
         var b = await ReadUInt(r, cancellationToken).ConfigureAwait(false);
         var f = BitConverter.ToSingle(BitConverter.GetBytes(b), 0);

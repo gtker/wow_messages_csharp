@@ -8,7 +8,7 @@ public class SMSG_AUTH_CHALLENGE: VanillaServerMessage, IWorldMessage {
     public required uint ServerSeed { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
-        await WriteUtils.WriteUInt(w, ServerSeed, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt(ServerSeed, cancellationToken).ConfigureAwait(false);
 
     }
 
@@ -26,7 +26,7 @@ public class SMSG_AUTH_CHALLENGE: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_AUTH_CHALLENGE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var serverSeed = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var serverSeed = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_AUTH_CHALLENGE {
             ServerSeed = serverSeed,

@@ -9,31 +9,31 @@ public class CMD_SURVEY_RESULT: Version3ClientMessage, ILoginMessage {
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 4, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte(4, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, SurveyId, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt(SurveyId, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteByte(w, Error, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte(Error, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUShort(w, (ushort)Data.Count, cancellationToken).ConfigureAwait(false);
+        await w.WriteUShort((ushort)Data.Count, cancellationToken).ConfigureAwait(false);
 
         foreach (var v in Data) {
-            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
         }
 
     }
 
     public static async Task<CMD_SURVEY_RESULT> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var surveyId = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var surveyId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var error = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
+        var error = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var compressedDataLength = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
+        var compressedDataLength = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
 
         var data = new List<byte>();
         for (var i = 0; i < compressedDataLength; ++i) {
-            data.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
+            data.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
         }
 
         return new CMD_SURVEY_RESULT {

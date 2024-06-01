@@ -91,18 +91,18 @@ public static class WriteReadImplementation
         {
             case DataTypeInteger i:
                 s.Wln(
-                    $"var {d.VariableName()} = await ReadUtils.{i.IntegerType.ReadFunction()}(r, cancellationToken).ConfigureAwait(false);");
+                    $"var {d.VariableName()} = await r.{i.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeEnum dataTypeEnum:
                 var prefix = d.UsedInIf ? $"{d.CsTypeName()}Type" : "var";
 
                 s.Wln(
-                    $"{prefix} {d.VariableName()} = ({dataTypeEnum.CsType()})await ReadUtils.{dataTypeEnum.IntegerType.ReadFunction()}(r, cancellationToken).ConfigureAwait(false);");
+                    $"{prefix} {d.VariableName()} = ({dataTypeEnum.CsType()})await r.{dataTypeEnum.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeFlag dataTypeFlag:
                 var read =
-                    $"({dataTypeFlag.CsType()})await ReadUtils.{dataTypeFlag.IntegerType.ReadFunction()}(r, cancellationToken).ConfigureAwait(false)";
+                    $"({dataTypeFlag.CsType()})await r.{dataTypeFlag.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false)";
                 if (d.UsedInIf)
                 {
                     s.Body($"var {d.VariableName()} = new {d.CsTypeName()}Type", s => { s.Wln($"Inner = {read},"); },
@@ -124,48 +124,48 @@ public static class WriteReadImplementation
                 or DataTypeMilliseconds or DataTypeGold or DataTypeDateTime:
             {
                 s.Wln(
-                    $"var {d.VariableName()} = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);");
+                    $"var {d.VariableName()} = await r.ReadUInt(cancellationToken).ConfigureAwait(false);");
             }
                 break;
             case DataTypeSpell16 or DataTypeLevel16:
             {
                 s.Wln(
-                    $"var {d.VariableName()} = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);");
+                    $"var {d.VariableName()} = await r.ReadUShort(cancellationToken).ConfigureAwait(false);");
             }
                 break;
             case DataTypeLevel:
                 s.Wln(
-                    $"var {d.VariableName()} = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);");
+                    $"var {d.VariableName()} = await r.ReadByte(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeGuid:
                 s.Wln(
-                    $"var {d.VariableName()} = await ReadUtils.ReadULong(r, cancellationToken).ConfigureAwait(false);");
+                    $"var {d.VariableName()} = await r.ReadULong(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeString:
                 s.Wln(
-                    $"var {d.VariableName()} = await ReadUtils.ReadString(r, cancellationToken).ConfigureAwait(false);");
+                    $"var {d.VariableName()} = await r.ReadString(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypePopulation:
                 s.Wln(
-                    $"var {d.VariableName()} = await ReadUtils.ReadPopulation(r, cancellationToken).ConfigureAwait(false);");
+                    $"var {d.VariableName()} = await r.ReadPopulation(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeFloatingPoint:
                 s.Wln(
-                    $"var {d.VariableName()} = await ReadUtils.ReadFloat(r, cancellationToken).ConfigureAwait(false);");
+                    $"var {d.VariableName()} = await r.ReadFloat(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeBool b:
                 s.Wln(
-                    $"var {d.VariableName()} = await ReadUtils.ReadBool{b.IntegerType.SizeBits()}(r, cancellationToken).ConfigureAwait(false);");
+                    $"var {d.VariableName()} = await r.ReadBool{b.IntegerType.SizeBits()}(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeCstring:
                 s.Wln(
-                    $"var {d.VariableName()} = await ReadUtils.ReadCString(r, cancellationToken).ConfigureAwait(false);");
+                    $"var {d.VariableName()} = await r.ReadCString(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeArray array:
@@ -215,7 +215,7 @@ public static class WriteReadImplementation
     {
         if (array.Compressed)
         {
-            s.Wln("var decompressedLength = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);");
+            s.Wln("var decompressedLength = await r.ReadUInt(cancellationToken).ConfigureAwait(false);");
             s.Wln("size += 4;");
             s.Newline();
 
@@ -248,19 +248,19 @@ public static class WriteReadImplementation
             {
                 case ArrayTypeCstring:
                     s.Wln(
-                        $"{d.VariableName()}.Add(await ReadUtils.ReadCString(r, cancellationToken).ConfigureAwait(false));");
+                        $"{d.VariableName()}.Add(await r.ReadCString(cancellationToken).ConfigureAwait(false));");
                     break;
                 case ArrayTypeGuid:
                     s.Wln(
-                        $"{d.VariableName()}.Add(await ReadUtils.ReadULong(r, cancellationToken).ConfigureAwait(false));");
+                        $"{d.VariableName()}.Add(await r.ReadULong(cancellationToken).ConfigureAwait(false));");
                     break;
                 case ArrayTypeInteger it:
                     s.Wln(
-                        $"{d.VariableName()}.Add(await ReadUtils.{it.IntegerType.ReadFunction()}(r, cancellationToken).ConfigureAwait(false));");
+                        $"{d.VariableName()}.Add(await r.{it.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false));");
                     break;
                 case ArrayTypeSpell:
                     s.Wln(
-                        $"{d.VariableName()}.Add(await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false));");
+                        $"{d.VariableName()}.Add(await r.ReadUInt(cancellationToken).ConfigureAwait(false));");
                     break;
                 case ArrayTypeStruct e:
                     var body = e.StructData.IsWorld() ? "Body" : "";

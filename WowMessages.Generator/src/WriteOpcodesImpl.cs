@@ -140,7 +140,7 @@ public static class WriteOpcodesImpl
             $"public static async Task<{versionClass}> ReadAsync(Stream r, CancellationToken cancellationToken = default)",
             s =>
             {
-                s.Wln("var opcode = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);");
+                s.Wln("var opcode = await r.ReadByte(cancellationToken).ConfigureAwait(false);");
 
 
                 s.Body("return opcode switch", s =>

@@ -9,26 +9,26 @@ public class CMD_XFER_INITIATE: Version8ServerMessage, ILoginMessage {
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 48, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte(48, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteString(w, Filename, cancellationToken).ConfigureAwait(false);
+        await w.WriteString(Filename, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteULong(w, FileSize, cancellationToken).ConfigureAwait(false);
+        await w.WriteULong(FileSize, cancellationToken).ConfigureAwait(false);
 
         foreach (var v in FileMd5) {
-            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
         }
 
     }
 
     public static async Task<CMD_XFER_INITIATE> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var filename = await ReadUtils.ReadString(r, cancellationToken).ConfigureAwait(false);
+        var filename = await r.ReadString(cancellationToken).ConfigureAwait(false);
 
-        var fileSize = await ReadUtils.ReadULong(r, cancellationToken).ConfigureAwait(false);
+        var fileSize = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
         var fileMd5 = new List<byte>();
         for (var i = 0; i < 16; ++i) {
-            fileMd5.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
+            fileMd5.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
         }
 
         return new CMD_XFER_INITIATE {

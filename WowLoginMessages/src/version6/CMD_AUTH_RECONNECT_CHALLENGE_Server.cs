@@ -17,17 +17,17 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: Version6ServerMessage, ILoginM
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 2, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte(2, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteByte(w, (byte)ResultValue, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte((byte)ResultValue, cancellationToken).ConfigureAwait(false);
 
         if (Result.Value is CMD_AUTH_RECONNECT_CHALLENGE_Server.LoginResultSuccess result) {
             foreach (var v in result.ChallengeData) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+                await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
             foreach (var v in result.ChecksumSalt) {
-                await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+                await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
         }
@@ -35,17 +35,17 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: Version6ServerMessage, ILoginM
     }
 
     public static async Task<CMD_AUTH_RECONNECT_CHALLENGE_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        LoginResultType result = (LoginResult)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
+        LoginResultType result = (LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Version6.LoginResult.Success) {
             var challengeData = new List<byte>();
             for (var i = 0; i < 16; ++i) {
-                challengeData.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
+                challengeData.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
             }
 
             var checksumSalt = new List<byte>();
             for (var i = 0; i < 16; ++i) {
-                checksumSalt.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
+                checksumSalt.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
             }
 
             result = new LoginResultSuccess {

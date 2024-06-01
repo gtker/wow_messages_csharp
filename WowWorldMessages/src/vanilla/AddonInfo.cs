@@ -10,24 +10,24 @@ public class AddonInfo {
     public required uint AddonExtraCrc { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
-        await WriteUtils.WriteCString(w, AddonName, cancellationToken).ConfigureAwait(false);
+        await w.WriteCString(AddonName, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteByte(w, AddonHasSignature, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte(AddonHasSignature, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, AddonCrc, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt(AddonCrc, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, AddonExtraCrc, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt(AddonExtraCrc, cancellationToken).ConfigureAwait(false);
 
     }
 
     public static async Task<AddonInfo> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var addonName = await ReadUtils.ReadCString(r, cancellationToken).ConfigureAwait(false);
+        var addonName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
-        var addonHasSignature = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
+        var addonHasSignature = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var addonCrc = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var addonCrc = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var addonExtraCrc = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var addonExtraCrc = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new AddonInfo {
             AddonName = addonName,

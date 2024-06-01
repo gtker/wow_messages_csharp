@@ -4,7 +4,7 @@ public abstract class Version3ClientMessage {}
 
 public static class ClientOpcodeReader {
     public static async Task<Version3ClientMessage> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var opcode = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
+        var opcode = await r.ReadByte(cancellationToken).ConfigureAwait(false);
         return opcode switch {
             1 => await CMD_AUTH_LOGON_PROOF_Client.ReadAsync(r, cancellationToken).ConfigureAwait(false),
             4 => await CMD_SURVEY_RESULT.ReadAsync(r, cancellationToken).ConfigureAwait(false),

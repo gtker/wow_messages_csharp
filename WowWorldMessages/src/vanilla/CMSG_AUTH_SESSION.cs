@@ -16,16 +16,16 @@ public class CMSG_AUTH_SESSION: VanillaClientMessage, IWorldMessage {
     public required List<AddonInfo> AddonInfo { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
-        await WriteUtils.WriteUInt(w, Build, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt(Build, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, ServerId, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt(ServerId, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteCString(w, Username, cancellationToken).ConfigureAwait(false);
+        await w.WriteCString(Username, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, ClientSeed, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt(ClientSeed, cancellationToken).ConfigureAwait(false);
 
         foreach (var v in ClientProof) {
-            await WriteUtils.WriteByte(w, v, cancellationToken).ConfigureAwait(false);
+            await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
         }
 
         var oldStream = w;
@@ -41,7 +41,7 @@ public class CMSG_AUTH_SESSION: VanillaClientMessage, IWorldMessage {
         zlib.Flush();
 
         w = oldStream;
-        await WriteUtils.WriteUInt(w, (uint)uncompressedLength, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt((uint)uncompressedLength, cancellationToken).ConfigureAwait(false);
         await w.WriteAsync(compressedOutput.ToArray(), cancellationToken).ConfigureAwait(false);
 
     }
@@ -61,25 +61,25 @@ public class CMSG_AUTH_SESSION: VanillaClientMessage, IWorldMessage {
 
     public static async Task<CMSG_AUTH_SESSION> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
         var size = 0;
-        var build = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var build = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
         size += 4;
 
-        var serverId = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var serverId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
         size += 4;
 
-        var username = await ReadUtils.ReadCString(r, cancellationToken).ConfigureAwait(false);
+        var username = await r.ReadCString(cancellationToken).ConfigureAwait(false);
         size += username.Length + 1;
 
-        var clientSeed = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var clientSeed = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
         size += 4;
 
         var clientProof = new List<byte>();
         for (var i = 0; i < 20; ++i) {
-            clientProof.Add(await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false));
+            clientProof.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
             size += 1;
         }
 
-        var decompressedLength = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var decompressedLength = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
         size += 4;
 
         var decompressed = new byte[decompressedLength];

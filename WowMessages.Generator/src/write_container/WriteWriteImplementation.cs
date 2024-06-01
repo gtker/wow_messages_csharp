@@ -15,13 +15,13 @@ public static class WriteWriteImplementation
                     case ObjectTypeClogin objectTypeClogin:
                         s.Wln("// opcode: u8");
                         s.Wln(
-                            $"await WriteUtils.WriteByte(w, {objectTypeClogin.Opcode}, cancellationToken).ConfigureAwait(false);");
+                            $"await w.WriteByte({objectTypeClogin.Opcode}, cancellationToken).ConfigureAwait(false);");
                         s.Newline();
                         break;
                     case ObjectTypeSlogin objectTypeSlogin:
                         s.Wln("// opcode: u8");
                         s.Wln(
-                            $"await WriteUtils.WriteByte(w, {objectTypeSlogin.Opcode}, cancellationToken).ConfigureAwait(false);");
+                            $"await w.WriteByte({objectTypeSlogin.Opcode}, cancellationToken).ConfigureAwait(false);");
                         s.Newline();
                         break;
                     case ObjectTypeCmsg:
@@ -91,7 +91,7 @@ public static class WriteWriteImplementation
         {
             case DataTypeInteger i:
                 s.Wln(
-                    $"await WriteUtils.{i.IntegerType.WriteFunction()}(w, {value}, cancellationToken).ConfigureAwait(false);");
+                    $"await w.{i.IntegerType.WriteFunction()}({value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeEnum i:
@@ -101,7 +101,7 @@ public static class WriteWriteImplementation
                 }
 
                 s.Wln(
-                    $"await WriteUtils.{i.IntegerType.WriteFunction()}(w, ({i.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
+                    $"await w.{i.IntegerType.WriteFunction()}(({i.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeFlag i:
                 if (d.UsedInIf)
@@ -110,7 +110,7 @@ public static class WriteWriteImplementation
                 }
 
                 s.Wln(
-                    $"await WriteUtils.{i.IntegerType.WriteFunction()}(w, ({i.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
+                    $"await w.{i.IntegerType.WriteFunction()}(({i.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeStruct dataTypeStruct:
                 var body = dataTypeStruct.StructData.IsWorld() ? "Body" : "";
@@ -120,41 +120,41 @@ public static class WriteWriteImplementation
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds
                 or DataTypeMilliseconds or DataTypeGold or DataTypeDateTime:
             {
-                s.Wln($"await WriteUtils.WriteUInt(w, {value}, cancellationToken).ConfigureAwait(false);");
+                s.Wln($"await w.WriteUInt({value}, cancellationToken).ConfigureAwait(false);");
             }
                 break;
             case DataTypeSpell16 or DataTypeLevel16:
             {
-                s.Wln($"await WriteUtils.WriteUShort(w, {value}, cancellationToken).ConfigureAwait(false);");
+                s.Wln($"await w.WriteUShort({value}, cancellationToken).ConfigureAwait(false);");
             }
                 break;
             case DataTypeLevel:
-                s.Wln($"await WriteUtils.WriteByte(w, {value}, cancellationToken).ConfigureAwait(false);");
+                s.Wln($"await w.WriteByte({value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeGuid:
-                s.Wln($"await WriteUtils.WriteULong(w, {value}, cancellationToken).ConfigureAwait(false);");
+                s.Wln($"await w.WriteULong({value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeString:
-                s.Wln($"await WriteUtils.WriteString(w, {value}, cancellationToken).ConfigureAwait(false);");
+                s.Wln($"await w.WriteString({value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypePopulation:
-                s.Wln($"await WriteUtils.WritePopulation(w, {value}, cancellationToken).ConfigureAwait(false);");
+                s.Wln($"await w.WritePopulation({value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeFloatingPoint:
-                s.Wln($"await WriteUtils.WriteFloat(w, {value}, cancellationToken).ConfigureAwait(false);");
+                s.Wln($"await w.WriteFloat({value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeBool b:
                 s.Wln(
-                    $"await WriteUtils.WriteBool{b.IntegerType.SizeBits()}(w, {value}, cancellationToken).ConfigureAwait(false);");
+                    $"await w.WriteBool{b.IntegerType.SizeBits()}({value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeCstring:
-                s.Wln($"await WriteUtils.WriteCString(w, {value}, cancellationToken).ConfigureAwait(false);");
+                s.Wln($"await w.WriteCString({value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeArray array:
@@ -205,17 +205,17 @@ public static class WriteWriteImplementation
             switch (array.InnerType)
             {
                 case ArrayTypeCstring:
-                    s.Wln("await WriteUtils.WriteCString(w, v, cancellationToken).ConfigureAwait(false);");
+                    s.Wln("await w.WriteCString(v, cancellationToken).ConfigureAwait(false);");
                     break;
                 case ArrayTypeGuid:
-                    s.Wln("await WriteUtils.WriteULong(w, v, cancellationToken).ConfigureAwait(false);");
+                    s.Wln("await w.WriteULong(v, cancellationToken).ConfigureAwait(false);");
                     break;
                 case ArrayTypeInteger it:
                     s.Wln(
-                        $"await WriteUtils.{it.IntegerType.WriteFunction()}(w, v, cancellationToken).ConfigureAwait(false);");
+                        $"await w.{it.IntegerType.WriteFunction()}(v, cancellationToken).ConfigureAwait(false);");
                     break;
                 case ArrayTypeSpell:
-                    s.Wln("await WriteUtils.WriteUInt(w, v, cancellationToken).ConfigureAwait(false);");
+                    s.Wln("await w.WriteUInt(v, cancellationToken).ConfigureAwait(false);");
                     break;
                 case ArrayTypeStruct dataTypeStruct:
                     var body = dataTypeStruct.StructData.IsWorld() ? "Body" : "";
@@ -239,7 +239,7 @@ public static class WriteWriteImplementation
             s.Newline();
 
             s.Wln("w = oldStream;");
-            s.Wln("await WriteUtils.WriteUInt(w, (uint)uncompressedLength, cancellationToken).ConfigureAwait(false);");
+            s.Wln("await w.WriteUInt((uint)uncompressedLength, cancellationToken).ConfigureAwait(false);");
             s.Wln("await w.WriteAsync(compressedOutput.ToArray(), cancellationToken).ConfigureAwait(false);");
         }
     }

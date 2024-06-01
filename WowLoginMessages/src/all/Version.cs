@@ -8,24 +8,24 @@ public class Version {
     public required ushort Build { get; set; }
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
-        await WriteUtils.WriteByte(w, Major, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte(Major, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteByte(w, Minor, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte(Minor, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteByte(w, Patch, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte(Patch, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUShort(w, Build, cancellationToken).ConfigureAwait(false);
+        await w.WriteUShort(Build, cancellationToken).ConfigureAwait(false);
 
     }
 
     public static async Task<Version> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var major = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
+        var major = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var minor = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
+        var minor = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var patch = await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
+        var patch = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var build = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
+        var build = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
 
         return new Version {
             Major = major,

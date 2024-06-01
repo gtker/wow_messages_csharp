@@ -26,52 +26,52 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client: AllClientMessage, ILoginMessag
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
-        await WriteUtils.WriteByte(w, 2, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte(2, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteByte(w, (byte)ProtocolVersion, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte((byte)ProtocolVersion, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUShort(w, (ushort)Size(), cancellationToken).ConfigureAwait(false);
+        await w.WriteUShort((ushort)Size(), cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, 5730135, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt(5730135, cancellationToken).ConfigureAwait(false);
 
         await Version.WriteAsync(w, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, (uint)Platform, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt((uint)Platform, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, (uint)Os, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt((uint)Os, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, (uint)Locale, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt((uint)Locale, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, UtcTimezoneOffset, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt(UtcTimezoneOffset, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteUInt(w, ClientIpAddress, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt(ClientIpAddress, cancellationToken).ConfigureAwait(false);
 
-        await WriteUtils.WriteString(w, AccountName, cancellationToken).ConfigureAwait(false);
+        await w.WriteString(AccountName, cancellationToken).ConfigureAwait(false);
 
     }
 
     public static async Task<CMD_AUTH_RECONNECT_CHALLENGE_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var protocolVersion = (ProtocolVersion)await ReadUtils.ReadByte(r, cancellationToken).ConfigureAwait(false);
+        var protocolVersion = (ProtocolVersion)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var size = await ReadUtils.ReadUShort(r, cancellationToken).ConfigureAwait(false);
+        var size = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
-        var gameName = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var gameName = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var version = await Version.ReadAsync(r, cancellationToken).ConfigureAwait(false);
 
-        var platform = (Platform)await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var platform = (Platform)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var os = (Os)await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var os = (Os)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var locale = (Locale)await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var locale = (Locale)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var utcTimezoneOffset = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var utcTimezoneOffset = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var clientIpAddress = await ReadUtils.ReadUInt(r, cancellationToken).ConfigureAwait(false);
+        var clientIpAddress = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var accountName = await ReadUtils.ReadString(r, cancellationToken).ConfigureAwait(false);
+        var accountName = await r.ReadString(cancellationToken).ConfigureAwait(false);
 
         return new CMD_AUTH_RECONNECT_CHALLENGE_Client {
             ProtocolVersion = protocolVersion,
