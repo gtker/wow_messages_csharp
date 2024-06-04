@@ -264,7 +264,7 @@ public static class WriteContainers
     public static void WriteIfStatement(Writer s, Container e, IfStatement statement, string module,
         Action<Writer, Container, StructMember, string> invocation,
         Action<Writer, Definition, IList<PreparedObject>, string> end,
-        bool isWrite, string variablePrefix)
+        bool isWrite, string variablePrefix, bool isElseIf = false)
     {
         Func<string, string> transform = isWrite ? Utils.SnakeCaseToPascalCase : Utils.SnakeCaseToCamelCase;
 
@@ -272,7 +272,7 @@ public static class WriteContainers
                      .Select((v, i) => (i, v)))
         {
             var flag = statement.OriginalType is DataTypeFlag;
-            var prefix = i != 0 ? "else " : "";
+            var prefix = i != 0 || isElseIf ? "else " : "";
             var value = flag ? isWrite ? $".{enumerator.ToMemberName()}" : ".Inner" : ".Value";
             var ifHeader = $"{prefix}if ({variablePrefix}{transform(statement.VariableName)}{value}{cond})";
 
@@ -288,6 +288,11 @@ public static class WriteContainers
 
                 end(s, d, po.Enumerators[enumerator], enumerator);
             });
+        }
+
+        foreach (var elseif in statement.ElseIfStatements)
+        {
+            WriteIfStatement(s, e, elseif, module, invocation, end, isWrite, variablePrefix, true);
         }
 
         if (statement.ElseMembers.Count != 0)

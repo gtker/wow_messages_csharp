@@ -31,7 +31,8 @@ public static class ContainerExtensions
             return true;
         }
 
-        if (e.IsWorld() && e.Name is not ("CMSG_AUTH_SESSION" or "SMSG_AUTH_CHALLENGE" or "AddonInfo"))
+        if (e.IsWorld() &&
+            e.Name is not ("CMSG_AUTH_SESSION" or "SMSG_AUTH_CHALLENGE" or "SMSG_AUTH_RESPONSE" or "AddonInfo"))
         {
             Console.WriteLine($"Skipping {e.Name} because is world");
             return true;
@@ -60,8 +61,7 @@ public static class ContainerExtensions
             c switch
             {
                 StructMemberDefinition d => HasInvalidDefinition(d.StructMemberContent),
-                StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition) ||
-                                                     statement.StructMemberContent.ElseIfStatements.Count != 0,
+                StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition),
                 StructMemberOptional optional => true,
                 _ => throw new ArgumentOutOfRangeException(nameof(c))
             };

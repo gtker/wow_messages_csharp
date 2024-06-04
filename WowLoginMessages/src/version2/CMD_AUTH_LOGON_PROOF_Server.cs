@@ -21,12 +21,12 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version2ServerMessage, ILoginMessage {
 
         await w.WriteByte((byte)ResultValue, cancellationToken).ConfigureAwait(false);
 
-        if (Result.Value is CMD_AUTH_LOGON_PROOF_Server.LoginResultSuccess result) {
-            foreach (var v in result.ServerProof) {
+        if (Result.Value is CMD_AUTH_LOGON_PROOF_Server.LoginResultSuccess success) {
+            foreach (var v in success.ServerProof) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            await w.WriteUInt(result.HardwareSurveyId, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt(success.HardwareSurveyId, cancellationToken).ConfigureAwait(false);
 
         }
 

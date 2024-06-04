@@ -36,4 +36,52 @@ public class Vanilla {
         Assert.That(cJson, Is.EqualTo(sJson));
     }
 
+    [Test]
+    [Timeout(1000)]
+    public async Task SMSG_AUTH_RESPONSE0() {
+        var r = new MemoryStream([0, 3, 238, 1, 13, ]);
+
+        var c = (SMSG_AUTH_RESPONSE)await ServerOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedServerAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task SMSG_AUTH_RESPONSE1() {
+        var r = new MemoryStream([0, 7, 238, 1, 27, 239, 190, 173, 222, ]);
+
+        var c = (SMSG_AUTH_RESPONSE)await ServerOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedServerAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task SMSG_AUTH_RESPONSE2() {
+        var r = new MemoryStream([0, 12, 238, 1, 12, 239, 190, 173, 222, 0, 0, 0, 0, 0, ]);
+
+        var c = (SMSG_AUTH_RESPONSE)await ServerOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedServerAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
 }

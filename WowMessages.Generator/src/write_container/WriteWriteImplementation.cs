@@ -55,9 +55,7 @@ public static class WriteWriteImplementation
                 WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, module,
                     (s, e, member, enumerator) =>
                     {
-                        var newPrefix = statement.StructMemberContent.IsFlag()
-                            ? $"{enumerator.ToVariableName()}."
-                            : $"{statement.StructMemberContent.VariableName.ToVariableName()}.";
+                        var newPrefix = $"{enumerator.ToVariableName()}.";
                         WriteWriteMember(s, e, member, module, newPrefix);
                     },
                     (_, _, _, _) => { },

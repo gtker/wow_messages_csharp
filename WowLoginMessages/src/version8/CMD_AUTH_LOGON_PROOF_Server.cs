@@ -23,16 +23,16 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version8ServerMessage, ILoginMessage {
 
         await w.WriteByte((byte)ResultValue, cancellationToken).ConfigureAwait(false);
 
-        if (Result.Value is CMD_AUTH_LOGON_PROOF_Server.LoginResultSuccess result) {
-            foreach (var v in result.ServerProof) {
+        if (Result.Value is CMD_AUTH_LOGON_PROOF_Server.LoginResultSuccess success) {
+            foreach (var v in success.ServerProof) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            await w.WriteUInt((uint)result.AccountFlag, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt((uint)success.AccountFlag, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt(result.HardwareSurveyId, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt(success.HardwareSurveyId, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUShort(result.Unknown, cancellationToken).ConfigureAwait(false);
+            await w.WriteUShort(success.Unknown, cancellationToken).ConfigureAwait(false);
 
         }
         else {

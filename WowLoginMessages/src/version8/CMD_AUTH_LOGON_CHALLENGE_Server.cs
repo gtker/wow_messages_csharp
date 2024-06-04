@@ -71,34 +71,34 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version8ServerMessage, ILoginMessa
 
         await w.WriteByte((byte)ResultValue, cancellationToken).ConfigureAwait(false);
 
-        if (Result.Value is CMD_AUTH_LOGON_CHALLENGE_Server.LoginResultSuccess result) {
-            foreach (var v in result.ServerPublicKey) {
+        if (Result.Value is CMD_AUTH_LOGON_CHALLENGE_Server.LoginResultSuccess success) {
+            foreach (var v in success.ServerPublicKey) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            await w.WriteByte((byte)result.Generator.Count, cancellationToken).ConfigureAwait(false);
+            await w.WriteByte((byte)success.Generator.Count, cancellationToken).ConfigureAwait(false);
 
-            foreach (var v in result.Generator) {
+            foreach (var v in success.Generator) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            await w.WriteByte((byte)result.LargeSafePrime.Count, cancellationToken).ConfigureAwait(false);
+            await w.WriteByte((byte)success.LargeSafePrime.Count, cancellationToken).ConfigureAwait(false);
 
-            foreach (var v in result.LargeSafePrime) {
+            foreach (var v in success.LargeSafePrime) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            foreach (var v in result.Salt) {
+            foreach (var v in success.Salt) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            foreach (var v in result.CrcSalt) {
+            foreach (var v in success.CrcSalt) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            await w.WriteByte((byte)result.SecurityFlag.Inner, cancellationToken).ConfigureAwait(false);
+            await w.WriteByte((byte)success.SecurityFlag.Inner, cancellationToken).ConfigureAwait(false);
 
-            if (result.SecurityFlag.Pin is {} pin) {
+            if (success.SecurityFlag.Pin is {} pin) {
                 await w.WriteUInt(pin.PinGridSeed, cancellationToken).ConfigureAwait(false);
 
                 foreach (var v in pin.PinSalt) {
@@ -107,7 +107,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version8ServerMessage, ILoginMessa
 
             }
 
-            if (result.SecurityFlag.MatrixCard is {} matrixCard) {
+            if (success.SecurityFlag.MatrixCard is {} matrixCard) {
                 await w.WriteByte(matrixCard.Width, cancellationToken).ConfigureAwait(false);
 
                 await w.WriteByte(matrixCard.Height, cancellationToken).ConfigureAwait(false);
@@ -120,7 +120,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version8ServerMessage, ILoginMessa
 
             }
 
-            if (result.SecurityFlag.Authenticator is {} authenticator) {
+            if (success.SecurityFlag.Authenticator is {} authenticator) {
                 await w.WriteByte(authenticator.Required, cancellationToken).ConfigureAwait(false);
 
             }

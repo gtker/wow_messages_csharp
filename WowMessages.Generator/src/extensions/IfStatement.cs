@@ -37,7 +37,6 @@ public static class IfStatementExtensions
         var conditions = new List<(string, string)>();
         var originalType = statement.OriginalType.CsType();
 
-        var variableBinding = isWrite ? $" {statement.VariableName.ToVariableName()}" : "";
         var modulePrefix = isWrite ? containerName : module;
         var dot = isWrite ? "" : ".";
 
@@ -57,8 +56,18 @@ public static class IfStatementExtensions
 
                 break;
             case IfStatementDefinerType.Enum_:
-                conditions.AddRange(statement.Values.Select(cond =>
-                    ($" is {modulePrefix}.{originalType}{dot}{cond.ToEnumerator()}{variableBinding}", cond)));
+                if (isWrite)
+                {
+                    conditions.AddRange(statement.Values.Select(cond =>
+                        ($" is {modulePrefix}.{originalType}{dot}{cond.ToEnumerator()} {cond.ToVariableName()}",
+                            cond)));
+                }
+                else
+                {
+                    conditions.AddRange(statement.Values.Select(cond =>
+                        ($" is {modulePrefix}.{originalType}{dot}{cond.ToEnumerator()}", cond)));
+                }
+
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

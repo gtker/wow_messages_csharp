@@ -13,6 +13,7 @@
 
     <ItemGroup>
         <PackageReference Include="WowSrp" Version="0.3.0"/>
+        <PackageReference Include="OneOf" Version="3.0.271"/>
     </ItemGroup>
 
 </Project>

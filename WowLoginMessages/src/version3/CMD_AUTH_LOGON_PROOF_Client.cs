@@ -43,12 +43,12 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version3ClientMessage, ILoginMessage {
 
         await w.WriteByte((byte)SecurityFlagValue, cancellationToken).ConfigureAwait(false);
 
-        if (SecurityFlag.Value is CMD_AUTH_LOGON_PROOF_Client.SecurityFlagPin securityFlag) {
-            foreach (var v in securityFlag.PinSalt) {
+        if (SecurityFlag.Value is CMD_AUTH_LOGON_PROOF_Client.SecurityFlagPin pin) {
+            foreach (var v in pin.PinSalt) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            foreach (var v in securityFlag.PinHash) {
+            foreach (var v in pin.PinHash) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
