@@ -2,22 +2,29 @@
 
 using System.Text.Json.Serialization;
 
-namespace WowMessages.Generator.Generated;
-
-public class Definition
+namespace WowMessages.Generator.Generated
 {
-    [JsonPropertyName("constant_value")] public Value? ConstantValue { get; init; }
+    public class Definition
+    {
+        [JsonPropertyName("constant_value")]
+        public Value? ConstantValue { get; set; }
 
-    [JsonPropertyName("data_type")] public DataType DataType { get; init; }
+        [JsonPropertyName("data_type")]
+        public DataType DataType { get; set; }
 
-    [JsonPropertyName("name")] public string Name { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
 
-    [JsonPropertyName("size_of_fields_before_size")]
-    public byte? SizeOfFieldsBeforeSize { get; init; }
+        [JsonPropertyName("size_of_fields_before_size")]
+        public byte? SizeOfFieldsBeforeSize { get; set; }
 
-    [JsonPropertyName("tags")] public MemberTags Tags { get; init; }
+        [JsonPropertyName("tags")]
+        public MemberTags Tags { get; set; }
 
-    [JsonPropertyName("used_as_size_in")] public string UsedAsSizeIn { get; init; }
+        [JsonPropertyName("used_as_size_in")]
+        public string UsedAsSizeIn { get; set; }
 
-    [JsonPropertyName("used_in_if")] public bool UsedInIf { get; init; }
+        [JsonPropertyName("used_in_if")]
+        public bool UsedInIf { get; set; }
+    }
 }

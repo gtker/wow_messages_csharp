@@ -7,9 +7,9 @@ namespace WowMessages.Generator.Generated
     public class UpdateMaskDataTypeTwoShortContent
     {
         [JsonPropertyName("first")]
-        public TwoShortType First { get; init; }
+        public TwoShortType First { get; set; }
 
         [JsonPropertyName("second")]
-        public TwoShortType Second { get; init; }
+        public TwoShortType Second { get; set; }
     }
 }

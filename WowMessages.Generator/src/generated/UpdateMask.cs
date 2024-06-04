@@ -7,18 +7,18 @@ namespace WowMessages.Generator.Generated
     public class UpdateMask
     {
         [JsonPropertyName("data_type")]
-        public UpdateMaskDataType DataType { get; init; }
+        public UpdateMaskDataType DataType { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; init; }
+        public string Name { get; set; }
 
         [JsonPropertyName("object_type")]
-        public UpdateMaskObjectType ObjectType { get; init; }
+        public UpdateMaskObjectType ObjectType { get; set; }
 
         [JsonPropertyName("offset")]
-        public ushort Offset { get; init; }
+        public ushort Offset { get; set; }
 
         [JsonPropertyName("size")]
-        public ushort Size { get; init; }
+        public ushort Size { get; set; }
     }
 }

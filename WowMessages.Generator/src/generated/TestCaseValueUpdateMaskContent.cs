@@ -7,12 +7,12 @@ namespace WowMessages.Generator.Generated
     public class TestCaseValueUpdateMaskContent
     {
         [JsonPropertyName("update_mask_name")]
-        public string UpdateMaskName { get; init; }
+        public string UpdateMaskName { get; set; }
 
         [JsonPropertyName("update_mask_type")]
-        public TestCaseValueUpdateMaskContentUpdateMaskType UpdateMaskType { get; init; }
+        public TestCaseValueUpdateMaskContentUpdateMaskType UpdateMaskType { get; set; }
 
         [JsonPropertyName("update_mask_value")]
-        public string UpdateMaskValue { get; init; }
+        public string UpdateMaskValue { get; set; }
     }
 }

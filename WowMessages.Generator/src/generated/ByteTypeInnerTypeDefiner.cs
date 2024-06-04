@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string ByteTypeTag { get => "Definer"; }
 
         [JsonPropertyName("byte_type")]
-        public string ByteType { get; init; }
+        public string ByteType { get; set; }
     }
 }

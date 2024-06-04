@@ -7,12 +7,12 @@ namespace WowMessages.Generator.Generated
     public class TestCaseValueMonsterMoveSplineContent
     {
         [JsonPropertyName("x")]
-        public float X { get; init; }
+        public float X { get; set; }
 
         [JsonPropertyName("y")]
-        public float Y { get; init; }
+        public float Y { get; set; }
 
         [JsonPropertyName("z")]
-        public float Z { get; init; }
+        public float Z { get; set; }
     }
 }

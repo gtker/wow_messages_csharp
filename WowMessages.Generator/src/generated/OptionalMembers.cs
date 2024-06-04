@@ -8,9 +8,9 @@ namespace WowMessages.Generator.Generated
     public class OptionalMembers
     {
         [JsonPropertyName("members")]
-        public IList<StructMember> Members { get; init; }
+        public IList<StructMember> Members { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; init; }
+        public string Name { get; set; }
     }
 }

@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string StructMemberTag { get => "Definition"; }
 
         [JsonPropertyName("struct_member_content")]
-        public Definition StructMemberContent { get; init; }
+        public Definition StructMemberContent { get; set; }
     }
 }

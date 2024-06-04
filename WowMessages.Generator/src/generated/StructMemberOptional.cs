@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string StructMemberTag { get => "Optional"; }
 
         [JsonPropertyName("struct_member_content")]
-        public OptionalMembers StructMemberContent { get; init; }
+        public OptionalMembers StructMemberContent { get; set; }
     }
 }

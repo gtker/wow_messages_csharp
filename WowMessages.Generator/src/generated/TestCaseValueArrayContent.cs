@@ -8,9 +8,9 @@ namespace WowMessages.Generator.Generated
     public class TestCaseValueArrayContent
     {
         [JsonPropertyName("size")]
-        public ArraySize Size { get; init; }
+        public ArraySize Size { get; set; }
 
         [JsonPropertyName("values")]
-        public IList<string> Values { get; init; }
+        public IList<string> Values { get; set; }
     }
 }

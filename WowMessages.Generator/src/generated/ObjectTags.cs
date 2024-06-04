@@ -7,26 +7,26 @@ namespace WowMessages.Generator.Generated
     public class ObjectTags
     {
         [JsonPropertyName("version")]
-        public ObjectVersions Version_ { get; init; }
+        public ObjectVersions Version_ { get; set; }
 
         [JsonPropertyName("comment")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Comment { get; init; }
+        public string Comment { get; set; }
 
         [JsonPropertyName("compressed")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool? Compressed { get; init; }
+        public bool? Compressed { get; set; }
 
         [JsonPropertyName("non_network_type")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool? NonNetworkType { get; init; }
+        public bool? NonNetworkType { get; set; }
 
         [JsonPropertyName("unimplemented")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool? Unimplemented { get; init; }
+        public bool? Unimplemented { get; set; }
 
         [JsonPropertyName("used_in_update_mask")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool? UsedInUpdateMask { get; init; }
+        public bool? UsedInUpdateMask { get; set; }
     }
 }

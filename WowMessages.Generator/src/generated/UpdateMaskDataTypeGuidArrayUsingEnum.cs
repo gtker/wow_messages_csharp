@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string UpdateMaskTypeTag { get => "GuidArrayUsingEnum"; }
 
         [JsonPropertyName("content")]
-        public UpdateMaskDataTypeGuidArrayUsingEnumContent Content { get; init; }
+        public UpdateMaskDataTypeGuidArrayUsingEnumContent Content { get; set; }
     }
 }

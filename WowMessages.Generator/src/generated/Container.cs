@@ -8,25 +8,25 @@ namespace WowMessages.Generator.Generated
     public class Container
     {
         [JsonPropertyName("file_info")]
-        public FileInfo FileInfo { get; init; }
+        public FileInfo FileInfo { get; set; }
 
         [JsonPropertyName("has_manual_size_field")]
-        public bool HasManualSizeField { get; init; }
+        public bool HasManualSizeField { get; set; }
 
         [JsonPropertyName("manual_size_subtraction")]
-        public ushort? ManualSizeSubtraction { get; init; }
+        public ushort? ManualSizeSubtraction { get; set; }
 
         [JsonPropertyName("members")]
-        public IList<StructMember> Members { get; init; }
+        public IList<StructMember> Members { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; init; }
+        public string Name { get; set; }
 
         [JsonPropertyName("object_type")]
-        public ObjectType ObjectType { get; init; }
+        public ObjectType ObjectType { get; set; }
 
         [JsonPropertyName("only_has_io_error")]
-        public bool OnlyHasIoError { get; init; }
+        public bool OnlyHasIoError { get; set; }
 
         /// <summary>
         /// Is a structured representation of the object where fields that
@@ -36,15 +36,15 @@ namespace WowMessages.Generator.Generated
         /// inheritance.
         /// </summary>
         [JsonPropertyName("prepared_objects")]
-        public IList<PreparedObject> PreparedObjects { get; init; }
+        public IList<PreparedObject> PreparedObjects { get; set; }
 
         [JsonPropertyName("sizes")]
-        public Sizes Sizes { get; init; }
+        public Sizes Sizes { get; set; }
 
         [JsonPropertyName("tags")]
-        public ObjectTags Tags { get; init; }
+        public ObjectTags Tags { get; set; }
 
         [JsonPropertyName("tests")]
-        public IList<TestCase> Tests { get; init; }
+        public IList<TestCase> Tests { get; set; }
     }
 }

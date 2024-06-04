@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string ArrayTypeTag { get => "Integer"; }
 
         [JsonPropertyName("integer_type")]
-        public IntegerType IntegerType { get; init; }
+        public IntegerType IntegerType { get; set; }
     }
 }

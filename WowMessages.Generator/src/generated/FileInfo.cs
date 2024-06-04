@@ -7,12 +7,12 @@ namespace WowMessages.Generator.Generated
     public class FileInfo
     {
         [JsonPropertyName("end_position")]
-        public uint EndPosition { get; init; }
+        public uint EndPosition { get; set; }
 
         [JsonPropertyName("file_name")]
-        public string FileName { get; init; }
+        public string FileName { get; set; }
 
         [JsonPropertyName("start_position")]
-        public uint StartPosition { get; init; }
+        public uint StartPosition { get; set; }
     }
 }

@@ -8,18 +8,18 @@ namespace WowMessages.Generator.Generated
     public class UpdateMaskStruct
     {
         [JsonPropertyName("file_info")]
-        public FileInfo FileInfo { get; init; }
+        public FileInfo FileInfo { get; set; }
 
         [JsonPropertyName("members")]
-        public IList<IList<UpdateMaskStructMember>> Members { get; init; }
+        public IList<IList<UpdateMaskStructMember>> Members { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; init; }
+        public string Name { get; set; }
 
         [JsonPropertyName("sizes")]
-        public Sizes Sizes { get; init; }
+        public Sizes Sizes { get; set; }
 
         [JsonPropertyName("tags")]
-        public ObjectTags Tags { get; init; }
+        public ObjectTags Tags { get; set; }
     }
 }

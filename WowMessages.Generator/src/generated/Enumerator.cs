@@ -7,12 +7,12 @@ namespace WowMessages.Generator.Generated
     public class Enumerator
     {
         [JsonPropertyName("name")]
-        public string Name { get; init; }
+        public string Name { get; set; }
 
         [JsonPropertyName("tags")]
-        public MemberTags Tags { get; init; }
+        public MemberTags Tags { get; set; }
 
         [JsonPropertyName("value")]
-        public Value Value { get; init; }
+        public Value Value { get; set; }
     }
 }

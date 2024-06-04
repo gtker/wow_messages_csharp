@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string TestValueTag { get => "Array"; }
 
         [JsonPropertyName("content")]
-        public TestCaseValueArrayContent Content { get; init; }
+        public TestCaseValueArrayContent Content { get; set; }
     }
 }

@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string TestValueTag { get => "SubObject"; }
 
         [JsonPropertyName("content")]
-        public TestCaseValueSubObjectContent Content { get; init; }
+        public TestCaseValueSubObjectContent Content { get; set; }
     }
 }

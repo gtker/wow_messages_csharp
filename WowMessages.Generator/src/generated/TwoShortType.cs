@@ -7,9 +7,9 @@ namespace WowMessages.Generator.Generated
     public class TwoShortType
     {
         [JsonPropertyName("inner_type")]
-        public TwoShortTypeInnerType InnerType { get; init; }
+        public TwoShortTypeInnerType InnerType { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; init; }
+        public string Name { get; set; }
     }
 }

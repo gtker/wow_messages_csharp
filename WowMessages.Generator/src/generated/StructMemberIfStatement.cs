@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string StructMemberTag { get => "IfStatement"; }
 
         [JsonPropertyName("struct_member_content")]
-        public IfStatement StructMemberContent { get; init; }
+        public IfStatement StructMemberContent { get; set; }
     }
 }

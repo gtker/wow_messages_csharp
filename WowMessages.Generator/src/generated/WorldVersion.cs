@@ -7,15 +7,15 @@ namespace WowMessages.Generator.Generated
     public class WorldVersion
     {
         [JsonPropertyName("build")]
-        public ushort? Build { get; init; }
+        public ushort? Build { get; set; }
 
         [JsonPropertyName("major")]
-        public byte Major { get; init; }
+        public byte Major { get; set; }
 
         [JsonPropertyName("minor")]
-        public byte? Minor { get; init; }
+        public byte? Minor { get; set; }
 
         [JsonPropertyName("patch")]
-        public byte? Patch { get; init; }
+        public byte? Patch { get; set; }
     }
 }

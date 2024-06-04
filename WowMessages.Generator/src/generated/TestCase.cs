@@ -8,18 +8,18 @@ namespace WowMessages.Generator.Generated
     public class TestCase
     {
         [JsonPropertyName("file_info")]
-        public FileInfo FileInfo { get; init; }
+        public FileInfo FileInfo { get; set; }
 
         [JsonPropertyName("members")]
-        public IList<TestCaseMember> Members { get; init; }
+        public IList<TestCaseMember> Members { get; set; }
 
         [JsonPropertyName("raw_bytes")]
-        public IList<byte> RawBytes { get; init; }
+        public IList<byte> RawBytes { get; set; }
 
         [JsonPropertyName("subject")]
-        public string Subject { get; init; }
+        public string Subject { get; set; }
 
         [JsonPropertyName("tags")]
-        public ObjectTags Tags { get; init; }
+        public ObjectTags Tags { get; set; }
     }
 }

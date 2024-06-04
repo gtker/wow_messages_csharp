@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string ArraySizeTag { get => "Variable"; }
 
         [JsonPropertyName("size")]
-        public string Size { get; init; }
+        public string Size { get; set; }
     }
 }

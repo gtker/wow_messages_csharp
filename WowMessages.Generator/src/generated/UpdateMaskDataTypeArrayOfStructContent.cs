@@ -7,12 +7,12 @@ namespace WowMessages.Generator.Generated
     public class UpdateMaskDataTypeArrayOfStructContent
     {
         [JsonPropertyName("size")]
-        public int Size { get; init; }
+        public int Size { get; set; }
 
         [JsonPropertyName("update_mask_struct")]
-        public UpdateMaskStruct UpdateMaskStruct { get; init; }
+        public UpdateMaskStruct UpdateMaskStruct { get; set; }
 
         [JsonPropertyName("variable_name")]
-        public string VariableName { get; init; }
+        public string VariableName { get; set; }
     }
 }

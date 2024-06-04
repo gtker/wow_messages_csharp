@@ -7,9 +7,9 @@ namespace WowMessages.Generator.Generated
     public class UpdateMaskDataTypeGuidArrayUsingEnumContent
     {
         [JsonPropertyName("definer")]
-        public Definer Definer { get; init; }
+        public Definer Definer { get; set; }
 
         [JsonPropertyName("variable_name")]
-        public string VariableName { get; init; }
+        public string VariableName { get; set; }
     }
 }

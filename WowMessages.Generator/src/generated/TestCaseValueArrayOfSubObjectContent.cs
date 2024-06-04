@@ -8,12 +8,12 @@ namespace WowMessages.Generator.Generated
     public class TestCaseValueArrayOfSubObjectContent
     {
         [JsonPropertyName("members")]
-        public IList<IList<TestCaseMember>> Members { get; init; }
+        public IList<IList<TestCaseMember>> Members { get; set; }
 
         [JsonPropertyName("size")]
-        public ArraySize Size { get; init; }
+        public ArraySize Size { get; set; }
 
         [JsonPropertyName("type_name")]
-        public string TypeName { get; init; }
+        public string TypeName { get; set; }
     }
 }

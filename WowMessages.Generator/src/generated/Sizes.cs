@@ -7,12 +7,12 @@ namespace WowMessages.Generator.Generated
     public class Sizes
     {
         [JsonPropertyName("constant_sized")]
-        public bool ConstantSized { get; init; }
+        public bool ConstantSized { get; set; }
 
         [JsonPropertyName("maximum_size")]
-        public uint MaximumSize { get; init; }
+        public uint MaximumSize { get; set; }
 
         [JsonPropertyName("minimum_size")]
-        public uint MinimumSize { get; init; }
+        public uint MinimumSize { get; set; }
     }
 }

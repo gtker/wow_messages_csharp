@@ -7,9 +7,9 @@ namespace WowMessages.Generator.Generated
     public class FloatingPointValue
     {
         [JsonPropertyName("original_string")]
-        public string OriginalString { get; init; }
+        public string OriginalString { get; set; }
 
         [JsonPropertyName("value")]
-        public double Value { get; init; }
+        public double Value { get; set; }
     }
 }

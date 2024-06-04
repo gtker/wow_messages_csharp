@@ -10,12 +10,12 @@ namespace WowMessages.Generator.Generated
         public string DataTypeTag { get => "Array"; }
 
         [JsonPropertyName("compressed")]
-        public bool Compressed { get; init; }
+        public bool Compressed { get; set; }
 
         [JsonPropertyName("inner_type")]
-        public ArrayType InnerType { get; init; }
+        public ArrayType InnerType { get; set; }
 
         [JsonPropertyName("size")]
-        public ArraySize Size { get; init; }
+        public ArraySize Size { get; set; }
     }
 }

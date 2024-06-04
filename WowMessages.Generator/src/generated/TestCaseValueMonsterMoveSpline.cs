@@ -11,6 +11,6 @@ namespace WowMessages.Generator.Generated
         public string TestValueTag { get => "MonsterMoveSpline"; }
 
         [JsonPropertyName("content")]
-        public IList<TestCaseValueMonsterMoveSplineContent> Content { get; init; }
+        public IList<TestCaseValueMonsterMoveSplineContent> Content { get; set; }
     }
 }

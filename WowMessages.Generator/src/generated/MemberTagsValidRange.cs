@@ -11,9 +11,9 @@ namespace WowMessages.Generator.Generated
     public class MemberTagsValidRange
     {
         [JsonPropertyName("from")]
-        public string From { get; init; }
+        public string From { get; set; }
 
         [JsonPropertyName("to")]
-        public string To { get; init; }
+        public string To { get; set; }
     }
 }

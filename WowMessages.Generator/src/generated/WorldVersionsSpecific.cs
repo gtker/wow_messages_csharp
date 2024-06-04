@@ -11,6 +11,6 @@ namespace WowMessages.Generator.Generated
         public string WorldVersionTag { get => "specific"; }
 
         [JsonPropertyName("versions")]
-        public IList<WorldVersion> Versions { get; init; }
+        public IList<WorldVersion> Versions { get; set; }
     }
 }

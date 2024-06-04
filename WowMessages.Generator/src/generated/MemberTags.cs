@@ -8,11 +8,11 @@ namespace WowMessages.Generator.Generated
     {
         [JsonPropertyName("comment")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Comment { get; init; }
+        public string Comment { get; set; }
 
         [JsonPropertyName("display")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Display { get; init; }
+        public string Display { get; set; }
 
         /// <summary>
         /// JSON Typedef does not support integers larger than unsigned 32 bit,
@@ -20,7 +20,7 @@ namespace WowMessages.Generator.Generated
         /// </summary>
         [JsonPropertyName("maximum_length")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string MaximumLength { get; init; }
+        public string MaximumLength { get; set; }
 
         /// <summary>
         /// JSON Typedef does not support integers larger than unsigned 32 bit,
@@ -28,6 +28,6 @@ namespace WowMessages.Generator.Generated
         /// </summary>
         [JsonPropertyName("valid_range")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public MemberTagsValidRange ValidRange { get; init; }
+        public MemberTagsValidRange ValidRange { get; set; }
     }
 }

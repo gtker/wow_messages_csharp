@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string TestValueTag { get => "FloatingPoint"; }
 
         [JsonPropertyName("content")]
-        public FloatingPointValue Content { get; init; }
+        public FloatingPointValue Content { get; set; }
     }
 }

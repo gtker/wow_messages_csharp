@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string ContainerTypeTag { get => "SLogin"; }
 
         [JsonPropertyName("opcode")]
-        public ushort Opcode { get; init; }
+        public ushort Opcode { get; set; }
     }
 }

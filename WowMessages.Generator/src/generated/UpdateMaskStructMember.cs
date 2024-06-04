@@ -7,12 +7,12 @@ namespace WowMessages.Generator.Generated
     public class UpdateMaskStructMember
     {
         [JsonPropertyName("member")]
-        public Definition Member { get; init; }
+        public Definition Member { get; set; }
 
         [JsonPropertyName("offset")]
-        public int Offset { get; init; }
+        public int Offset { get; set; }
 
         [JsonPropertyName("size")]
-        public int Size { get; init; }
+        public int Size { get; set; }
     }
 }

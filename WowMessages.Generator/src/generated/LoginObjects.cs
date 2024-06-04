@@ -8,15 +8,15 @@ namespace WowMessages.Generator.Generated
     public class LoginObjects
     {
         [JsonPropertyName("enums")]
-        public IList<Definer> Enums { get; init; }
+        public IList<Definer> Enums { get; set; }
 
         [JsonPropertyName("flags")]
-        public IList<Definer> Flags { get; init; }
+        public IList<Definer> Flags { get; set; }
 
         [JsonPropertyName("messages")]
-        public IList<Container> Messages { get; init; }
+        public IList<Container> Messages { get; set; }
 
         [JsonPropertyName("structs")]
-        public IList<Container> Structs { get; init; }
+        public IList<Container> Structs { get; set; }
     }
 }

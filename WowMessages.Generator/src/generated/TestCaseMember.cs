@@ -7,12 +7,12 @@ namespace WowMessages.Generator.Generated
     public class TestCaseMember
     {
         [JsonPropertyName("tags")]
-        public MemberTags Tags { get; init; }
+        public MemberTags Tags { get; set; }
 
         [JsonPropertyName("value")]
-        public TestCaseValue Value { get; init; }
+        public TestCaseValue Value { get; set; }
 
         [JsonPropertyName("variable_name")]
-        public string VariableName { get; init; }
+        public string VariableName { get; set; }
     }
 }

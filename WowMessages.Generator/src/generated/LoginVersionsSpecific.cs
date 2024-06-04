@@ -11,6 +11,6 @@ namespace WowMessages.Generator.Generated
         public string LoginVersionTag { get => "specific"; }
 
         [JsonPropertyName("versions")]
-        public IList<byte> Versions { get; init; }
+        public IList<byte> Versions { get; set; }
     }
 }

@@ -7,9 +7,9 @@ namespace WowMessages.Generator.Generated
     public class IntermediateRepresentationSchemaIntegerTypeInformation
     {
         [JsonPropertyName("bits")]
-        public byte Bits { get; init; }
+        public byte Bits { get; set; }
 
         [JsonPropertyName("size")]
-        public byte Size { get; init; }
+        public byte Size { get; set; }
     }
 }

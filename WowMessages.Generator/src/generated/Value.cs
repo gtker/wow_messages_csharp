@@ -7,13 +7,13 @@ namespace WowMessages.Generator.Generated
     public class Value
     {
         [JsonPropertyName("original_string")]
-        public string OriginalString { get; init; }
+        public string OriginalString { get; set; }
 
         /// <summary>
         /// JSON Typedef does not support integers larger than unsigned 32 bit,
         /// so this is a string
         /// </summary>
         [JsonPropertyName("value")]
-        public string value { get; init; }
+        public string value { get; set; }
     }
 }

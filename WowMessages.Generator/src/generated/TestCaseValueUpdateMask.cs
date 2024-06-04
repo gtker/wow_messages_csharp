@@ -11,6 +11,6 @@ namespace WowMessages.Generator.Generated
         public string TestValueTag { get => "UpdateMask"; }
 
         [JsonPropertyName("content")]
-        public IList<TestCaseValueUpdateMaskContent> Content { get; init; }
+        public IList<TestCaseValueUpdateMaskContent> Content { get; set; }
     }
 }

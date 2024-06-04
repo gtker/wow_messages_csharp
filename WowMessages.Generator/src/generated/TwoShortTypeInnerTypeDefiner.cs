@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string TwoShortTypeTag { get => "Definer"; }
 
         [JsonPropertyName("two_short_type")]
-        public string TwoShortType { get; init; }
+        public string TwoShortType { get; set; }
     }
 }

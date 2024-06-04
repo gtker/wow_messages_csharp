@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string DataTypeTag { get => "Struct"; }
 
         [JsonPropertyName("struct_data")]
-        public Container StructData { get; init; }
+        public Container StructData { get; set; }
     }
 }

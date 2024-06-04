@@ -7,9 +7,9 @@ namespace WowMessages.Generator.Generated
     public class ByteType
     {
         [JsonPropertyName("inner_type")]
-        public ByteTypeInnerType InnerType { get; init; }
+        public ByteTypeInnerType InnerType { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; init; }
+        public string Name { get; set; }
     }
 }

@@ -10,12 +10,12 @@ namespace WowMessages.Generator.Generated
         public string DataTypeTag { get => "Enum"; }
 
         [JsonPropertyName("integer_type")]
-        public IntegerType IntegerType { get; init; }
+        public IntegerType IntegerType { get; set; }
 
         [JsonPropertyName("type_name")]
-        public string TypeName { get; init; }
+        public string TypeName { get; set; }
 
         [JsonPropertyName("upcast")]
-        public bool Upcast { get; init; }
+        public bool Upcast { get; set; }
     }
 }

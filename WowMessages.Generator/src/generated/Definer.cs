@@ -8,24 +8,24 @@ namespace WowMessages.Generator.Generated
     public class Definer
     {
         [JsonPropertyName("definer_type")]
-        public DefinerType DefinerType { get; init; }
+        public DefinerType DefinerType { get; set; }
 
         [JsonPropertyName("enumerators")]
-        public IList<Enumerator> Enumerators { get; init; }
+        public IList<Enumerator> Enumerators { get; set; }
 
         [JsonPropertyName("file_info")]
-        public FileInfo FileInfo { get; init; }
+        public FileInfo FileInfo { get; set; }
 
         [JsonPropertyName("integer_type")]
-        public IntegerType IntegerType { get; init; }
+        public IntegerType IntegerType { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; init; }
+        public string Name { get; set; }
 
         [JsonPropertyName("objects_used_in")]
-        public IList<DefinerObjectsUsedIn> ObjectsUsedIn { get; init; }
+        public IList<DefinerObjectsUsedIn> ObjectsUsedIn { get; set; }
 
         [JsonPropertyName("tags")]
-        public ObjectTags Tags { get; init; }
+        public ObjectTags Tags { get; set; }
     }
 }

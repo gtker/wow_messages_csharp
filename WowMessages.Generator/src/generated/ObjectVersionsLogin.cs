@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string VersionTypeTag { get => "login"; }
 
         [JsonPropertyName("version_type")]
-        public LoginVersions VersionType { get; init; }
+        public LoginVersions VersionType { get; set; }
     }
 }

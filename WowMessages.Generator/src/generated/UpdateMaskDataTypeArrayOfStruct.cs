@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string UpdateMaskTypeTag { get => "ArrayOfStruct"; }
 
         [JsonPropertyName("content")]
-        public UpdateMaskDataTypeArrayOfStructContent Content { get; init; }
+        public UpdateMaskDataTypeArrayOfStructContent Content { get; set; }
     }
 }

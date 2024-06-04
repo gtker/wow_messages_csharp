@@ -7,15 +7,15 @@ namespace WowMessages.Generator.Generated
     public class UpdateMaskDataTypeBytesContent
     {
         [JsonPropertyName("first")]
-        public ByteType First { get; init; }
+        public ByteType First { get; set; }
 
         [JsonPropertyName("fourth")]
-        public ByteType Fourth { get; init; }
+        public ByteType Fourth { get; set; }
 
         [JsonPropertyName("second")]
-        public ByteType Second { get; init; }
+        public ByteType Second { get; set; }
 
         [JsonPropertyName("third")]
-        public ByteType Third { get; init; }
+        public ByteType Third { get; set; }
     }
 }

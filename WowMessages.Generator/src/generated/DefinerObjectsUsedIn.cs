@@ -7,9 +7,9 @@ namespace WowMessages.Generator.Generated
     public class DefinerObjectsUsedIn
     {
         [JsonPropertyName("definer_usage")]
-        public DefinerUsage DefinerUsage { get; init; }
+        public DefinerUsage DefinerUsage { get; set; }
 
         [JsonPropertyName("object_name")]
-        public string ObjectName { get; init; }
+        public string ObjectName { get; set; }
     }
 }

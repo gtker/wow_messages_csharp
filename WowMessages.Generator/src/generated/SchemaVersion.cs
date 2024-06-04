@@ -7,12 +7,12 @@ namespace WowMessages.Generator.Generated
     public class SchemaVersion
     {
         [JsonPropertyName("major")]
-        public uint Major { get; init; }
+        public uint Major { get; set; }
 
         [JsonPropertyName("minor")]
-        public uint Minor { get; init; }
+        public uint Minor { get; set; }
 
         [JsonPropertyName("patch")]
-        public uint Patch { get; init; }
+        public uint Patch { get; set; }
     }
 }

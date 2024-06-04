@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string TestValueTag { get => "Integer"; }
 
         [JsonPropertyName("content")]
-        public Value Content { get; init; }
+        public Value Content { get; set; }
     }
 }

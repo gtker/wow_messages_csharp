@@ -8,30 +8,30 @@ namespace WowMessages.Generator.Generated
     public class IfStatement
     {
         [JsonPropertyName("definer_type")]
-        public IfStatementDefinerType DefinerType { get; init; }
+        public IfStatementDefinerType DefinerType { get; set; }
 
         [JsonPropertyName("else_if_statements")]
-        public IList<IfStatement> ElseIfStatements { get; init; }
+        public IList<IfStatement> ElseIfStatements { get; set; }
 
         [JsonPropertyName("else_members")]
-        public IList<StructMember> ElseMembers { get; init; }
+        public IList<StructMember> ElseMembers { get; set; }
 
         [JsonPropertyName("is_else_if_flag")]
-        public bool IsElseIfFlag { get; init; }
+        public bool IsElseIfFlag { get; set; }
 
         [JsonPropertyName("members")]
-        public IList<StructMember> Members { get; init; }
+        public IList<StructMember> Members { get; set; }
 
         [JsonPropertyName("original_type")]
-        public DataType OriginalType { get; init; }
+        public DataType OriginalType { get; set; }
 
         [JsonPropertyName("part_of_separate_if_statement")]
-        public bool PartOfSeparateIfStatement { get; init; }
+        public bool PartOfSeparateIfStatement { get; set; }
 
         [JsonPropertyName("values")]
-        public IList<string> Values { get; init; }
+        public IList<string> Values { get; set; }
 
         [JsonPropertyName("variable_name")]
-        public string VariableName { get; init; }
+        public string VariableName { get; set; }
     }
 }

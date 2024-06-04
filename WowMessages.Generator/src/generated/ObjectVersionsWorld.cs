@@ -10,6 +10,6 @@ namespace WowMessages.Generator.Generated
         public string VersionTypeTag { get => "world"; }
 
         [JsonPropertyName("version_type")]
-        public WorldVersions VersionType { get; init; }
+        public WorldVersions VersionType { get; set; }
     }
 }

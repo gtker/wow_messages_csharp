@@ -11,6 +11,6 @@ namespace WowMessages.Generator.Generated
         public string TestValueTag { get => "Flag"; }
 
         [JsonPropertyName("content")]
-        public IList<string> Content { get; init; }
+        public IList<string> Content { get; set; }
     }
 }

@@ -14,6 +14,6 @@ namespace WowMessages.Generator.Generated
         /// so this is a string
         /// </summary>
         [JsonPropertyName("size")]
-        public string Size { get; init; }
+        public string Size { get; set; }
     }
 }
