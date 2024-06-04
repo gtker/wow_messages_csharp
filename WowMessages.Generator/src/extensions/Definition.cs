@@ -21,7 +21,7 @@ public static class DefinitionExtensions
     public static string PreparedObjectTypeName(this Definition d, string enumerator) =>
         $"{d.CsTypeName()}{enumerator.ToEnumerator()}";
 
-    public static string Size(this Definition d, bool isMember = true)
+    public static string Size(this Definition d, string prefix = "", bool isMember = true)
     {
         var name = isMember ? d.MemberName() : d.VariableName();
         return d.DataType switch
@@ -46,13 +46,16 @@ public static class DefinitionExtensions
             DataTypeSpell => 4.ToString(),
             DataTypeSpell16 => 2.ToString(),
 
-            DataTypeString or DataTypeCstring => $"{name}.Length + 1",
+            DataTypeSizedCstring => $"{prefix}{name}.Length + 5",
+            DataTypeString or DataTypeCstring => $"{prefix}{name}.Length + 1",
 
             DataTypeStruct s => s.StructData.Sizes.ConstantSized
                 ? s.StructData.Sizes.MaximumSize.ToString()
-                : $"{name}.Size()",
+                : $"{prefix}{name}.Size()",
 
-            DataTypeArray array => array.ArraySize(d, name),
+            DataTypePackedGuid dataTypePackedGuid => $"{prefix}{name}.PackedGuidLength()",
+
+            DataTypeArray array => array.ArraySize(d, name, prefix),
 
             DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
 
@@ -65,8 +68,6 @@ public static class DefinitionExtensions
             DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
             DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline => throw new NotImplementedException(),
             DataTypeNamedGuid dataTypeNamedGuid => throw new NotImplementedException(),
-            DataTypePackedGuid dataTypePackedGuid => throw new NotImplementedException(),
-            DataTypeSizedCstring dataTypeSizedCstring => throw new NotImplementedException(),
             DataTypeUpdateMask dataTypeUpdateMask => throw new NotImplementedException(),
             DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty =>
                 throw new NotImplementedException(),
@@ -77,6 +78,12 @@ public static class DefinitionExtensions
     public static bool IsCompressed(this Definition d) => d.DataType switch
     {
         DataTypeArray dataTypeArray => dataTypeArray.Compressed,
+        _ => false
+    };
+
+    public static bool IsEndlessArray(this Definition d) => d.DataType switch
+    {
+        DataTypeArray dataTypeArray => dataTypeArray.Size is ArraySizeEndless,
         _ => false
     };
 }

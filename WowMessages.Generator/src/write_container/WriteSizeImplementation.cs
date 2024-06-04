@@ -16,7 +16,7 @@ public class WriteSizeImplementation
 
                 foreach (var member in e.Members)
                 {
-                    WriteSizeMember(s, e, member, module);
+                    WriteSizeMember(s, e, member, module, "");
                 }
 
                 s.Wln(manualSizeSubtraction == 0 ? "return size;" : $"return size - {manualSizeSubtraction};");
@@ -30,20 +30,23 @@ public class WriteSizeImplementation
         });
     }
 
-    private static void WriteSizeMember(Writer s, Container e, StructMember member, string module)
+    private static void WriteSizeMember(Writer s, Container e, StructMember member, string module, string prefix)
     {
         switch (member)
         {
             case StructMemberDefinition d:
                 s.Wln($"// {d.StructMemberContent.Name}: {d.StructMemberContent.DataType}");
-                s.Wln($"size += {d.StructMemberContent.Size()};");
+                s.Wln($"size += {d.StructMemberContent.Size(prefix)};");
                 s.Newline();
                 break;
             case StructMemberIfStatement statement:
                 WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, module,
-                    (s, e, member, _) => { WriteSizeMember(s, e, member, module); },
+                    (s, e, member, enumerator) =>
+                    {
+                        WriteSizeMember(s, e, member, module, $"{enumerator.ToVariableName()}.");
+                    },
                     (_, _, _, _) => { },
-                    true, "");
+                    true, prefix);
 
                 break;
             case StructMemberOptional structMemberOptional:

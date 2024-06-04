@@ -87,6 +87,8 @@ public static class WriteReadImplementation
             s.Wln("// ReSharper disable once UnusedVariable.Compiler");
         }
 
+        var isWorld = module is "Vanilla" or "Tbc" or "Wrath";
+
         switch (d.DataType)
         {
             case DataTypeInteger i:
@@ -116,8 +118,9 @@ public static class WriteReadImplementation
 
                 break;
             case DataTypeStruct:
+                var body = isWorld ? "Body" : "";
                 s.Wln(
-                    $"var {d.VariableName()} = await {d.CsTypeName()}.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
+                    $"var {d.VariableName()} = await {d.CsTypeName()}.Read{body}Async(r, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds
@@ -163,9 +166,20 @@ public static class WriteReadImplementation
                     $"var {d.VariableName()} = await r.ReadBool{b.IntegerType.SizeBits()}(cancellationToken).ConfigureAwait(false);");
                 break;
 
+            case DataTypeSizedCstring:
+                s.Wln($"var {d.VariableName()}Length = await r.ReadUInt(cancellationToken).ConfigureAwait(false);");
+                s.Wln(
+                    $"var {d.VariableName()} = await r.ReadCString(cancellationToken).ConfigureAwait(false);");
+                break;
+
             case DataTypeCstring:
                 s.Wln(
                     $"var {d.VariableName()} = await r.ReadCString(cancellationToken).ConfigureAwait(false);");
+                break;
+
+            case DataTypePackedGuid dataTypePackedGuid:
+                s.Wln(
+                    $"var {d.VariableName()} = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeArray array:
@@ -187,13 +201,9 @@ public static class WriteReadImplementation
                 throw new NotImplementedException();
             case DataTypeNamedGuid dataTypeGuid:
                 throw new NotImplementedException();
-            case DataTypePackedGuid dataTypePackedGuid:
-                throw new NotImplementedException();
             case DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask:
                 throw new NotImplementedException();
             case DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline:
-                throw new NotImplementedException();
-            case DataTypeSizedCstring dataTypeSizedCstring:
                 throw new NotImplementedException();
             case DataTypeUpdateMask dataTypeUpdateMask:
                 throw new NotImplementedException();
@@ -205,7 +215,8 @@ public static class WriteReadImplementation
 
         if (needsSize && d.DataType is not DataTypeArray)
         {
-            s.Wln($"size += {d.Size(false)};");
+            var size = d.Size("", false);
+            s.Wln($"size += {size};");
         }
 
         s.Newline();

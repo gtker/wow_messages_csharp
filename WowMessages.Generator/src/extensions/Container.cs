@@ -31,10 +31,23 @@ public static class ContainerExtensions
             return true;
         }
 
-        if (e.IsWorld() &&
-            e.Name is not ("CMSG_AUTH_SESSION" or "SMSG_AUTH_CHALLENGE" or "SMSG_AUTH_RESPONSE" or "AddonInfo"))
+        if (e.AllPreparedObjects().Any(po =>
+            {
+                if (po.Enumerators is { } enumerators)
+                {
+                    return enumerators.Count > 32;
+                }
+
+                return false;
+            }))
         {
-            Console.WriteLine($"Skipping {e.Name} because is world");
+            Console.WriteLine($"Skipping {e.Name} because it has too many enumerators");
+            return true;
+        }
+
+        if (e.Name is "Addon" or "SMSG_LOOT_RESPONSE")
+        {
+            Console.WriteLine($"Skipping {e.Name} because of name");
             return true;
         }
 
@@ -61,13 +74,17 @@ public static class ContainerExtensions
             c switch
             {
                 StructMemberDefinition d => HasInvalidDefinition(d.StructMemberContent),
-                StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition),
+                StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition) ||
+                                                     statement.StructMemberContent.IsElseIfFlag ||
+                                                     statement.StructMemberContent.ElseMembers.Any(d =>
+                                                         d.AllDefinitions().Any(d => d.IsInType())),
                 StructMemberOptional optional => true,
                 _ => throw new ArgumentOutOfRangeException(nameof(c))
             };
     }
 
-    public static bool NeedsBodySize(this Container e) => e.IsWorld() && e.AllDefinitions().Any(d => d.IsCompressed());
+    public static bool NeedsBodySize(this Container e) =>
+        e.IsWorld() && e.AllDefinitions().Any(d => d.IsCompressed() || d.IsEndlessArray());
 
     public static IEnumerable<Definition> AllDefinitions(this Container e)
     {

@@ -35,6 +35,7 @@ internal static class Program
         Tests.RunTests();
         Console.WriteLine("Tests finished");
 
+
         var path = ProjectDir + "WowMessages.Generator/wow_messages/intermediate_representation.json";
         Console.WriteLine(path);
         var contents = File.ReadAllText(path);
@@ -45,6 +46,8 @@ internal static class Program
             Console.WriteLine("JsonSerializer.Deserialize returned null.");
             Environment.Exit(1);
         }
+
+        SanitizeModel(schema);
 
         if (!CompareSchemaVersions(schema.Version_))
         {
@@ -64,6 +67,57 @@ internal static class Program
 
         WriteWorldFiles(schema, Vanilla);
         Console.WriteLine("Wrote all world files");
+    }
+
+    private static void SanitizeModel(IntermediateRepresentationSchema schema)
+    {
+        foreach (var e in schema.Login.Messages)
+        {
+            SanitizeContainer(e);
+        }
+
+        foreach (var e in schema.Login.Structs)
+        {
+            SanitizeContainer(e);
+        }
+
+        foreach (var e in schema.World.Messages)
+        {
+            SanitizeContainer(e);
+        }
+
+        foreach (var e in schema.World.Structs)
+        {
+            SanitizeContainer(e);
+        }
+
+        return;
+
+        void SanitizeContainer(Container e)
+        {
+            var replacementNames = new Dictionary<string, string>
+            {
+                { "class", "class_type" },
+                { "string", "string_value" },
+                { "event", "event_type" }
+            };
+
+            foreach (var d in e.AllDefinitions())
+            {
+                if (replacementNames.TryGetValue(d.Name, out var name))
+                {
+                    d.Name = name;
+                }
+            }
+
+            foreach (var po in e.AllPreparedObjects())
+            {
+                if (replacementNames.TryGetValue(po.Name, out var name))
+                {
+                    po.Name = name;
+                }
+            }
+        }
     }
 
     private static void WriteDefiners(IList<Definer> enums, string module, string modulePath, string project,

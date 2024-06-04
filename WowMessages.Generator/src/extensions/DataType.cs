@@ -31,12 +31,12 @@ public static class DataTypeExtension
         DataTypeGuid or DataTypePackedGuid => "ulong",
         DataTypeIpAddress => "uint",
         DataTypeSeconds => "uint",
-        DataTypeSizedCstring => "string",
         DataTypeFloatingPoint => "float",
         DataTypeStruct s => s.StructData.Name,
         DataTypePopulation => "Population",
         DataTypeArray array => array.CsType(),
 
+        DataTypeSizedCstring => throw new NotImplementedException(),
         DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
         DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray => throw new NotImplementedException(),
         DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),

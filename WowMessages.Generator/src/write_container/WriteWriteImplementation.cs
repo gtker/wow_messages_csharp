@@ -151,8 +151,16 @@ public static class WriteWriteImplementation
                     $"await w.WriteBool{b.IntegerType.SizeBits()}({value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
+            case DataTypeSizedCstring:
+                s.Wln($"await w.WriteUInt({value}.Length + 1, cancellationToken).ConfigureAwait(false);");
+                s.Wln($"await w.WriteCString({value}, cancellationToken).ConfigureAwait(false);");
+                break;
             case DataTypeCstring:
                 s.Wln($"await w.WriteCString({value}, cancellationToken).ConfigureAwait(false);");
+                break;
+
+            case DataTypePackedGuid:
+                s.Wln($"await w.WritePackedGuid({value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeArray array:
@@ -173,13 +181,9 @@ public static class WriteWriteImplementation
                 throw new NotImplementedException();
             case DataTypeNamedGuid dataTypeGuid:
                 throw new NotImplementedException();
-            case DataTypePackedGuid dataTypePackedGuid:
-                throw new NotImplementedException();
             case DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask:
                 throw new NotImplementedException();
             case DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline:
-                throw new NotImplementedException();
-            case DataTypeSizedCstring dataTypeSizedCstring:
                 throw new NotImplementedException();
             case DataTypeUpdateMask dataTypeUpdateMask:
                 throw new NotImplementedException();

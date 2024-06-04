@@ -21,6 +21,11 @@ public static class WriteUtils
         await w.WriteAsync(b, cancellationToken).ConfigureAwait(false);
     }
 
+    public static async Task WriteInt(this Stream w, int v, CancellationToken cancellationToken)
+    {
+        await w.WriteUInt(BitConverter.ToUInt32(BitConverter.GetBytes(v)), cancellationToken).ConfigureAwait(false);
+    }
+
     public static async Task WriteUInt(this Stream w, uint v, CancellationToken cancellationToken)
     {
         var b = new byte[4];
@@ -55,13 +60,6 @@ public static class WriteUtils
         await WriteByte(w, 0, cancellationToken).ConfigureAwait(false);
     }
 
-    public static async Task WriteString(this Stream w, string v, CancellationToken cancellationToken)
-    {
-        await WriteByte(w, (byte)v.Length, cancellationToken).ConfigureAwait(false);
-
-        await w.WriteAsync(Encoding.UTF8.GetBytes(v), cancellationToken).ConfigureAwait(false);
-    }
-
     public static async Task WriteFloat(this Stream w, float v, CancellationToken cancellationToken)
     {
         var s = BitConverter.ToUInt32(BitConverter.GetBytes(v));
@@ -81,5 +79,27 @@ public static class WriteUtils
     public static async Task WriteBool32(this Stream w, bool v, CancellationToken cancellationToken)
     {
         await WriteUInt(w, v ? 1 : (uint)0, cancellationToken).ConfigureAwait(false);
+    }
+
+    public static async Task WritePackedGuid(this Stream w, ulong v, CancellationToken cancellationToken)
+    {
+        var value = 0;
+        for (var i = 0; i < 8; i++)
+        {
+            if (v >> (i * 8) != 0)
+            {
+                value |= 1 << i;
+            }
+        }
+
+        await w.WriteByte((byte)value, cancellationToken).ConfigureAwait(false);
+
+        for (var i = 0; i < 8; i++)
+        {
+            if (((v >> (i * 8)) & 0xff) != 0)
+            {
+                await w.WriteByte((byte)(v >> (i * 8)), cancellationToken).ConfigureAwait(false);
+            }
+        }
     }
 }
