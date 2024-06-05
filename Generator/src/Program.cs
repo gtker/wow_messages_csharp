@@ -56,16 +56,16 @@ internal static class Program
             Environment.Exit(1);
         }
 
-        WriteLoginFiles(schema, 0);
+        WriteLoginFiles(schema.Login, 0);
 
         foreach (var version in schema.DistinctLoginVersionsOtherThanAll)
         {
-            WriteLoginFiles(schema, version);
+            WriteLoginFiles(schema.Login, version);
         }
 
         Console.WriteLine("Wrote all login files");
 
-        WriteWorldFiles(schema, Vanilla);
+        WriteFiles(schema.World, Vanilla.ToObjectVersionsWorld(), Vanilla.Module(), Vanilla.ModulePath(), "World");
         Console.WriteLine("Wrote all world files");
     }
 
@@ -191,7 +191,7 @@ internal static class Program
         }
     }
 
-    private static void WriteLoginFiles(IntermediateRepresentationSchema schema, byte version)
+    private static void WriteLoginFiles(Objects objects, byte version)
     {
         var module = version switch
         {
@@ -206,29 +206,18 @@ internal static class Program
 
         const string project = "Login";
 
-        WriteDefiners(schema.Login.Enums, module, modulePath, project, version.ToLoginVersion(), false);
-        WriteDefiners(schema.Login.Flags, module, modulePath, project, version.ToLoginVersion(), true);
-
-
-        WriteContainersAndTests(schema.Login.Structs.Concat(schema.Login.Messages), module, modulePath,
-            project, version.ToLoginVersion());
-
-        WriteOpcodes(schema.Login.Messages, module, modulePath, project, version.ToLoginVersion());
+        WriteFiles(objects, version.ToLoginVersion(), module, modulePath, project);
     }
 
-    private static void WriteWorldFiles(IntermediateRepresentationSchema schema, WorldVersion v)
+    private static void WriteFiles(Objects objects, ObjectVersions version, string module, string modulePath,
+        string project)
     {
-        const string project = "World";
-        var module = v.Module();
-        var modulePath = v.ModulePath();
-        var version = v.ToObjectVersionsWorld();
+        WriteDefiners(objects.Enums, module, modulePath, project, version, false);
+        WriteDefiners(objects.Flags, module, modulePath, project, version, true);
 
-        WriteDefiners(schema.World.Enums, module, modulePath, project, version, false);
-        WriteDefiners(schema.World.Flags, module, modulePath, project, version, true);
-
-        WriteContainersAndTests(schema.World.Structs.Concat(schema.World.Messages), module, modulePath,
+        WriteContainersAndTests(objects.Structs.Concat(objects.Messages), module, modulePath,
             project, version);
 
-        WriteOpcodes(schema.World.Messages, module, modulePath, project, version);
+        WriteOpcodes(objects.Messages, module, modulePath, project, version);
     }
 }
