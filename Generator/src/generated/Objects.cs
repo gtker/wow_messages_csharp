@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
-    public class WorldObjects
+    public class Objects
     {
         [JsonPropertyName("enums")]
         public IList<Definer> Enums { get; set; }

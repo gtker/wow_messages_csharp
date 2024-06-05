@@ -14,7 +14,7 @@ namespace Generator.Generated
         public IDictionary<string, IntermediateRepresentationSchemaIntegerTypeInformation> IntegerTypeInformation { get; set; }
 
         [JsonPropertyName("login")]
-        public LoginObjects Login { get; set; }
+        public Objects Login { get; set; }
 
         [JsonPropertyName("login_version_opcodes")]
         public IDictionary<string, byte> LoginVersionOpcodes { get; set; }
@@ -29,7 +29,7 @@ namespace Generator.Generated
         public SchemaVersion Version_ { get; set; }
 
         [JsonPropertyName("world")]
-        public WorldObjects World { get; set; }
+        public Objects World { get; set; }
 
         [JsonPropertyName("wrath_update_mask")]
         public IList<UpdateMask> WrathUpdateMask { get; set; }
