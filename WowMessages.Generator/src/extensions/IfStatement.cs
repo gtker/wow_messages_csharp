@@ -21,14 +21,6 @@ public static class IfStatementExtensions
                 yield return m;
             }
         }
-
-        foreach (var member in statement.ElseMembers)
-        {
-            foreach (var m in member.AllDefinitions())
-            {
-                yield return m;
-            }
-        }
     }
 
     public static List<(string, string)> CsConditionals(this IfStatement statement, string module, string containerName,
@@ -37,8 +29,9 @@ public static class IfStatementExtensions
         var conditions = new List<(string, string)>();
         var originalType = statement.OriginalType.CsType();
 
-        var modulePrefix = isWrite ? containerName : module;
-        var dot = isWrite ? "" : ".";
+        var typeExists = statement.Members.Any(d => d.AllDefinitions().Any(d => d.IsInType()));
+        var modulePrefix = isWrite && typeExists ? containerName : module;
+        var dot = isWrite && typeExists ? "" : ".";
 
         switch (statement.DefinerType)
         {
@@ -56,7 +49,7 @@ public static class IfStatementExtensions
 
                 break;
             case IfStatementDefinerType.Enum_:
-                if (isWrite)
+                if (isWrite && typeExists)
                 {
                     conditions.AddRange(statement.Values.Select(cond =>
                         ($" is {modulePrefix}.{originalType}{dot}{cond.ToEnumerator()} {cond.ToVariableName()}",

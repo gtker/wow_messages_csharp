@@ -13,9 +13,6 @@ namespace WowMessages.Generator.Generated
         [JsonPropertyName("else_if_statements")]
         public IList<IfStatement> ElseIfStatements { get; set; }
 
-        [JsonPropertyName("else_members")]
-        public IList<StructMember> ElseMembers { get; set; }
-
         [JsonPropertyName("is_else_if_flag")]
         public bool IsElseIfFlag { get; set; }
 

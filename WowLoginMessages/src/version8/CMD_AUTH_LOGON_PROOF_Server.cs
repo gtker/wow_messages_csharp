@@ -35,10 +35,71 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version8ServerMessage, ILoginMessage {
             await w.WriteUShort(success.Unknown, cancellationToken).ConfigureAwait(false);
 
         }
-        else {
+        else if (Result.Value is Version8.LoginResult.FailUnknown0) {
             await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
 
         }
+        else if (Result.Value is Version8.LoginResult.FailUnknown1) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.FailBanned) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.FailUnknownAccount) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.FailIncorrectPassword) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.FailAlreadyOnline) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.FailNoTime) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.FailDbBusy) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.FailVersionInvalid) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.LoginDownloadFile) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.FailInvalidServer) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.FailSuspended) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.FailNoAccess) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.SuccessSurvey) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.FailParentalcontrol) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Result.Value is Version8.LoginResult.FailLockedEnforced) {
+            await w.WriteUShort(0, cancellationToken).ConfigureAwait(false);
+
+        }
+
 
     }
 
@@ -64,11 +125,87 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version8ServerMessage, ILoginMessage {
                 Unknown = unknown,
             };
         }
-        else {
+        else if (result.Value is Version8.LoginResult.FailUnknown0) {
             // ReSharper disable once UnusedVariable.Compiler
             var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
 
         }
+        else if (result.Value is Version8.LoginResult.FailUnknown1) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.FailBanned) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.FailUnknownAccount) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.FailIncorrectPassword) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.FailAlreadyOnline) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.FailNoTime) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.FailDbBusy) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.FailVersionInvalid) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.LoginDownloadFile) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.FailInvalidServer) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.FailSuspended) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.FailNoAccess) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.SuccessSurvey) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.FailParentalcontrol) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (result.Value is Version8.LoginResult.FailLockedEnforced) {
+            // ReSharper disable once UnusedVariable.Compiler
+            var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+
+        }
+
 
         return new CMD_AUTH_LOGON_PROOF_Server {
             Result = result,

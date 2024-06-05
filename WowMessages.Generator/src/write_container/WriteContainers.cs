@@ -286,24 +286,18 @@ public static class WriteContainers
                 var po = e.FindPreparedObject(statement.VariableName);
                 var d = e.FindDefinitionByName(statement.VariableName);
 
-                end(s, d, po.Enumerators[enumerator], enumerator);
+                var members = po.Enumerators[enumerator];
+
+                if (members.Any(po => e.FindDefinitionByName(po.Name).IsInType()))
+                {
+                    end(s, d, members, enumerator);
+                }
             });
         }
 
         foreach (var elseif in statement.ElseIfStatements)
         {
             WriteIfStatement(s, e, elseif, module, invocation, end, isWrite, variablePrefix, true);
-        }
-
-        if (statement.ElseMembers.Count != 0)
-        {
-            s.Body("else", s =>
-            {
-                foreach (var member in statement.ElseMembers)
-                {
-                    invocation(s, e, member, "TODO");
-                }
-            });
         }
 
         s.Newline();

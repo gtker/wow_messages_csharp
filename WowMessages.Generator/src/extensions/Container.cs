@@ -75,9 +75,7 @@ public static class ContainerExtensions
             {
                 StructMemberDefinition d => HasInvalidDefinition(d.StructMemberContent),
                 StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition) ||
-                                                     statement.StructMemberContent.IsElseIfFlag ||
-                                                     statement.StructMemberContent.ElseMembers.Any(d =>
-                                                         d.AllDefinitions().Any(d => d.IsInType())),
+                                                     statement.StructMemberContent.IsElseIfFlag,
                 StructMemberOptional optional => true,
                 _ => throw new ArgumentOutOfRangeException(nameof(c))
             };
