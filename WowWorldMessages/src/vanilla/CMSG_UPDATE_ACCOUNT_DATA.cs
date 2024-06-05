@@ -14,21 +14,26 @@ public class CMSG_UPDATE_ACCOUNT_DATA: VanillaClientMessage, IWorldMessage {
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)DataType, cancellationToken).ConfigureAwait(false);
 
-        var oldStream = w;
-        w = new MemoryStream();
-        foreach (var v in CompressedData) {
-            await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
+        if (CompressedData.Count != 0) {
+            var oldStream = w;
+            w = new MemoryStream();
+            foreach (var v in CompressedData) {
+                await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
+            }
+            var uncompressedLength = w.Position;
+
+            var compressedOutput = new MemoryStream();
+            var zlib = new System.IO.Compression.ZLibStream(compressedOutput, System.IO.Compression.CompressionMode.Compress);
+            zlib.Write((w as MemoryStream)!.ToArray());
+            zlib.Flush();
+
+            w = oldStream;
+            await w.WriteUInt((uint)uncompressedLength, cancellationToken).ConfigureAwait(false);
+            await w.WriteAsync(compressedOutput.ToArray(), cancellationToken).ConfigureAwait(false);
         }
-        var uncompressedLength = w.Position;
-
-        var compressedOutput = new MemoryStream();
-        var zlib = new System.IO.Compression.ZLibStream(compressedOutput, System.IO.Compression.CompressionMode.Compress);
-        zlib.Write((w as MemoryStream)!.ToArray());
-        zlib.Flush();
-
-        w = oldStream;
-        await w.WriteUInt((uint)uncompressedLength, cancellationToken).ConfigureAwait(false);
-        await w.WriteAsync(compressedOutput.ToArray(), cancellationToken).ConfigureAwait(false);
+        else {
+            await w.WriteUInt(0, cancellationToken).ConfigureAwait(false);
+        }
 
     }
 

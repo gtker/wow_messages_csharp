@@ -198,6 +198,7 @@ public static class WriteWriteImplementation
     {
         if (d.IsCompressed())
         {
+            s.OpenCurly($"if ({prefix}{d.Name.ToMemberName()}.Count != 0)");
             s.Wln("var oldStream = w;");
             s.Wln("w = new MemoryStream();");
         }
@@ -243,6 +244,9 @@ public static class WriteWriteImplementation
             s.Wln("w = oldStream;");
             s.Wln("await w.WriteUInt((uint)uncompressedLength, cancellationToken).ConfigureAwait(false);");
             s.Wln("await w.WriteAsync(compressedOutput.ToArray(), cancellationToken).ConfigureAwait(false);");
+
+            s.ClosingCurly();
+            s.Body("else", s => { s.Wln("await w.WriteUInt(0, cancellationToken).ConfigureAwait(false);"); });
         }
     }
 }

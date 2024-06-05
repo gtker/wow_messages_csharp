@@ -28,21 +28,26 @@ public class CMSG_AUTH_SESSION: VanillaClientMessage, IWorldMessage {
             await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
         }
 
-        var oldStream = w;
-        w = new MemoryStream();
-        foreach (var v in AddonInfo) {
-            await v.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
+        if (AddonInfo.Count != 0) {
+            var oldStream = w;
+            w = new MemoryStream();
+            foreach (var v in AddonInfo) {
+                await v.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
+            }
+            var uncompressedLength = w.Position;
+
+            var compressedOutput = new MemoryStream();
+            var zlib = new System.IO.Compression.ZLibStream(compressedOutput, System.IO.Compression.CompressionMode.Compress);
+            zlib.Write((w as MemoryStream)!.ToArray());
+            zlib.Flush();
+
+            w = oldStream;
+            await w.WriteUInt((uint)uncompressedLength, cancellationToken).ConfigureAwait(false);
+            await w.WriteAsync(compressedOutput.ToArray(), cancellationToken).ConfigureAwait(false);
         }
-        var uncompressedLength = w.Position;
-
-        var compressedOutput = new MemoryStream();
-        var zlib = new System.IO.Compression.ZLibStream(compressedOutput, System.IO.Compression.CompressionMode.Compress);
-        zlib.Write((w as MemoryStream)!.ToArray());
-        zlib.Flush();
-
-        w = oldStream;
-        await w.WriteUInt((uint)uncompressedLength, cancellationToken).ConfigureAwait(false);
-        await w.WriteAsync(compressedOutput.ToArray(), cancellationToken).ConfigureAwait(false);
+        else {
+            await w.WriteUInt(0, cancellationToken).ConfigureAwait(false);
+        }
 
     }
 
