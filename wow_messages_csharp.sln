@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WowLoginMessages", "WowLogi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WowLoginMessages.Test", "WowLoginMessages.Test\WowLoginMessages.Test.csproj", "{F874CC62-FA3C-47A8-AD5D-42650D6CC7ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WowMessages.ServerTest", "WowMessages.ServerTest\WowMessages.ServerTest.csproj", "{DB3B6AAC-6D7F-4A35-8D8C-A9E4F4A27E2C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerTest", "ServerTest\ServerTest.csproj", "{DB3B6AAC-6D7F-4A35-8D8C-A9E4F4A27E2C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WowWorldMessages", "WowWorldMessages\WowWorldMessages.csproj", "{1F4B528E-F02E-4A78-A100-55E642A94171}"
 EndProject

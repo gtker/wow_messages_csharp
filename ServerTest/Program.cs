@@ -6,7 +6,7 @@ using WowSrp;
 using WowSrp.Server;
 using ClientOpcodeReader = WowLoginMessages.All.ClientOpcodeReader;
 
-namespace WowMessages.ServerTest;
+namespace ServerTest;
 
 public static class Server
 {
