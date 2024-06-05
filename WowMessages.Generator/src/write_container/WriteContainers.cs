@@ -261,6 +261,35 @@ public static class WriteContainers
         }
     }
 
+    private static string GetConditional(IfStatement statement, bool isWrite, string originalType,
+        string containerName, string module, string enumerator)
+    {
+        var typeExists = statement.Members.Any(d => d.AllDefinitions().Any(d => d.IsInType()));
+        var modulePrefix = isWrite && typeExists ? containerName : module;
+        var dot = isWrite && typeExists ? "" : ".";
+
+        switch (statement.DefinerType)
+        {
+            case IfStatementDefinerType.Flag:
+                if (isWrite)
+                {
+                    return $" is {{}} {enumerator.ToVariableName()}";
+                }
+
+                return $".HasFlag({modulePrefix}.{originalType}{dot}{enumerator.ToEnumerator()})";
+            case IfStatementDefinerType.Enum_:
+                if (isWrite && typeExists)
+                {
+                    return
+                        $" is {modulePrefix}.{originalType}{dot}{enumerator.ToEnumerator()} {enumerator.ToVariableName()}";
+                }
+
+                return $" is {modulePrefix}.{originalType}{dot}{enumerator.ToEnumerator()}";
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
     public static void WriteIfStatement(Writer s, Container e, IfStatement statement, string module,
         Action<Writer, Container, StructMember, string> invocation,
         Action<Writer, Definition, IList<PreparedObject>, string> end,
@@ -268,9 +297,11 @@ public static class WriteContainers
     {
         Func<string, string> transform = isWrite ? Utils.SnakeCaseToPascalCase : Utils.SnakeCaseToCamelCase;
 
-        foreach (var (i, (cond, enumerator)) in statement.CsConditionals(module, e.Name, isWrite)
+        foreach (var (i, enumerator) in statement.Values
                      .Select((v, i) => (i, v)))
         {
+            var cond = GetConditional(statement, isWrite, statement.OriginalType.CsType(), e.Name, module,
+                enumerator);
             var flag = statement.OriginalType is DataTypeFlag;
             var prefix = i != 0 || isElseIf ? "else " : "";
             var value = flag ? isWrite ? $".{enumerator.ToMemberName()}" : ".Inner" : ".Value";
