@@ -25,6 +25,7 @@ public static class DataTypeExtension
         DataTypeDateTime => "uint",
         DataTypeItem => "uint",
         DataTypeMilliseconds => "uint",
+        DataTypeSizedCstring => "string",
         DataTypeCstring => "string",
         DataTypeString => "string",
         DataTypeGold => "uint",
@@ -36,7 +37,6 @@ public static class DataTypeExtension
         DataTypePopulation => "Population",
         DataTypeArray array => array.CsType(),
 
-        DataTypeSizedCstring => throw new NotImplementedException(),
         DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
         DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray => throw new NotImplementedException(),
         DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),

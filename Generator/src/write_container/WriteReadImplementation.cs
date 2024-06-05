@@ -167,9 +167,8 @@ public static class WriteReadImplementation
                 break;
 
             case DataTypeSizedCstring:
-                s.Wln($"var {d.VariableName()}Length = await r.ReadUInt(cancellationToken).ConfigureAwait(false);");
                 s.Wln(
-                    $"var {d.VariableName()} = await r.ReadCString(cancellationToken).ConfigureAwait(false);");
+                    $"var {d.VariableName()} = await r.ReadSizedCString(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeCstring:

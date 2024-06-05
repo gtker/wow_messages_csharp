@@ -99,6 +99,7 @@ public static class ServerOpcodeReader {
             250 => await SMSG_TRIGGER_CINEMATIC.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             253 => await SMSG_TUTORIAL_FLAGS.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             259 => await SMSG_EMOTE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            261 => await SMSG_TEXT_EMOTE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             275 => await SMSG_OPEN_CONTAINER.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             277 => await SMSG_INSPECT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             288 => await SMSG_TRADE_STATUS.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
@@ -134,6 +135,7 @@ public static class ServerOpcodeReader {
             341 => await SMSG_BINDPOINTUPDATE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             344 => await SMSG_PLAYERBOUND.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             345 => await SMSG_CLIENT_CONTROL_UPDATE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            347 => await SMSG_RESURRECT_REQUEST.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             353 => await SMSG_LOOT_RELEASE_RESPONSE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             354 => await SMSG_LOOT_REMOVED.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             355 => await SMSG_LOOT_MONEY_NOTIFY.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
@@ -280,6 +282,7 @@ public static class ServerOpcodeReader {
             688 => await MSG_MOVE_FEATHER_FALL_Server.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             692 => await SMSG_FEIGN_DEATH_RESISTED.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             695 => await SMSG_DUEL_COUNTDOWN.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            696 => await SMSG_AREA_TRIGGER_MESSAGE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             699 => await SMSG_MEETINGSTONE_JOINFAILED.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             700 => await SMSG_PLAYER_SKINNED.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             701 => await SMSG_DURABILITY_DAMAGE_DEATH.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
@@ -338,6 +341,7 @@ public static class ServerOpcodeReader {
             815 => await SMSG_SPELLINSTAKILLLOG.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             816 => await SMSG_SPELL_UPDATE_CHAIN_TARGETS.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             818 => await SMSG_EXPECTED_SPAM_RECORDS.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            827 => await SMSG_DEFENSE_MESSAGE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             _ => throw new NotImplementedException()
         };
     }

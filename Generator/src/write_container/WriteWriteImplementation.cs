@@ -152,8 +152,7 @@ public static class WriteWriteImplementation
                 break;
 
             case DataTypeSizedCstring:
-                s.Wln($"await w.WriteUInt({value}.Length + 1, cancellationToken).ConfigureAwait(false);");
-                s.Wln($"await w.WriteCString({value}, cancellationToken).ConfigureAwait(false);");
+                s.Wln($"await w.WriteSizedCString({value}, cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeCstring:
                 s.Wln($"await w.WriteCString({value}, cancellationToken).ConfigureAwait(false);");

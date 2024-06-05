@@ -90,6 +90,18 @@ internal static class StreamReadExtensions
     }
 
 
+    internal static async Task<string> ReadSizedCString(this Stream r, CancellationToken cancellationToken)
+    {
+        var length = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var array = new byte[length - 1];
+        await r.ReadExactlyAsync(array, cancellationToken).ConfigureAwait(false);
+
+        // Null terminator
+        _ = await r.ReadByte(cancellationToken).ConfigureAwait(false);
+
+        return Encoding.UTF8.GetString(array);
+    }
+
     internal static async Task<ulong> ReadPackedGuid(this Stream r, CancellationToken cancellationToken)
     {
         var header = await r.ReadByte(cancellationToken).ConfigureAwait(false);

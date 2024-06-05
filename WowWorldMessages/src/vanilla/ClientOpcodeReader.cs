@@ -203,6 +203,7 @@ public static class ClientOpcodeReader {
             451 => await CMSG_OFFER_PETITION.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             452 => await CMSG_TURN_IN_PETITION.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             454 => await CMSG_PETITION_QUERY.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            458 => await CMSG_BUG.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             460 => await CMSG_PLAYED_TIME.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             462 => await CMSG_QUERY_TIME.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             466 => await CMSG_RECLAIM_CORPSE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),

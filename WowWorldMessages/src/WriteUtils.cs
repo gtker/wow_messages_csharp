@@ -81,6 +81,13 @@ public static class WriteUtils
         await WriteUInt(w, v ? 1 : (uint)0, cancellationToken).ConfigureAwait(false);
     }
 
+    public static async Task WriteSizedCString(this Stream w, string v, CancellationToken cancellationToken)
+    {
+        await w.WriteUInt((uint)(v.Length + 1), cancellationToken).ConfigureAwait(false);
+        await w.WriteCString(v, cancellationToken).ConfigureAwait(false);
+    }
+
+
     public static async Task WritePackedGuid(this Stream w, ulong v, CancellationToken cancellationToken)
     {
         var value = 0;
