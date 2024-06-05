@@ -52,13 +52,13 @@ public class SMSG_GUILD_EVENT: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // event_type: WowMessages.Generator.Generated.DataTypeEnum
+        // event_type: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // amount_of_events: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_events: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // event_descriptions: WowMessages.Generator.Generated.DataTypeArray
+        // event_descriptions: Generator.Generated.DataTypeArray
         size += EventDescriptions.Sum(e => e.Length);
 
         return size;

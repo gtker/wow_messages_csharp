@@ -73,22 +73,22 @@ public class SMSG_QUESTGIVER_QUEST_COMPLETE: VanillaServerMessage, IWorldMessage
     internal int Size() {
         var size = 0;
 
-        // quest_id: WowMessages.Generator.Generated.DataTypeInteger
+        // quest_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // experience_reward: WowMessages.Generator.Generated.DataTypeInteger
+        // experience_reward: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // money_reward: WowMessages.Generator.Generated.DataTypeGold
+        // money_reward: Generator.Generated.DataTypeGold
         size += 4;
 
-        // amount_of_item_rewards: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_item_rewards: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // item_rewards: WowMessages.Generator.Generated.DataTypeArray
+        // item_rewards: Generator.Generated.DataTypeArray
         size += ItemRewards.Sum(e => 8);
 
         return size;

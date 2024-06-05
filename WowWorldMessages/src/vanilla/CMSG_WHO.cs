@@ -98,34 +98,34 @@ public class CMSG_WHO: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // minimum_level: WowMessages.Generator.Generated.DataTypeLevel32
+        // minimum_level: Generator.Generated.DataTypeLevel32
         size += 4;
 
-        // maximum_level: WowMessages.Generator.Generated.DataTypeLevel32
+        // maximum_level: Generator.Generated.DataTypeLevel32
         size += 4;
 
-        // player_name: WowMessages.Generator.Generated.DataTypeCstring
+        // player_name: Generator.Generated.DataTypeCstring
         size += PlayerName.Length + 1;
 
-        // guild_name: WowMessages.Generator.Generated.DataTypeCstring
+        // guild_name: Generator.Generated.DataTypeCstring
         size += GuildName.Length + 1;
 
-        // race_mask: WowMessages.Generator.Generated.DataTypeInteger
+        // race_mask: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // class_mask: WowMessages.Generator.Generated.DataTypeInteger
+        // class_mask: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // amount_of_zones: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_zones: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // zones: WowMessages.Generator.Generated.DataTypeArray
+        // zones: Generator.Generated.DataTypeArray
         size += Zones.Sum(e => 4);
 
-        // amount_of_strings: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_strings: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // search_strings: WowMessages.Generator.Generated.DataTypeArray
+        // search_strings: Generator.Generated.DataTypeArray
         size += SearchStrings.Sum(e => e.Length);
 
         return size;

@@ -108,37 +108,37 @@ public class CMSG_SEND_MAIL: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // mailbox: WowMessages.Generator.Generated.DataTypeGuid
+        // mailbox: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // receiver: WowMessages.Generator.Generated.DataTypeCstring
+        // receiver: Generator.Generated.DataTypeCstring
         size += Receiver.Length + 1;
 
-        // subject: WowMessages.Generator.Generated.DataTypeCstring
+        // subject: Generator.Generated.DataTypeCstring
         size += Subject.Length + 1;
 
-        // body: WowMessages.Generator.Generated.DataTypeCstring
+        // body: Generator.Generated.DataTypeCstring
         size += Body.Length + 1;
 
-        // unknown1: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown1: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown2: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown2: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // item: WowMessages.Generator.Generated.DataTypeGuid
+        // item: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // money: WowMessages.Generator.Generated.DataTypeGold
+        // money: Generator.Generated.DataTypeGold
         size += 4;
 
-        // cash_on_delivery_amount: WowMessages.Generator.Generated.DataTypeInteger
+        // cash_on_delivery_amount: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown3: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown3: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown4: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown4: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

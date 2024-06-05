@@ -42,10 +42,10 @@ public class MSG_MOVE_TIME_SKIPPED_Server: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // player: WowMessages.Generator.Generated.DataTypePackedGuid
+        // player: Generator.Generated.DataTypePackedGuid
         size += Player.PackedGuidLength();
 
-        // time_skipped: WowMessages.Generator.Generated.DataTypeInteger
+        // time_skipped: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

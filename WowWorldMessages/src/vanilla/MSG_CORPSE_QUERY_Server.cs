@@ -70,17 +70,17 @@ public class MSG_CORPSE_QUERY_Server: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // result: WowMessages.Generator.Generated.DataTypeEnum
+        // result: Generator.Generated.DataTypeEnum
         size += 1;
 
         if (Result.Value is MSG_CORPSE_QUERY_Server.CorpseQueryResultFound found) {
-            // map: WowMessages.Generator.Generated.DataTypeEnum
+            // map: Generator.Generated.DataTypeEnum
             size += 4;
 
-            // position: WowMessages.Generator.Generated.DataTypeStruct
+            // position: Generator.Generated.DataTypeStruct
             size += 12;
 
-            // corpse_map: WowMessages.Generator.Generated.DataTypeEnum
+            // corpse_map: Generator.Generated.DataTypeEnum
             size += 4;
 
         }

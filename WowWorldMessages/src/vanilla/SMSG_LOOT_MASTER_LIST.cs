@@ -46,10 +46,10 @@ public class SMSG_LOOT_MASTER_LIST: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // amount_of_players: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_players: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // guids: WowMessages.Generator.Generated.DataTypeArray
+        // guids: Generator.Generated.DataTypeArray
         size += Guids.Sum(e => 8);
 
         return size;

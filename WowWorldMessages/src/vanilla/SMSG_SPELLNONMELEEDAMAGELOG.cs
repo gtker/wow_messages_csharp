@@ -111,40 +111,40 @@ public class SMSG_SPELLNONMELEEDAMAGELOG: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // target: WowMessages.Generator.Generated.DataTypePackedGuid
+        // target: Generator.Generated.DataTypePackedGuid
         size += Target.PackedGuidLength();
 
-        // attacker: WowMessages.Generator.Generated.DataTypePackedGuid
+        // attacker: Generator.Generated.DataTypePackedGuid
         size += Attacker.PackedGuidLength();
 
-        // spell: WowMessages.Generator.Generated.DataTypeSpell
+        // spell: Generator.Generated.DataTypeSpell
         size += 4;
 
-        // damage: WowMessages.Generator.Generated.DataTypeInteger
+        // damage: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // school: WowMessages.Generator.Generated.DataTypeEnum
+        // school: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // absorbed_damage: WowMessages.Generator.Generated.DataTypeInteger
+        // absorbed_damage: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // resisted: WowMessages.Generator.Generated.DataTypeInteger
+        // resisted: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // periodic_log: WowMessages.Generator.Generated.DataTypeBool
+        // periodic_log: Generator.Generated.DataTypeBool
         size += 1;
 
-        // unused: WowMessages.Generator.Generated.DataTypeInteger
+        // unused: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // blocked: WowMessages.Generator.Generated.DataTypeInteger
+        // blocked: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // hit_info: WowMessages.Generator.Generated.DataTypeEnum
+        // hit_info: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // extend_flag: WowMessages.Generator.Generated.DataTypeInteger
+        // extend_flag: Generator.Generated.DataTypeInteger
         size += 1;
 
         return size;

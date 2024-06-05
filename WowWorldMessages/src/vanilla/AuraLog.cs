@@ -215,73 +215,73 @@ public class AuraLog {
     internal int Size() {
         var size = 0;
 
-        // aura_type: WowMessages.Generator.Generated.DataTypeEnum
+        // aura_type: Generator.Generated.DataTypeEnum
         size += 4;
 
         if (AuraType.Value is AuraLog.AuraTypePeriodicDamage periodicDamage) {
-            // damage1: WowMessages.Generator.Generated.DataTypeInteger
+            // damage1: Generator.Generated.DataTypeInteger
             size += 4;
 
-            // school: WowMessages.Generator.Generated.DataTypeEnum
+            // school: Generator.Generated.DataTypeEnum
             size += 1;
 
-            // absorbed: WowMessages.Generator.Generated.DataTypeInteger
+            // absorbed: Generator.Generated.DataTypeInteger
             size += 4;
 
-            // resisted: WowMessages.Generator.Generated.DataTypeInteger
+            // resisted: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
         else if (AuraType.Value is AuraLog.AuraTypePeriodicDamagePercent periodicDamagePercent) {
-            // damage1: WowMessages.Generator.Generated.DataTypeInteger
+            // damage1: Generator.Generated.DataTypeInteger
             size += 4;
 
-            // school: WowMessages.Generator.Generated.DataTypeEnum
+            // school: Generator.Generated.DataTypeEnum
             size += 1;
 
-            // absorbed: WowMessages.Generator.Generated.DataTypeInteger
+            // absorbed: Generator.Generated.DataTypeInteger
             size += 4;
 
-            // resisted: WowMessages.Generator.Generated.DataTypeInteger
+            // resisted: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
         else if (AuraType.Value is AuraLog.AuraTypePeriodicHeal periodicHeal) {
-            // damage2: WowMessages.Generator.Generated.DataTypeInteger
+            // damage2: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
         else if (AuraType.Value is AuraLog.AuraTypeObsModHealth obsModHealth) {
-            // damage2: WowMessages.Generator.Generated.DataTypeInteger
+            // damage2: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
 
         else if (AuraType.Value is AuraLog.AuraTypeObsModMana obsModMana) {
-            // misc_value1: WowMessages.Generator.Generated.DataTypeInteger
+            // misc_value1: Generator.Generated.DataTypeInteger
             size += 4;
 
-            // damage3: WowMessages.Generator.Generated.DataTypeInteger
+            // damage3: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
         else if (AuraType.Value is AuraLog.AuraTypePeriodicEnergize periodicEnergize) {
-            // misc_value1: WowMessages.Generator.Generated.DataTypeInteger
+            // misc_value1: Generator.Generated.DataTypeInteger
             size += 4;
 
-            // damage3: WowMessages.Generator.Generated.DataTypeInteger
+            // damage3: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
 
         else if (AuraType.Value is AuraLog.AuraTypePeriodicManaLeech periodicManaLeech) {
-            // misc_value2: WowMessages.Generator.Generated.DataTypeInteger
+            // misc_value2: Generator.Generated.DataTypeInteger
             size += 4;
 
-            // damage: WowMessages.Generator.Generated.DataTypeInteger
+            // damage: Generator.Generated.DataTypeInteger
             size += 4;
 
-            // gain_multiplier: WowMessages.Generator.Generated.DataTypeFloatingPoint
+            // gain_multiplier: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
         }

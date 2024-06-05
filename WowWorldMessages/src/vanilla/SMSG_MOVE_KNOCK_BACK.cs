@@ -82,22 +82,22 @@ public class SMSG_MOVE_KNOCK_BACK: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypePackedGuid
+        // guid: Generator.Generated.DataTypePackedGuid
         size += Guid.PackedGuidLength();
 
-        // movement_counter: WowMessages.Generator.Generated.DataTypeInteger
+        // movement_counter: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // v_cos: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // v_cos: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
-        // v_sin: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // v_sin: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
-        // horizontal_speed: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // horizontal_speed: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
-        // vertical_speed: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // vertical_speed: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
         return size;

@@ -54,16 +54,16 @@ public class CMSG_MOVE_WATER_WALK_ACK: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // movement_counter: WowMessages.Generator.Generated.DataTypeInteger
+        // movement_counter: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // info: WowMessages.Generator.Generated.DataTypeStruct
+        // info: Generator.Generated.DataTypeStruct
         size += Info.Size();
 
-        // apply: WowMessages.Generator.Generated.DataTypeInteger
+        // apply: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

@@ -46,10 +46,10 @@ public class SMSG_EXPECTED_SPAM_RECORDS: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // amount_of_records: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_records: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // records: WowMessages.Generator.Generated.DataTypeArray
+        // records: Generator.Generated.DataTypeArray
         size += Records.Sum(e => e.Length);
 
         return size;

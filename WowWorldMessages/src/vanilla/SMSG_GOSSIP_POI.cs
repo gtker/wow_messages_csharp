@@ -60,19 +60,19 @@ public class SMSG_GOSSIP_POI: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // flags: WowMessages.Generator.Generated.DataTypeInteger
+        // flags: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // position: WowMessages.Generator.Generated.DataTypeStruct
+        // position: Generator.Generated.DataTypeStruct
         size += 8;
 
-        // icon: WowMessages.Generator.Generated.DataTypeInteger
+        // icon: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // data: WowMessages.Generator.Generated.DataTypeInteger
+        // data: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // location_name: WowMessages.Generator.Generated.DataTypeCstring
+        // location_name: Generator.Generated.DataTypeCstring
         size += LocationName.Length + 1;
 
         return size;

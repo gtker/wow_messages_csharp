@@ -42,10 +42,10 @@ public class SMSG_MOVE_UNSET_HOVER: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypePackedGuid
+        // guid: Generator.Generated.DataTypePackedGuid
         size += Guid.PackedGuidLength();
 
-        // counter: WowMessages.Generator.Generated.DataTypeInteger
+        // counter: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

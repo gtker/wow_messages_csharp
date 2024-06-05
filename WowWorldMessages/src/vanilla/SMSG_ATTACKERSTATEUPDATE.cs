@@ -97,34 +97,34 @@ public class SMSG_ATTACKERSTATEUPDATE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // hit_info: WowMessages.Generator.Generated.DataTypeEnum
+        // hit_info: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // attacker: WowMessages.Generator.Generated.DataTypePackedGuid
+        // attacker: Generator.Generated.DataTypePackedGuid
         size += Attacker.PackedGuidLength();
 
-        // target: WowMessages.Generator.Generated.DataTypePackedGuid
+        // target: Generator.Generated.DataTypePackedGuid
         size += Target.PackedGuidLength();
 
-        // total_damage: WowMessages.Generator.Generated.DataTypeInteger
+        // total_damage: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // amount_of_damages: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_damages: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // damages: WowMessages.Generator.Generated.DataTypeArray
+        // damages: Generator.Generated.DataTypeArray
         size += Damages.Sum(e => 20);
 
-        // damage_state: WowMessages.Generator.Generated.DataTypeInteger
+        // damage_state: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown1: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown1: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // spell_id: WowMessages.Generator.Generated.DataTypeInteger
+        // spell_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // blocked_amount: WowMessages.Generator.Generated.DataTypeInteger
+        // blocked_amount: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

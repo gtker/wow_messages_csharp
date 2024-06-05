@@ -61,16 +61,16 @@ public class CMSG_ACTIVATETAXIEXPRESS: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // total_cost: WowMessages.Generator.Generated.DataTypeInteger
+        // total_cost: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // node_count: WowMessages.Generator.Generated.DataTypeInteger
+        // node_count: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // nodes: WowMessages.Generator.Generated.DataTypeArray
+        // nodes: Generator.Generated.DataTypeArray
         size += Nodes.Sum(e => 4);
 
         return size;

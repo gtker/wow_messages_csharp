@@ -52,13 +52,13 @@ public class SMSG_AUCTION_OWNER_LIST_RESULT: VanillaServerMessage, IWorldMessage
     internal int Size() {
         var size = 0;
 
-        // count: WowMessages.Generator.Generated.DataTypeInteger
+        // count: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // auctions: WowMessages.Generator.Generated.DataTypeArray
+        // auctions: Generator.Generated.DataTypeArray
         size += Auctions.Sum(e => 64);
 
-        // total_amount_of_auctions: WowMessages.Generator.Generated.DataTypeInteger
+        // total_amount_of_auctions: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

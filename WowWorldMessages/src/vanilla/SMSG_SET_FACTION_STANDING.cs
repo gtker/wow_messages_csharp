@@ -46,10 +46,10 @@ public class SMSG_SET_FACTION_STANDING: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // amount_of_faction_standings: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_faction_standings: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // faction_standings: WowMessages.Generator.Generated.DataTypeArray
+        // faction_standings: Generator.Generated.DataTypeArray
         size += FactionStandings.Sum(e => 6);
 
         return size;

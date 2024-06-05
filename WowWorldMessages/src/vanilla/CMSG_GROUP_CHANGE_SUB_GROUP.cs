@@ -42,10 +42,10 @@ public class CMSG_GROUP_CHANGE_SUB_GROUP: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // name: WowMessages.Generator.Generated.DataTypeCstring
+        // name: Generator.Generated.DataTypeCstring
         size += Name.Length + 1;
 
-        // group_number: WowMessages.Generator.Generated.DataTypeInteger
+        // group_number: Generator.Generated.DataTypeInteger
         size += 1;
 
         return size;

@@ -46,10 +46,10 @@ public class SMSG_FRIEND_LIST: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // amount_of_friends: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_friends: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // friends: WowMessages.Generator.Generated.DataTypeArray
+        // friends: Generator.Generated.DataTypeArray
         size += Friends.Sum(e => e.Size());
 
         return size;

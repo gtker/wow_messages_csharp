@@ -64,19 +64,19 @@ public class SMSG_PETITION_SHOW_SIGNATURES: VanillaServerMessage, IWorldMessage 
     internal int Size() {
         var size = 0;
 
-        // item: WowMessages.Generator.Generated.DataTypeGuid
+        // item: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // owner: WowMessages.Generator.Generated.DataTypeGuid
+        // owner: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // petition: WowMessages.Generator.Generated.DataTypeInteger
+        // petition: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // amount_of_signatures: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_signatures: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // signatures: WowMessages.Generator.Generated.DataTypeArray
+        // signatures: Generator.Generated.DataTypeArray
         size += Signatures.Sum(e => 12);
 
         return size;

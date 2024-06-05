@@ -76,22 +76,22 @@ public class SMSG_QUESTGIVER_QUEST_LIST: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // npc: WowMessages.Generator.Generated.DataTypeGuid
+        // npc: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // title: WowMessages.Generator.Generated.DataTypeCstring
+        // title: Generator.Generated.DataTypeCstring
         size += Title.Length + 1;
 
-        // emote_delay: WowMessages.Generator.Generated.DataTypeInteger
+        // emote_delay: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // emote: WowMessages.Generator.Generated.DataTypeInteger
+        // emote: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // amount_of_entries: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_entries: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // quest_items: WowMessages.Generator.Generated.DataTypeArray
+        // quest_items: Generator.Generated.DataTypeArray
         size += QuestItems.Sum(e => e.Size());
 
         return size;

@@ -42,10 +42,10 @@ public class SMSG_CHANNEL_NOTIFY: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // notify_type: WowMessages.Generator.Generated.DataTypeEnum
+        // notify_type: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // channel_name: WowMessages.Generator.Generated.DataTypeCstring
+        // channel_name: Generator.Generated.DataTypeCstring
         size += ChannelName.Length + 1;
 
         return size;

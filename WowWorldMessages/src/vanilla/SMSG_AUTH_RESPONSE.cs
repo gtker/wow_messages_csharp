@@ -87,22 +87,22 @@ public class SMSG_AUTH_RESPONSE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // result: WowMessages.Generator.Generated.DataTypeEnum
+        // result: Generator.Generated.DataTypeEnum
         size += 1;
 
         if (Result.Value is SMSG_AUTH_RESPONSE.WorldResultAuthOk authOk) {
-            // billing_time: WowMessages.Generator.Generated.DataTypeInteger
+            // billing_time: Generator.Generated.DataTypeInteger
             size += 4;
 
-            // billing_flags: WowMessages.Generator.Generated.DataTypeInteger
+            // billing_flags: Generator.Generated.DataTypeInteger
             size += 1;
 
-            // billing_rested: WowMessages.Generator.Generated.DataTypeInteger
+            // billing_rested: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
         else if (Result.Value is SMSG_AUTH_RESPONSE.WorldResultAuthWaitQueue authWaitQueue) {
-            // queue_position: WowMessages.Generator.Generated.DataTypeInteger
+            // queue_position: Generator.Generated.DataTypeInteger
             size += 4;
 
         }

@@ -43,16 +43,16 @@ public class QuestItem {
     internal int Size() {
         var size = 0;
 
-        // quest_id: WowMessages.Generator.Generated.DataTypeInteger
+        // quest_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // quest_icon: WowMessages.Generator.Generated.DataTypeInteger
+        // quest_icon: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // level: WowMessages.Generator.Generated.DataTypeLevel32
+        // level: Generator.Generated.DataTypeLevel32
         size += 4;
 
-        // title: WowMessages.Generator.Generated.DataTypeCstring
+        // title: Generator.Generated.DataTypeCstring
         size += Title.Length + 1;
 
         return size;

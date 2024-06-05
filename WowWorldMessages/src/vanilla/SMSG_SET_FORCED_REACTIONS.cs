@@ -46,10 +46,10 @@ public class SMSG_SET_FORCED_REACTIONS: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // amount_of_reactions: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_reactions: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // reactions: WowMessages.Generator.Generated.DataTypeArray
+        // reactions: Generator.Generated.DataTypeArray
         size += Reactions.Sum(e => 6);
 
         return size;

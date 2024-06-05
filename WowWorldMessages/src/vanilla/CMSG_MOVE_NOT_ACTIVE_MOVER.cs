@@ -42,10 +42,10 @@ public class CMSG_MOVE_NOT_ACTIVE_MOVER: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // old_mover: WowMessages.Generator.Generated.DataTypeGuid
+        // old_mover: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // info: WowMessages.Generator.Generated.DataTypeStruct
+        // info: Generator.Generated.DataTypeStruct
         size += Info.Size();
 
         return size;

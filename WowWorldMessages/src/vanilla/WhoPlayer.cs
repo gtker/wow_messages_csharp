@@ -58,25 +58,25 @@ public class WhoPlayer {
     internal int Size() {
         var size = 0;
 
-        // name: WowMessages.Generator.Generated.DataTypeCstring
+        // name: Generator.Generated.DataTypeCstring
         size += Name.Length + 1;
 
-        // guild: WowMessages.Generator.Generated.DataTypeCstring
+        // guild: Generator.Generated.DataTypeCstring
         size += Guild.Length + 1;
 
-        // level: WowMessages.Generator.Generated.DataTypeLevel32
+        // level: Generator.Generated.DataTypeLevel32
         size += 4;
 
-        // class_type: WowMessages.Generator.Generated.DataTypeEnum
+        // class_type: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // race: WowMessages.Generator.Generated.DataTypeEnum
+        // race: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // area: WowMessages.Generator.Generated.DataTypeEnum
+        // area: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // party_status: WowMessages.Generator.Generated.DataTypeInteger
+        // party_status: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

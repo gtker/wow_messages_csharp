@@ -49,19 +49,19 @@ public class CMD_REALM_LIST_Server: Version7ServerMessage, ILoginMessage {
     internal int Size() {
         var size = 0;
 
-        // size: WowMessages.Generator.Generated.DataTypeInteger
+        // size: Generator.Generated.DataTypeInteger
         size += 2;
 
-        // header_padding: WowMessages.Generator.Generated.DataTypeInteger
+        // header_padding: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // number_of_realms: WowMessages.Generator.Generated.DataTypeInteger
+        // number_of_realms: Generator.Generated.DataTypeInteger
         size += 2;
 
-        // realms: WowMessages.Generator.Generated.DataTypeArray
+        // realms: Generator.Generated.DataTypeArray
         size += Realms.Sum(e => e.Size());
 
-        // footer_padding: WowMessages.Generator.Generated.DataTypeInteger
+        // footer_padding: Generator.Generated.DataTypeInteger
         size += 2;
 
         return size - 2;

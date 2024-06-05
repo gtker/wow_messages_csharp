@@ -64,19 +64,19 @@ public class SMSG_PERIODICAURALOG: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // target: WowMessages.Generator.Generated.DataTypePackedGuid
+        // target: Generator.Generated.DataTypePackedGuid
         size += Target.PackedGuidLength();
 
-        // caster: WowMessages.Generator.Generated.DataTypePackedGuid
+        // caster: Generator.Generated.DataTypePackedGuid
         size += Caster.PackedGuidLength();
 
-        // spell: WowMessages.Generator.Generated.DataTypeSpell
+        // spell: Generator.Generated.DataTypeSpell
         size += 4;
 
-        // amount_of_auras: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_auras: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // auras: WowMessages.Generator.Generated.DataTypeArray
+        // auras: Generator.Generated.DataTypeArray
         size += Auras.Sum(e => e.Size());
 
         return size;

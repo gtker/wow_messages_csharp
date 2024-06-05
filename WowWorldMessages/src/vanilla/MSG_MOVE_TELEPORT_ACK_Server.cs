@@ -48,13 +48,13 @@ public class MSG_MOVE_TELEPORT_ACK_Server: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypePackedGuid
+        // guid: Generator.Generated.DataTypePackedGuid
         size += Guid.PackedGuidLength();
 
-        // movement_counter: WowMessages.Generator.Generated.DataTypeInteger
+        // movement_counter: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // info: WowMessages.Generator.Generated.DataTypeStruct
+        // info: Generator.Generated.DataTypeStruct
         size += Info.Size();
 
         return size;

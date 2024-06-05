@@ -60,13 +60,13 @@ public class CMSG_GMSURVEY_SUBMIT: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // survey_id: WowMessages.Generator.Generated.DataTypeInteger
+        // survey_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // questions: WowMessages.Generator.Generated.DataTypeArray
+        // questions: Generator.Generated.DataTypeArray
         size += Questions.Sum(e => e.Size());
 
-        // answer_comment: WowMessages.Generator.Generated.DataTypeCstring
+        // answer_comment: Generator.Generated.DataTypeCstring
         size += AnswerComment.Length + 1;
 
         return size;

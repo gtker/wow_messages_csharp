@@ -71,19 +71,19 @@ public class SMSG_INITIAL_SPELLS: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // unknown1: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown1: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // spell_count: WowMessages.Generator.Generated.DataTypeInteger
+        // spell_count: Generator.Generated.DataTypeInteger
         size += 2;
 
-        // initial_spells: WowMessages.Generator.Generated.DataTypeArray
+        // initial_spells: Generator.Generated.DataTypeArray
         size += InitialSpells.Sum(e => 4);
 
-        // cooldown_count: WowMessages.Generator.Generated.DataTypeInteger
+        // cooldown_count: Generator.Generated.DataTypeInteger
         size += 2;
 
-        // cooldowns: WowMessages.Generator.Generated.DataTypeArray
+        // cooldowns: Generator.Generated.DataTypeArray
         size += Cooldowns.Sum(e => 14);
 
         return size;

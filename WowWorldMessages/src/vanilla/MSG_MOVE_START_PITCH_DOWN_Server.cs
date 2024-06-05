@@ -42,10 +42,10 @@ public class MSG_MOVE_START_PITCH_DOWN_Server: VanillaServerMessage, IWorldMessa
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypePackedGuid
+        // guid: Generator.Generated.DataTypePackedGuid
         size += Guid.PackedGuidLength();
 
-        // info: WowMessages.Generator.Generated.DataTypeStruct
+        // info: Generator.Generated.DataTypeStruct
         size += Info.Size();
 
         return size;

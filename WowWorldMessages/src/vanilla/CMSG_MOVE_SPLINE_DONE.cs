@@ -48,13 +48,13 @@ public class CMSG_MOVE_SPLINE_DONE: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // info: WowMessages.Generator.Generated.DataTypeStruct
+        // info: Generator.Generated.DataTypeStruct
         size += Info.Size();
 
-        // movement_counter: WowMessages.Generator.Generated.DataTypeInteger
+        // movement_counter: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown1: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown1: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

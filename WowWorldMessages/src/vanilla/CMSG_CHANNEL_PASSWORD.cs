@@ -42,10 +42,10 @@ public class CMSG_CHANNEL_PASSWORD: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // channel_name: WowMessages.Generator.Generated.DataTypeCstring
+        // channel_name: Generator.Generated.DataTypeCstring
         size += ChannelName.Length + 1;
 
-        // channel_password: WowMessages.Generator.Generated.DataTypeCstring
+        // channel_password: Generator.Generated.DataTypeCstring
         size += ChannelPassword.Length + 1;
 
         return size;

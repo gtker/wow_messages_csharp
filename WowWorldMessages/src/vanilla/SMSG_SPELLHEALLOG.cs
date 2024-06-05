@@ -60,19 +60,19 @@ public class SMSG_SPELLHEALLOG: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // victim: WowMessages.Generator.Generated.DataTypePackedGuid
+        // victim: Generator.Generated.DataTypePackedGuid
         size += Victim.PackedGuidLength();
 
-        // caster: WowMessages.Generator.Generated.DataTypePackedGuid
+        // caster: Generator.Generated.DataTypePackedGuid
         size += Caster.PackedGuidLength();
 
-        // id: WowMessages.Generator.Generated.DataTypeSpell
+        // id: Generator.Generated.DataTypeSpell
         size += 4;
 
-        // damage: WowMessages.Generator.Generated.DataTypeInteger
+        // damage: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // critical: WowMessages.Generator.Generated.DataTypeBool
+        // critical: Generator.Generated.DataTypeBool
         size += 1;
 
         return size;

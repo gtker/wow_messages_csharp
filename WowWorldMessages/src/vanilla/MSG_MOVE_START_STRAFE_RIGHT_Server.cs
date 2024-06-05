@@ -42,10 +42,10 @@ public class MSG_MOVE_START_STRAFE_RIGHT_Server: VanillaServerMessage, IWorldMes
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypePackedGuid
+        // guid: Generator.Generated.DataTypePackedGuid
         size += Guid.PackedGuidLength();
 
-        // info: WowMessages.Generator.Generated.DataTypeStruct
+        // info: Generator.Generated.DataTypeStruct
         size += Info.Size();
 
         return size;

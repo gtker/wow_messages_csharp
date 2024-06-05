@@ -45,10 +45,10 @@ public class CMSG_GUILD_SET_OFFICER_NOTE: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // player_name: WowMessages.Generator.Generated.DataTypeCstring
+        // player_name: Generator.Generated.DataTypeCstring
         size += PlayerName.Length + 1;
 
-        // note: WowMessages.Generator.Generated.DataTypeCstring
+        // note: Generator.Generated.DataTypeCstring
         size += Note.Length + 1;
 
         return size;

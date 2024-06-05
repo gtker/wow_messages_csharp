@@ -42,10 +42,10 @@ public class MSG_MOVE_FEATHER_FALL_Server: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // player: WowMessages.Generator.Generated.DataTypePackedGuid
+        // player: Generator.Generated.DataTypePackedGuid
         size += Player.PackedGuidLength();
 
-        // info: WowMessages.Generator.Generated.DataTypeStruct
+        // info: Generator.Generated.DataTypeStruct
         size += Info.Size();
 
         return size;

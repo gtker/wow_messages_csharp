@@ -64,14 +64,14 @@ public class SMSG_CHAR_RENAME: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // result: WowMessages.Generator.Generated.DataTypeEnum
+        // result: Generator.Generated.DataTypeEnum
         size += 1;
 
         if (Result.Value is SMSG_CHAR_RENAME.WorldResultResponseSuccess responseSuccess) {
-            // character: WowMessages.Generator.Generated.DataTypeGuid
+            // character: Generator.Generated.DataTypeGuid
             size += 8;
 
-            // new_name: WowMessages.Generator.Generated.DataTypeCstring
+            // new_name: Generator.Generated.DataTypeCstring
             size += responseSuccess.NewName.Length + 1;
 
         }

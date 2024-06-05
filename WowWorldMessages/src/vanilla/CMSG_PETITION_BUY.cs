@@ -141,58 +141,58 @@ public class CMSG_PETITION_BUY: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // npc: WowMessages.Generator.Generated.DataTypeGuid
+        // npc: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // unknown1: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown1: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown2: WowMessages.Generator.Generated.DataTypeGuid
+        // unknown2: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // name: WowMessages.Generator.Generated.DataTypeCstring
+        // name: Generator.Generated.DataTypeCstring
         size += Name.Length + 1;
 
-        // unknown3: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown3: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown4: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown4: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown5: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown5: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown6: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown6: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown7: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown7: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown8: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown8: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown9: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown9: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown10: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown10: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown11: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown11: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown12: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown12: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown13: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown13: Generator.Generated.DataTypeInteger
         size += 2;
 
-        // unknown14: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown14: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // index: WowMessages.Generator.Generated.DataTypeInteger
+        // index: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown15: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown15: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

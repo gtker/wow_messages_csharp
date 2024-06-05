@@ -36,7 +36,7 @@ public class CMSG_GUILD_ADD_RANK: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // rank_name: WowMessages.Generator.Generated.DataTypeCstring
+        // rank_name: Generator.Generated.DataTypeCstring
         size += RankName.Length + 1;
 
         return size;

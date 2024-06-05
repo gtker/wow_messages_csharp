@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WowMessages.Generator", "WowMessages.Generator\WowMessages.Generator.csproj", "{0F9EABF3-682F-4CDE-932A-A17CBD53ACEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator", "Generator\Generator.csproj", "{0F9EABF3-682F-4CDE-932A-A17CBD53ACEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WowLoginMessages", "WowLoginMessages\WowLoginMessages.csproj", "{F3EA2B7C-A29F-4F2D-89B8-4428B0CF5938}"
 EndProject

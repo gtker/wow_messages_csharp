@@ -42,10 +42,10 @@ public class CMSG_CHANNEL_UNMODERATOR: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // channel_name: WowMessages.Generator.Generated.DataTypeCstring
+        // channel_name: Generator.Generated.DataTypeCstring
         size += ChannelName.Length + 1;
 
-        // player_name: WowMessages.Generator.Generated.DataTypeCstring
+        // player_name: Generator.Generated.DataTypeCstring
         size += PlayerName.Length + 1;
 
         return size;

@@ -46,10 +46,10 @@ public class SMSG_MAIL_LIST_RESULT: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // amount_of_mails: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_mails: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // mails: WowMessages.Generator.Generated.DataTypeArray
+        // mails: Generator.Generated.DataTypeArray
         size += Mails.Sum(e => e.Size());
 
         return size;

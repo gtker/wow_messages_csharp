@@ -48,13 +48,13 @@ public class SMSG_PET_NAME_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // pet_number: WowMessages.Generator.Generated.DataTypeInteger
+        // pet_number: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // name: WowMessages.Generator.Generated.DataTypeCstring
+        // name: Generator.Generated.DataTypeCstring
         size += Name.Length + 1;
 
-        // pet_name_timestamp: WowMessages.Generator.Generated.DataTypeInteger
+        // pet_name_timestamp: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

@@ -36,7 +36,7 @@ public class CMSG_GUILD_INVITE: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // invited_player: WowMessages.Generator.Generated.DataTypeCstring
+        // invited_player: Generator.Generated.DataTypeCstring
         size += InvitedPlayer.Length + 1;
 
         return size;

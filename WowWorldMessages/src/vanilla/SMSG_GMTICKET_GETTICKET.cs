@@ -97,29 +97,29 @@ public class SMSG_GMTICKET_GETTICKET: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // status: WowMessages.Generator.Generated.DataTypeEnum
+        // status: Generator.Generated.DataTypeEnum
         size += 4;
 
         if (Status.Value is SMSG_GMTICKET_GETTICKET.GmTicketStatusHasText hasText) {
-            // text: WowMessages.Generator.Generated.DataTypeCstring
+            // text: Generator.Generated.DataTypeCstring
             size += hasText.Text.Length + 1;
 
-            // ticket_type: WowMessages.Generator.Generated.DataTypeEnum
+            // ticket_type: Generator.Generated.DataTypeEnum
             size += 1;
 
-            // days_since_ticket_creation: WowMessages.Generator.Generated.DataTypeFloatingPoint
+            // days_since_ticket_creation: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
-            // days_since_oldest_ticket_creation: WowMessages.Generator.Generated.DataTypeFloatingPoint
+            // days_since_oldest_ticket_creation: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
-            // days_since_last_updated: WowMessages.Generator.Generated.DataTypeFloatingPoint
+            // days_since_last_updated: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
-            // escalation_status: WowMessages.Generator.Generated.DataTypeEnum
+            // escalation_status: Generator.Generated.DataTypeEnum
             size += 1;
 
-            // read_by_gm: WowMessages.Generator.Generated.DataTypeBool
+            // read_by_gm: Generator.Generated.DataTypeBool
             size += 1;
 
         }

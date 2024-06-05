@@ -83,28 +83,28 @@ public class SMSG_GUILD_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // id: WowMessages.Generator.Generated.DataTypeInteger
+        // id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // name: WowMessages.Generator.Generated.DataTypeCstring
+        // name: Generator.Generated.DataTypeCstring
         size += Name.Length + 1;
 
-        // rank_names: WowMessages.Generator.Generated.DataTypeArray
+        // rank_names: Generator.Generated.DataTypeArray
         size += RankNames.Sum(e => e.Length);
 
-        // emblem_style: WowMessages.Generator.Generated.DataTypeInteger
+        // emblem_style: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // emblem_color: WowMessages.Generator.Generated.DataTypeInteger
+        // emblem_color: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // border_style: WowMessages.Generator.Generated.DataTypeInteger
+        // border_style: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // border_color: WowMessages.Generator.Generated.DataTypeInteger
+        // border_color: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // background_color: WowMessages.Generator.Generated.DataTypeInteger
+        // background_color: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

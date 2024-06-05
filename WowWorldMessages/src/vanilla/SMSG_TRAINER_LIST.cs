@@ -64,19 +64,19 @@ public class SMSG_TRAINER_LIST: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // trainer_type: WowMessages.Generator.Generated.DataTypeInteger
+        // trainer_type: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // amount_of_spells: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_spells: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // spells: WowMessages.Generator.Generated.DataTypeArray
+        // spells: Generator.Generated.DataTypeArray
         size += Spells.Sum(e => 38);
 
-        // greeting: WowMessages.Generator.Generated.DataTypeCstring
+        // greeting: Generator.Generated.DataTypeCstring
         size += Greeting.Length + 1;
 
         return size;

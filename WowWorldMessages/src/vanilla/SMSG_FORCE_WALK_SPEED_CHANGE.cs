@@ -52,13 +52,13 @@ public class SMSG_FORCE_WALK_SPEED_CHANGE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypePackedGuid
+        // guid: Generator.Generated.DataTypePackedGuid
         size += Guid.PackedGuidLength();
 
-        // move_event: WowMessages.Generator.Generated.DataTypeInteger
+        // move_event: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // speed: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // speed: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
         return size;

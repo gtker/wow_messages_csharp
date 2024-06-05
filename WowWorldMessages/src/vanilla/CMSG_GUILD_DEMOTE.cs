@@ -36,7 +36,7 @@ public class CMSG_GUILD_DEMOTE: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // player_name: WowMessages.Generator.Generated.DataTypeCstring
+        // player_name: Generator.Generated.DataTypeCstring
         size += PlayerName.Length + 1;
 
         return size;

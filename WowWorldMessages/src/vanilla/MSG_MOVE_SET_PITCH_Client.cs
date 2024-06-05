@@ -36,7 +36,7 @@ public class MSG_MOVE_SET_PITCH_Client: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // info: WowMessages.Generator.Generated.DataTypeStruct
+        // info: Generator.Generated.DataTypeStruct
         size += Info.Size();
 
         return size;

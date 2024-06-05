@@ -42,10 +42,10 @@ public class CMSG_CHAR_RENAME: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // character: WowMessages.Generator.Generated.DataTypeGuid
+        // character: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // new_name: WowMessages.Generator.Generated.DataTypeCstring
+        // new_name: Generator.Generated.DataTypeCstring
         size += NewName.Length + 1;
 
         return size;

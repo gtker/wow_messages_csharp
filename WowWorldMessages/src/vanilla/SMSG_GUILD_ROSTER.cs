@@ -74,22 +74,22 @@ public class SMSG_GUILD_ROSTER: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // amount_of_members: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_members: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // motd: WowMessages.Generator.Generated.DataTypeCstring
+        // motd: Generator.Generated.DataTypeCstring
         size += Motd.Length + 1;
 
-        // guild_info: WowMessages.Generator.Generated.DataTypeCstring
+        // guild_info: Generator.Generated.DataTypeCstring
         size += GuildInfo.Length + 1;
 
-        // amount_of_rights: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_rights: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // rights: WowMessages.Generator.Generated.DataTypeArray
+        // rights: Generator.Generated.DataTypeArray
         size += Rights.Sum(e => 4);
 
-        // members: WowMessages.Generator.Generated.DataTypeArray
+        // members: Generator.Generated.DataTypeArray
         size += Members.Sum(e => e.Size());
 
         return size;

@@ -48,13 +48,13 @@ public class SMSG_QUEST_CONFIRM_ACCEPT: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // quest_id: WowMessages.Generator.Generated.DataTypeInteger
+        // quest_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // quest_title: WowMessages.Generator.Generated.DataTypeCstring
+        // quest_title: Generator.Generated.DataTypeCstring
         size += QuestTitle.Length + 1;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
         return size;

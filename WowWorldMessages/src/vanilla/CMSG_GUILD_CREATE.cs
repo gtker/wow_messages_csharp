@@ -36,7 +36,7 @@ public class CMSG_GUILD_CREATE: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guild_name: WowMessages.Generator.Generated.DataTypeCstring
+        // guild_name: Generator.Generated.DataTypeCstring
         size += GuildName.Length + 1;
 
         return size;

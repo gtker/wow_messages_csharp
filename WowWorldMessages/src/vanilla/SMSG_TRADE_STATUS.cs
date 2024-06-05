@@ -134,33 +134,33 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // status: WowMessages.Generator.Generated.DataTypeEnum
+        // status: Generator.Generated.DataTypeEnum
         size += 4;
 
         if (Status.Value is SMSG_TRADE_STATUS.TradeStatusBeginTrade beginTrade) {
-            // unknown1: WowMessages.Generator.Generated.DataTypeGuid
+            // unknown1: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
         else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusCloseWindow closeWindow) {
-            // inventory_result: WowMessages.Generator.Generated.DataTypeEnum
+            // inventory_result: Generator.Generated.DataTypeEnum
             size += 4;
 
-            // target_error: WowMessages.Generator.Generated.DataTypeBool
+            // target_error: Generator.Generated.DataTypeBool
             size += 1;
 
-            // item_limit_category_id: WowMessages.Generator.Generated.DataTypeInteger
+            // item_limit_category_id: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
 
         else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusOnlyConjured onlyConjured) {
-            // slot: WowMessages.Generator.Generated.DataTypeInteger
+            // slot: Generator.Generated.DataTypeInteger
             size += 1;
 
         }
         else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusNotOnTaplist notOnTaplist) {
-            // slot: WowMessages.Generator.Generated.DataTypeInteger
+            // slot: Generator.Generated.DataTypeInteger
             size += 1;
 
         }

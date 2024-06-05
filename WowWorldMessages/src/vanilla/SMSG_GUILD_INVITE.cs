@@ -42,10 +42,10 @@ public class SMSG_GUILD_INVITE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // player_name: WowMessages.Generator.Generated.DataTypeCstring
+        // player_name: Generator.Generated.DataTypeCstring
         size += PlayerName.Length + 1;
 
-        // guild_name: WowMessages.Generator.Generated.DataTypeCstring
+        // guild_name: Generator.Generated.DataTypeCstring
         size += GuildName.Length + 1;
 
         return size;

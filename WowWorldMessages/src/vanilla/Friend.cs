@@ -143,53 +143,53 @@ public class Friend {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // status: WowMessages.Generator.Generated.DataTypeEnum
+        // status: Generator.Generated.DataTypeEnum
         size += 1;
 
         if (Status.Value is Friend.FriendStatusOnline online) {
-            // area: WowMessages.Generator.Generated.DataTypeEnum
+            // area: Generator.Generated.DataTypeEnum
             size += 4;
 
-            // level: WowMessages.Generator.Generated.DataTypeLevel32
+            // level: Generator.Generated.DataTypeLevel32
             size += 4;
 
-            // class_type: WowMessages.Generator.Generated.DataTypeEnum
+            // class_type: Generator.Generated.DataTypeEnum
             size += 4;
 
         }
         else if (Status.Value is Friend.FriendStatusAfk afk) {
-            // area: WowMessages.Generator.Generated.DataTypeEnum
+            // area: Generator.Generated.DataTypeEnum
             size += 4;
 
-            // level: WowMessages.Generator.Generated.DataTypeLevel32
+            // level: Generator.Generated.DataTypeLevel32
             size += 4;
 
-            // class_type: WowMessages.Generator.Generated.DataTypeEnum
+            // class_type: Generator.Generated.DataTypeEnum
             size += 4;
 
         }
         else if (Status.Value is Friend.FriendStatusUnknown3 unknown3) {
-            // area: WowMessages.Generator.Generated.DataTypeEnum
+            // area: Generator.Generated.DataTypeEnum
             size += 4;
 
-            // level: WowMessages.Generator.Generated.DataTypeLevel32
+            // level: Generator.Generated.DataTypeLevel32
             size += 4;
 
-            // class_type: WowMessages.Generator.Generated.DataTypeEnum
+            // class_type: Generator.Generated.DataTypeEnum
             size += 4;
 
         }
         else if (Status.Value is Friend.FriendStatusDnd dnd) {
-            // area: WowMessages.Generator.Generated.DataTypeEnum
+            // area: Generator.Generated.DataTypeEnum
             size += 4;
 
-            // level: WowMessages.Generator.Generated.DataTypeLevel32
+            // level: Generator.Generated.DataTypeLevel32
             size += 4;
 
-            // class_type: WowMessages.Generator.Generated.DataTypeEnum
+            // class_type: Generator.Generated.DataTypeEnum
             size += 4;
 
         }

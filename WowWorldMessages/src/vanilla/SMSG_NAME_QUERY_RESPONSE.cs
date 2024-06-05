@@ -69,22 +69,22 @@ public class SMSG_NAME_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // character_name: WowMessages.Generator.Generated.DataTypeCstring
+        // character_name: Generator.Generated.DataTypeCstring
         size += CharacterName.Length + 1;
 
-        // realm_name: WowMessages.Generator.Generated.DataTypeCstring
+        // realm_name: Generator.Generated.DataTypeCstring
         size += RealmName.Length + 1;
 
-        // race: WowMessages.Generator.Generated.DataTypeEnum
+        // race: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // gender: WowMessages.Generator.Generated.DataTypeEnum
+        // gender: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // class_type: WowMessages.Generator.Generated.DataTypeEnum
+        // class_type: Generator.Generated.DataTypeEnum
         size += 4;
 
         return size;

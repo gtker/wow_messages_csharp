@@ -36,7 +36,7 @@ public class CMSG_DBLOOKUP: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // query: WowMessages.Generator.Generated.DataTypeCstring
+        // query: Generator.Generated.DataTypeCstring
         size += Query.Length + 1;
 
         return size;

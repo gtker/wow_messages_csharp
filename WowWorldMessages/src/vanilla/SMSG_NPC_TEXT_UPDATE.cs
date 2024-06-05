@@ -47,10 +47,10 @@ public class SMSG_NPC_TEXT_UPDATE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // text_id: WowMessages.Generator.Generated.DataTypeInteger
+        // text_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // texts: WowMessages.Generator.Generated.DataTypeArray
+        // texts: Generator.Generated.DataTypeArray
         size += Texts.Sum(e => e.Size());
 
         return size;

@@ -50,10 +50,10 @@ public class SMSG_SPELL_COOLDOWN: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // cooldowns: WowMessages.Generator.Generated.DataTypeArray
+        // cooldowns: Generator.Generated.DataTypeArray
         size += Cooldowns.Sum(e => 8);
 
         return size;

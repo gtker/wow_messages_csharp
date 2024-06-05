@@ -178,51 +178,51 @@ public class MSG_RAID_TARGET_UPDATE_Client: VanillaClientMessage, IWorldMessage 
     internal int Size() {
         var size = 0;
 
-        // target_index: WowMessages.Generator.Generated.DataTypeEnum
+        // target_index: Generator.Generated.DataTypeEnum
         size += 1;
 
         if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown0 unknown0) {
-            // target: WowMessages.Generator.Generated.DataTypeGuid
+            // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
         else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown1 unknown1) {
-            // target: WowMessages.Generator.Generated.DataTypeGuid
+            // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
         else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown2 unknown2) {
-            // target: WowMessages.Generator.Generated.DataTypeGuid
+            // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
         else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown3 unknown3) {
-            // target: WowMessages.Generator.Generated.DataTypeGuid
+            // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
         else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown4 unknown4) {
-            // target: WowMessages.Generator.Generated.DataTypeGuid
+            // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
         else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown5 unknown5) {
-            // target: WowMessages.Generator.Generated.DataTypeGuid
+            // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
         else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown6 unknown6) {
-            // target: WowMessages.Generator.Generated.DataTypeGuid
+            // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
         else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown7 unknown7) {
-            // target: WowMessages.Generator.Generated.DataTypeGuid
+            // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
         else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown8 unknown8) {
-            // target: WowMessages.Generator.Generated.DataTypeGuid
+            // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }

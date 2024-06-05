@@ -175,55 +175,55 @@ public class SMSG_PETITION_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // petition_id: WowMessages.Generator.Generated.DataTypeInteger
+        // petition_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // charter_owner: WowMessages.Generator.Generated.DataTypeGuid
+        // charter_owner: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // guild_name: WowMessages.Generator.Generated.DataTypeCstring
+        // guild_name: Generator.Generated.DataTypeCstring
         size += GuildName.Length + 1;
 
-        // body_text: WowMessages.Generator.Generated.DataTypeCstring
+        // body_text: Generator.Generated.DataTypeCstring
         size += BodyText.Length + 1;
 
-        // unknown_flags: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown_flags: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // minimum_signatures: WowMessages.Generator.Generated.DataTypeInteger
+        // minimum_signatures: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // maximum_signatures: WowMessages.Generator.Generated.DataTypeInteger
+        // maximum_signatures: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // deadline: WowMessages.Generator.Generated.DataTypeInteger
+        // deadline: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // issue_date: WowMessages.Generator.Generated.DataTypeInteger
+        // issue_date: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // allowed_guild_id: WowMessages.Generator.Generated.DataTypeInteger
+        // allowed_guild_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // allowed_class: WowMessages.Generator.Generated.DataTypeFlag
+        // allowed_class: Generator.Generated.DataTypeFlag
         size += 4;
 
-        // allowed_race: WowMessages.Generator.Generated.DataTypeFlag
+        // allowed_race: Generator.Generated.DataTypeFlag
         size += 4;
 
-        // allowed_genders: WowMessages.Generator.Generated.DataTypeInteger
+        // allowed_genders: Generator.Generated.DataTypeInteger
         size += 2;
 
-        // allowed_minimum_level: WowMessages.Generator.Generated.DataTypeLevel32
+        // allowed_minimum_level: Generator.Generated.DataTypeLevel32
         size += 4;
 
-        // allowed_maximum_level: WowMessages.Generator.Generated.DataTypeLevel32
+        // allowed_maximum_level: Generator.Generated.DataTypeLevel32
         size += 4;
 
-        // todo_amount_of_signers: WowMessages.Generator.Generated.DataTypeInteger
+        // todo_amount_of_signers: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // number_of_choices: WowMessages.Generator.Generated.DataTypeInteger
+        // number_of_choices: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

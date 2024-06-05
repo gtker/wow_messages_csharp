@@ -50,16 +50,16 @@ public class NpcTextUpdate {
     internal int Size() {
         var size = 0;
 
-        // probability: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // probability: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
-        // texts: WowMessages.Generator.Generated.DataTypeArray
+        // texts: Generator.Generated.DataTypeArray
         size += Texts.Sum(e => e.Length);
 
-        // language: WowMessages.Generator.Generated.DataTypeEnum
+        // language: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // emotes: WowMessages.Generator.Generated.DataTypeArray
+        // emotes: Generator.Generated.DataTypeArray
         size += Emotes.Sum(e => 8);
 
         return size;

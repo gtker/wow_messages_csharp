@@ -40,16 +40,16 @@ public class TransportInfo {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypePackedGuid
+        // guid: Generator.Generated.DataTypePackedGuid
         size += Guid.PackedGuidLength();
 
-        // position: WowMessages.Generator.Generated.DataTypeStruct
+        // position: Generator.Generated.DataTypeStruct
         size += 12;
 
-        // orientation: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // orientation: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
-        // timestamp: WowMessages.Generator.Generated.DataTypeInteger
+        // timestamp: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

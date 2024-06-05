@@ -42,10 +42,10 @@ public class SMSG_ITEM_NAME_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage 
     internal int Size() {
         var size = 0;
 
-        // item: WowMessages.Generator.Generated.DataTypeItem
+        // item: Generator.Generated.DataTypeItem
         size += 4;
 
-        // item_name: WowMessages.Generator.Generated.DataTypeCstring
+        // item_name: Generator.Generated.DataTypeCstring
         size += ItemName.Length + 1;
 
         return size;

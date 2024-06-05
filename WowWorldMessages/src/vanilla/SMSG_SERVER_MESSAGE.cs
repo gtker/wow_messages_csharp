@@ -42,10 +42,10 @@ public class SMSG_SERVER_MESSAGE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // message_type: WowMessages.Generator.Generated.DataTypeEnum
+        // message_type: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // message: WowMessages.Generator.Generated.DataTypeCstring
+        // message: Generator.Generated.DataTypeCstring
         size += Message.Length + 1;
 
         return size;

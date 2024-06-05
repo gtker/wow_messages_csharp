@@ -40,16 +40,16 @@ public class AddonInfo {
     internal int Size() {
         var size = 0;
 
-        // addon_name: WowMessages.Generator.Generated.DataTypeCstring
+        // addon_name: Generator.Generated.DataTypeCstring
         size += AddonName.Length + 1;
 
-        // addon_has_signature: WowMessages.Generator.Generated.DataTypeInteger
+        // addon_has_signature: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // addon_crc: WowMessages.Generator.Generated.DataTypeInteger
+        // addon_crc: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // addon_extra_crc: WowMessages.Generator.Generated.DataTypeInteger
+        // addon_extra_crc: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

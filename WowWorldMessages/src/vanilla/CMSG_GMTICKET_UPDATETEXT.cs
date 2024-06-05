@@ -45,10 +45,10 @@ public class CMSG_GMTICKET_UPDATETEXT: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // ticket_type: WowMessages.Generator.Generated.DataTypeEnum
+        // ticket_type: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // message: WowMessages.Generator.Generated.DataTypeCstring
+        // message: Generator.Generated.DataTypeCstring
         size += Message.Length + 1;
 
         return size;

@@ -62,16 +62,16 @@ public class MSG_BATTLEGROUND_PLAYER_POSITIONS_Server: VanillaServerMessage, IWo
     internal int Size() {
         var size = 0;
 
-        // amount_of_teammates: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_teammates: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // teammates: WowMessages.Generator.Generated.DataTypeArray
+        // teammates: Generator.Generated.DataTypeArray
         size += Teammates.Sum(e => 16);
 
-        // amount_of_carriers: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_carriers: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // carriers: WowMessages.Generator.Generated.DataTypeArray
+        // carriers: Generator.Generated.DataTypeArray
         size += Carriers.Sum(e => 16);
 
         return size;

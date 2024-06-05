@@ -213,84 +213,84 @@ public class Mail {
     internal int Size() {
         var size = 0;
 
-        // message_id: WowMessages.Generator.Generated.DataTypeInteger
+        // message_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // message_type: WowMessages.Generator.Generated.DataTypeEnum
+        // message_type: Generator.Generated.DataTypeEnum
         size += 1;
 
         if (MessageType.Value is Mail.MailTypeNormal normal) {
-            // sender: WowMessages.Generator.Generated.DataTypeGuid
+            // sender: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
         else if (MessageType.Value is Mail.MailTypeCreature creature) {
-            // sender_id: WowMessages.Generator.Generated.DataTypeInteger
+            // sender_id: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
         else if (MessageType.Value is Mail.MailTypeGameobject gameobject) {
-            // sender_id: WowMessages.Generator.Generated.DataTypeInteger
+            // sender_id: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
 
         else if (MessageType.Value is Mail.MailTypeAuction auction) {
-            // auction_id: WowMessages.Generator.Generated.DataTypeInteger
+            // auction_id: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
 
 
-        // subject: WowMessages.Generator.Generated.DataTypeCstring
+        // subject: Generator.Generated.DataTypeCstring
         size += Subject.Length + 1;
 
-        // item_text_id: WowMessages.Generator.Generated.DataTypeInteger
+        // item_text_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // unknown1: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown1: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // stationery: WowMessages.Generator.Generated.DataTypeInteger
+        // stationery: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // item: WowMessages.Generator.Generated.DataTypeItem
+        // item: Generator.Generated.DataTypeItem
         size += 4;
 
-        // item_enchant_id: WowMessages.Generator.Generated.DataTypeInteger
+        // item_enchant_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // item_random_property_id: WowMessages.Generator.Generated.DataTypeInteger
+        // item_random_property_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // item_suffix_factor: WowMessages.Generator.Generated.DataTypeInteger
+        // item_suffix_factor: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // item_stack_size: WowMessages.Generator.Generated.DataTypeInteger
+        // item_stack_size: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // item_spell_charges: WowMessages.Generator.Generated.DataTypeInteger
+        // item_spell_charges: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // max_durability: WowMessages.Generator.Generated.DataTypeInteger
+        // max_durability: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // durability: WowMessages.Generator.Generated.DataTypeInteger
+        // durability: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // money: WowMessages.Generator.Generated.DataTypeGold
+        // money: Generator.Generated.DataTypeGold
         size += 4;
 
-        // cash_on_delivery_amount: WowMessages.Generator.Generated.DataTypeInteger
+        // cash_on_delivery_amount: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // checked_timestamp: WowMessages.Generator.Generated.DataTypeInteger
+        // checked_timestamp: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // expiration_time: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // expiration_time: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
-        // mail_template_id: WowMessages.Generator.Generated.DataTypeInteger
+        // mail_template_id: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

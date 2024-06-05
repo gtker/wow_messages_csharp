@@ -79,20 +79,20 @@ public class SMSG_LOG_XPGAIN: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // target: WowMessages.Generator.Generated.DataTypeGuid
+        // target: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // total_exp: WowMessages.Generator.Generated.DataTypeInteger
+        // total_exp: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // exp_type: WowMessages.Generator.Generated.DataTypeEnum
+        // exp_type: Generator.Generated.DataTypeEnum
         size += 1;
 
         if (ExpType.Value is SMSG_LOG_XPGAIN.ExperienceAwardTypeNonKill nonKill) {
-            // experience_without_rested: WowMessages.Generator.Generated.DataTypeInteger
+            // experience_without_rested: Generator.Generated.DataTypeInteger
             size += 4;
 
-            // exp_group_bonus: WowMessages.Generator.Generated.DataTypeFloatingPoint
+            // exp_group_bonus: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
         }

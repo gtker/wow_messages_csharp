@@ -36,7 +36,7 @@ public class MSG_MOVE_START_TURN_LEFT_Client: VanillaClientMessage, IWorldMessag
     internal int Size() {
         var size = 0;
 
-        // info: WowMessages.Generator.Generated.DataTypeStruct
+        // info: Generator.Generated.DataTypeStruct
         size += Info.Size();
 
         return size;

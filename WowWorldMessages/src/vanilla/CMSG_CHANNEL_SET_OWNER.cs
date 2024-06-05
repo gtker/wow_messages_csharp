@@ -42,10 +42,10 @@ public class CMSG_CHANNEL_SET_OWNER: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // channel_name: WowMessages.Generator.Generated.DataTypeCstring
+        // channel_name: Generator.Generated.DataTypeCstring
         size += ChannelName.Length + 1;
 
-        // new_owner: WowMessages.Generator.Generated.DataTypeCstring
+        // new_owner: Generator.Generated.DataTypeCstring
         size += NewOwner.Length + 1;
 
         return size;

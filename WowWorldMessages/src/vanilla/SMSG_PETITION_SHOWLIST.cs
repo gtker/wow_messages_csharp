@@ -52,13 +52,13 @@ public class SMSG_PETITION_SHOWLIST: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // npc: WowMessages.Generator.Generated.DataTypeGuid
+        // npc: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // amount_of_petitions: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_petitions: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // petitions: WowMessages.Generator.Generated.DataTypeArray
+        // petitions: Generator.Generated.DataTypeArray
         size += Petitions.Sum(e => 20);
 
         return size;

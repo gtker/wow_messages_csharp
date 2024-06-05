@@ -97,35 +97,35 @@ public class Realm {
     internal int Size() {
         var size = 0;
 
-        // realm_type: WowMessages.Generator.Generated.DataTypeEnum
+        // realm_type: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // locked: WowMessages.Generator.Generated.DataTypeBool
+        // locked: Generator.Generated.DataTypeBool
         size += 1;
 
-        // flag: WowMessages.Generator.Generated.DataTypeFlag
+        // flag: Generator.Generated.DataTypeFlag
         size += 1;
 
-        // name: WowMessages.Generator.Generated.DataTypeCstring
+        // name: Generator.Generated.DataTypeCstring
         size += Name.Length + 1;
 
-        // address: WowMessages.Generator.Generated.DataTypeCstring
+        // address: Generator.Generated.DataTypeCstring
         size += Address.Length + 1;
 
-        // population: WowMessages.Generator.Generated.DataTypePopulation
+        // population: Generator.Generated.DataTypePopulation
         size += 4;
 
-        // number_of_characters_on_realm: WowMessages.Generator.Generated.DataTypeInteger
+        // number_of_characters_on_realm: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // category: WowMessages.Generator.Generated.DataTypeEnum
+        // category: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // realm_id: WowMessages.Generator.Generated.DataTypeInteger
+        // realm_id: Generator.Generated.DataTypeInteger
         size += 1;
 
         if (Flag.SpecifyBuild is {} specifyBuild) {
-            // version: WowMessages.Generator.Generated.DataTypeStruct
+            // version: Generator.Generated.DataTypeStruct
             size += 5;
 
         }

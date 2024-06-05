@@ -42,10 +42,10 @@ public class SMSG_SPLINE_SET_WALK_SPEED: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypePackedGuid
+        // guid: Generator.Generated.DataTypePackedGuid
         size += Guid.PackedGuidLength();
 
-        // speed: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // speed: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
         return size;

@@ -36,7 +36,7 @@ public class CMSG_GUILD_LEADER: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // new_guild_leader_name: WowMessages.Generator.Generated.DataTypeCstring
+        // new_guild_leader_name: Generator.Generated.DataTypeCstring
         size += NewGuildLeaderName.Length + 1;
 
         return size;

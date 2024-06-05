@@ -64,19 +64,19 @@ public class SMSG_BATTLEFIELD_LIST: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // battlemaster: WowMessages.Generator.Generated.DataTypeGuid
+        // battlemaster: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // map: WowMessages.Generator.Generated.DataTypeEnum
+        // map: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // bracket: WowMessages.Generator.Generated.DataTypeEnum
+        // bracket: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // number_of_battlegrounds: WowMessages.Generator.Generated.DataTypeInteger
+        // number_of_battlegrounds: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // battlegrounds: WowMessages.Generator.Generated.DataTypeArray
+        // battlegrounds: Generator.Generated.DataTypeArray
         size += Battlegrounds.Sum(e => 4);
 
         return size;

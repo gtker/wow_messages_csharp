@@ -39,7 +39,7 @@ public class SMSG_WHOIS: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // message: WowMessages.Generator.Generated.DataTypeCstring
+        // message: Generator.Generated.DataTypeCstring
         size += Message.Length + 1;
 
         return size;

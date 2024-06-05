@@ -58,16 +58,16 @@ public class CMSG_AUCTION_LIST_BIDDER_ITEMS: VanillaClientMessage, IWorldMessage
     internal int Size() {
         var size = 0;
 
-        // auctioneer: WowMessages.Generator.Generated.DataTypeGuid
+        // auctioneer: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // start_from_page: WowMessages.Generator.Generated.DataTypeInteger
+        // start_from_page: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // amount_of_outbid_items: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_outbid_items: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // outbid_item_ids: WowMessages.Generator.Generated.DataTypeArray
+        // outbid_item_ids: Generator.Generated.DataTypeArray
         size += OutbidItemIds.Sum(e => 4);
 
         return size;

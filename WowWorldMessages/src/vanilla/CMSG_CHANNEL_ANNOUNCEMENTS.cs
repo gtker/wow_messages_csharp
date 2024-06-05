@@ -36,7 +36,7 @@ public class CMSG_CHANNEL_ANNOUNCEMENTS: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // channel_name: WowMessages.Generator.Generated.DataTypeCstring
+        // channel_name: Generator.Generated.DataTypeCstring
         size += ChannelName.Length + 1;
 
         return size;

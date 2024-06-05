@@ -54,16 +54,16 @@ public class CMSG_FORCE_RUN_BACK_SPEED_CHANGE_ACK: VanillaClientMessage, IWorldM
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // movement_counter: WowMessages.Generator.Generated.DataTypeInteger
+        // movement_counter: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // info: WowMessages.Generator.Generated.DataTypeStruct
+        // info: Generator.Generated.DataTypeStruct
         size += Info.Size();
 
-        // new_speed: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // new_speed: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
         return size;

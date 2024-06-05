@@ -46,10 +46,10 @@ public class SMSG_RAID_INSTANCE_INFO: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // amount_of_raid_infos: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_raid_infos: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // raid_infos: WowMessages.Generator.Generated.DataTypeArray
+        // raid_infos: Generator.Generated.DataTypeArray
         size += RaidInfos.Sum(e => 12);
 
         return size;

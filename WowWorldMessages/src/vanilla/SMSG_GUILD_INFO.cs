@@ -66,22 +66,22 @@ public class SMSG_GUILD_INFO: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guild_name: WowMessages.Generator.Generated.DataTypeCstring
+        // guild_name: Generator.Generated.DataTypeCstring
         size += GuildName.Length + 1;
 
-        // created_day: WowMessages.Generator.Generated.DataTypeInteger
+        // created_day: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // created_month: WowMessages.Generator.Generated.DataTypeInteger
+        // created_month: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // created_year: WowMessages.Generator.Generated.DataTypeInteger
+        // created_year: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // amount_of_characters_in_guild: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_characters_in_guild: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // amount_of_accounts_in_guild: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_accounts_in_guild: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

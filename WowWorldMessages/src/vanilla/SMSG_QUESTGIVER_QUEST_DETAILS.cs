@@ -126,46 +126,46 @@ public class SMSG_QUESTGIVER_QUEST_DETAILS: VanillaServerMessage, IWorldMessage 
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // quest_id: WowMessages.Generator.Generated.DataTypeInteger
+        // quest_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // title: WowMessages.Generator.Generated.DataTypeCstring
+        // title: Generator.Generated.DataTypeCstring
         size += Title.Length + 1;
 
-        // details: WowMessages.Generator.Generated.DataTypeCstring
+        // details: Generator.Generated.DataTypeCstring
         size += Details.Length + 1;
 
-        // objectives: WowMessages.Generator.Generated.DataTypeCstring
+        // objectives: Generator.Generated.DataTypeCstring
         size += Objectives.Length + 1;
 
-        // auto_finish: WowMessages.Generator.Generated.DataTypeBool
+        // auto_finish: Generator.Generated.DataTypeBool
         size += 4;
 
-        // amount_of_choice_item_rewards: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_choice_item_rewards: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // choice_item_rewards: WowMessages.Generator.Generated.DataTypeArray
+        // choice_item_rewards: Generator.Generated.DataTypeArray
         size += ChoiceItemRewards.Sum(e => 8);
 
-        // amount_of_item_rewards: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_item_rewards: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // item_rewards: WowMessages.Generator.Generated.DataTypeArray
+        // item_rewards: Generator.Generated.DataTypeArray
         size += ItemRewards.Sum(e => 8);
 
-        // money_reward: WowMessages.Generator.Generated.DataTypeGold
+        // money_reward: Generator.Generated.DataTypeGold
         size += 4;
 
-        // reward_spell: WowMessages.Generator.Generated.DataTypeSpell
+        // reward_spell: Generator.Generated.DataTypeSpell
         size += 4;
 
-        // amount_of_emotes: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_emotes: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // emotes: WowMessages.Generator.Generated.DataTypeArray
+        // emotes: Generator.Generated.DataTypeArray
         size += Emotes.Sum(e => 8);
 
         return size;

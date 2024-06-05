@@ -131,35 +131,35 @@ public class SMSG_CAST_RESULT: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // spell: WowMessages.Generator.Generated.DataTypeSpell
+        // spell: Generator.Generated.DataTypeSpell
         size += 4;
 
-        // result: WowMessages.Generator.Generated.DataTypeEnum
+        // result: Generator.Generated.DataTypeEnum
         size += 1;
 
         if (Result.Value is SMSG_CAST_RESULT.SimpleSpellCastResultSuccess success) {
-            // reason: WowMessages.Generator.Generated.DataTypeEnum
+            // reason: Generator.Generated.DataTypeEnum
             size += 1;
 
             if (success.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonRequiresSpellFocus requiresSpellFocus) {
-                // required_spell_focus: WowMessages.Generator.Generated.DataTypeInteger
+                // required_spell_focus: Generator.Generated.DataTypeInteger
                 size += 4;
 
             }
             else if (success.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonRequiresArea requiresArea) {
-                // area: WowMessages.Generator.Generated.DataTypeEnum
+                // area: Generator.Generated.DataTypeEnum
                 size += 4;
 
             }
 
             else if (success.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonEquippedItemClass equippedItemClass) {
-                // equipped_item_class: WowMessages.Generator.Generated.DataTypeInteger
+                // equipped_item_class: Generator.Generated.DataTypeInteger
                 size += 4;
 
-                // equipped_item_subclass_mask: WowMessages.Generator.Generated.DataTypeInteger
+                // equipped_item_subclass_mask: Generator.Generated.DataTypeInteger
                 size += 4;
 
-                // equipped_item_inventory_type_mask: WowMessages.Generator.Generated.DataTypeInteger
+                // equipped_item_inventory_type_mask: Generator.Generated.DataTypeInteger
                 size += 4;
 
             }

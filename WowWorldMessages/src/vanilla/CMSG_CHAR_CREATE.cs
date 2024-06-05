@@ -89,34 +89,34 @@ public class CMSG_CHAR_CREATE: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // name: WowMessages.Generator.Generated.DataTypeCstring
+        // name: Generator.Generated.DataTypeCstring
         size += Name.Length + 1;
 
-        // race: WowMessages.Generator.Generated.DataTypeEnum
+        // race: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // class_type: WowMessages.Generator.Generated.DataTypeEnum
+        // class_type: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // gender: WowMessages.Generator.Generated.DataTypeEnum
+        // gender: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // skin_color: WowMessages.Generator.Generated.DataTypeInteger
+        // skin_color: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // face: WowMessages.Generator.Generated.DataTypeInteger
+        // face: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // hair_style: WowMessages.Generator.Generated.DataTypeInteger
+        // hair_style: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // hair_color: WowMessages.Generator.Generated.DataTypeInteger
+        // hair_color: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // facial_hair: WowMessages.Generator.Generated.DataTypeInteger
+        // facial_hair: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // outfit_id: WowMessages.Generator.Generated.DataTypeInteger
+        // outfit_id: Generator.Generated.DataTypeInteger
         size += 1;
 
         return size;

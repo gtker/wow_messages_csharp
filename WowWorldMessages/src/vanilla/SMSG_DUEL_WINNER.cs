@@ -48,13 +48,13 @@ public class SMSG_DUEL_WINNER: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // reason: WowMessages.Generator.Generated.DataTypeEnum
+        // reason: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // opponent_name: WowMessages.Generator.Generated.DataTypeCstring
+        // opponent_name: Generator.Generated.DataTypeCstring
         size += OpponentName.Length + 1;
 
-        // initiator_name: WowMessages.Generator.Generated.DataTypeCstring
+        // initiator_name: Generator.Generated.DataTypeCstring
         size += InitiatorName.Length + 1;
 
         return size;

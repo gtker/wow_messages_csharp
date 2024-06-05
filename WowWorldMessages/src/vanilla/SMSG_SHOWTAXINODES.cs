@@ -67,16 +67,16 @@ public class SMSG_SHOWTAXINODES: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // unknown1: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown1: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // nearest_node: WowMessages.Generator.Generated.DataTypeInteger
+        // nearest_node: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // nodes: WowMessages.Generator.Generated.DataTypeArray
+        // nodes: Generator.Generated.DataTypeArray
         size += Nodes.Sum(e => 4);
 
         return size;

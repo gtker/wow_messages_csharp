@@ -46,10 +46,10 @@ public class SMSG_INITIALIZE_FACTIONS: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // amount_of_factions: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_factions: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // factions: WowMessages.Generator.Generated.DataTypeArray
+        // factions: Generator.Generated.DataTypeArray
         size += Factions.Sum(e => 5);
 
         return size;

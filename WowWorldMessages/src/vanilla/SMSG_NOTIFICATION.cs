@@ -36,7 +36,7 @@ public class SMSG_NOTIFICATION: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // notification: WowMessages.Generator.Generated.DataTypeCstring
+        // notification: Generator.Generated.DataTypeCstring
         size += Notification.Length + 1;
 
         return size;

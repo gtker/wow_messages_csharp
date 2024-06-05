@@ -36,7 +36,7 @@ public class CMSG_GUILD_MOTD: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // message_of_the_day: WowMessages.Generator.Generated.DataTypeCstring
+        // message_of_the_day: Generator.Generated.DataTypeCstring
         size += MessageOfTheDay.Length + 1;
 
         return size;

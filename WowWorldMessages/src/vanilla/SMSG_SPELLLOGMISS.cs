@@ -67,19 +67,19 @@ public class SMSG_SPELLLOGMISS: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // id: WowMessages.Generator.Generated.DataTypeSpell
+        // id: Generator.Generated.DataTypeSpell
         size += 4;
 
-        // caster: WowMessages.Generator.Generated.DataTypeGuid
+        // caster: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // unknown1: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown1: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // amount_of_targets: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_targets: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // targets: WowMessages.Generator.Generated.DataTypeArray
+        // targets: Generator.Generated.DataTypeArray
         size += Targets.Sum(e => 9);
 
         return size;

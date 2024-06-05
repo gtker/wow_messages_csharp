@@ -36,7 +36,7 @@ public class CMSG_GUILD_INFO_TEXT: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guild_info: WowMessages.Generator.Generated.DataTypeCstring
+        // guild_info: Generator.Generated.DataTypeCstring
         size += GuildInfo.Length + 1;
 
         return size;

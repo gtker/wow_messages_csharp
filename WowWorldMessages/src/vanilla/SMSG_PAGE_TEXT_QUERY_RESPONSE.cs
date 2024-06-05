@@ -48,13 +48,13 @@ public class SMSG_PAGE_TEXT_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage 
     internal int Size() {
         var size = 0;
 
-        // page_id: WowMessages.Generator.Generated.DataTypeInteger
+        // page_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // text: WowMessages.Generator.Generated.DataTypeCstring
+        // text: Generator.Generated.DataTypeCstring
         size += Text.Length + 1;
 
-        // next_page_id: WowMessages.Generator.Generated.DataTypeInteger
+        // next_page_id: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

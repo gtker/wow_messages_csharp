@@ -46,16 +46,16 @@ public class GossipItem {
     internal int Size() {
         var size = 0;
 
-        // id: WowMessages.Generator.Generated.DataTypeInteger
+        // id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // item_icon: WowMessages.Generator.Generated.DataTypeInteger
+        // item_icon: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // coded: WowMessages.Generator.Generated.DataTypeBool
+        // coded: Generator.Generated.DataTypeBool
         size += 1;
 
-        // message: WowMessages.Generator.Generated.DataTypeCstring
+        // message: Generator.Generated.DataTypeCstring
         size += Message.Length + 1;
 
         return size;

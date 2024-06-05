@@ -42,10 +42,10 @@ public class SMSG_CLIENT_CONTROL_UPDATE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypePackedGuid
+        // guid: Generator.Generated.DataTypePackedGuid
         size += Guid.PackedGuidLength();
 
-        // allow_movement: WowMessages.Generator.Generated.DataTypeBool
+        // allow_movement: Generator.Generated.DataTypeBool
         size += 1;
 
         return size;

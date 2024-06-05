@@ -90,34 +90,34 @@ public class CMSG_AUCTION_LIST_ITEMS: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // auctioneer: WowMessages.Generator.Generated.DataTypeGuid
+        // auctioneer: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // list_start_item: WowMessages.Generator.Generated.DataTypeInteger
+        // list_start_item: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // searched_name: WowMessages.Generator.Generated.DataTypeCstring
+        // searched_name: Generator.Generated.DataTypeCstring
         size += SearchedName.Length + 1;
 
-        // minimum_level: WowMessages.Generator.Generated.DataTypeInteger
+        // minimum_level: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // maximum_level: WowMessages.Generator.Generated.DataTypeInteger
+        // maximum_level: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // auction_slot_id: WowMessages.Generator.Generated.DataTypeInteger
+        // auction_slot_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // auction_main_category: WowMessages.Generator.Generated.DataTypeInteger
+        // auction_main_category: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // auction_sub_category: WowMessages.Generator.Generated.DataTypeInteger
+        // auction_sub_category: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // auction_quality: WowMessages.Generator.Generated.DataTypeEnum
+        // auction_quality: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // usable: WowMessages.Generator.Generated.DataTypeInteger
+        // usable: Generator.Generated.DataTypeInteger
         size += 1;
 
         return size;

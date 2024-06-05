@@ -227,82 +227,82 @@ public class SMSG_QUEST_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // quest_id: WowMessages.Generator.Generated.DataTypeInteger
+        // quest_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // quest_method: WowMessages.Generator.Generated.DataTypeInteger
+        // quest_method: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // quest_level: WowMessages.Generator.Generated.DataTypeLevel32
+        // quest_level: Generator.Generated.DataTypeLevel32
         size += 4;
 
-        // zone_or_sort: WowMessages.Generator.Generated.DataTypeInteger
+        // zone_or_sort: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // quest_type: WowMessages.Generator.Generated.DataTypeInteger
+        // quest_type: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // reputation_objective_faction: WowMessages.Generator.Generated.DataTypeEnum
+        // reputation_objective_faction: Generator.Generated.DataTypeEnum
         size += 2;
 
-        // reputation_objective_value: WowMessages.Generator.Generated.DataTypeInteger
+        // reputation_objective_value: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // required_opposite_faction: WowMessages.Generator.Generated.DataTypeEnum
+        // required_opposite_faction: Generator.Generated.DataTypeEnum
         size += 2;
 
-        // required_opposite_reputation_value: WowMessages.Generator.Generated.DataTypeInteger
+        // required_opposite_reputation_value: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // next_quest_in_chain: WowMessages.Generator.Generated.DataTypeInteger
+        // next_quest_in_chain: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // money_reward: WowMessages.Generator.Generated.DataTypeGold
+        // money_reward: Generator.Generated.DataTypeGold
         size += 4;
 
-        // max_level_money_reward: WowMessages.Generator.Generated.DataTypeGold
+        // max_level_money_reward: Generator.Generated.DataTypeGold
         size += 4;
 
-        // reward_spell: WowMessages.Generator.Generated.DataTypeInteger
+        // reward_spell: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // source_item_id: WowMessages.Generator.Generated.DataTypeInteger
+        // source_item_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // quest_flags: WowMessages.Generator.Generated.DataTypeInteger
+        // quest_flags: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // rewards: WowMessages.Generator.Generated.DataTypeArray
+        // rewards: Generator.Generated.DataTypeArray
         size += Rewards.Sum(e => 8);
 
-        // choice_rewards: WowMessages.Generator.Generated.DataTypeArray
+        // choice_rewards: Generator.Generated.DataTypeArray
         size += ChoiceRewards.Sum(e => 8);
 
-        // point_map_id: WowMessages.Generator.Generated.DataTypeInteger
+        // point_map_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // position: WowMessages.Generator.Generated.DataTypeStruct
+        // position: Generator.Generated.DataTypeStruct
         size += 8;
 
-        // point_opt: WowMessages.Generator.Generated.DataTypeInteger
+        // point_opt: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // title: WowMessages.Generator.Generated.DataTypeCstring
+        // title: Generator.Generated.DataTypeCstring
         size += Title.Length + 1;
 
-        // objective_text: WowMessages.Generator.Generated.DataTypeCstring
+        // objective_text: Generator.Generated.DataTypeCstring
         size += ObjectiveText.Length + 1;
 
-        // details: WowMessages.Generator.Generated.DataTypeCstring
+        // details: Generator.Generated.DataTypeCstring
         size += Details.Length + 1;
 
-        // end_text: WowMessages.Generator.Generated.DataTypeCstring
+        // end_text: Generator.Generated.DataTypeCstring
         size += EndText.Length + 1;
 
-        // objectives: WowMessages.Generator.Generated.DataTypeArray
+        // objectives: Generator.Generated.DataTypeArray
         size += Objectives.Sum(e => 16);
 
-        // objective_texts: WowMessages.Generator.Generated.DataTypeArray
+        // objective_texts: Generator.Generated.DataTypeArray
         size += ObjectiveTexts.Sum(e => e.Length);
 
         return size;

@@ -52,13 +52,13 @@ public class SMSG_LIST_INVENTORY: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // vendor: WowMessages.Generator.Generated.DataTypeGuid
+        // vendor: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // amount_of_items: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_items: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // items: WowMessages.Generator.Generated.DataTypeArray
+        // items: Generator.Generated.DataTypeArray
         size += Items.Sum(e => 28);
 
         return size;

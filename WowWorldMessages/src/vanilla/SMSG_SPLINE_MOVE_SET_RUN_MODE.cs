@@ -36,7 +36,7 @@ public class SMSG_SPLINE_MOVE_SET_RUN_MODE: VanillaServerMessage, IWorldMessage 
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypePackedGuid
+        // guid: Generator.Generated.DataTypePackedGuid
         size += Guid.PackedGuidLength();
 
         return size;

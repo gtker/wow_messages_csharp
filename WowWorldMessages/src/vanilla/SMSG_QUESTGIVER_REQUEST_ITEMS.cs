@@ -127,46 +127,46 @@ public class SMSG_QUESTGIVER_REQUEST_ITEMS: VanillaServerMessage, IWorldMessage 
     internal int Size() {
         var size = 0;
 
-        // npc: WowMessages.Generator.Generated.DataTypeGuid
+        // npc: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // quest_id: WowMessages.Generator.Generated.DataTypeInteger
+        // quest_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // title: WowMessages.Generator.Generated.DataTypeCstring
+        // title: Generator.Generated.DataTypeCstring
         size += Title.Length + 1;
 
-        // request_items_text: WowMessages.Generator.Generated.DataTypeCstring
+        // request_items_text: Generator.Generated.DataTypeCstring
         size += RequestItemsText.Length + 1;
 
-        // emote_delay: WowMessages.Generator.Generated.DataTypeInteger
+        // emote_delay: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // emote: WowMessages.Generator.Generated.DataTypeInteger
+        // emote: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // auto_finish: WowMessages.Generator.Generated.DataTypeBool
+        // auto_finish: Generator.Generated.DataTypeBool
         size += 4;
 
-        // required_money: WowMessages.Generator.Generated.DataTypeGold
+        // required_money: Generator.Generated.DataTypeGold
         size += 4;
 
-        // amount_of_required_items: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_required_items: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // required_items: WowMessages.Generator.Generated.DataTypeArray
+        // required_items: Generator.Generated.DataTypeArray
         size += RequiredItems.Sum(e => 12);
 
-        // unknown1: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown1: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // completable: WowMessages.Generator.Generated.DataTypeEnum
+        // completable: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // flags2: WowMessages.Generator.Generated.DataTypeInteger
+        // flags2: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // flags3: WowMessages.Generator.Generated.DataTypeInteger
+        // flags3: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

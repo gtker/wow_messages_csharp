@@ -138,50 +138,50 @@ public class MovementInfo {
     internal int Size() {
         var size = 0;
 
-        // flags: WowMessages.Generator.Generated.DataTypeFlag
+        // flags: Generator.Generated.DataTypeFlag
         size += 4;
 
-        // timestamp: WowMessages.Generator.Generated.DataTypeInteger
+        // timestamp: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // position: WowMessages.Generator.Generated.DataTypeStruct
+        // position: Generator.Generated.DataTypeStruct
         size += 12;
 
-        // orientation: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // orientation: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
         if (Flags.OnTransport is {} onTransport) {
-            // transport: WowMessages.Generator.Generated.DataTypeStruct
+            // transport: Generator.Generated.DataTypeStruct
             size += onTransport.Transport.Size();
 
         }
 
         if (Flags.Swimming is {} swimming) {
-            // pitch: WowMessages.Generator.Generated.DataTypeFloatingPoint
+            // pitch: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
         }
 
-        // fall_time: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // fall_time: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
         if (Flags.Jumping is {} jumping) {
-            // z_speed: WowMessages.Generator.Generated.DataTypeFloatingPoint
+            // z_speed: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
-            // cos_angle: WowMessages.Generator.Generated.DataTypeFloatingPoint
+            // cos_angle: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
-            // sin_angle: WowMessages.Generator.Generated.DataTypeFloatingPoint
+            // sin_angle: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
-            // xy_speed: WowMessages.Generator.Generated.DataTypeFloatingPoint
+            // xy_speed: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
         }
 
         if (Flags.SplineElevation is {} splineElevation) {
-            // spline_elevation: WowMessages.Generator.Generated.DataTypeFloatingPoint
+            // spline_elevation: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
         }

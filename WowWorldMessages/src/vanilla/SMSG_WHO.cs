@@ -52,13 +52,13 @@ public class SMSG_WHO: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // listed_players: WowMessages.Generator.Generated.DataTypeInteger
+        // listed_players: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // online_players: WowMessages.Generator.Generated.DataTypeInteger
+        // online_players: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // players: WowMessages.Generator.Generated.DataTypeArray
+        // players: Generator.Generated.DataTypeArray
         size += Players.Sum(e => e.Size());
 
         return size;

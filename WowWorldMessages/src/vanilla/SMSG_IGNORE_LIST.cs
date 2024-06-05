@@ -46,10 +46,10 @@ public class SMSG_IGNORE_LIST: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // amount_of_ignored: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_ignored: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // ignored: WowMessages.Generator.Generated.DataTypeArray
+        // ignored: Generator.Generated.DataTypeArray
         size += Ignored.Sum(e => 8);
 
         return size;

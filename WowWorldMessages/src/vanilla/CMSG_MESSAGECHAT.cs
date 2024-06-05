@@ -87,25 +87,25 @@ public class CMSG_MESSAGECHAT: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // chat_type: WowMessages.Generator.Generated.DataTypeEnum
+        // chat_type: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // language: WowMessages.Generator.Generated.DataTypeEnum
+        // language: Generator.Generated.DataTypeEnum
         size += 4;
 
         if (ChatType.Value is CMSG_MESSAGECHAT.ChatTypeWhisper whisper) {
-            // target_player: WowMessages.Generator.Generated.DataTypeCstring
+            // target_player: Generator.Generated.DataTypeCstring
             size += whisper.TargetPlayer.Length + 1;
 
         }
         else if (ChatType.Value is CMSG_MESSAGECHAT.ChatTypeChannel channel) {
-            // channel: WowMessages.Generator.Generated.DataTypeCstring
+            // channel: Generator.Generated.DataTypeCstring
             size += channel.Channel.Length + 1;
 
         }
 
 
-        // message: WowMessages.Generator.Generated.DataTypeCstring
+        // message: Generator.Generated.DataTypeCstring
         size += Message.Length + 1;
 
         return size;

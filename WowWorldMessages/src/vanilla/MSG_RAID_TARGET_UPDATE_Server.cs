@@ -80,16 +80,16 @@ public class MSG_RAID_TARGET_UPDATE_Server: VanillaServerMessage, IWorldMessage 
     internal int Size() {
         var size = 0;
 
-        // update_type: WowMessages.Generator.Generated.DataTypeEnum
+        // update_type: Generator.Generated.DataTypeEnum
         size += 1;
 
         if (UpdateType.Value is MSG_RAID_TARGET_UPDATE_Server.RaidTargetUpdateTypeFull full) {
-            // raid_targets: WowMessages.Generator.Generated.DataTypeArray
+            // raid_targets: Generator.Generated.DataTypeArray
             size += full.RaidTargets.Sum(e => 9);
 
         }
         else if (UpdateType.Value is MSG_RAID_TARGET_UPDATE_Server.RaidTargetUpdateTypePartial partial) {
-            // raid_target: WowMessages.Generator.Generated.DataTypeStruct
+            // raid_target: Generator.Generated.DataTypeStruct
             size += 9;
 
         }

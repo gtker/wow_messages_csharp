@@ -60,19 +60,19 @@ public class SMSG_SPELLENERGIZELOG: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // victim: WowMessages.Generator.Generated.DataTypePackedGuid
+        // victim: Generator.Generated.DataTypePackedGuid
         size += Victim.PackedGuidLength();
 
-        // caster: WowMessages.Generator.Generated.DataTypePackedGuid
+        // caster: Generator.Generated.DataTypePackedGuid
         size += Caster.PackedGuidLength();
 
-        // spell: WowMessages.Generator.Generated.DataTypeSpell
+        // spell: Generator.Generated.DataTypeSpell
         size += 4;
 
-        // power: WowMessages.Generator.Generated.DataTypeEnum
+        // power: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // damage: WowMessages.Generator.Generated.DataTypeInteger
+        // damage: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

@@ -48,13 +48,13 @@ public class CMSG_GUILD_RANK: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // rank_id: WowMessages.Generator.Generated.DataTypeInteger
+        // rank_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // rights: WowMessages.Generator.Generated.DataTypeInteger
+        // rights: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // rank_name: WowMessages.Generator.Generated.DataTypeCstring
+        // rank_name: Generator.Generated.DataTypeCstring
         size += RankName.Length + 1;
 
         return size;

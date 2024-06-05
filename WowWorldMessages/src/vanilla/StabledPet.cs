@@ -55,22 +55,22 @@ public class StabledPet {
     internal int Size() {
         var size = 0;
 
-        // pet_number: WowMessages.Generator.Generated.DataTypeInteger
+        // pet_number: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // entry: WowMessages.Generator.Generated.DataTypeInteger
+        // entry: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // level: WowMessages.Generator.Generated.DataTypeLevel32
+        // level: Generator.Generated.DataTypeLevel32
         size += 4;
 
-        // name: WowMessages.Generator.Generated.DataTypeCstring
+        // name: Generator.Generated.DataTypeCstring
         size += Name.Length + 1;
 
-        // loyalty: WowMessages.Generator.Generated.DataTypeInteger
+        // loyalty: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // slot: WowMessages.Generator.Generated.DataTypeInteger
+        // slot: Generator.Generated.DataTypeInteger
         size += 1;
 
         return size;

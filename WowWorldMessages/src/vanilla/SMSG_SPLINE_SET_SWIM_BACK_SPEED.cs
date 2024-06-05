@@ -42,10 +42,10 @@ public class SMSG_SPLINE_SET_SWIM_BACK_SPEED: VanillaServerMessage, IWorldMessag
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypePackedGuid
+        // guid: Generator.Generated.DataTypePackedGuid
         size += Guid.PackedGuidLength();
 
-        // speed: WowMessages.Generator.Generated.DataTypeFloatingPoint
+        // speed: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
         return size;

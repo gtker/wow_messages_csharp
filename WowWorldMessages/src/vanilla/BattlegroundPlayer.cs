@@ -73,28 +73,28 @@ public class BattlegroundPlayer {
     internal int Size() {
         var size = 0;
 
-        // player: WowMessages.Generator.Generated.DataTypeGuid
+        // player: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // rank: WowMessages.Generator.Generated.DataTypeEnum
+        // rank: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // killing_blows: WowMessages.Generator.Generated.DataTypeInteger
+        // killing_blows: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // honorable_kills: WowMessages.Generator.Generated.DataTypeInteger
+        // honorable_kills: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // deaths: WowMessages.Generator.Generated.DataTypeInteger
+        // deaths: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // bonus_honor: WowMessages.Generator.Generated.DataTypeInteger
+        // bonus_honor: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // amount_of_extra_fields: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_extra_fields: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // fields: WowMessages.Generator.Generated.DataTypeArray
+        // fields: Generator.Generated.DataTypeArray
         size += Fields.Sum(e => 4);
 
         return size;

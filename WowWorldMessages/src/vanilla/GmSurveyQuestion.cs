@@ -45,13 +45,13 @@ public class GmSurveyQuestion {
     internal int Size() {
         var size = 0;
 
-        // question_id: WowMessages.Generator.Generated.DataTypeInteger
+        // question_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // answer: WowMessages.Generator.Generated.DataTypeInteger
+        // answer: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // comment: WowMessages.Generator.Generated.DataTypeCstring
+        // comment: Generator.Generated.DataTypeCstring
         size += Comment.Length + 1;
 
         return size;

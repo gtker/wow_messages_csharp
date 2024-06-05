@@ -43,7 +43,7 @@ public class CMSG_WARDEN_DATA: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // encrypted_data: WowMessages.Generator.Generated.DataTypeArray
+        // encrypted_data: Generator.Generated.DataTypeArray
         size += EncryptedData.Sum(e => 1);
 
         return size;

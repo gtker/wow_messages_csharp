@@ -43,16 +43,16 @@ public class GroupListMember {
     internal int Size() {
         var size = 0;
 
-        // name: WowMessages.Generator.Generated.DataTypeCstring
+        // name: Generator.Generated.DataTypeCstring
         size += Name.Length + 1;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // is_online: WowMessages.Generator.Generated.DataTypeBool
+        // is_online: Generator.Generated.DataTypeBool
         size += 1;
 
-        // flags: WowMessages.Generator.Generated.DataTypeInteger
+        // flags: Generator.Generated.DataTypeInteger
         size += 1;
 
         return size;

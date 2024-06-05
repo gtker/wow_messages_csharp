@@ -46,10 +46,10 @@ public class SMSG_CHAR_ENUM: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // amount_of_characters: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_characters: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // characters: WowMessages.Generator.Generated.DataTypeArray
+        // characters: Generator.Generated.DataTypeArray
         size += Characters.Sum(e => e.Size());
 
         return size;

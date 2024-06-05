@@ -54,16 +54,16 @@ public class CMSG_MOVE_HOVER_ACK: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // counter: WowMessages.Generator.Generated.DataTypeInteger
+        // counter: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // info: WowMessages.Generator.Generated.DataTypeStruct
+        // info: Generator.Generated.DataTypeStruct
         size += Info.Size();
 
-        // is_applied: WowMessages.Generator.Generated.DataTypeInteger
+        // is_applied: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

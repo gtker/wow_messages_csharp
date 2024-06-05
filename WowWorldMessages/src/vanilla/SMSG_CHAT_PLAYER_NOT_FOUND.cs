@@ -36,7 +36,7 @@ public class SMSG_CHAT_PLAYER_NOT_FOUND: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // name: WowMessages.Generator.Generated.DataTypeCstring
+        // name: Generator.Generated.DataTypeCstring
         size += Name.Length + 1;
 
         return size;

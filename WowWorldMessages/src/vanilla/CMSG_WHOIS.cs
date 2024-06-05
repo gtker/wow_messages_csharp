@@ -36,7 +36,7 @@ public class CMSG_WHOIS: VanillaClientMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // character: WowMessages.Generator.Generated.DataTypeCstring
+        // character: Generator.Generated.DataTypeCstring
         size += Character.Length + 1;
 
         return size;

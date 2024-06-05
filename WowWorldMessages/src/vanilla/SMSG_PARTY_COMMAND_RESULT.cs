@@ -48,13 +48,13 @@ public class SMSG_PARTY_COMMAND_RESULT: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // operation: WowMessages.Generator.Generated.DataTypeEnum
+        // operation: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // member: WowMessages.Generator.Generated.DataTypeCstring
+        // member: Generator.Generated.DataTypeCstring
         size += Member.Length + 1;
 
-        // result: WowMessages.Generator.Generated.DataTypeEnum
+        // result: Generator.Generated.DataTypeEnum
         size += 4;
 
         return size;

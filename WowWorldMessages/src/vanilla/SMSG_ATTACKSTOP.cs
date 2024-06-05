@@ -51,13 +51,13 @@ public class SMSG_ATTACKSTOP: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // player: WowMessages.Generator.Generated.DataTypePackedGuid
+        // player: Generator.Generated.DataTypePackedGuid
         size += Player.PackedGuidLength();
 
-        // enemy: WowMessages.Generator.Generated.DataTypePackedGuid
+        // enemy: Generator.Generated.DataTypePackedGuid
         size += Enemy.PackedGuidLength();
 
-        // unknown1: WowMessages.Generator.Generated.DataTypeInteger
+        // unknown1: Generator.Generated.DataTypeInteger
         size += 4;
 
         return size;

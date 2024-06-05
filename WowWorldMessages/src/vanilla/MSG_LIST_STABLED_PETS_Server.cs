@@ -58,16 +58,16 @@ public class MSG_LIST_STABLED_PETS_Server: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // npc: WowMessages.Generator.Generated.DataTypeGuid
+        // npc: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // amount_of_pets: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_pets: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // stable_slots: WowMessages.Generator.Generated.DataTypeInteger
+        // stable_slots: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // pets: WowMessages.Generator.Generated.DataTypeArray
+        // pets: Generator.Generated.DataTypeArray
         size += Pets.Sum(e => e.Size());
 
         return size;

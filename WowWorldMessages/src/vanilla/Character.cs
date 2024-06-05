@@ -157,73 +157,73 @@ public class Character {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // name: WowMessages.Generator.Generated.DataTypeCstring
+        // name: Generator.Generated.DataTypeCstring
         size += Name.Length + 1;
 
-        // race: WowMessages.Generator.Generated.DataTypeEnum
+        // race: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // class_type: WowMessages.Generator.Generated.DataTypeEnum
+        // class_type: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // gender: WowMessages.Generator.Generated.DataTypeEnum
+        // gender: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // skin: WowMessages.Generator.Generated.DataTypeInteger
+        // skin: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // face: WowMessages.Generator.Generated.DataTypeInteger
+        // face: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // hair_style: WowMessages.Generator.Generated.DataTypeInteger
+        // hair_style: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // hair_color: WowMessages.Generator.Generated.DataTypeInteger
+        // hair_color: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // facial_hair: WowMessages.Generator.Generated.DataTypeInteger
+        // facial_hair: Generator.Generated.DataTypeInteger
         size += 1;
 
-        // level: WowMessages.Generator.Generated.DataTypeLevel
+        // level: Generator.Generated.DataTypeLevel
         size += 1;
 
-        // area: WowMessages.Generator.Generated.DataTypeEnum
+        // area: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // map: WowMessages.Generator.Generated.DataTypeEnum
+        // map: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // position: WowMessages.Generator.Generated.DataTypeStruct
+        // position: Generator.Generated.DataTypeStruct
         size += 12;
 
-        // guild_id: WowMessages.Generator.Generated.DataTypeInteger
+        // guild_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // flags: WowMessages.Generator.Generated.DataTypeFlag
+        // flags: Generator.Generated.DataTypeFlag
         size += 4;
 
-        // first_login: WowMessages.Generator.Generated.DataTypeBool
+        // first_login: Generator.Generated.DataTypeBool
         size += 1;
 
-        // pet_display_id: WowMessages.Generator.Generated.DataTypeInteger
+        // pet_display_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // pet_level: WowMessages.Generator.Generated.DataTypeLevel32
+        // pet_level: Generator.Generated.DataTypeLevel32
         size += 4;
 
-        // pet_family: WowMessages.Generator.Generated.DataTypeEnum
+        // pet_family: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // equipment: WowMessages.Generator.Generated.DataTypeArray
+        // equipment: Generator.Generated.DataTypeArray
         size += Equipment.Sum(e => 5);
 
-        // first_bag_display_id: WowMessages.Generator.Generated.DataTypeInteger
+        // first_bag_display_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // first_bag_inventory_id: WowMessages.Generator.Generated.DataTypeInteger
+        // first_bag_inventory_id: Generator.Generated.DataTypeInteger
         size += 1;
 
         return size;

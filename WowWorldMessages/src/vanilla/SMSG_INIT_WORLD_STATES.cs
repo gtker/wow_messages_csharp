@@ -58,16 +58,16 @@ public class SMSG_INIT_WORLD_STATES: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // map: WowMessages.Generator.Generated.DataTypeEnum
+        // map: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // area: WowMessages.Generator.Generated.DataTypeEnum
+        // area: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // amount_of_states: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_states: Generator.Generated.DataTypeInteger
         size += 2;
 
-        // states: WowMessages.Generator.Generated.DataTypeArray
+        // states: Generator.Generated.DataTypeArray
         size += States.Sum(e => 8);
 
         return size;

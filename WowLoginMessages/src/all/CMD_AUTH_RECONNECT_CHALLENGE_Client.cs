@@ -88,34 +88,34 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client: AllClientMessage, ILoginMessag
     internal int Size() {
         var size = 0;
 
-        // protocol_version: WowMessages.Generator.Generated.DataTypeEnum
+        // protocol_version: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // size: WowMessages.Generator.Generated.DataTypeInteger
+        // size: Generator.Generated.DataTypeInteger
         size += 2;
 
-        // game_name: WowMessages.Generator.Generated.DataTypeInteger
+        // game_name: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // version: WowMessages.Generator.Generated.DataTypeStruct
+        // version: Generator.Generated.DataTypeStruct
         size += 5;
 
-        // platform: WowMessages.Generator.Generated.DataTypeEnum
+        // platform: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // os: WowMessages.Generator.Generated.DataTypeEnum
+        // os: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // locale: WowMessages.Generator.Generated.DataTypeEnum
+        // locale: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // utc_timezone_offset: WowMessages.Generator.Generated.DataTypeInteger
+        // utc_timezone_offset: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // client_ip_address: WowMessages.Generator.Generated.DataTypeIpAddress
+        // client_ip_address: Generator.Generated.DataTypeIpAddress
         size += 4;
 
-        // account_name: WowMessages.Generator.Generated.DataTypeString
+        // account_name: Generator.Generated.DataTypeString
         size += AccountName.Length + 1;
 
         return size - 3;

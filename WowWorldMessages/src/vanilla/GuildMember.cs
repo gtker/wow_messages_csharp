@@ -92,37 +92,37 @@ public class GuildMember {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // status: WowMessages.Generator.Generated.DataTypeEnum
+        // status: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // name: WowMessages.Generator.Generated.DataTypeCstring
+        // name: Generator.Generated.DataTypeCstring
         size += Name.Length + 1;
 
-        // rank: WowMessages.Generator.Generated.DataTypeInteger
+        // rank: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // level: WowMessages.Generator.Generated.DataTypeLevel
+        // level: Generator.Generated.DataTypeLevel
         size += 1;
 
-        // class_type: WowMessages.Generator.Generated.DataTypeEnum
+        // class_type: Generator.Generated.DataTypeEnum
         size += 1;
 
-        // area: WowMessages.Generator.Generated.DataTypeEnum
+        // area: Generator.Generated.DataTypeEnum
         size += 4;
 
         if (Status.Value is GuildMember.GuildMemberStatusOffline offline) {
-            // time_offline: WowMessages.Generator.Generated.DataTypeFloatingPoint
+            // time_offline: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
         }
 
-        // public_note: WowMessages.Generator.Generated.DataTypeCstring
+        // public_note: Generator.Generated.DataTypeCstring
         size += PublicNote.Length + 1;
 
-        // officer_note: WowMessages.Generator.Generated.DataTypeCstring
+        // officer_note: Generator.Generated.DataTypeCstring
         size += OfficerNote.Length + 1;
 
         return size;

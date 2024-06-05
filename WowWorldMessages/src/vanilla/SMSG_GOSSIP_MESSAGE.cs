@@ -74,22 +74,22 @@ public class SMSG_GOSSIP_MESSAGE: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // guid: WowMessages.Generator.Generated.DataTypeGuid
+        // guid: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // title_text_id: WowMessages.Generator.Generated.DataTypeInteger
+        // title_text_id: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // amount_of_gossip_items: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_gossip_items: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // gossips: WowMessages.Generator.Generated.DataTypeArray
+        // gossips: Generator.Generated.DataTypeArray
         size += Gossips.Sum(e => e.Size());
 
-        // amount_of_quests: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_quests: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // quests: WowMessages.Generator.Generated.DataTypeArray
+        // quests: Generator.Generated.DataTypeArray
         size += Quests.Sum(e => e.Size());
 
         return size;

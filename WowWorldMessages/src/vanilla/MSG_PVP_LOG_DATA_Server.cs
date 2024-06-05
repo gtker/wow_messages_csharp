@@ -74,19 +74,19 @@ public class MSG_PVP_LOG_DATA_Server: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // status: WowMessages.Generator.Generated.DataTypeEnum
+        // status: Generator.Generated.DataTypeEnum
         size += 1;
 
         if (Status.Value is MSG_PVP_LOG_DATA_Server.BattlegroundEndStatusEnded ended) {
-            // winner: WowMessages.Generator.Generated.DataTypeEnum
+            // winner: Generator.Generated.DataTypeEnum
             size += 1;
 
         }
 
-        // amount_of_players: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_players: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // players: WowMessages.Generator.Generated.DataTypeArray
+        // players: Generator.Generated.DataTypeArray
         size += Players.Sum(e => e.Size());
 
         return size;

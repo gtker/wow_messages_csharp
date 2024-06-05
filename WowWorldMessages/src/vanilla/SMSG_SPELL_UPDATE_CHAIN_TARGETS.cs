@@ -58,16 +58,16 @@ public class SMSG_SPELL_UPDATE_CHAIN_TARGETS: VanillaServerMessage, IWorldMessag
     internal int Size() {
         var size = 0;
 
-        // caster: WowMessages.Generator.Generated.DataTypeGuid
+        // caster: Generator.Generated.DataTypeGuid
         size += 8;
 
-        // spell: WowMessages.Generator.Generated.DataTypeSpell
+        // spell: Generator.Generated.DataTypeSpell
         size += 4;
 
-        // amount_of_targets: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_targets: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // targets: WowMessages.Generator.Generated.DataTypeArray
+        // targets: Generator.Generated.DataTypeArray
         size += Targets.Sum(e => 8);
 
         return size;

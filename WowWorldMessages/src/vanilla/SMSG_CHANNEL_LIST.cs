@@ -58,16 +58,16 @@ public class SMSG_CHANNEL_LIST: VanillaServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // channel_name: WowMessages.Generator.Generated.DataTypeCstring
+        // channel_name: Generator.Generated.DataTypeCstring
         size += ChannelName.Length + 1;
 
-        // channel_flags: WowMessages.Generator.Generated.DataTypeFlag
+        // channel_flags: Generator.Generated.DataTypeFlag
         size += 1;
 
-        // amount_of_members: WowMessages.Generator.Generated.DataTypeInteger
+        // amount_of_members: Generator.Generated.DataTypeInteger
         size += 4;
 
-        // members: WowMessages.Generator.Generated.DataTypeArray
+        // members: Generator.Generated.DataTypeArray
         size += Members.Sum(e => 9);
 
         return size;
