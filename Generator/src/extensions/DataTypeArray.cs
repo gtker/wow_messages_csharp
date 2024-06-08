@@ -4,8 +4,16 @@ namespace Generator.Extensions;
 
 public static class DataTypeArrayExtensions
 {
-    public static string CsType(this DataTypeArray array) =>
-        $"List<{array.InnerType.CsType()}>";
+    public static string CsType(this DataTypeArray array)
+    {
+        return array.Size switch
+        {
+            ArraySizeEndless => $"List<{array.InnerType.CsType()}>",
+            ArraySizeFixed => $"{array.InnerType.CsType()}[]",
+            ArraySizeVariable => $"List<{array.InnerType.CsType()}>",
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
 
     public static string ArraySize(this DataTypeArray array, Definition d, string name, string prefix)
     {
@@ -30,4 +38,6 @@ public static class DataTypeArrayExtensions
                 throw new ArgumentOutOfRangeException();
         }
     }
+
+    public static bool FixedSize(this DataTypeArray array) => array.Size is ArraySizeFixed;
 }

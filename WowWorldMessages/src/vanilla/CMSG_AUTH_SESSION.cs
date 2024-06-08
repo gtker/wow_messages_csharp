@@ -12,7 +12,8 @@ public class CMSG_AUTH_SESSION: VanillaClientMessage, IWorldMessage {
     public required uint ServerId { get; set; }
     public required string Username { get; set; }
     public required uint ClientSeed { get; set; }
-    public required List<byte> ClientProof { get; set; }
+    public const int ClientProofLength = 20;
+    public required byte[] ClientProof { get; set; }
     public required List<AddonInfo> AddonInfo { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -78,9 +79,9 @@ public class CMSG_AUTH_SESSION: VanillaClientMessage, IWorldMessage {
         var clientSeed = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
         size += 4;
 
-        var clientProof = new List<byte>();
-        for (var i = 0; i < 20; ++i) {
-            clientProof.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+        var clientProof = new byte[ClientProofLength];
+        for (var i = 0; i < ClientProofLength; ++i) {
+            clientProof[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             size += 1;
         }
 

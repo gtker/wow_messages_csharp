@@ -8,7 +8,8 @@ public class SMSG_ACCOUNT_DATA_TIMES: VanillaServerMessage, IWorldMessage {
     /// <summary>
     /// cmangos/vmangos/mangoszero sets to all zeros
     /// </summary>
-    public required List<uint> Data { get; set; }
+    public const int DataLength = 32;
+    public required uint[] Data { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         foreach (var v in Data) {
@@ -31,9 +32,9 @@ public class SMSG_ACCOUNT_DATA_TIMES: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_ACCOUNT_DATA_TIMES> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var data = new List<uint>();
-        for (var i = 0; i < 32; ++i) {
-            data.Add(await r.ReadUInt(cancellationToken).ConfigureAwait(false));
+        var data = new uint[DataLength];
+        for (var i = 0; i < DataLength; ++i) {
+            data[i] = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
         }
 
         return new SMSG_ACCOUNT_DATA_TIMES {

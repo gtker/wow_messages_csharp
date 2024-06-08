@@ -3,9 +3,12 @@ namespace WowLoginMessages.Version2;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMD_AUTH_LOGON_PROOF_Client: Version2ClientMessage, ILoginMessage {
-    public required List<byte> ClientPublicKey { get; set; }
-    public required List<byte> ClientProof { get; set; }
-    public required List<byte> CrcHash { get; set; }
+    public const int ClientPublicKeyLength = 32;
+    public required byte[] ClientPublicKey { get; set; }
+    public const int ClientProofLength = 20;
+    public required byte[] ClientProof { get; set; }
+    public const int CrcHashLength = 20;
+    public required byte[] CrcHash { get; set; }
     public required List<TelemetryKey> TelemetryKeys { get; set; }
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -33,19 +36,19 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version2ClientMessage, ILoginMessage {
     }
 
     public static async Task<CMD_AUTH_LOGON_PROOF_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var clientPublicKey = new List<byte>();
-        for (var i = 0; i < 32; ++i) {
-            clientPublicKey.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+        var clientPublicKey = new byte[ClientPublicKeyLength];
+        for (var i = 0; i < ClientPublicKeyLength; ++i) {
+            clientPublicKey[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
         }
 
-        var clientProof = new List<byte>();
-        for (var i = 0; i < 20; ++i) {
-            clientProof.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+        var clientProof = new byte[ClientProofLength];
+        for (var i = 0; i < ClientProofLength; ++i) {
+            clientProof[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
         }
 
-        var crcHash = new List<byte>();
-        for (var i = 0; i < 20; ++i) {
-            crcHash.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+        var crcHash = new byte[CrcHashLength];
+        for (var i = 0; i < CrcHashLength; ++i) {
+            crcHash[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
         }
 
         // ReSharper disable once UnusedVariable.Compiler

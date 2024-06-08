@@ -5,7 +5,8 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_TUTORIAL_FLAGS: VanillaServerMessage, IWorldMessage {
-    public required List<uint> TutorialData { get; set; }
+    public const int TutorialDataLength = 8;
+    public required uint[] TutorialData { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         foreach (var v in TutorialData) {
@@ -28,9 +29,9 @@ public class SMSG_TUTORIAL_FLAGS: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_TUTORIAL_FLAGS> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var tutorialData = new List<uint>();
-        for (var i = 0; i < 8; ++i) {
-            tutorialData.Add(await r.ReadUInt(cancellationToken).ConfigureAwait(false));
+        var tutorialData = new uint[TutorialDataLength];
+        for (var i = 0; i < TutorialDataLength; ++i) {
+            tutorialData[i] = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
         }
 
         return new SMSG_TUTORIAL_FLAGS {

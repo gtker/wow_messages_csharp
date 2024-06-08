@@ -8,7 +8,8 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version8ServerMessage, ILoginMessage {
     public class LoginResultSuccess {
         public required AccountFlag AccountFlag { get; set; }
         public required uint HardwareSurveyId { get; set; }
-        public required List<byte> ServerProof { get; set; }
+        public const int ServerProofLength = 20;
+        public required byte[] ServerProof { get; set; }
         public required ushort Unknown { get; set; }
     }
     public required LoginResultType Result { get; set; }
@@ -107,9 +108,9 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version8ServerMessage, ILoginMessage {
         LoginResultType result = (LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Version8.LoginResult.Success) {
-            var serverProof = new List<byte>();
-            for (var i = 0; i < 20; ++i) {
-                serverProof.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var serverProof = new byte[LoginResultSuccess.ServerProofLength];
+            for (var i = 0; i < LoginResultSuccess.ServerProofLength; ++i) {
+                serverProof[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
             var accountFlag = (AccountFlag)await r.ReadUInt(cancellationToken).ConfigureAwait(false);

@@ -109,6 +109,20 @@ public static class WriteContainers
 
         var postfix = d.UsedInIf ? "Type" : "";
 
+        if (d.DataType is DataTypeArray array)
+        {
+            switch (array.Size)
+            {
+                case ArraySizeFixed fix:
+                    s.Wln($"public const int {d.MemberName()}Length = {fix.Size};");
+                    break;
+                case ArraySizeVariable or ArraySizeEndless:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         s.Wln($"public required {d.CsTypeName()}{postfix} {d.MemberName()} {{ get; set; }}");
     }
 

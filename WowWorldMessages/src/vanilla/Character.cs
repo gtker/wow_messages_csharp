@@ -24,7 +24,8 @@ public class Character {
     public required uint PetDisplayId { get; set; }
     public required uint PetLevel { get; set; }
     public required CreatureFamily PetFamily { get; set; }
-    public required List<CharacterGear> Equipment { get; set; }
+    public const int EquipmentLength = 19;
+    public required CharacterGear[] Equipment { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Guid, cancellationToken).ConfigureAwait(false);
@@ -118,9 +119,9 @@ public class Character {
 
         var petFamily = (CreatureFamily)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var equipment = new List<CharacterGear>();
-        for (var i = 0; i < 19; ++i) {
-            equipment.Add(await Vanilla.CharacterGear.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
+        var equipment = new CharacterGear[EquipmentLength];
+        for (var i = 0; i < EquipmentLength; ++i) {
+            equipment[i] = await Vanilla.CharacterGear.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
         }
 
         // ReSharper disable once UnusedVariable.Compiler

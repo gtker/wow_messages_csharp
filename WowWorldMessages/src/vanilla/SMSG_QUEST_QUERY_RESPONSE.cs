@@ -41,8 +41,10 @@ public class SMSG_QUEST_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
     public required uint RewardSpell { get; set; }
     public required uint SourceItemId { get; set; }
     public required uint QuestFlags { get; set; }
-    public required List<QuestItemReward> Rewards { get; set; }
-    public required List<QuestItemReward> ChoiceRewards { get; set; }
+    public const int RewardsLength = 4;
+    public required QuestItemReward[] Rewards { get; set; }
+    public const int ChoiceRewardsLength = 6;
+    public required QuestItemReward[] ChoiceRewards { get; set; }
     public required uint PointMapId { get; set; }
     public required Vector2d Position { get; set; }
     public required uint PointOpt { get; set; }
@@ -50,8 +52,10 @@ public class SMSG_QUEST_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
     public required string ObjectiveText { get; set; }
     public required string Details { get; set; }
     public required string EndText { get; set; }
-    public required List<QuestObjective> Objectives { get; set; }
-    public required List<string> ObjectiveTexts { get; set; }
+    public const int ObjectivesLength = 4;
+    public required QuestObjective[] Objectives { get; set; }
+    public const int ObjectiveTextsLength = 4;
+    public required string[] ObjectiveTexts { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt(QuestId, cancellationToken).ConfigureAwait(false);
@@ -160,14 +164,14 @@ public class SMSG_QUEST_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
 
         var questFlags = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var rewards = new List<QuestItemReward>();
-        for (var i = 0; i < 4; ++i) {
-            rewards.Add(await Vanilla.QuestItemReward.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
+        var rewards = new QuestItemReward[RewardsLength];
+        for (var i = 0; i < RewardsLength; ++i) {
+            rewards[i] = await Vanilla.QuestItemReward.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
         }
 
-        var choiceRewards = new List<QuestItemReward>();
-        for (var i = 0; i < 6; ++i) {
-            choiceRewards.Add(await Vanilla.QuestItemReward.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
+        var choiceRewards = new QuestItemReward[ChoiceRewardsLength];
+        for (var i = 0; i < ChoiceRewardsLength; ++i) {
+            choiceRewards[i] = await Vanilla.QuestItemReward.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
         }
 
         var pointMapId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
@@ -184,14 +188,14 @@ public class SMSG_QUEST_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
 
         var endText = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
-        var objectives = new List<QuestObjective>();
-        for (var i = 0; i < 4; ++i) {
-            objectives.Add(await Vanilla.QuestObjective.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
+        var objectives = new QuestObjective[ObjectivesLength];
+        for (var i = 0; i < ObjectivesLength; ++i) {
+            objectives[i] = await Vanilla.QuestObjective.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
         }
 
-        var objectiveTexts = new List<string>();
-        for (var i = 0; i < 4; ++i) {
-            objectiveTexts.Add(await r.ReadCString(cancellationToken).ConfigureAwait(false));
+        var objectiveTexts = new string[ObjectiveTextsLength];
+        for (var i = 0; i < ObjectiveTextsLength; ++i) {
+            objectiveTexts[i] = await r.ReadCString(cancellationToken).ConfigureAwait(false);
         }
 
         return new SMSG_QUEST_QUERY_RESPONSE {

@@ -9,11 +9,14 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version2ServerMessage, ILoginMessa
         /// <summary>
         /// Used for the `crc_hash` in [CMD_AUTH_LOGON_PROOF_Client].
         /// </summary>
-        public required List<byte> CrcSalt { get; set; }
+        public const int CrcSaltLength = 16;
+        public required byte[] CrcSalt { get; set; }
         public required List<byte> Generator { get; set; }
         public required List<byte> LargeSafePrime { get; set; }
-        public required List<byte> Salt { get; set; }
-        public required List<byte> ServerPublicKey { get; set; }
+        public const int SaltLength = 32;
+        public required byte[] Salt { get; set; }
+        public const int ServerPublicKeyLength = 32;
+        public required byte[] ServerPublicKey { get; set; }
     }
     public required LoginResultType Result { get; set; }
     internal LoginResult ResultValue => Result.Match(
@@ -65,9 +68,9 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version2ServerMessage, ILoginMessa
         LoginResultType result = (LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Version2.LoginResult.Success) {
-            var serverPublicKey = new List<byte>();
-            for (var i = 0; i < 32; ++i) {
-                serverPublicKey.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var serverPublicKey = new byte[LoginResultSuccess.ServerPublicKeyLength];
+            for (var i = 0; i < LoginResultSuccess.ServerPublicKeyLength; ++i) {
+                serverPublicKey[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
             // ReSharper disable once UnusedVariable.Compiler
@@ -86,14 +89,14 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version2ServerMessage, ILoginMessa
                 largeSafePrime.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
             }
 
-            var salt = new List<byte>();
-            for (var i = 0; i < 32; ++i) {
-                salt.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var salt = new byte[LoginResultSuccess.SaltLength];
+            for (var i = 0; i < LoginResultSuccess.SaltLength; ++i) {
+                salt[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
-            var crcSalt = new List<byte>();
-            for (var i = 0; i < 16; ++i) {
-                crcSalt.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var crcSalt = new byte[LoginResultSuccess.CrcSaltLength];
+            for (var i = 0; i < LoginResultSuccess.CrcSaltLength; ++i) {
+                crcSalt[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
             result = new LoginResultSuccess {

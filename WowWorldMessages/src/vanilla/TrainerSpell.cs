@@ -23,7 +23,8 @@ public class TrainerSpell {
     public required byte RequiredLevel { get; set; }
     public required Skill RequiredSkill { get; set; }
     public required uint RequiredSkillValue { get; set; }
-    public required List<uint> RequiredSpells { get; set; }
+    public const int RequiredSpellsLength = 3;
+    public required uint[] RequiredSpells { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt(Spell, cancellationToken).ConfigureAwait(false);
@@ -65,9 +66,9 @@ public class TrainerSpell {
 
         var requiredSkillValue = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var requiredSpells = new List<uint>();
-        for (var i = 0; i < 3; ++i) {
-            requiredSpells.Add(await r.ReadUInt(cancellationToken).ConfigureAwait(false));
+        var requiredSpells = new uint[RequiredSpellsLength];
+        for (var i = 0; i < RequiredSpellsLength; ++i) {
+            requiredSpells[i] = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
         }
 
         return new TrainerSpell {

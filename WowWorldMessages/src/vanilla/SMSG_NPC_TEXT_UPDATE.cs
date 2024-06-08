@@ -6,7 +6,8 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class SMSG_NPC_TEXT_UPDATE: VanillaServerMessage, IWorldMessage {
     public required uint TextId { get; set; }
-    public required List<NpcTextUpdate> Texts { get; set; }
+    public const int TextsLength = 8;
+    public required NpcTextUpdate[] Texts { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt(TextId, cancellationToken).ConfigureAwait(false);
@@ -33,9 +34,9 @@ public class SMSG_NPC_TEXT_UPDATE: VanillaServerMessage, IWorldMessage {
     public static async Task<SMSG_NPC_TEXT_UPDATE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var textId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var texts = new List<NpcTextUpdate>();
-        for (var i = 0; i < 8; ++i) {
-            texts.Add(await Vanilla.NpcTextUpdate.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
+        var texts = new NpcTextUpdate[TextsLength];
+        for (var i = 0; i < TextsLength; ++i) {
+            texts[i] = await Vanilla.NpcTextUpdate.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
         }
 
         return new SMSG_NPC_TEXT_UPDATE {

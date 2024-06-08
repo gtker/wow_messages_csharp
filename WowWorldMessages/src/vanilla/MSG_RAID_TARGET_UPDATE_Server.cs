@@ -8,7 +8,8 @@ using RaidTargetUpdateTypeType = OneOf.OneOf<MSG_RAID_TARGET_UPDATE_Server.RaidT
 // ReSharper disable once InconsistentNaming
 public class MSG_RAID_TARGET_UPDATE_Server: VanillaServerMessage, IWorldMessage {
     public class RaidTargetUpdateTypeFull {
-        public required List<RaidTargetUpdate> RaidTargets { get; set; }
+        public const int RaidTargetsLength = 8;
+        public required RaidTargetUpdate[] RaidTargets { get; set; }
     }
     public class RaidTargetUpdateTypePartial {
         public required RaidTargetUpdate RaidTarget { get; set; }
@@ -54,9 +55,9 @@ public class MSG_RAID_TARGET_UPDATE_Server: VanillaServerMessage, IWorldMessage 
         RaidTargetUpdateTypeType updateType = (RaidTargetUpdateType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (updateType.Value is Vanilla.RaidTargetUpdateType.Full) {
-            var raidTargets = new List<RaidTargetUpdate>();
-            for (var i = 0; i < 8; ++i) {
-                raidTargets.Add(await Vanilla.RaidTargetUpdate.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
+            var raidTargets = new RaidTargetUpdate[RaidTargetUpdateTypeFull.RaidTargetsLength];
+            for (var i = 0; i < RaidTargetUpdateTypeFull.RaidTargetsLength; ++i) {
+                raidTargets[i] = await Vanilla.RaidTargetUpdate.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
             }
 
             updateType = new RaidTargetUpdateTypeFull {

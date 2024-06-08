@@ -9,12 +9,15 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version8ServerMessage, ILoginMessa
         /// <summary>
         /// Used for the `crc_hash` in [CMD_AUTH_LOGON_PROOF_Client].
         /// </summary>
-        public required List<byte> CrcSalt { get; set; }
+        public const int CrcSaltLength = 16;
+        public required byte[] CrcSalt { get; set; }
         public required List<byte> Generator { get; set; }
         public required List<byte> LargeSafePrime { get; set; }
-        public required List<byte> Salt { get; set; }
+        public const int SaltLength = 32;
+        public required byte[] Salt { get; set; }
         public required SecurityFlagType SecurityFlag { get; set; }
-        public required List<byte> ServerPublicKey { get; set; }
+        public const int ServerPublicKeyLength = 32;
+        public required byte[] ServerPublicKey { get; set; }
     }
     public class SecurityFlagType {
         public required SecurityFlag Inner;
@@ -55,7 +58,8 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version8ServerMessage, ILoginMessa
         /// Used to randomize the layout of the PIN keypad.
         /// </summary>
         public required uint PinGridSeed { get; set; }
-        public required List<byte> PinSalt { get; set; }
+        public const int PinSaltLength = 16;
+        public required byte[] PinSalt { get; set; }
     }
     public required LoginResultType Result { get; set; }
     internal LoginResult ResultValue => Result.Match(
@@ -136,9 +140,9 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version8ServerMessage, ILoginMessa
         LoginResultType result = (LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Version8.LoginResult.Success) {
-            var serverPublicKey = new List<byte>();
-            for (var i = 0; i < 32; ++i) {
-                serverPublicKey.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var serverPublicKey = new byte[LoginResultSuccess.ServerPublicKeyLength];
+            for (var i = 0; i < LoginResultSuccess.ServerPublicKeyLength; ++i) {
+                serverPublicKey[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
             // ReSharper disable once UnusedVariable.Compiler
@@ -157,14 +161,14 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version8ServerMessage, ILoginMessa
                 largeSafePrime.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
             }
 
-            var salt = new List<byte>();
-            for (var i = 0; i < 32; ++i) {
-                salt.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var salt = new byte[LoginResultSuccess.SaltLength];
+            for (var i = 0; i < LoginResultSuccess.SaltLength; ++i) {
+                salt[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
-            var crcSalt = new List<byte>();
-            for (var i = 0; i < 16; ++i) {
-                crcSalt.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var crcSalt = new byte[LoginResultSuccess.CrcSaltLength];
+            for (var i = 0; i < LoginResultSuccess.CrcSaltLength; ++i) {
+                crcSalt[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
             var securityFlag = new SecurityFlagType {
@@ -174,9 +178,9 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version8ServerMessage, ILoginMessa
             if (securityFlag.Inner.HasFlag(Version8.SecurityFlag.Pin)) {
                 var pinGridSeed = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-                var pinSalt = new List<byte>();
-                for (var i = 0; i < 16; ++i) {
-                    pinSalt.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+                var pinSalt = new byte[SecurityFlagPin.PinSaltLength];
+                for (var i = 0; i < SecurityFlagPin.PinSaltLength; ++i) {
+                    pinSalt[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
                 }
 
                 securityFlag.Pin = new SecurityFlagPin {

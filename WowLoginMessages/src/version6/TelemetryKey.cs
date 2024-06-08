@@ -4,11 +4,13 @@ namespace WowLoginMessages.Version6;
 public class TelemetryKey {
     public required ushort Unknown1 { get; set; }
     public required uint Unknown2 { get; set; }
-    public required List<byte> Unknown3 { get; set; }
+    public const int Unknown3Length = 4;
+    public required byte[] Unknown3 { get; set; }
     /// <summary>
     /// SHA1 hash of the session key, server public key, and an unknown 20 byte value.
     /// </summary>
-    public required List<byte> CdKeyProof { get; set; }
+    public const int CdKeyProofLength = 20;
+    public required byte[] CdKeyProof { get; set; }
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUShort(Unknown1, cancellationToken).ConfigureAwait(false);
@@ -30,14 +32,14 @@ public class TelemetryKey {
 
         var unknown2 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var unknown3 = new List<byte>();
-        for (var i = 0; i < 4; ++i) {
-            unknown3.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+        var unknown3 = new byte[Unknown3Length];
+        for (var i = 0; i < Unknown3Length; ++i) {
+            unknown3[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
         }
 
-        var cdKeyProof = new List<byte>();
-        for (var i = 0; i < 20; ++i) {
-            cdKeyProof.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+        var cdKeyProof = new byte[CdKeyProofLength];
+        for (var i = 0; i < CdKeyProofLength; ++i) {
+            cdKeyProof[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
         }
 
         return new TelemetryKey {

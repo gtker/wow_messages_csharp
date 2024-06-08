@@ -9,7 +9,8 @@ public class CMSG_GMSURVEY_SUBMIT: VanillaClientMessage, IWorldMessage {
     /// cmangos: Survey ID: found in GMSurveySurveys.dbc
     /// </summary>
     public required uint SurveyId { get; set; }
-    public required List<GmSurveyQuestion> Questions { get; set; }
+    public const int QuestionsLength = 10;
+    public required GmSurveyQuestion[] Questions { get; set; }
     /// <summary>
     /// cmangos: Answer comment: Unused in stock UI, can be only set by calling Lua function
     /// cmangos: Answer comment max sizes in bytes: Vanilla - 8106:8110, TBC - 11459:11463, Wrath - 582:586
@@ -43,9 +44,9 @@ public class CMSG_GMSURVEY_SUBMIT: VanillaClientMessage, IWorldMessage {
     public static async Task<CMSG_GMSURVEY_SUBMIT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var surveyId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var questions = new List<GmSurveyQuestion>();
-        for (var i = 0; i < 10; ++i) {
-            questions.Add(await Vanilla.GmSurveyQuestion.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
+        var questions = new GmSurveyQuestion[QuestionsLength];
+        for (var i = 0; i < QuestionsLength; ++i) {
+            questions[i] = await Vanilla.GmSurveyQuestion.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
         }
 
         var answerComment = await r.ReadCString(cancellationToken).ConfigureAwait(false);

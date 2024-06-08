@@ -24,7 +24,8 @@ public class SMSG_TRADE_STATUS_EXTENDED: VanillaServerMessage, IWorldMessage {
     /// <summary>
     /// vmangos/cmangos/mangoszero: All set to same as trade_slot_count* (7), unsure which determines how big this is. Unused slots are 0.
     /// </summary>
-    public required List<TradeSlot> TradeSlots { get; set; }
+    public const int TradeSlotsLength = 7;
+    public required TradeSlot[] TradeSlots { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteBool8(SelfPlayer, cancellationToken).ConfigureAwait(false);
@@ -67,9 +68,9 @@ public class SMSG_TRADE_STATUS_EXTENDED: VanillaServerMessage, IWorldMessage {
 
         var spellOnLowestSlot = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var tradeSlots = new List<TradeSlot>();
-        for (var i = 0; i < 7; ++i) {
-            tradeSlots.Add(await Vanilla.TradeSlot.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
+        var tradeSlots = new TradeSlot[TradeSlotsLength];
+        for (var i = 0; i < TradeSlotsLength; ++i) {
+            tradeSlots[i] = await Vanilla.TradeSlot.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
         }
 
         return new SMSG_TRADE_STATUS_EXTENDED {

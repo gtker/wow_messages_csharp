@@ -7,7 +7,8 @@ using LoginResultType = OneOf.OneOf<CMD_AUTH_LOGON_PROOF_Server.LoginResultSucce
 public class CMD_AUTH_LOGON_PROOF_Server: Version2ServerMessage, ILoginMessage {
     public class LoginResultSuccess {
         public required uint HardwareSurveyId { get; set; }
-        public required List<byte> ServerProof { get; set; }
+        public const int ServerProofLength = 20;
+        public required byte[] ServerProof { get; set; }
     }
     public required LoginResultType Result { get; set; }
     internal LoginResult ResultValue => Result.Match(
@@ -36,9 +37,9 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version2ServerMessage, ILoginMessage {
         LoginResultType result = (LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Version2.LoginResult.Success) {
-            var serverProof = new List<byte>();
-            for (var i = 0; i < 20; ++i) {
-                serverProof.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var serverProof = new byte[LoginResultSuccess.ServerProofLength];
+            for (var i = 0; i < LoginResultSuccess.ServerProofLength; ++i) {
+                serverProof[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
             var hardwareSurveyId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);

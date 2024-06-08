@@ -20,7 +20,7 @@ public static class WriteReadImplementation
 
                 foreach (var member in e.Members)
                 {
-                    WriteReadMember(s, e, member, module);
+                    WriteReadMember(s, e, member, module, "");
                 }
 
                 s.Body($"return new {e.Name}", s =>
@@ -39,7 +39,7 @@ public static class WriteReadImplementation
             });
     }
 
-    private static void WriteReadMember(Writer s, Container e, StructMember member, string module)
+    private static void WriteReadMember(Writer s, Container e, StructMember member, string module, string objectPrefix)
     {
         switch (member)
         {
@@ -47,12 +47,16 @@ public static class WriteReadImplementation
             {
                 var d = definition.StructMemberContent;
 
-                WriteReadForType(s, d, e.NeedsBodySize(), module);
+                WriteReadForType(s, d, e.NeedsBodySize(), module, objectPrefix);
                 break;
             }
             case StructMemberIfStatement statement:
                 WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, module,
-                    (s, e, member, _) => { WriteReadMember(s, e, member, module); },
+                    (s, e, member, enumerator) =>
+                    {
+                        var d = e.FindDefinitionByName(statement.StructMemberContent.VariableName);
+                        WriteReadMember(s, e, member, module, $"{d.PreparedObjectTypeName(enumerator)}.");
+                    },
                     (s, d, members, enumerator) =>
                     {
                         var flagExtra = statement.StructMemberContent.IsFlag() ? $".{enumerator.ToMemberName()}" : "";
@@ -80,7 +84,7 @@ public static class WriteReadImplementation
         }
     }
 
-    private static void WriteReadForType(Writer s, Definition d, bool needsSize, string module)
+    private static void WriteReadForType(Writer s, Definition d, bool needsSize, string module, string objectPrefix)
     {
         if (d.IsNotInType())
         {
@@ -182,7 +186,7 @@ public static class WriteReadImplementation
                 break;
 
             case DataTypeArray array:
-                WriteReadForArray(s, d, array, module, needsSize);
+                WriteReadForArray(s, d, array, module, needsSize, objectPrefix);
                 break;
 
 
@@ -221,7 +225,7 @@ public static class WriteReadImplementation
         s.Newline();
     }
 
-    private static void WriteReadForArray(Writer s, Definition d, DataTypeArray array, string module, bool needsSize)
+    private static void WriteReadForArray(Writer s, Definition d, DataTypeArray array, string module, bool needsSize, string objectPrefix)
     {
         if (array.Compressed)
         {
@@ -242,11 +246,23 @@ public static class WriteReadImplementation
             s.Wln("r = new MemoryStream(decompressed);");
         }
 
-        s.Wln($"var {d.VariableName()} = new List<{array.InnerType.CsType()}>();");
+        var memberLength = $"{objectPrefix}{d.MemberName()}Length";
+
+        switch (array.Size)
+        {
+            case ArraySizeFixed arraySizeFixed:
+                s.Wln($"var {d.VariableName()} = new {array.InnerType.CsType()}[{memberLength}];");
+                break;
+            case ArraySizeVariable or ArraySizeEndless:
+                s.Wln($"var {d.VariableName()} = new List<{array.InnerType.CsType()}>();");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
 
         var loopHeader = array.Size switch
         {
-            ArraySizeFixed v => $"for (var i = 0; i < {v.Size.ToCamelCase()}; ++i)",
+            ArraySizeFixed v => $"for (var i = 0; i < {memberLength}; ++i)",
             ArraySizeVariable v => $"for (var i = 0; i < {v.Size.ToCamelCase()}; ++i)",
             ArraySizeEndless v => array.Compressed ? "while (r.Position < r.Length)" : "while (size <= bodySize)",
             _ => throw new ArgumentOutOfRangeException()
@@ -254,33 +270,40 @@ public static class WriteReadImplementation
 
         s.Body(loopHeader, s =>
         {
+            string item;
             switch (array.InnerType)
             {
                 case ArrayTypeCstring:
-                    s.Wln(
-                        $"{d.VariableName()}.Add(await r.ReadCString(cancellationToken).ConfigureAwait(false));");
+                    item = "await r.ReadCString(cancellationToken).ConfigureAwait(false)";
                     break;
                 case ArrayTypeGuid:
-                    s.Wln(
-                        $"{d.VariableName()}.Add(await r.ReadULong(cancellationToken).ConfigureAwait(false));");
+                    item = "await r.ReadULong(cancellationToken).ConfigureAwait(false)";
                     break;
                 case ArrayTypeInteger it:
-                    s.Wln(
-                        $"{d.VariableName()}.Add(await r.{it.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false));");
+                    item =
+                        $"await r.{it.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false)";
                     break;
                 case ArrayTypeSpell:
-                    s.Wln(
-                        $"{d.VariableName()}.Add(await r.ReadUInt(cancellationToken).ConfigureAwait(false));");
+                    item = "await r.ReadUInt(cancellationToken).ConfigureAwait(false)";
                     break;
                 case ArrayTypeStruct e:
                     var body = e.StructData.IsWorld() ? "Body" : "";
-                    s.Wln(
-                        $"{d.VariableName()}.Add(await {module}.{e.StructData.Name}.Read{body}Async(r, cancellationToken).ConfigureAwait(false));");
+                    item =
+                        $"await {module}.{e.StructData.Name}.Read{body}Async(r, cancellationToken).ConfigureAwait(false)";
                     break;
                 case ArrayTypePackedGuid:
                     throw new NotImplementedException();
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+
+            if (array.FixedSize())
+            {
+                s.Wln($"{d.VariableName()}[i] = {item};");
+            }
+            else
+            {
+                s.Wln($"{d.VariableName()}.Add({item});");
             }
 
             if (needsSize)

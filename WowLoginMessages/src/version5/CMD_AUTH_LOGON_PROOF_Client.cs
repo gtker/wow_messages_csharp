@@ -14,15 +14,21 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version5ClientMessage, ILoginMessage {
         /// Client proof of matrix input.
         /// Implementation details at `https://gist.github.com/barncastle/979c12a9c5e64d810a28ad1728e7e0f9`.
         /// </summary>
-        public required List<byte> MatrixCardProof { get; set; }
+        public const int MatrixCardProofLength = 20;
+        public required byte[] MatrixCardProof { get; set; }
     }
     public class SecurityFlagPin {
-        public required List<byte> PinHash { get; set; }
-        public required List<byte> PinSalt { get; set; }
+        public const int PinHashLength = 20;
+        public required byte[] PinHash { get; set; }
+        public const int PinSaltLength = 16;
+        public required byte[] PinSalt { get; set; }
     }
-    public required List<byte> ClientPublicKey { get; set; }
-    public required List<byte> ClientProof { get; set; }
-    public required List<byte> CrcHash { get; set; }
+    public const int ClientPublicKeyLength = 32;
+    public required byte[] ClientPublicKey { get; set; }
+    public const int ClientProofLength = 20;
+    public required byte[] ClientProof { get; set; }
+    public const int CrcHashLength = 20;
+    public required byte[] CrcHash { get; set; }
     public required List<TelemetryKey> TelemetryKeys { get; set; }
     public required SecurityFlagType SecurityFlag { get; set; }
 
@@ -71,19 +77,19 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version5ClientMessage, ILoginMessage {
     }
 
     public static async Task<CMD_AUTH_LOGON_PROOF_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var clientPublicKey = new List<byte>();
-        for (var i = 0; i < 32; ++i) {
-            clientPublicKey.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+        var clientPublicKey = new byte[ClientPublicKeyLength];
+        for (var i = 0; i < ClientPublicKeyLength; ++i) {
+            clientPublicKey[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
         }
 
-        var clientProof = new List<byte>();
-        for (var i = 0; i < 20; ++i) {
-            clientProof.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+        var clientProof = new byte[ClientProofLength];
+        for (var i = 0; i < ClientProofLength; ++i) {
+            clientProof[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
         }
 
-        var crcHash = new List<byte>();
-        for (var i = 0; i < 20; ++i) {
-            crcHash.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+        var crcHash = new byte[CrcHashLength];
+        for (var i = 0; i < CrcHashLength; ++i) {
+            crcHash[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
         }
 
         // ReSharper disable once UnusedVariable.Compiler
@@ -99,14 +105,14 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version5ClientMessage, ILoginMessage {
         };
 
         if (securityFlag.Inner.HasFlag(Version5.SecurityFlag.Pin)) {
-            var pinSalt = new List<byte>();
-            for (var i = 0; i < 16; ++i) {
-                pinSalt.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var pinSalt = new byte[SecurityFlagPin.PinSaltLength];
+            for (var i = 0; i < SecurityFlagPin.PinSaltLength; ++i) {
+                pinSalt[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
-            var pinHash = new List<byte>();
-            for (var i = 0; i < 20; ++i) {
-                pinHash.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var pinHash = new byte[SecurityFlagPin.PinHashLength];
+            for (var i = 0; i < SecurityFlagPin.PinHashLength; ++i) {
+                pinHash[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
             securityFlag.Pin = new SecurityFlagPin {
@@ -116,9 +122,9 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version5ClientMessage, ILoginMessage {
         }
 
         if (securityFlag.Inner.HasFlag(Version5.SecurityFlag.MatrixCard)) {
-            var matrixCardProof = new List<byte>();
-            for (var i = 0; i < 20; ++i) {
-                matrixCardProof.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var matrixCardProof = new byte[SecurityFlagMatrixCard.MatrixCardProofLength];
+            for (var i = 0; i < SecurityFlagMatrixCard.MatrixCardProofLength; ++i) {
+                matrixCardProof[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
             securityFlag.MatrixCard = new SecurityFlagMatrixCard {

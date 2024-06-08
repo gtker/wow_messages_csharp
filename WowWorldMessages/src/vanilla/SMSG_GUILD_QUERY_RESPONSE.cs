@@ -7,7 +7,8 @@ namespace WowWorldMessages.Vanilla;
 public class SMSG_GUILD_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
     public required uint Id { get; set; }
     public required string Name { get; set; }
-    public required List<string> RankNames { get; set; }
+    public const int RankNamesLength = 10;
+    public required string[] RankNames { get; set; }
     public required uint EmblemStyle { get; set; }
     public required uint EmblemColor { get; set; }
     public required uint BorderStyle { get; set; }
@@ -53,9 +54,9 @@ public class SMSG_GUILD_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
 
         var name = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
-        var rankNames = new List<string>();
-        for (var i = 0; i < 10; ++i) {
-            rankNames.Add(await r.ReadCString(cancellationToken).ConfigureAwait(false));
+        var rankNames = new string[RankNamesLength];
+        for (var i = 0; i < RankNamesLength; ++i) {
+            rankNames[i] = await r.ReadCString(cancellationToken).ConfigureAwait(false);
         }
 
         var emblemStyle = await r.ReadUInt(cancellationToken).ConfigureAwait(false);

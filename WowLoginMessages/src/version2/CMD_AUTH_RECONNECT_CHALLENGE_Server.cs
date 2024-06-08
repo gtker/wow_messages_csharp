@@ -6,8 +6,10 @@ using LoginResultType = OneOf.OneOf<CMD_AUTH_RECONNECT_CHALLENGE_Server.LoginRes
 // ReSharper disable once InconsistentNaming
 public class CMD_AUTH_RECONNECT_CHALLENGE_Server: Version2ServerMessage, ILoginMessage {
     public class LoginResultSuccess {
-        public required List<byte> ChallengeData { get; set; }
-        public required List<byte> ChecksumSalt { get; set; }
+        public const int ChallengeDataLength = 16;
+        public required byte[] ChallengeData { get; set; }
+        public const int ChecksumSaltLength = 16;
+        public required byte[] ChecksumSalt { get; set; }
     }
     public required LoginResultType Result { get; set; }
     internal LoginResult ResultValue => Result.Match(
@@ -38,14 +40,14 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: Version2ServerMessage, ILoginM
         LoginResultType result = (LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Version2.LoginResult.Success) {
-            var challengeData = new List<byte>();
-            for (var i = 0; i < 16; ++i) {
-                challengeData.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var challengeData = new byte[LoginResultSuccess.ChallengeDataLength];
+            for (var i = 0; i < LoginResultSuccess.ChallengeDataLength; ++i) {
+                challengeData[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
-            var checksumSalt = new List<byte>();
-            for (var i = 0; i < 16; ++i) {
-                checksumSalt.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
+            var checksumSalt = new byte[LoginResultSuccess.ChecksumSaltLength];
+            for (var i = 0; i < LoginResultSuccess.ChecksumSaltLength; ++i) {
+                checksumSalt[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
             result = new LoginResultSuccess {

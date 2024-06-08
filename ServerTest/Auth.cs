@@ -53,11 +53,11 @@ public static class Auth
         {
             Result = new CMD_AUTH_LOGON_CHALLENGE_Server.LoginResultSuccess
             {
-                ServerPublicKey = proof.ServerPublicKey.ToList(),
+                ServerPublicKey = proof.ServerPublicKey,
                 Generator = [Constants.Generator],
                 LargeSafePrime = Constants.LargeSafePrimeLittleEndian.ToList(),
-                Salt = proof.Salt.ToList(),
-                CrcSalt = Pin.RandomPinSalt().ToList(),
+                Salt = proof.Salt,
+                CrcSalt = Pin.RandomPinSalt(),
                 SecurityFlag = SecurityFlag.None
             }
         }.WriteAsync(client.GetStream(), cts.Token);
@@ -98,7 +98,7 @@ public static class Auth
         {
             Result = new CMD_AUTH_LOGON_PROOF_Server.LoginResultSuccess
             {
-                ServerProof = serverProof.ToList(),
+                ServerProof = serverProof,
                 HardwareSurveyId = 0
             }
         }.WriteAsync(client.GetStream(), cts.Token);
