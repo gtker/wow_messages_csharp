@@ -60,8 +60,8 @@ public static class ContainerExtensions
                 ArrayTypeCstring => false,
                 ArrayTypeGuid => false,
                 ArrayTypeInteger => false,
-                ArrayTypePackedGuid => true,
-                ArrayTypeSpell => true,
+                ArrayTypePackedGuid => false,
+                ArrayTypeSpell => false,
                 ArrayTypeStruct s => s.StructData.ShouldSkip(),
                 _ => throw new ArgumentOutOfRangeException()
             },

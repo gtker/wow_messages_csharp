@@ -54,7 +54,9 @@ public static class DefinitionExtensions
                 ? s.StructData.Sizes.MaximumSize.ToString()
                 : $"{prefix}{name}.Size()",
 
-            DataTypePackedGuid dataTypePackedGuid => $"{prefix}{name}.PackedGuidLength()",
+            DataTypePackedGuid => $"{prefix}{name}.PackedGuidLength()",
+
+            DataTypeNamedGuid => $"{prefix}{name}.Length()",
 
             DataTypeArray array => array.ArraySize(d, name, prefix),
 
@@ -68,7 +70,6 @@ public static class DefinitionExtensions
             DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),
             DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
             DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline => throw new NotImplementedException(),
-            DataTypeNamedGuid dataTypeNamedGuid => throw new NotImplementedException(),
             DataTypeUpdateMask dataTypeUpdateMask => throw new NotImplementedException(),
             DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty =>
                 throw new NotImplementedException(),

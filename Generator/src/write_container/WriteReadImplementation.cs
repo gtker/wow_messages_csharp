@@ -180,9 +180,13 @@ public static class WriteReadImplementation
                     $"var {d.VariableName()} = await r.ReadCString(cancellationToken).ConfigureAwait(false);");
                 break;
 
-            case DataTypePackedGuid dataTypePackedGuid:
+            case DataTypePackedGuid:
                 s.Wln(
                     $"var {d.VariableName()} = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);");
+                break;
+
+            case DataTypeNamedGuid:
+                s.Wln($"var {d.VariableName()} = await NamedGuid.ReadAsync(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeArray array:
@@ -201,8 +205,6 @@ public static class WriteReadImplementation
             case DataTypeCacheMask dataTypeCacheMask:
                 throw new NotImplementedException();
             case DataTypeEnchantMask dataTypeEnchantMask:
-                throw new NotImplementedException();
-            case DataTypeNamedGuid dataTypeGuid:
                 throw new NotImplementedException();
             case DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask:
                 throw new NotImplementedException();

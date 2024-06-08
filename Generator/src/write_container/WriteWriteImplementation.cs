@@ -162,6 +162,10 @@ public static class WriteWriteImplementation
                 s.Wln($"await w.WritePackedGuid({value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
+            case DataTypeNamedGuid:
+                s.Wln($"await {value}.WriteAsync(cancellationToken).ConfigureAwait(false);");
+                break;
+
             case DataTypeArray array:
                 WriteWriteForArray(s, d, array, prefix);
                 break;
@@ -177,8 +181,6 @@ public static class WriteWriteImplementation
             case DataTypeCacheMask dataTypeCacheMask:
                 throw new NotImplementedException();
             case DataTypeEnchantMask dataTypeEnchantMask:
-                throw new NotImplementedException();
-            case DataTypeNamedGuid dataTypeGuid:
                 throw new NotImplementedException();
             case DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask:
                 throw new NotImplementedException();
