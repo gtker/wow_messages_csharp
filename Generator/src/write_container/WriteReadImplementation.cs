@@ -198,6 +198,11 @@ public static class WriteReadImplementation
                     $"var {d.VariableName()} = await ReadUtils.ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);");
                 break;
 
+            case DataTypeAuraMask:
+                s.Wln(
+                    $"var {d.VariableName()} = await AuraMask.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
+                break;
+
             case DataTypeArray array:
                 WriteReadForArray(s, d, array, module, needsSize, objectPrefix);
                 break;
@@ -208,8 +213,6 @@ public static class WriteReadImplementation
             case DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray:
                 throw new NotImplementedException();
             case DataTypeAddonArray dataTypeAddonArray:
-                throw new NotImplementedException();
-            case DataTypeAuraMask dataTypeAuraMask:
                 throw new NotImplementedException();
             case DataTypeCacheMask dataTypeCacheMask:
                 throw new NotImplementedException();

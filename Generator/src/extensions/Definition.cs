@@ -60,6 +60,8 @@ public static class DefinitionExtensions
 
             DataTypeMonsterMoveSpline => $"ReadUtils.MonsterMoveSplineLength({prefix}{name})",
 
+            DataTypeAuraMask => $"{prefix}{name}.Length();",
+
             DataTypeArray array => array.ArraySize(d, name, prefix),
 
             DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
@@ -67,7 +69,6 @@ public static class DefinitionExtensions
             DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray =>
                 throw new NotImplementedException(),
             DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
-            DataTypeAuraMask dataTypeAuraMask => throw new NotImplementedException(),
             DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
             DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),
             DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),

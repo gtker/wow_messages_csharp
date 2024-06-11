@@ -39,15 +39,17 @@ public static class DataTypeExtension
         DataTypeNamedGuid => "NamedGuid",
         DataTypeUpdateMask => "UpdateMask",
         DataTypeMonsterMoveSpline => "List<Vector3d>",
+        DataTypeAuraMask => "AuraMask",
 
+        // Wrath/Tbc
+        DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
         DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
         DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray => throw new NotImplementedException(),
-        DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
-        DataTypeAuraMask dataTypeAuraMask => throw new NotImplementedException(),
-        DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
-        DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),
-        DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
         DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty => throw new NotImplementedException(),
+        DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
+        DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),
+        DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
+
         _ => throw new ArgumentOutOfRangeException(nameof(d))
     };
 }

@@ -174,6 +174,10 @@ public static class WriteWriteImplementation
                 s.Wln($"await ReadUtils.WriteMonsterMoveSpline(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
+            case DataTypeAuraMask:
+                s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
+                break;
+
             case DataTypeArray array:
                 WriteWriteForArray(s, d, array, prefix);
                 break;
@@ -183,8 +187,6 @@ public static class WriteWriteImplementation
             case DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray:
                 throw new NotImplementedException();
             case DataTypeAddonArray dataTypeAddonArray:
-                throw new NotImplementedException();
-            case DataTypeAuraMask dataTypeAuraMask:
                 throw new NotImplementedException();
             case DataTypeCacheMask dataTypeCacheMask:
                 throw new NotImplementedException();
