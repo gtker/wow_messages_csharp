@@ -28,7 +28,7 @@ public static class WriteTests
             ObjectTypeCmsg => "Client",
             ObjectTypeSlogin => "Server",
             ObjectTypeSmsg => "Server",
-            ObjectTypeMsg => throw new NotImplementedException(),
+            ObjectTypeMsg => "Server",
             _ => throw new ArgumentOutOfRangeException()
         };
 

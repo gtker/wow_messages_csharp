@@ -1,6 +1,6 @@
 namespace WowLoginMessages.Version2;
 
-public abstract class Version2ClientMessage {}
+public interface Version2ClientMessage {}
 
 public static class ClientOpcodeReader {
     public static async Task<Version2ClientMessage> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
@@ -19,7 +19,7 @@ public static class ClientOpcodeReader {
     /// <summary>
     /// Expects an opcode to be the next sent. Returns null if type is not correct.
     /// </summary>
-    public static async Task<T?> ExpectOpcode<T>(Stream r, CancellationToken cancellationToken = default) where T: Version2ClientMessage {
+    public static async Task<T?> ExpectOpcode<T>(Stream r, CancellationToken cancellationToken = default) where T: class, Version2ClientMessage {
         if (await ReadAsync(r, cancellationToken).ConfigureAwait(false) is T c) {
             return c;
         }

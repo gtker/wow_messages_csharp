@@ -25,12 +25,6 @@ public static class ContainerExtensions
             return true;
         }
 
-        if (e.ObjectType is ObjectTypeMsg)
-        {
-            Console.WriteLine($"Skipping {e.Name} because is MSG type");
-            return true;
-        }
-
         if (e.AllPreparedObjects().Any(po =>
             {
                 if (po.Enumerators is { } enumerators)
@@ -76,7 +70,7 @@ public static class ContainerExtensions
                 StructMemberDefinition d => HasInvalidDefinition(d.StructMemberContent),
                 StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition) ||
                                                      statement.StructMemberContent.IsElseIfFlag,
-                StructMemberOptional optional => true,
+                StructMemberOptional => true,
                 _ => throw new ArgumentOutOfRangeException(nameof(c))
             };
     }

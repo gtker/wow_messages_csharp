@@ -79,7 +79,7 @@ public static class WriteOpcodesImpl
         s.Wln("/// Expects an opcode to be the next sent. Returns null if type is not correct.");
         s.Wln("/// </summary>");
         s.Body(
-            $"public static async Task<T?> Expect{functionName}Opcode<T>(Stream r{extraArgument}, CancellationToken cancellationToken = default) where T: {versionClass}",
+            $"public static async Task<T?> Expect{functionName}Opcode<T>(Stream r{extraArgument}, CancellationToken cancellationToken = default) where T: class, {versionClass}",
             s =>
             {
                 s.Body(
@@ -172,7 +172,7 @@ public static class WriteOpcodesImpl
         s.Wln("/// Expects an opcode to be the next sent. Returns null if type is not correct.");
         s.Wln("/// </summary>");
         s.Body(
-            $"public static async Task<T?> ExpectOpcode<T>(Stream r, CancellationToken cancellationToken = default) where T: {versionClass}",
+            $"public static async Task<T?> ExpectOpcode<T>(Stream r, CancellationToken cancellationToken = default) where T: class, {versionClass}",
             s =>
             {
                 s.Body("if (await ReadAsync(r, cancellationToken).ConfigureAwait(false) is T c)",
@@ -193,7 +193,7 @@ public static class WriteOpcodesImpl
         s.Newline();
 
         var versionClass = $"{module}{side}Message";
-        s.Wln($"public abstract class {versionClass} {{}}");
+        s.Wln($"public interface {versionClass} {{}}");
         s.Newline();
 
         s.OpenCurly($"public static class {side}OpcodeReader");

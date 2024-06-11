@@ -58,6 +58,7 @@ public static class WriteContainers
             ObjectTypeStruct => "",
             ObjectTypeSmsg => $": {module}ServerMessage, IWorldMessage",
             ObjectTypeCmsg => $": {module}ClientMessage, IWorldMessage",
+            ObjectTypeMsg => $": {module}ClientMessage, {module}ServerMessage, IWorldMessage",
             _ => throw new ArgumentOutOfRangeException()
         };
 

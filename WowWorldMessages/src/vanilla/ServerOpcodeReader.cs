@@ -2,7 +2,7 @@ using WowSrp.Header;
 
 namespace WowWorldMessages.Vanilla;
 
-public abstract class VanillaServerMessage {}
+public interface VanillaServerMessage {}
 
 public static class ServerOpcodeReader {
     public static async Task<VanillaServerMessage> ReadEncryptedAsync(Stream r, VanillaDecryption decrypter, CancellationToken cancellationToken = default) {
@@ -350,7 +350,7 @@ public static class ServerOpcodeReader {
     /// <summary>
     /// Expects an opcode to be the next sent. Returns null if type is not correct.
     /// </summary>
-    public static async Task<T?> ExpectEncryptedOpcode<T>(Stream r, VanillaDecryption decrypter, CancellationToken cancellationToken = default) where T: VanillaServerMessage {
+    public static async Task<T?> ExpectEncryptedOpcode<T>(Stream r, VanillaDecryption decrypter, CancellationToken cancellationToken = default) where T: class, VanillaServerMessage {
         if (await ReadEncryptedAsync(r, decrypter, cancellationToken).ConfigureAwait(false) is T c) {
             return c;
         }
@@ -360,7 +360,7 @@ public static class ServerOpcodeReader {
     /// <summary>
     /// Expects an opcode to be the next sent. Returns null if type is not correct.
     /// </summary>
-    public static async Task<T?> ExpectUnencryptedOpcode<T>(Stream r, CancellationToken cancellationToken = default) where T: VanillaServerMessage {
+    public static async Task<T?> ExpectUnencryptedOpcode<T>(Stream r, CancellationToken cancellationToken = default) where T: class, VanillaServerMessage {
         if (await ReadUnencryptedAsync(r, cancellationToken).ConfigureAwait(false) is T c) {
             return c;
         }

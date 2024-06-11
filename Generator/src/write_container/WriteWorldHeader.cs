@@ -20,7 +20,11 @@ public static class WriteWorldHeader
             case ObjectTypeStruct:
                 break;
             case ObjectTypeMsg:
-                throw new NotImplementedException();
+                WriteWriteHeader(s, e, "Client", module, EncryptOrDecrypt.Encrypt);
+                WriteWriteHeader(s, e, "Client", module, EncryptOrDecrypt.Decrypt);
+                WriteWriteHeader(s, e, "Server", module, EncryptOrDecrypt.Encrypt);
+                WriteWriteHeader(s, e, "Server", module, EncryptOrDecrypt.Decrypt);
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
