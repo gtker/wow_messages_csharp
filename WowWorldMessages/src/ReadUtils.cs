@@ -2,7 +2,7 @@ using System.Text;
 
 namespace WowWorldMessages;
 
-internal static class StreamReadExtensions
+internal static class ReadUtils
 {
     internal static async Task<byte> ReadByte(this Stream r,
         CancellationToken cancellationToken
@@ -117,4 +117,26 @@ internal static class StreamReadExtensions
 
         return value;
     }
+
+    internal static ulong ULongFromUInt(uint lower, uint upper) => ((ulong)upper << 32) | lower;
+
+    internal static uint UIntFromUShort(ushort lower, ushort upper) => ((uint)upper << 16) | lower;
+
+    internal static (ushort, ushort) UShortFromUInt(uint value)
+    {
+        var lower = (ushort)value;
+        var upper = (ushort)(value >> 16);
+
+        return (lower, upper);
+    }
+
+    internal static (byte, byte, byte, byte) BytesFromUInt(uint value)
+    {
+        var bytes = BitConverter.GetBytes(value);
+
+        return (bytes[0], bytes[1], bytes[2], bytes[3]);
+    }
+
+    internal static uint UIntFromBytes(byte first, byte second, byte third, byte fourth) =>
+        BitConverter.ToUInt32([first, second, third, fourth]);
 }

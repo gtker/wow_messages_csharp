@@ -166,6 +166,10 @@ public static class WriteWriteImplementation
                 s.Wln($"await {value}.WriteAsync(cancellationToken).ConfigureAwait(false);");
                 break;
 
+            case DataTypeUpdateMask:
+                s.Wln($"await {value}.WriteAsync(cancellationToken).ConfigureAwait(false);");
+                break;
+
             case DataTypeArray array:
                 WriteWriteForArray(s, d, array, prefix);
                 break;
@@ -185,8 +189,6 @@ public static class WriteWriteImplementation
             case DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask:
                 throw new NotImplementedException();
             case DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline:
-                throw new NotImplementedException();
-            case DataTypeUpdateMask dataTypeUpdateMask:
                 throw new NotImplementedException();
             case DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty:
                 throw new NotImplementedException();

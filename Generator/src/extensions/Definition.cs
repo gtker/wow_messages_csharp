@@ -1,5 +1,4 @@
 using Generator.Generated;
-using Generator;
 
 namespace Generator.Extensions;
 
@@ -57,6 +56,7 @@ public static class DefinitionExtensions
             DataTypePackedGuid => $"{prefix}{name}.PackedGuidLength()",
 
             DataTypeNamedGuid => $"{prefix}{name}.Length()",
+            DataTypeUpdateMask => $"{prefix}{name}.Length()",
 
             DataTypeArray array => array.ArraySize(d, name, prefix),
 
@@ -70,7 +70,6 @@ public static class DefinitionExtensions
             DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),
             DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
             DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline => throw new NotImplementedException(),
-            DataTypeUpdateMask dataTypeUpdateMask => throw new NotImplementedException(),
             DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty =>
                 throw new NotImplementedException(),
             _ => throw new ArgumentOutOfRangeException(nameof(d))

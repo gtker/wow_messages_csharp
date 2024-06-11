@@ -189,6 +189,10 @@ public static class WriteReadImplementation
                 s.Wln($"var {d.VariableName()} = await NamedGuid.ReadAsync(cancellationToken).ConfigureAwait(false);");
                 break;
 
+            case DataTypeUpdateMask dataTypeUpdateMask:
+                s.Wln($"var {d.VariableName()} = await UpdateMask.ReadAsync(cancellationToken).ConfigureAwait(false);");
+                break;
+
             case DataTypeArray array:
                 WriteReadForArray(s, d, array, module, needsSize, objectPrefix);
                 break;
@@ -210,8 +214,6 @@ public static class WriteReadImplementation
                 throw new NotImplementedException();
             case DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline:
                 throw new NotImplementedException();
-            case DataTypeUpdateMask dataTypeUpdateMask:
-                throw new NotImplementedException();
             case DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty:
                 throw new NotImplementedException();
             default:
@@ -227,7 +229,8 @@ public static class WriteReadImplementation
         s.Newline();
     }
 
-    private static void WriteReadForArray(Writer s, Definition d, DataTypeArray array, string module, bool needsSize, string objectPrefix)
+    private static void WriteReadForArray(Writer s, Definition d, DataTypeArray array, string module, bool needsSize,
+        string objectPrefix)
     {
         if (array.Compressed)
         {
