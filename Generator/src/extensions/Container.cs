@@ -39,7 +39,8 @@ public static class ContainerExtensions
             return true;
         }
 
-        if (e.Name is "Addon" or "SMSG_LOOT_RESPONSE" or "SMSG_AUCTION_COMMAND_RESULT" or "SMSG_SEND_MAIL_RESULT")
+        if (e.Name is "Addon" or "SMSG_LOOT_RESPONSE" or "SMSG_AUCTION_COMMAND_RESULT" or "SMSG_SEND_MAIL_RESULT"
+            or "MonsterMove")
         {
             Console.WriteLine($"Skipping {e.Name} because of name");
             return true;

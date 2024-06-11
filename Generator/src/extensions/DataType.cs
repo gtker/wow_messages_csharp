@@ -38,6 +38,7 @@ public static class DataTypeExtension
         DataTypeArray array => array.CsType(),
         DataTypeNamedGuid => "NamedGuid",
         DataTypeUpdateMask => "UpdateMask",
+        DataTypeMonsterMoveSpline => "List<Vector3d>",
 
         DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
         DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray => throw new NotImplementedException(),
@@ -46,7 +47,6 @@ public static class DataTypeExtension
         DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
         DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),
         DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
-        DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline => throw new NotImplementedException(),
         DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty => throw new NotImplementedException(),
         _ => throw new ArgumentOutOfRangeException(nameof(d))
     };

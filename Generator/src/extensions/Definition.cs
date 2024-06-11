@@ -58,6 +58,8 @@ public static class DefinitionExtensions
             DataTypeNamedGuid => $"{prefix}{name}.Length()",
             DataTypeUpdateMask => $"{prefix}{name}.Length()",
 
+            DataTypeMonsterMoveSpline => $"ReadUtils.MonsterMoveSplineLength({prefix}{name})",
+
             DataTypeArray array => array.ArraySize(d, name, prefix),
 
             DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
@@ -69,7 +71,6 @@ public static class DefinitionExtensions
             DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
             DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),
             DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
-            DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline => throw new NotImplementedException(),
             DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty =>
                 throw new NotImplementedException(),
             _ => throw new ArgumentOutOfRangeException(nameof(d))

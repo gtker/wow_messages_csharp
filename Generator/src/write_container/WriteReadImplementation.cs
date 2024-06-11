@@ -189,8 +189,13 @@ public static class WriteReadImplementation
                 s.Wln($"var {d.VariableName()} = await NamedGuid.ReadAsync(cancellationToken).ConfigureAwait(false);");
                 break;
 
-            case DataTypeUpdateMask dataTypeUpdateMask:
+            case DataTypeUpdateMask:
                 s.Wln($"var {d.VariableName()} = await UpdateMask.ReadAsync(cancellationToken).ConfigureAwait(false);");
+                break;
+
+            case DataTypeMonsterMoveSpline:
+                s.Wln(
+                    $"var {d.VariableName()} = await ReadUtils.ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeArray array:
@@ -211,8 +216,6 @@ public static class WriteReadImplementation
             case DataTypeEnchantMask dataTypeEnchantMask:
                 throw new NotImplementedException();
             case DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask:
-                throw new NotImplementedException();
-            case DataTypeMonsterMoveSpline dataTypeMonsterMoveSpline:
                 throw new NotImplementedException();
             case DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty:
                 throw new NotImplementedException();
