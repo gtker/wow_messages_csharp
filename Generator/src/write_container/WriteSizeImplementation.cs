@@ -52,9 +52,9 @@ public class WriteSizeImplementation
                 break;
             case StructMemberIfStatement statement:
                 WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, module,
-                    (s, e, member, enumerator) =>
+                    (s, e, member, enumerator, variablePrefix, _) =>
                     {
-                        WriteSizeMember(s, e, member, module, $"{enumerator.ToVariableName()}.");
+                        WriteSizeMember(s, e, member, module, variablePrefix);
                     },
                     (_, _, _, _) => { },
                     true, prefix);

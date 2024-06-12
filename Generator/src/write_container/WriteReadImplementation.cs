@@ -34,19 +34,20 @@ public static class WriteReadImplementation
                             WriteReadMember(s, e, member, module, $"Optional{e.Optional.Name.ToMemberName()}.");
                         }
 
-                        s.Body($"optional{optional.Name.ToMemberName()} = new Optional{optional.Name.ToMemberName()}", s =>
-                        {
-                            foreach (var po in optional.PreparedObjects)
+                        s.Body($"optional{optional.Name.ToMemberName()} = new Optional{optional.Name.ToMemberName()}",
+                            s =>
                             {
-                                var d = e.FindDefinitionByName(po.Name);
-                                if (d.IsNotInType())
+                                foreach (var po in optional.PreparedObjects)
                                 {
-                                    continue;
-                                }
+                                    var d = e.FindDefinitionByName(po.Name);
+                                    if (d.IsNotInType())
+                                    {
+                                        continue;
+                                    }
 
-                                s.Wln($"{po.Name.ToMemberName()} = {po.Name.ToVariableName()},");
-                            }
-                        }, ";");
+                                    s.Wln($"{po.Name.ToMemberName()} = {po.Name.ToVariableName()},");
+                                }
+                            }, ";");
                     });
                     s.Newline();
                 }
@@ -85,10 +86,9 @@ public static class WriteReadImplementation
             }
             case StructMemberIfStatement statement:
                 WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, module,
-                    (s, e, member, enumerator) =>
+                    (s, e, member, enumerator, _, objectPrefix) =>
                     {
-                        var d = e.FindDefinitionByName(statement.StructMemberContent.VariableName);
-                        WriteReadMember(s, e, member, module, $"{d.PreparedObjectTypeName(enumerator)}.");
+                        WriteReadMember(s, e, member, module, objectPrefix);
                     },
                     (s, d, members, enumerator) =>
                     {
