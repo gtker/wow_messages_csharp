@@ -317,6 +317,7 @@ public static class ServerOpcodeReader {
             747 => await SMSG_BINDER_CONFIRM.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             748 => await SMSG_BATTLEGROUND_PLAYER_JOINED.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             749 => await SMSG_BATTLEGROUND_PLAYER_LEFT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            751 => await SMSG_ADDON_INFO.ReadBodyAsync(r, header.Size, cancellationToken).ConfigureAwait(false),
             753 => await SMSG_PET_UNLEARN_CONFIRM.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             754 => await SMSG_PARTY_MEMBER_STATS_FULL.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             756 => await SMSG_WEATHER.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
