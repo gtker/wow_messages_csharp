@@ -24,8 +24,6 @@ namespace Generator.Generated
                     return JsonSerializer.Deserialize<StructMemberDefinition>(ref readerCopy, options);
                 case "IfStatement":
                     return JsonSerializer.Deserialize<StructMemberIfStatement>(ref readerCopy, options);
-                case "Optional":
-                    return JsonSerializer.Deserialize<StructMemberOptional>(ref readerCopy, options);
                 default:
                     throw new ArgumentException(String.Format("Bad StructMemberTag value: {0}", tagValue));
             }

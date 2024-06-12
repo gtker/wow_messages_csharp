@@ -46,6 +46,12 @@ public static class ContainerExtensions
             return true;
         }
 
+        if (e.Optional is not null)
+        {
+            Console.WriteLine($"Skipping {e.Name} because of optional");
+            return true;
+        }
+
         return false;
 
         bool HasInvalidDefinition(Definition d) => d.DataType switch
@@ -71,7 +77,6 @@ public static class ContainerExtensions
                 StructMemberDefinition d => HasInvalidDefinition(d.StructMemberContent),
                 StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition) ||
                                                      statement.StructMemberContent.IsElseIfFlag,
-                StructMemberOptional => true,
                 _ => throw new ArgumentOutOfRangeException(nameof(c))
             };
     }
@@ -95,19 +100,19 @@ public static class ContainerExtensions
                     }
 
                     break;
-                case StructMemberOptional optional:
-                {
-                    foreach (var m in optional.StructMemberContent.Members)
-                    {
-                        foreach (var d in m.AllDefinitions())
-                        {
-                            yield return d;
-                        }
-                    }
-                }
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(member));
+            }
+        }
+
+        if (e.Optional is { } optional)
+        {
+            foreach (var m in optional.Members)
+            {
+                foreach (var d in m.AllDefinitions())
+                {
+                    yield return d;
+                }
             }
         }
     }

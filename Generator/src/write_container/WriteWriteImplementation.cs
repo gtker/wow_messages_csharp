@@ -61,8 +61,6 @@ public static class WriteWriteImplementation
                     (_, _, _, _) => { },
                     true, prefix);
                 break;
-            case StructMemberOptional:
-                throw new NotImplementedException();
             default:
                 throw new ArgumentOutOfRangeException(nameof(member));
         }

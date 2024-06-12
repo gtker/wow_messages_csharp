@@ -49,8 +49,6 @@ public class WriteSizeImplementation
                     true, prefix);
 
                 break;
-            case StructMemberOptional structMemberOptional:
-                throw new NotImplementedException();
             default:
                 throw new ArgumentOutOfRangeException(nameof(member));
         }

@@ -18,13 +18,6 @@ public static class StructMemberExtensions
                 }
 
                 break;
-            case StructMemberOptional optional:
-                foreach (var member in optional.StructMemberContent.AllDefinitions())
-                {
-                    yield return member;
-                }
-
-                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(m));
         }

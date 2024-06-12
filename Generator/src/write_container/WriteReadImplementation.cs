@@ -77,8 +77,6 @@ public static class WriteReadImplementation
                     },
                     false, "");
                 break;
-            case StructMemberOptional:
-                throw new NotImplementedException();
             default:
                 throw new ArgumentOutOfRangeException(nameof(member));
         }

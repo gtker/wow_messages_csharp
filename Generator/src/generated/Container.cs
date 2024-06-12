@@ -28,6 +28,9 @@ namespace Generator.Generated
         [JsonPropertyName("only_has_io_error")]
         public bool OnlyHasIoError { get; set; }
 
+        [JsonPropertyName("optional")]
+        public OptionalMembers? Optional { get; set; }
+
         /// <summary>
         /// Is a structured representation of the object where fields that
         /// are inside if statements will be put inside the enumerators they
