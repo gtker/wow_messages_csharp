@@ -23,6 +23,34 @@ public static class WriteReadImplementation
                     WriteReadMember(s, e, member, module, "");
                 }
 
+                if (e.Optional is { } optional)
+                {
+                    s.Wln($"Optional{optional.Name.ToMemberName()}? optional{optional.Name.ToMemberName()} = null;");
+
+                    s.Body("if (size < bodySize)", s =>
+                    {
+                        foreach (var member in optional.Members)
+                        {
+                            WriteReadMember(s, e, member, module, $"Optional{e.Optional.Name.ToMemberName()}.");
+                        }
+
+                        s.Body($"optional{optional.Name.ToMemberName()} = new Optional{optional.Name.ToMemberName()}", s =>
+                        {
+                            foreach (var po in optional.PreparedObjects)
+                            {
+                                var d = e.FindDefinitionByName(po.Name);
+                                if (d.IsNotInType())
+                                {
+                                    continue;
+                                }
+
+                                s.Wln($"{po.Name.ToMemberName()} = {po.Name.ToVariableName()},");
+                            }
+                        }, ";");
+                    });
+                    s.Newline();
+                }
+
                 s.Body($"return new {e.Name}", s =>
                 {
                     foreach (var po in e.PreparedObjects)
@@ -34,6 +62,11 @@ public static class WriteReadImplementation
                         }
 
                         s.Wln($"{po.Name.ToMemberName()} = {po.Name.ToVariableName()},");
+                    }
+
+                    if (e.Optional is { } optional)
+                    {
+                        s.Wln($"{optional.Name.ToMemberName()} = optional{optional.Name.ToMemberName()},");
                     }
                 }, ";");
             });
@@ -259,7 +292,7 @@ public static class WriteReadImplementation
 
         switch (array.Size)
         {
-            case ArraySizeFixed arraySizeFixed:
+            case ArraySizeFixed:
                 s.Wln($"var {d.VariableName()} = new {array.InnerType.CsType()}[{memberLength}];");
                 break;
             case ArraySizeVariable or ArraySizeEndless:

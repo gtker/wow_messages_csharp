@@ -12,5 +12,15 @@ namespace Generator.Generated
 
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Is a structured representation of the object where fields that
+        /// are inside if statements will be put inside the enumerators they
+        /// are present in. This is used for example when wanting to represent
+        /// conditionally present fields through e.g. discriminated unions or
+        /// inheritance.
+        /// </summary>
+        [JsonPropertyName("prepared_objects")]
+        public IList<PreparedObject> PreparedObjects { get; set; }
     }
 }

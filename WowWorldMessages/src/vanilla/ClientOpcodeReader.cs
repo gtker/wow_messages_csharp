@@ -166,10 +166,12 @@ public static class ClientOpcodeReader {
             364 => await CMSG_DUEL_ACCEPTED.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             365 => await CMSG_DUEL_CANCELLED.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             369 => await CMSG_MOUNTSPECIAL_ANIM.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            372 => await CMSG_PET_SET_ACTION.ReadBodyAsync(r, header.Size, cancellationToken).ConfigureAwait(false),
             373 => await CMSG_PET_ACTION.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             374 => await CMSG_PET_ABANDON.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             375 => await CMSG_PET_RENAME.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             379 => await CMSG_GOSSIP_HELLO.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            380 => await CMSG_GOSSIP_SELECT_OPTION.ReadBodyAsync(r, header.Size, cancellationToken).ConfigureAwait(false),
             383 => await CMSG_NPC_TEXT_QUERY.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             386 => await CMSG_QUESTGIVER_STATUS_QUERY.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             388 => await CMSG_QUESTGIVER_HELLO.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
@@ -244,6 +246,7 @@ public static class ClientOpcodeReader {
             585 => await CMSG_MAIL_DELETE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             586 => await CMSG_MAIL_CREATE_TEXT_ITEM.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             593 => await CMSG_LEARN_TALENT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            595 => await CMSG_TOGGLE_PVP.ReadBodyAsync(r, header.Size, cancellationToken).ConfigureAwait(false),
             597 => await MSG_AUCTION_HELLO_Client.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             598 => await CMSG_AUCTION_SELL_ITEM.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             599 => await CMSG_AUCTION_REMOVE_ITEM.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
@@ -316,6 +319,7 @@ public static class ClientOpcodeReader {
             792 => await CMSG_SET_WATCHED_FACTION.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             797 => await CMSG_RESET_INSTANCES.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             801 => await MSG_RAID_TARGET_UPDATE_Client.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            802 => await MSG_RAID_READY_CHECK_Client.ReadBodyAsync(r, header.Size, cancellationToken).ConfigureAwait(false),
             810 => await CMSG_GMSURVEY_SUBMIT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             _ => throw new NotImplementedException()
         };

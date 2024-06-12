@@ -181,6 +181,22 @@ public class Vanilla {
 
     [Test]
     [Timeout(1000)]
+    public async Task SMSG_TRANSFER_PENDING0() {
+        var r = new MemoryStream([0, 6, 63, 0, 1, 0, 0, 0, ]);
+
+        var c = (SMSG_TRANSFER_PENDING)await ServerOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedServerAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
     public async Task SMSG_CHARACTER_LOGIN_FAILED0() {
         var r = new MemoryStream([0, 3, 65, 0, 65, ]);
 
@@ -329,6 +345,38 @@ public class Vanilla {
         var r = new MemoryStream([0, 17, 83, 0, 239, 190, 173, 222, 65, 66, 67, 68, 69, 70, 0, 222, 202, 250, 0, ]);
 
         var c = (SMSG_PET_NAME_QUERY_RESPONSE)await ServerOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedServerAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task SMSG_ITEM_QUERY_SINGLE_RESPONSE0() {
+        var r = new MemoryStream([1, 224, 88, 0, 62, 28, 0, 0, 2, 0, 0, 0, 5, 0, 0, 0, 83, 109, 105, 116, 101, 39, 115, 32, 77, 105, 103, 104, 116, 121, 32, 72, 97, 109, 109, 101, 114, 0, 0, 0, 0, 154, 76, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 155, 60, 0, 0, 31, 12, 0, 0, 17, 0, 0, 0, 223, 5, 0, 0, 255, 1, 0, 0, 23, 0, 0, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 11, 0, 0, 0, 3, 0, 0, 0, 4, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 92, 66, 0, 0, 166, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 172, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]);
+
+        var c = (SMSG_ITEM_QUERY_SINGLE_RESPONSE)await ServerOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedServerAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task SMSG_CREATURE_QUERY_RESPONSE0() {
+        var r = new MemoryStream([0, 46, 97, 0, 69, 0, 0, 0, 84, 104, 105, 110, 103, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]);
+
+        var c = (SMSG_CREATURE_QUERY_RESPONSE)await ServerOpcodeReader.ReadUnencryptedAsync(r);
         Assert.That(r.Position, Is.EqualTo(r.Length));
 
         var w = new MemoryStream();

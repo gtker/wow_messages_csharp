@@ -40,6 +40,17 @@ public static class WriteWriteImplementation
                 {
                     WriteWriteMember(s, e, member, module, "");
                 }
+
+                if (e.Optional is { } optional)
+                {
+                    s.Body($"if ({e.Optional.Name.ToMemberName()} is {{ }} {e.Optional.Name.ToVariableName()})", s =>
+                    {
+                        foreach (var member in optional.Members)
+                        {
+                            WriteWriteMember(s, e, member, module, $"{e.Optional.Name.ToVariableName()}.");
+                        }
+                    });
+                }
             });
     }
 

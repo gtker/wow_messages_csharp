@@ -46,12 +46,6 @@ public static class ContainerExtensions
             return true;
         }
 
-        if (e.Optional is not null)
-        {
-            Console.WriteLine($"Skipping {e.Name} because of optional");
-            return true;
-        }
-
         return false;
 
         bool HasInvalidDefinition(Definition d) => d.DataType switch
@@ -82,7 +76,7 @@ public static class ContainerExtensions
     }
 
     public static bool NeedsBodySize(this Container e) =>
-        e.IsWorld() && e.AllDefinitions().Any(d => d.IsCompressed() || d.IsEndlessArray());
+        (e.IsWorld() && e.AllDefinitions().Any(d => d.IsCompressed() || d.IsEndlessArray())) || e.Optional is not null;
 
     public static IEnumerable<Definition> AllDefinitions(this Container e)
     {

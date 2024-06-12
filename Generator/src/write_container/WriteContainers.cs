@@ -1,6 +1,5 @@
 using Generator.Extensions;
 using Generator.Generated;
-using Generator;
 
 namespace Generator.write_container;
 
@@ -211,6 +210,21 @@ public static class WriteContainers
             WriteMemberDefinition(s, e, d);
 
             WriteEnumValue(s, po, d, e, module);
+        }
+
+        if (e.Optional is { } optional)
+        {
+            s.Body($"public struct Optional{optional.Name.ToMemberName()}", s =>
+            {
+                foreach (var po in optional.PreparedObjects)
+                {
+                    var d = e.FindDefinitionByName(po.Name);
+                    WriteMemberDefinition(s, e, d);
+                }
+            });
+
+            s.Wln(
+                $"public required Optional{optional.Name.ToMemberName()}? {optional.Name.ToMemberName()} {{ get; set; }}");
         }
     }
 

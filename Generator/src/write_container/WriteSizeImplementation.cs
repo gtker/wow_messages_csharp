@@ -19,6 +19,17 @@ public class WriteSizeImplementation
                     WriteSizeMember(s, e, member, module, "");
                 }
 
+                if (e.Optional is { } optional)
+                {
+                    s.Body($"if ({e.Optional.Name.ToMemberName()} is {{ }} {e.Optional.Name.ToVariableName()})", s =>
+                    {
+                        foreach (var member in optional.Members)
+                        {
+                            WriteSizeMember(s, e, member, module, $"{e.Optional.Name.ToVariableName()}.");
+                        }
+                    });
+                }
+
                 s.Wln(manualSizeSubtraction == 0 ? "return size;" : $"return size - {manualSizeSubtraction};");
             }
             else
