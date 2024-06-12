@@ -36,13 +36,13 @@ public class CMSG_GMTICKET_CREATE: VanillaClientMessage, IWorldMessage {
 
         await w.WriteCString(ReservedForFutureUse, cancellationToken).ConfigureAwait(false);
 
-        if (Category.Value is CMSG_GMTICKET_CREATE.GmTicketTypeBehaviorHarassment behaviorHarassment) {
-            await w.WriteUInt(behaviorHarassment.ChatDataLineCount, cancellationToken).ConfigureAwait(false);
+        if (Category.Value is CMSG_GMTICKET_CREATE.GmTicketTypeBehaviorHarassment gmTicketTypeBehaviorHarassment) {
+            await w.WriteUInt(gmTicketTypeBehaviorHarassment.ChatDataLineCount, cancellationToken).ConfigureAwait(false);
 
-            if (behaviorHarassment.CompressedChatData.Count != 0) {
+            if (gmTicketTypeBehaviorHarassment.CompressedChatData.Count != 0) {
                 var oldStream = w;
                 w = new MemoryStream();
-                foreach (var v in behaviorHarassment.CompressedChatData) {
+                foreach (var v in gmTicketTypeBehaviorHarassment.CompressedChatData) {
                     await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
                 }
                 var uncompressedLength = w.Position;

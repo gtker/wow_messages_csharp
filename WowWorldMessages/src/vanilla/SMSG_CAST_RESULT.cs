@@ -40,24 +40,24 @@ public class SMSG_CAST_RESULT: VanillaServerMessage, IWorldMessage {
 
         await w.WriteByte((byte)ResultValue, cancellationToken).ConfigureAwait(false);
 
-        if (Result.Value is SMSG_CAST_RESULT.SimpleSpellCastResultSuccess success) {
-            await w.WriteByte((byte)success.ReasonValue, cancellationToken).ConfigureAwait(false);
+        if (Result.Value is SMSG_CAST_RESULT.SimpleSpellCastResultSuccess simpleSpellCastResultSuccess) {
+            await w.WriteByte((byte)simpleSpellCastResultSuccess.ReasonValue, cancellationToken).ConfigureAwait(false);
 
-            if (success.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonRequiresSpellFocus requiresSpellFocus) {
-                await w.WriteUInt(requiresSpellFocus.RequiredSpellFocus, cancellationToken).ConfigureAwait(false);
-
-            }
-            else if (success.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonRequiresArea requiresArea) {
-                await w.WriteUInt((uint)requiresArea.Area, cancellationToken).ConfigureAwait(false);
+            if (simpleSpellCastResultSuccess.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonRequiresSpellFocus castFailureReasonRequiresSpellFocus) {
+                await w.WriteUInt(castFailureReasonRequiresSpellFocus.RequiredSpellFocus, cancellationToken).ConfigureAwait(false);
 
             }
+            else if (simpleSpellCastResultSuccess.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonRequiresArea castFailureReasonRequiresArea) {
+                await w.WriteUInt((uint)castFailureReasonRequiresArea.Area, cancellationToken).ConfigureAwait(false);
 
-            else if (success.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonEquippedItemClass equippedItemClass) {
-                await w.WriteUInt(equippedItemClass.EquippedItemClass, cancellationToken).ConfigureAwait(false);
+            }
 
-                await w.WriteUInt(equippedItemClass.EquippedItemSubclassMask, cancellationToken).ConfigureAwait(false);
+            else if (simpleSpellCastResultSuccess.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonEquippedItemClass castFailureReasonEquippedItemClass) {
+                await w.WriteUInt(castFailureReasonEquippedItemClass.EquippedItemClass, cancellationToken).ConfigureAwait(false);
 
-                await w.WriteUInt(equippedItemClass.EquippedItemInventoryTypeMask, cancellationToken).ConfigureAwait(false);
+                await w.WriteUInt(castFailureReasonEquippedItemClass.EquippedItemSubclassMask, cancellationToken).ConfigureAwait(false);
+
+                await w.WriteUInt(castFailureReasonEquippedItemClass.EquippedItemInventoryTypeMask, cancellationToken).ConfigureAwait(false);
 
             }
 
@@ -137,22 +137,22 @@ public class SMSG_CAST_RESULT: VanillaServerMessage, IWorldMessage {
         // result: Generator.Generated.DataTypeEnum
         size += 1;
 
-        if (Result.Value is SMSG_CAST_RESULT.SimpleSpellCastResultSuccess success) {
+        if (Result.Value is SMSG_CAST_RESULT.SimpleSpellCastResultSuccess simpleSpellCastResultSuccess) {
             // reason: Generator.Generated.DataTypeEnum
             size += 1;
 
-            if (success.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonRequiresSpellFocus requiresSpellFocus) {
+            if (simpleSpellCastResultSuccess.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonRequiresSpellFocus castFailureReasonRequiresSpellFocus) {
                 // required_spell_focus: Generator.Generated.DataTypeInteger
                 size += 4;
 
             }
-            else if (success.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonRequiresArea requiresArea) {
+            else if (simpleSpellCastResultSuccess.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonRequiresArea castFailureReasonRequiresArea) {
                 // area: Generator.Generated.DataTypeEnum
                 size += 4;
 
             }
 
-            else if (success.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonEquippedItemClass equippedItemClass) {
+            else if (simpleSpellCastResultSuccess.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonEquippedItemClass castFailureReasonEquippedItemClass) {
                 // equipped_item_class: Generator.Generated.DataTypeInteger
                 size += 4;
 

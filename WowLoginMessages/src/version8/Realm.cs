@@ -45,8 +45,8 @@ public class Realm {
 
         await w.WriteByte(RealmId, cancellationToken).ConfigureAwait(false);
 
-        if (Flag.SpecifyBuild is {} specifyBuild) {
-            await specifyBuild.Version.WriteAsync(w, cancellationToken).ConfigureAwait(false);
+        if (Flag.SpecifyBuild is {} realmFlagSpecifyBuild) {
+            await realmFlagSpecifyBuild.Version.WriteAsync(w, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -124,7 +124,7 @@ public class Realm {
         // realm_id: Generator.Generated.DataTypeInteger
         size += 1;
 
-        if (Flag.SpecifyBuild is {} specifyBuild) {
+        if (Flag.SpecifyBuild is {} realmFlagSpecifyBuild) {
             // version: Generator.Generated.DataTypeStruct
             size += 5;
 

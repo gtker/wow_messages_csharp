@@ -39,17 +39,17 @@ public class SMSG_MONSTER_MOVE: VanillaServerMessage, IWorldMessage {
 
         await w.WriteByte((byte)MoveTypeValue, cancellationToken).ConfigureAwait(false);
 
-        if (MoveType.Value is SMSG_MONSTER_MOVE.MonsterMoveTypeFacingTarget facingTarget) {
-            await w.WriteULong(facingTarget.Target, cancellationToken).ConfigureAwait(false);
+        if (MoveType.Value is SMSG_MONSTER_MOVE.MonsterMoveTypeFacingTarget monsterMoveTypeFacingTarget) {
+            await w.WriteULong(monsterMoveTypeFacingTarget.Target, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (MoveType.Value is SMSG_MONSTER_MOVE.MonsterMoveTypeFacingAngle facingAngle) {
-            await w.WriteFloat(facingAngle.Angle, cancellationToken).ConfigureAwait(false);
+        else if (MoveType.Value is SMSG_MONSTER_MOVE.MonsterMoveTypeFacingAngle monsterMoveTypeFacingAngle) {
+            await w.WriteFloat(monsterMoveTypeFacingAngle.Angle, cancellationToken).ConfigureAwait(false);
 
         }
 
-        else if (MoveType.Value is SMSG_MONSTER_MOVE.MonsterMoveTypeFacingSpot facingSpot) {
-            await facingSpot.Position.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
+        else if (MoveType.Value is SMSG_MONSTER_MOVE.MonsterMoveTypeFacingSpot monsterMoveTypeFacingSpot) {
+            await monsterMoveTypeFacingSpot.Position.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -140,18 +140,18 @@ public class SMSG_MONSTER_MOVE: VanillaServerMessage, IWorldMessage {
         // move_type: Generator.Generated.DataTypeEnum
         size += 1;
 
-        if (MoveType.Value is SMSG_MONSTER_MOVE.MonsterMoveTypeFacingTarget facingTarget) {
+        if (MoveType.Value is SMSG_MONSTER_MOVE.MonsterMoveTypeFacingTarget monsterMoveTypeFacingTarget) {
             // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (MoveType.Value is SMSG_MONSTER_MOVE.MonsterMoveTypeFacingAngle facingAngle) {
+        else if (MoveType.Value is SMSG_MONSTER_MOVE.MonsterMoveTypeFacingAngle monsterMoveTypeFacingAngle) {
             // angle: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
         }
 
-        else if (MoveType.Value is SMSG_MONSTER_MOVE.MonsterMoveTypeFacingSpot facingSpot) {
+        else if (MoveType.Value is SMSG_MONSTER_MOVE.MonsterMoveTypeFacingSpot monsterMoveTypeFacingSpot) {
             // position: Generator.Generated.DataTypeStruct
             size += 12;
 

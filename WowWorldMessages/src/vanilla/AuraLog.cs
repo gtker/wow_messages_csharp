@@ -67,54 +67,54 @@ public class AuraLog {
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)AuraTypeValue, cancellationToken).ConfigureAwait(false);
 
-        if (AuraType.Value is AuraLog.AuraTypePeriodicDamage periodicDamage) {
-            await w.WriteUInt(periodicDamage.Damage1, cancellationToken).ConfigureAwait(false);
+        if (AuraType.Value is AuraLog.AuraTypePeriodicDamage auraTypePeriodicDamage) {
+            await w.WriteUInt(auraTypePeriodicDamage.Damage1, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteByte((byte)periodicDamage.School, cancellationToken).ConfigureAwait(false);
+            await w.WriteByte((byte)auraTypePeriodicDamage.School, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt(periodicDamage.Absorbed, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt(auraTypePeriodicDamage.Absorbed, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt(periodicDamage.Resisted, cancellationToken).ConfigureAwait(false);
-
-        }
-        else if (AuraType.Value is AuraLog.AuraTypePeriodicDamagePercent periodicDamagePercent) {
-            await w.WriteUInt(periodicDamagePercent.Damage1, cancellationToken).ConfigureAwait(false);
-
-            await w.WriteByte((byte)periodicDamagePercent.School, cancellationToken).ConfigureAwait(false);
-
-            await w.WriteUInt(periodicDamagePercent.Absorbed, cancellationToken).ConfigureAwait(false);
-
-            await w.WriteUInt(periodicDamagePercent.Resisted, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt(auraTypePeriodicDamage.Resisted, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (AuraType.Value is AuraLog.AuraTypePeriodicHeal periodicHeal) {
-            await w.WriteUInt(periodicHeal.Damage2, cancellationToken).ConfigureAwait(false);
+        else if (AuraType.Value is AuraLog.AuraTypePeriodicDamagePercent auraTypePeriodicDamagePercent) {
+            await w.WriteUInt(auraTypePeriodicDamagePercent.Damage1, cancellationToken).ConfigureAwait(false);
+
+            await w.WriteByte((byte)auraTypePeriodicDamagePercent.School, cancellationToken).ConfigureAwait(false);
+
+            await w.WriteUInt(auraTypePeriodicDamagePercent.Absorbed, cancellationToken).ConfigureAwait(false);
+
+            await w.WriteUInt(auraTypePeriodicDamagePercent.Resisted, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (AuraType.Value is AuraLog.AuraTypeObsModHealth obsModHealth) {
-            await w.WriteUInt(obsModHealth.Damage2, cancellationToken).ConfigureAwait(false);
+        else if (AuraType.Value is AuraLog.AuraTypePeriodicHeal auraTypePeriodicHeal) {
+            await w.WriteUInt(auraTypePeriodicHeal.Damage2, cancellationToken).ConfigureAwait(false);
 
         }
-
-        else if (AuraType.Value is AuraLog.AuraTypeObsModMana obsModMana) {
-            await w.WriteUInt(obsModMana.MiscValue1, cancellationToken).ConfigureAwait(false);
-
-            await w.WriteUInt(obsModMana.Damage3, cancellationToken).ConfigureAwait(false);
-
-        }
-        else if (AuraType.Value is AuraLog.AuraTypePeriodicEnergize periodicEnergize) {
-            await w.WriteUInt(periodicEnergize.MiscValue1, cancellationToken).ConfigureAwait(false);
-
-            await w.WriteUInt(periodicEnergize.Damage3, cancellationToken).ConfigureAwait(false);
+        else if (AuraType.Value is AuraLog.AuraTypeObsModHealth auraTypeObsModHealth) {
+            await w.WriteUInt(auraTypeObsModHealth.Damage2, cancellationToken).ConfigureAwait(false);
 
         }
 
-        else if (AuraType.Value is AuraLog.AuraTypePeriodicManaLeech periodicManaLeech) {
-            await w.WriteUInt(periodicManaLeech.MiscValue2, cancellationToken).ConfigureAwait(false);
+        else if (AuraType.Value is AuraLog.AuraTypeObsModMana auraTypeObsModMana) {
+            await w.WriteUInt(auraTypeObsModMana.MiscValue1, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt(periodicManaLeech.Damage, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt(auraTypeObsModMana.Damage3, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteFloat(periodicManaLeech.GainMultiplier, cancellationToken).ConfigureAwait(false);
+        }
+        else if (AuraType.Value is AuraLog.AuraTypePeriodicEnergize auraTypePeriodicEnergize) {
+            await w.WriteUInt(auraTypePeriodicEnergize.MiscValue1, cancellationToken).ConfigureAwait(false);
+
+            await w.WriteUInt(auraTypePeriodicEnergize.Damage3, cancellationToken).ConfigureAwait(false);
+
+        }
+
+        else if (AuraType.Value is AuraLog.AuraTypePeriodicManaLeech auraTypePeriodicManaLeech) {
+            await w.WriteUInt(auraTypePeriodicManaLeech.MiscValue2, cancellationToken).ConfigureAwait(false);
+
+            await w.WriteUInt(auraTypePeriodicManaLeech.Damage, cancellationToken).ConfigureAwait(false);
+
+            await w.WriteFloat(auraTypePeriodicManaLeech.GainMultiplier, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -218,7 +218,7 @@ public class AuraLog {
         // aura_type: Generator.Generated.DataTypeEnum
         size += 4;
 
-        if (AuraType.Value is AuraLog.AuraTypePeriodicDamage periodicDamage) {
+        if (AuraType.Value is AuraLog.AuraTypePeriodicDamage auraTypePeriodicDamage) {
             // damage1: Generator.Generated.DataTypeInteger
             size += 4;
 
@@ -232,7 +232,7 @@ public class AuraLog {
             size += 4;
 
         }
-        else if (AuraType.Value is AuraLog.AuraTypePeriodicDamagePercent periodicDamagePercent) {
+        else if (AuraType.Value is AuraLog.AuraTypePeriodicDamagePercent auraTypePeriodicDamagePercent) {
             // damage1: Generator.Generated.DataTypeInteger
             size += 4;
 
@@ -246,18 +246,18 @@ public class AuraLog {
             size += 4;
 
         }
-        else if (AuraType.Value is AuraLog.AuraTypePeriodicHeal periodicHeal) {
+        else if (AuraType.Value is AuraLog.AuraTypePeriodicHeal auraTypePeriodicHeal) {
             // damage2: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
-        else if (AuraType.Value is AuraLog.AuraTypeObsModHealth obsModHealth) {
+        else if (AuraType.Value is AuraLog.AuraTypeObsModHealth auraTypeObsModHealth) {
             // damage2: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
 
-        else if (AuraType.Value is AuraLog.AuraTypeObsModMana obsModMana) {
+        else if (AuraType.Value is AuraLog.AuraTypeObsModMana auraTypeObsModMana) {
             // misc_value1: Generator.Generated.DataTypeInteger
             size += 4;
 
@@ -265,7 +265,7 @@ public class AuraLog {
             size += 4;
 
         }
-        else if (AuraType.Value is AuraLog.AuraTypePeriodicEnergize periodicEnergize) {
+        else if (AuraType.Value is AuraLog.AuraTypePeriodicEnergize auraTypePeriodicEnergize) {
             // misc_value1: Generator.Generated.DataTypeInteger
             size += 4;
 
@@ -274,7 +274,7 @@ public class AuraLog {
 
         }
 
-        else if (AuraType.Value is AuraLog.AuraTypePeriodicManaLeech periodicManaLeech) {
+        else if (AuraType.Value is AuraLog.AuraTypePeriodicManaLeech auraTypePeriodicManaLeech) {
             // misc_value2: Generator.Generated.DataTypeInteger
             size += 4;
 

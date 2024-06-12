@@ -107,105 +107,105 @@ public class SMSG_PARTY_MEMBER_STATS: VanillaServerMessage, IWorldMessage {
 
         await w.WriteUInt((uint)Mask.Inner, cancellationToken).ConfigureAwait(false);
 
-        if (Mask.Status is {} status) {
-            await w.WriteByte((byte)status.Status, cancellationToken).ConfigureAwait(false);
+        if (Mask.Status is {} groupUpdateFlagsStatus) {
+            await w.WriteByte((byte)groupUpdateFlagsStatus.Status, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.CurHp is {} curHp) {
-            await w.WriteUShort(curHp.CurrentHealth, cancellationToken).ConfigureAwait(false);
+        if (Mask.CurHp is {} groupUpdateFlagsCurHp) {
+            await w.WriteUShort(groupUpdateFlagsCurHp.CurrentHealth, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.MaxHp is {} maxHp) {
-            await w.WriteUShort(maxHp.MaxHealth, cancellationToken).ConfigureAwait(false);
+        if (Mask.MaxHp is {} groupUpdateFlagsMaxHp) {
+            await w.WriteUShort(groupUpdateFlagsMaxHp.MaxHealth, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.PowerType is {} powerType) {
-            await w.WriteByte((byte)powerType.Power, cancellationToken).ConfigureAwait(false);
+        if (Mask.PowerType is {} groupUpdateFlagsPowerType) {
+            await w.WriteByte((byte)groupUpdateFlagsPowerType.Power, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.CurPower is {} curPower) {
-            await w.WriteUShort(curPower.CurrentPower, cancellationToken).ConfigureAwait(false);
+        if (Mask.CurPower is {} groupUpdateFlagsCurPower) {
+            await w.WriteUShort(groupUpdateFlagsCurPower.CurrentPower, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.MaxPower is {} maxPower) {
-            await w.WriteUShort(maxPower.MaxPower, cancellationToken).ConfigureAwait(false);
+        if (Mask.MaxPower is {} groupUpdateFlagsMaxPower) {
+            await w.WriteUShort(groupUpdateFlagsMaxPower.MaxPower, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.Level is {} level) {
-            await w.WriteUShort(level.Level, cancellationToken).ConfigureAwait(false);
+        if (Mask.Level is {} groupUpdateFlagsLevel) {
+            await w.WriteUShort(groupUpdateFlagsLevel.Level, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.Zone is {} zone) {
-            await w.WriteUInt((uint)zone.Area, cancellationToken).ConfigureAwait(false);
+        if (Mask.Zone is {} groupUpdateFlagsZone) {
+            await w.WriteUInt((uint)groupUpdateFlagsZone.Area, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.Position is {} position) {
-            await w.WriteUShort(position.PositionX, cancellationToken).ConfigureAwait(false);
+        if (Mask.Position is {} groupUpdateFlagsPosition) {
+            await w.WriteUShort(groupUpdateFlagsPosition.PositionX, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUShort(position.PositionY, cancellationToken).ConfigureAwait(false);
-
-        }
-
-        if (Mask.Auras is {} auras) {
-            await auras.Auras.WriteAsync(w, cancellationToken).ConfigureAwait(false);
+            await w.WriteUShort(groupUpdateFlagsPosition.PositionY, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.Auras2 is {} auras2) {
-            await auras2.NegativeAuras.WriteAsync(w, cancellationToken).ConfigureAwait(false);
+        if (Mask.Auras is {} groupUpdateFlagsAuras) {
+            await groupUpdateFlagsAuras.Auras.WriteAsync(w, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.PetGuid is {} petGuid) {
-            await w.WriteULong(petGuid.Pet, cancellationToken).ConfigureAwait(false);
+        if (Mask.Auras2 is {} groupUpdateFlagsAuras2) {
+            await groupUpdateFlagsAuras2.NegativeAuras.WriteAsync(w, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.PetName is {} petName) {
-            await w.WriteCString(petName.PetName, cancellationToken).ConfigureAwait(false);
+        if (Mask.PetGuid is {} groupUpdateFlagsPetGuid) {
+            await w.WriteULong(groupUpdateFlagsPetGuid.Pet, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.PetModelId is {} petModelId) {
-            await w.WriteUShort(petModelId.PetDisplayId, cancellationToken).ConfigureAwait(false);
+        if (Mask.PetName is {} groupUpdateFlagsPetName) {
+            await w.WriteCString(groupUpdateFlagsPetName.PetName, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.PetCurHp is {} petCurHp) {
-            await w.WriteUShort(petCurHp.PetCurrentHealth, cancellationToken).ConfigureAwait(false);
+        if (Mask.PetModelId is {} groupUpdateFlagsPetModelId) {
+            await w.WriteUShort(groupUpdateFlagsPetModelId.PetDisplayId, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.PetMaxHp is {} petMaxHp) {
-            await w.WriteUShort(petMaxHp.PetMaxHealth, cancellationToken).ConfigureAwait(false);
+        if (Mask.PetCurHp is {} groupUpdateFlagsPetCurHp) {
+            await w.WriteUShort(groupUpdateFlagsPetCurHp.PetCurrentHealth, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.PetPowerType is {} petPowerType) {
-            await w.WriteByte((byte)petPowerType.PetPowerType, cancellationToken).ConfigureAwait(false);
+        if (Mask.PetMaxHp is {} groupUpdateFlagsPetMaxHp) {
+            await w.WriteUShort(groupUpdateFlagsPetMaxHp.PetMaxHealth, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.PetCurPower is {} petCurPower) {
-            await w.WriteUShort(petCurPower.PetCurrentPower, cancellationToken).ConfigureAwait(false);
+        if (Mask.PetPowerType is {} groupUpdateFlagsPetPowerType) {
+            await w.WriteByte((byte)groupUpdateFlagsPetPowerType.PetPowerType, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.PetMaxPower is {} petMaxPower) {
-            await w.WriteUShort(petMaxPower.PetMaxPower, cancellationToken).ConfigureAwait(false);
+        if (Mask.PetCurPower is {} groupUpdateFlagsPetCurPower) {
+            await w.WriteUShort(groupUpdateFlagsPetCurPower.PetCurrentPower, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Mask.PetAuras is {} petAuras) {
-            await petAuras.PetAuras.WriteAsync(w, cancellationToken).ConfigureAwait(false);
+        if (Mask.PetMaxPower is {} groupUpdateFlagsPetMaxPower) {
+            await w.WriteUShort(groupUpdateFlagsPetMaxPower.PetMaxPower, cancellationToken).ConfigureAwait(false);
+
+        }
+
+        if (Mask.PetAuras is {} groupUpdateFlagsPetAuras) {
+            await groupUpdateFlagsPetAuras.PetAuras.WriteAsync(w, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -409,55 +409,55 @@ public class SMSG_PARTY_MEMBER_STATS: VanillaServerMessage, IWorldMessage {
         // mask: Generator.Generated.DataTypeFlag
         size += 4;
 
-        if (Mask.Status is {} status) {
+        if (Mask.Status is {} groupUpdateFlagsStatus) {
             // status: Generator.Generated.DataTypeFlag
             size += 1;
 
         }
 
-        if (Mask.CurHp is {} curHp) {
+        if (Mask.CurHp is {} groupUpdateFlagsCurHp) {
             // current_health: Generator.Generated.DataTypeInteger
             size += 2;
 
         }
 
-        if (Mask.MaxHp is {} maxHp) {
+        if (Mask.MaxHp is {} groupUpdateFlagsMaxHp) {
             // max_health: Generator.Generated.DataTypeInteger
             size += 2;
 
         }
 
-        if (Mask.PowerType is {} powerType) {
+        if (Mask.PowerType is {} groupUpdateFlagsPowerType) {
             // power: Generator.Generated.DataTypeEnum
             size += 1;
 
         }
 
-        if (Mask.CurPower is {} curPower) {
+        if (Mask.CurPower is {} groupUpdateFlagsCurPower) {
             // current_power: Generator.Generated.DataTypeInteger
             size += 2;
 
         }
 
-        if (Mask.MaxPower is {} maxPower) {
+        if (Mask.MaxPower is {} groupUpdateFlagsMaxPower) {
             // max_power: Generator.Generated.DataTypeInteger
             size += 2;
 
         }
 
-        if (Mask.Level is {} level) {
+        if (Mask.Level is {} groupUpdateFlagsLevel) {
             // level: Generator.Generated.DataTypeLevel16
             size += 2;
 
         }
 
-        if (Mask.Zone is {} zone) {
+        if (Mask.Zone is {} groupUpdateFlagsZone) {
             // area: Generator.Generated.DataTypeEnum
             size += 4;
 
         }
 
-        if (Mask.Position is {} position) {
+        if (Mask.Position is {} groupUpdateFlagsPosition) {
             // position_x: Generator.Generated.DataTypeInteger
             size += 2;
 
@@ -466,69 +466,69 @@ public class SMSG_PARTY_MEMBER_STATS: VanillaServerMessage, IWorldMessage {
 
         }
 
-        if (Mask.Auras is {} auras) {
+        if (Mask.Auras is {} groupUpdateFlagsAuras) {
             // auras: Generator.Generated.DataTypeAuraMask
-            size += auras.Auras.Length();;
+            size += groupUpdateFlagsAuras.Auras.Length();;
 
         }
 
-        if (Mask.Auras2 is {} auras2) {
+        if (Mask.Auras2 is {} groupUpdateFlagsAuras2) {
             // negative_auras: Generator.Generated.DataTypeAuraMask
-            size += auras2.NegativeAuras.Length();;
+            size += groupUpdateFlagsAuras2.NegativeAuras.Length();;
 
         }
 
-        if (Mask.PetGuid is {} petGuid) {
+        if (Mask.PetGuid is {} groupUpdateFlagsPetGuid) {
             // pet: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
 
-        if (Mask.PetName is {} petName) {
+        if (Mask.PetName is {} groupUpdateFlagsPetName) {
             // pet_name: Generator.Generated.DataTypeCstring
-            size += petName.PetName.Length + 1;
+            size += groupUpdateFlagsPetName.PetName.Length + 1;
 
         }
 
-        if (Mask.PetModelId is {} petModelId) {
+        if (Mask.PetModelId is {} groupUpdateFlagsPetModelId) {
             // pet_display_id: Generator.Generated.DataTypeInteger
             size += 2;
 
         }
 
-        if (Mask.PetCurHp is {} petCurHp) {
+        if (Mask.PetCurHp is {} groupUpdateFlagsPetCurHp) {
             // pet_current_health: Generator.Generated.DataTypeInteger
             size += 2;
 
         }
 
-        if (Mask.PetMaxHp is {} petMaxHp) {
+        if (Mask.PetMaxHp is {} groupUpdateFlagsPetMaxHp) {
             // pet_max_health: Generator.Generated.DataTypeInteger
             size += 2;
 
         }
 
-        if (Mask.PetPowerType is {} petPowerType) {
+        if (Mask.PetPowerType is {} groupUpdateFlagsPetPowerType) {
             // pet_power_type: Generator.Generated.DataTypeEnum
             size += 1;
 
         }
 
-        if (Mask.PetCurPower is {} petCurPower) {
+        if (Mask.PetCurPower is {} groupUpdateFlagsPetCurPower) {
             // pet_current_power: Generator.Generated.DataTypeInteger
             size += 2;
 
         }
 
-        if (Mask.PetMaxPower is {} petMaxPower) {
+        if (Mask.PetMaxPower is {} groupUpdateFlagsPetMaxPower) {
             // pet_max_power: Generator.Generated.DataTypeInteger
             size += 2;
 
         }
 
-        if (Mask.PetAuras is {} petAuras) {
+        if (Mask.PetAuras is {} groupUpdateFlagsPetAuras) {
             // pet_auras: Generator.Generated.DataTypeAuraMask
-            size += petAuras.PetAuras.Length();;
+            size += groupUpdateFlagsPetAuras.PetAuras.Length();;
 
         }
 

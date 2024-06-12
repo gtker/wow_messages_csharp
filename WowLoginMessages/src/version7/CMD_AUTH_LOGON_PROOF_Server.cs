@@ -23,14 +23,14 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version7ServerMessage, ILoginMessage {
 
         await w.WriteByte((byte)ResultValue, cancellationToken).ConfigureAwait(false);
 
-        if (Result.Value is CMD_AUTH_LOGON_PROOF_Server.LoginResultSuccess success) {
-            foreach (var v in success.ServerProof) {
+        if (Result.Value is CMD_AUTH_LOGON_PROOF_Server.LoginResultSuccess loginResultSuccess) {
+            foreach (var v in loginResultSuccess.ServerProof) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            await w.WriteUInt(success.HardwareSurveyId, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt(loginResultSuccess.HardwareSurveyId, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUShort(success.Unknown, cancellationToken).ConfigureAwait(false);
+            await w.WriteUShort(loginResultSuccess.Unknown, cancellationToken).ConfigureAwait(false);
 
         }
 

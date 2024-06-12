@@ -38,8 +38,8 @@ public class GuildMember {
 
         await w.WriteUInt((uint)Area, cancellationToken).ConfigureAwait(false);
 
-        if (Status.Value is GuildMember.GuildMemberStatusOffline offline) {
-            await w.WriteFloat(offline.TimeOffline, cancellationToken).ConfigureAwait(false);
+        if (Status.Value is GuildMember.GuildMemberStatusOffline guildMemberStatusOffline) {
+            await w.WriteFloat(guildMemberStatusOffline.TimeOffline, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -113,7 +113,7 @@ public class GuildMember {
         // area: Generator.Generated.DataTypeEnum
         size += 4;
 
-        if (Status.Value is GuildMember.GuildMemberStatusOffline offline) {
+        if (Status.Value is GuildMember.GuildMemberStatusOffline guildMemberStatusOffline) {
             // time_offline: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 

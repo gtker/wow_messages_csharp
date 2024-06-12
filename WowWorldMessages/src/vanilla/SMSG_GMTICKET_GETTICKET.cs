@@ -28,20 +28,20 @@ public class SMSG_GMTICKET_GETTICKET: VanillaServerMessage, IWorldMessage {
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)StatusValue, cancellationToken).ConfigureAwait(false);
 
-        if (Status.Value is SMSG_GMTICKET_GETTICKET.GmTicketStatusHasText hasText) {
-            await w.WriteCString(hasText.Text, cancellationToken).ConfigureAwait(false);
+        if (Status.Value is SMSG_GMTICKET_GETTICKET.GmTicketStatusHasText gmTicketStatusHasText) {
+            await w.WriteCString(gmTicketStatusHasText.Text, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteByte((byte)hasText.TicketType, cancellationToken).ConfigureAwait(false);
+            await w.WriteByte((byte)gmTicketStatusHasText.TicketType, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteFloat(hasText.DaysSinceTicketCreation, cancellationToken).ConfigureAwait(false);
+            await w.WriteFloat(gmTicketStatusHasText.DaysSinceTicketCreation, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteFloat(hasText.DaysSinceOldestTicketCreation, cancellationToken).ConfigureAwait(false);
+            await w.WriteFloat(gmTicketStatusHasText.DaysSinceOldestTicketCreation, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteFloat(hasText.DaysSinceLastUpdated, cancellationToken).ConfigureAwait(false);
+            await w.WriteFloat(gmTicketStatusHasText.DaysSinceLastUpdated, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteByte((byte)hasText.EscalationStatus, cancellationToken).ConfigureAwait(false);
+            await w.WriteByte((byte)gmTicketStatusHasText.EscalationStatus, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteBool8(hasText.ReadByGm, cancellationToken).ConfigureAwait(false);
+            await w.WriteBool8(gmTicketStatusHasText.ReadByGm, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -100,9 +100,9 @@ public class SMSG_GMTICKET_GETTICKET: VanillaServerMessage, IWorldMessage {
         // status: Generator.Generated.DataTypeEnum
         size += 4;
 
-        if (Status.Value is SMSG_GMTICKET_GETTICKET.GmTicketStatusHasText hasText) {
+        if (Status.Value is SMSG_GMTICKET_GETTICKET.GmTicketStatusHasText gmTicketStatusHasText) {
             // text: Generator.Generated.DataTypeCstring
-            size += hasText.Text.Length + 1;
+            size += gmTicketStatusHasText.Text.Length + 1;
 
             // ticket_type: Generator.Generated.DataTypeEnum
             size += 1;

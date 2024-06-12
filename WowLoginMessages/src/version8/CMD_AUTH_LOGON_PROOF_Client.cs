@@ -65,26 +65,26 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version8ClientMessage, ILoginMessage {
 
         await w.WriteByte((byte)SecurityFlag.Inner, cancellationToken).ConfigureAwait(false);
 
-        if (SecurityFlag.Pin is {} pin) {
-            foreach (var v in pin.PinSalt) {
+        if (SecurityFlag.Pin is {} securityFlagPin) {
+            foreach (var v in securityFlagPin.PinSalt) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            foreach (var v in pin.PinHash) {
-                await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
-            }
-
-        }
-
-        if (SecurityFlag.MatrixCard is {} matrixCard) {
-            foreach (var v in matrixCard.MatrixCardProof) {
+            foreach (var v in securityFlagPin.PinHash) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
         }
 
-        if (SecurityFlag.Authenticator is {} authenticator) {
-            await w.WriteString(authenticator.Authenticator, cancellationToken).ConfigureAwait(false);
+        if (SecurityFlag.MatrixCard is {} securityFlagMatrixCard) {
+            foreach (var v in securityFlagMatrixCard.MatrixCardProof) {
+                await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
+            }
+
+        }
+
+        if (SecurityFlag.Authenticator is {} securityFlagAuthenticator) {
+            await w.WriteString(securityFlagAuthenticator.Authenticator, cancellationToken).ConfigureAwait(false);
 
         }
 

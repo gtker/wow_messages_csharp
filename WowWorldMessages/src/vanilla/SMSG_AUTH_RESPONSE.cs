@@ -25,16 +25,16 @@ public class SMSG_AUTH_RESPONSE: VanillaServerMessage, IWorldMessage {
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteByte((byte)ResultValue, cancellationToken).ConfigureAwait(false);
 
-        if (Result.Value is SMSG_AUTH_RESPONSE.WorldResultAuthOk authOk) {
-            await w.WriteUInt(authOk.BillingTime, cancellationToken).ConfigureAwait(false);
+        if (Result.Value is SMSG_AUTH_RESPONSE.WorldResultAuthOk worldResultAuthOk) {
+            await w.WriteUInt(worldResultAuthOk.BillingTime, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteByte(authOk.BillingFlags, cancellationToken).ConfigureAwait(false);
+            await w.WriteByte(worldResultAuthOk.BillingFlags, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt(authOk.BillingRested, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt(worldResultAuthOk.BillingRested, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (Result.Value is SMSG_AUTH_RESPONSE.WorldResultAuthWaitQueue authWaitQueue) {
-            await w.WriteUInt(authWaitQueue.QueuePosition, cancellationToken).ConfigureAwait(false);
+        else if (Result.Value is SMSG_AUTH_RESPONSE.WorldResultAuthWaitQueue worldResultAuthWaitQueue) {
+            await w.WriteUInt(worldResultAuthWaitQueue.QueuePosition, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -90,7 +90,7 @@ public class SMSG_AUTH_RESPONSE: VanillaServerMessage, IWorldMessage {
         // result: Generator.Generated.DataTypeEnum
         size += 1;
 
-        if (Result.Value is SMSG_AUTH_RESPONSE.WorldResultAuthOk authOk) {
+        if (Result.Value is SMSG_AUTH_RESPONSE.WorldResultAuthOk worldResultAuthOk) {
             // billing_time: Generator.Generated.DataTypeInteger
             size += 4;
 
@@ -101,7 +101,7 @@ public class SMSG_AUTH_RESPONSE: VanillaServerMessage, IWorldMessage {
             size += 4;
 
         }
-        else if (Result.Value is SMSG_AUTH_RESPONSE.WorldResultAuthWaitQueue authWaitQueue) {
+        else if (Result.Value is SMSG_AUTH_RESPONSE.WorldResultAuthWaitQueue worldResultAuthWaitQueue) {
             // queue_position: Generator.Generated.DataTypeInteger
             size += 4;
 

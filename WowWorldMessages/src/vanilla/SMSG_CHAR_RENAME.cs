@@ -20,10 +20,10 @@ public class SMSG_CHAR_RENAME: VanillaServerMessage, IWorldMessage {
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteByte((byte)ResultValue, cancellationToken).ConfigureAwait(false);
 
-        if (Result.Value is SMSG_CHAR_RENAME.WorldResultResponseSuccess responseSuccess) {
-            await w.WriteULong(responseSuccess.Character, cancellationToken).ConfigureAwait(false);
+        if (Result.Value is SMSG_CHAR_RENAME.WorldResultResponseSuccess worldResultResponseSuccess) {
+            await w.WriteULong(worldResultResponseSuccess.Character, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteCString(responseSuccess.NewName, cancellationToken).ConfigureAwait(false);
+            await w.WriteCString(worldResultResponseSuccess.NewName, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -67,12 +67,12 @@ public class SMSG_CHAR_RENAME: VanillaServerMessage, IWorldMessage {
         // result: Generator.Generated.DataTypeEnum
         size += 1;
 
-        if (Result.Value is SMSG_CHAR_RENAME.WorldResultResponseSuccess responseSuccess) {
+        if (Result.Value is SMSG_CHAR_RENAME.WorldResultResponseSuccess worldResultResponseSuccess) {
             // character: Generator.Generated.DataTypeGuid
             size += 8;
 
             // new_name: Generator.Generated.DataTypeCstring
-            size += responseSuccess.NewName.Length + 1;
+            size += worldResultResponseSuccess.NewName.Length + 1;
 
         }
 

@@ -24,14 +24,14 @@ public class MSG_RAID_TARGET_UPDATE_Server: VanillaServerMessage, IWorldMessage 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteByte((byte)UpdateTypeValue, cancellationToken).ConfigureAwait(false);
 
-        if (UpdateType.Value is MSG_RAID_TARGET_UPDATE_Server.RaidTargetUpdateTypeFull full) {
-            foreach (var v in full.RaidTargets) {
+        if (UpdateType.Value is MSG_RAID_TARGET_UPDATE_Server.RaidTargetUpdateTypeFull raidTargetUpdateTypeFull) {
+            foreach (var v in raidTargetUpdateTypeFull.RaidTargets) {
                 await v.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
             }
 
         }
-        else if (UpdateType.Value is MSG_RAID_TARGET_UPDATE_Server.RaidTargetUpdateTypePartial partial) {
-            await partial.RaidTarget.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
+        else if (UpdateType.Value is MSG_RAID_TARGET_UPDATE_Server.RaidTargetUpdateTypePartial raidTargetUpdateTypePartial) {
+            await raidTargetUpdateTypePartial.RaidTarget.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -84,12 +84,12 @@ public class MSG_RAID_TARGET_UPDATE_Server: VanillaServerMessage, IWorldMessage 
         // update_type: Generator.Generated.DataTypeEnum
         size += 1;
 
-        if (UpdateType.Value is MSG_RAID_TARGET_UPDATE_Server.RaidTargetUpdateTypeFull full) {
+        if (UpdateType.Value is MSG_RAID_TARGET_UPDATE_Server.RaidTargetUpdateTypeFull raidTargetUpdateTypeFull) {
             // raid_targets: Generator.Generated.DataTypeArray
-            size += full.RaidTargets.Sum(e => 9);
+            size += raidTargetUpdateTypeFull.RaidTargets.Sum(e => 9);
 
         }
-        else if (UpdateType.Value is MSG_RAID_TARGET_UPDATE_Server.RaidTargetUpdateTypePartial partial) {
+        else if (UpdateType.Value is MSG_RAID_TARGET_UPDATE_Server.RaidTargetUpdateTypePartial raidTargetUpdateTypePartial) {
             // raid_target: Generator.Generated.DataTypeStruct
             size += 9;
 

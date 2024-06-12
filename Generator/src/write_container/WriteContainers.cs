@@ -320,6 +320,13 @@ public static class WriteContainers
         }
     }
 
+    private static string GetIfStatementVariablePrefix(Definition d, string enumerator)
+    {
+        var s = d.PreparedObjectTypeName(enumerator);
+        var t = char.ToLower(s[0]);
+        return t + s[1..];
+    }
+
     public static void WriteIfStatement(Writer s, Container e, IfStatement statement, string module,
         Action<Writer, Container, StructMember, string, string, string> invocation,
         Action<Writer, Definition, IList<PreparedObject>, string> end,
@@ -330,7 +337,10 @@ public static class WriteContainers
         foreach (var (i, enumerator) in statement.Values
                      .Select((v, i) => (i, v)))
         {
-            var newVariablePrefix = enumerator.ToVariableName();
+            var po = e.FindPreparedObject(statement.VariableName);
+            var d = e.FindDefinitionByName(statement.VariableName);
+
+            var newVariablePrefix = GetIfStatementVariablePrefix(d, enumerator);
             var cond = GetConditional(statement, isWrite, statement.OriginalType.CsType(), e.Name, module,
                 enumerator, newVariablePrefix);
             var flag = statement.OriginalType is DataTypeFlag;
@@ -340,9 +350,6 @@ public static class WriteContainers
 
             s.Body(ifHeader, s =>
             {
-                var po = e.FindPreparedObject(statement.VariableName);
-                var d = e.FindDefinitionByName(statement.VariableName);
-
                 foreach (var member in statement.Members)
                 {
                     var objectPrefix = $"{d.PreparedObjectTypeName(enumerator)}.";

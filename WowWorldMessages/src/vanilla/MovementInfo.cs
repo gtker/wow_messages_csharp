@@ -42,31 +42,31 @@ public class MovementInfo {
 
         await w.WriteFloat(Orientation, cancellationToken).ConfigureAwait(false);
 
-        if (Flags.OnTransport is {} onTransport) {
-            await onTransport.Transport.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
+        if (Flags.OnTransport is {} movementFlagsOnTransport) {
+            await movementFlagsOnTransport.Transport.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Flags.Swimming is {} swimming) {
-            await w.WriteFloat(swimming.Pitch, cancellationToken).ConfigureAwait(false);
+        if (Flags.Swimming is {} movementFlagsSwimming) {
+            await w.WriteFloat(movementFlagsSwimming.Pitch, cancellationToken).ConfigureAwait(false);
 
         }
 
         await w.WriteFloat(FallTime, cancellationToken).ConfigureAwait(false);
 
-        if (Flags.Jumping is {} jumping) {
-            await w.WriteFloat(jumping.ZSpeed, cancellationToken).ConfigureAwait(false);
+        if (Flags.Jumping is {} movementFlagsJumping) {
+            await w.WriteFloat(movementFlagsJumping.ZSpeed, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteFloat(jumping.CosAngle, cancellationToken).ConfigureAwait(false);
+            await w.WriteFloat(movementFlagsJumping.CosAngle, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteFloat(jumping.SinAngle, cancellationToken).ConfigureAwait(false);
+            await w.WriteFloat(movementFlagsJumping.SinAngle, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteFloat(jumping.XySpeed, cancellationToken).ConfigureAwait(false);
+            await w.WriteFloat(movementFlagsJumping.XySpeed, cancellationToken).ConfigureAwait(false);
 
         }
 
-        if (Flags.SplineElevation is {} splineElevation) {
-            await w.WriteFloat(splineElevation.SplineElevation, cancellationToken).ConfigureAwait(false);
+        if (Flags.SplineElevation is {} movementFlagsSplineElevation) {
+            await w.WriteFloat(movementFlagsSplineElevation.SplineElevation, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -150,13 +150,13 @@ public class MovementInfo {
         // orientation: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
-        if (Flags.OnTransport is {} onTransport) {
+        if (Flags.OnTransport is {} movementFlagsOnTransport) {
             // transport: Generator.Generated.DataTypeStruct
-            size += onTransport.Transport.Size();
+            size += movementFlagsOnTransport.Transport.Size();
 
         }
 
-        if (Flags.Swimming is {} swimming) {
+        if (Flags.Swimming is {} movementFlagsSwimming) {
             // pitch: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
@@ -165,7 +165,7 @@ public class MovementInfo {
         // fall_time: Generator.Generated.DataTypeFloatingPoint
         size += 4;
 
-        if (Flags.Jumping is {} jumping) {
+        if (Flags.Jumping is {} movementFlagsJumping) {
             // z_speed: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 
@@ -180,7 +180,7 @@ public class MovementInfo {
 
         }
 
-        if (Flags.SplineElevation is {} splineElevation) {
+        if (Flags.SplineElevation is {} movementFlagsSplineElevation) {
             // spline_elevation: Generator.Generated.DataTypeFloatingPoint
             size += 4;
 

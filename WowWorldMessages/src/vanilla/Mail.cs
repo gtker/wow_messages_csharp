@@ -62,21 +62,21 @@ public class Mail {
 
         await w.WriteByte((byte)MessageTypeValue, cancellationToken).ConfigureAwait(false);
 
-        if (MessageType.Value is Mail.MailTypeNormal normal) {
-            await w.WriteULong(normal.Sender, cancellationToken).ConfigureAwait(false);
+        if (MessageType.Value is Mail.MailTypeNormal mailTypeNormal) {
+            await w.WriteULong(mailTypeNormal.Sender, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (MessageType.Value is Mail.MailTypeCreature creature) {
-            await w.WriteUInt(creature.SenderId, cancellationToken).ConfigureAwait(false);
+        else if (MessageType.Value is Mail.MailTypeCreature mailTypeCreature) {
+            await w.WriteUInt(mailTypeCreature.SenderId, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (MessageType.Value is Mail.MailTypeGameobject gameobject) {
-            await w.WriteUInt(gameobject.SenderId, cancellationToken).ConfigureAwait(false);
+        else if (MessageType.Value is Mail.MailTypeGameobject mailTypeGameobject) {
+            await w.WriteUInt(mailTypeGameobject.SenderId, cancellationToken).ConfigureAwait(false);
 
         }
 
-        else if (MessageType.Value is Mail.MailTypeAuction auction) {
-            await w.WriteUInt(auction.AuctionId, cancellationToken).ConfigureAwait(false);
+        else if (MessageType.Value is Mail.MailTypeAuction mailTypeAuction) {
+            await w.WriteUInt(mailTypeAuction.AuctionId, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -219,23 +219,23 @@ public class Mail {
         // message_type: Generator.Generated.DataTypeEnum
         size += 1;
 
-        if (MessageType.Value is Mail.MailTypeNormal normal) {
+        if (MessageType.Value is Mail.MailTypeNormal mailTypeNormal) {
             // sender: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (MessageType.Value is Mail.MailTypeCreature creature) {
+        else if (MessageType.Value is Mail.MailTypeCreature mailTypeCreature) {
             // sender_id: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
-        else if (MessageType.Value is Mail.MailTypeGameobject gameobject) {
+        else if (MessageType.Value is Mail.MailTypeGameobject mailTypeGameobject) {
             // sender_id: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
 
-        else if (MessageType.Value is Mail.MailTypeAuction auction) {
+        else if (MessageType.Value is Mail.MailTypeAuction mailTypeAuction) {
             // auction_id: Generator.Generated.DataTypeInteger
             size += 4;
 

@@ -29,10 +29,10 @@ public class SMSG_LOG_XPGAIN: VanillaServerMessage, IWorldMessage {
 
         await w.WriteByte((byte)ExpTypeValue, cancellationToken).ConfigureAwait(false);
 
-        if (ExpType.Value is SMSG_LOG_XPGAIN.ExperienceAwardTypeNonKill nonKill) {
-            await w.WriteUInt(nonKill.ExperienceWithoutRested, cancellationToken).ConfigureAwait(false);
+        if (ExpType.Value is SMSG_LOG_XPGAIN.ExperienceAwardTypeNonKill experienceAwardTypeNonKill) {
+            await w.WriteUInt(experienceAwardTypeNonKill.ExperienceWithoutRested, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteFloat(nonKill.ExpGroupBonus, cancellationToken).ConfigureAwait(false);
+            await w.WriteFloat(experienceAwardTypeNonKill.ExpGroupBonus, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -88,7 +88,7 @@ public class SMSG_LOG_XPGAIN: VanillaServerMessage, IWorldMessage {
         // exp_type: Generator.Generated.DataTypeEnum
         size += 1;
 
-        if (ExpType.Value is SMSG_LOG_XPGAIN.ExperienceAwardTypeNonKill nonKill) {
+        if (ExpType.Value is SMSG_LOG_XPGAIN.ExperienceAwardTypeNonKill experienceAwardTypeNonKill) {
             // experience_without_rested: Generator.Generated.DataTypeInteger
             size += 4;
 

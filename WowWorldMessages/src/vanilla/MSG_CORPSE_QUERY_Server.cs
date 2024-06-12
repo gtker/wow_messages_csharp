@@ -21,12 +21,12 @@ public class MSG_CORPSE_QUERY_Server: VanillaServerMessage, IWorldMessage {
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteByte((byte)ResultValue, cancellationToken).ConfigureAwait(false);
 
-        if (Result.Value is MSG_CORPSE_QUERY_Server.CorpseQueryResultFound found) {
-            await w.WriteUInt((uint)found.Map, cancellationToken).ConfigureAwait(false);
+        if (Result.Value is MSG_CORPSE_QUERY_Server.CorpseQueryResultFound corpseQueryResultFound) {
+            await w.WriteUInt((uint)corpseQueryResultFound.Map, cancellationToken).ConfigureAwait(false);
 
-            await found.Position.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
+            await corpseQueryResultFound.Position.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt((uint)found.CorpseMap, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt((uint)corpseQueryResultFound.CorpseMap, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -73,7 +73,7 @@ public class MSG_CORPSE_QUERY_Server: VanillaServerMessage, IWorldMessage {
         // result: Generator.Generated.DataTypeEnum
         size += 1;
 
-        if (Result.Value is MSG_CORPSE_QUERY_Server.CorpseQueryResultFound found) {
+        if (Result.Value is MSG_CORPSE_QUERY_Server.CorpseQueryResultFound corpseQueryResultFound) {
             // map: Generator.Generated.DataTypeEnum
             size += 4;
 

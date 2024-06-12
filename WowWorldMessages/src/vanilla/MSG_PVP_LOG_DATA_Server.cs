@@ -20,8 +20,8 @@ public class MSG_PVP_LOG_DATA_Server: VanillaServerMessage, IWorldMessage {
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteByte((byte)StatusValue, cancellationToken).ConfigureAwait(false);
 
-        if (Status.Value is MSG_PVP_LOG_DATA_Server.BattlegroundEndStatusEnded ended) {
-            await w.WriteByte((byte)ended.Winner, cancellationToken).ConfigureAwait(false);
+        if (Status.Value is MSG_PVP_LOG_DATA_Server.BattlegroundEndStatusEnded battlegroundEndStatusEnded) {
+            await w.WriteByte((byte)battlegroundEndStatusEnded.Winner, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -77,7 +77,7 @@ public class MSG_PVP_LOG_DATA_Server: VanillaServerMessage, IWorldMessage {
         // status: Generator.Generated.DataTypeEnum
         size += 1;
 
-        if (Status.Value is MSG_PVP_LOG_DATA_Server.BattlegroundEndStatusEnded ended) {
+        if (Status.Value is MSG_PVP_LOG_DATA_Server.BattlegroundEndStatusEnded battlegroundEndStatusEnded) {
             // winner: Generator.Generated.DataTypeEnum
             size += 1;
 

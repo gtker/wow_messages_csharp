@@ -41,36 +41,36 @@ public class Friend {
 
         await w.WriteByte((byte)StatusValue, cancellationToken).ConfigureAwait(false);
 
-        if (Status.Value is Friend.FriendStatusOnline online) {
-            await w.WriteUInt((uint)online.Area, cancellationToken).ConfigureAwait(false);
+        if (Status.Value is Friend.FriendStatusOnline friendStatusOnline) {
+            await w.WriteUInt((uint)friendStatusOnline.Area, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt(online.Level, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt(friendStatusOnline.Level, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt((uint)online.ClassType, cancellationToken).ConfigureAwait(false);
-
-        }
-        else if (Status.Value is Friend.FriendStatusAfk afk) {
-            await w.WriteUInt((uint)afk.Area, cancellationToken).ConfigureAwait(false);
-
-            await w.WriteUInt(afk.Level, cancellationToken).ConfigureAwait(false);
-
-            await w.WriteUInt((uint)afk.ClassType, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt((uint)friendStatusOnline.ClassType, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (Status.Value is Friend.FriendStatusUnknown3 unknown3) {
-            await w.WriteUInt((uint)unknown3.Area, cancellationToken).ConfigureAwait(false);
+        else if (Status.Value is Friend.FriendStatusAfk friendStatusAfk) {
+            await w.WriteUInt((uint)friendStatusAfk.Area, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt(unknown3.Level, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt(friendStatusAfk.Level, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt((uint)unknown3.ClassType, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt((uint)friendStatusAfk.ClassType, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (Status.Value is Friend.FriendStatusDnd dnd) {
-            await w.WriteUInt((uint)dnd.Area, cancellationToken).ConfigureAwait(false);
+        else if (Status.Value is Friend.FriendStatusUnknown3 friendStatusUnknown3) {
+            await w.WriteUInt((uint)friendStatusUnknown3.Area, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt(dnd.Level, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt(friendStatusUnknown3.Level, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt((uint)dnd.ClassType, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt((uint)friendStatusUnknown3.ClassType, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Status.Value is Friend.FriendStatusDnd friendStatusDnd) {
+            await w.WriteUInt((uint)friendStatusDnd.Area, cancellationToken).ConfigureAwait(false);
+
+            await w.WriteUInt(friendStatusDnd.Level, cancellationToken).ConfigureAwait(false);
+
+            await w.WriteUInt((uint)friendStatusDnd.ClassType, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -149,7 +149,7 @@ public class Friend {
         // status: Generator.Generated.DataTypeEnum
         size += 1;
 
-        if (Status.Value is Friend.FriendStatusOnline online) {
+        if (Status.Value is Friend.FriendStatusOnline friendStatusOnline) {
             // area: Generator.Generated.DataTypeEnum
             size += 4;
 
@@ -160,7 +160,7 @@ public class Friend {
             size += 4;
 
         }
-        else if (Status.Value is Friend.FriendStatusAfk afk) {
+        else if (Status.Value is Friend.FriendStatusAfk friendStatusAfk) {
             // area: Generator.Generated.DataTypeEnum
             size += 4;
 
@@ -171,7 +171,7 @@ public class Friend {
             size += 4;
 
         }
-        else if (Status.Value is Friend.FriendStatusUnknown3 unknown3) {
+        else if (Status.Value is Friend.FriendStatusUnknown3 friendStatusUnknown3) {
             // area: Generator.Generated.DataTypeEnum
             size += 4;
 
@@ -182,7 +182,7 @@ public class Friend {
             size += 4;
 
         }
-        else if (Status.Value is Friend.FriendStatusDnd dnd) {
+        else if (Status.Value is Friend.FriendStatusDnd friendStatusDnd) {
             // area: Generator.Generated.DataTypeEnum
             size += 4;
 

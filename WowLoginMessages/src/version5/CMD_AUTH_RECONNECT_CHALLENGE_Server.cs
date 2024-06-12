@@ -23,12 +23,12 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: Version5ServerMessage, ILoginM
 
         await w.WriteByte((byte)ResultValue, cancellationToken).ConfigureAwait(false);
 
-        if (Result.Value is CMD_AUTH_RECONNECT_CHALLENGE_Server.LoginResultSuccess success) {
-            foreach (var v in success.ChallengeData) {
+        if (Result.Value is CMD_AUTH_RECONNECT_CHALLENGE_Server.LoginResultSuccess loginResultSuccess) {
+            foreach (var v in loginResultSuccess.ChallengeData) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            foreach (var v in success.ChecksumSalt) {
+            foreach (var v in loginResultSuccess.ChecksumSalt) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 

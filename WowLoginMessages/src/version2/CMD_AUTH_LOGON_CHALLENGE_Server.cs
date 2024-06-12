@@ -32,28 +32,28 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version2ServerMessage, ILoginMessa
 
         await w.WriteByte((byte)ResultValue, cancellationToken).ConfigureAwait(false);
 
-        if (Result.Value is CMD_AUTH_LOGON_CHALLENGE_Server.LoginResultSuccess success) {
-            foreach (var v in success.ServerPublicKey) {
+        if (Result.Value is CMD_AUTH_LOGON_CHALLENGE_Server.LoginResultSuccess loginResultSuccess) {
+            foreach (var v in loginResultSuccess.ServerPublicKey) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            await w.WriteByte((byte)success.Generator.Count, cancellationToken).ConfigureAwait(false);
+            await w.WriteByte((byte)loginResultSuccess.Generator.Count, cancellationToken).ConfigureAwait(false);
 
-            foreach (var v in success.Generator) {
+            foreach (var v in loginResultSuccess.Generator) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            await w.WriteByte((byte)success.LargeSafePrime.Count, cancellationToken).ConfigureAwait(false);
+            await w.WriteByte((byte)loginResultSuccess.LargeSafePrime.Count, cancellationToken).ConfigureAwait(false);
 
-            foreach (var v in success.LargeSafePrime) {
+            foreach (var v in loginResultSuccess.LargeSafePrime) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            foreach (var v in success.Salt) {
+            foreach (var v in loginResultSuccess.Salt) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 
-            foreach (var v in success.CrcSalt) {
+            foreach (var v in loginResultSuccess.CrcSalt) {
                 await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
             }
 

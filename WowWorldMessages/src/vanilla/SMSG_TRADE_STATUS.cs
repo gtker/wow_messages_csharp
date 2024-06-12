@@ -48,25 +48,25 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)StatusValue, cancellationToken).ConfigureAwait(false);
 
-        if (Status.Value is SMSG_TRADE_STATUS.TradeStatusBeginTrade beginTrade) {
-            await w.WriteULong(beginTrade.Unknown1, cancellationToken).ConfigureAwait(false);
+        if (Status.Value is SMSG_TRADE_STATUS.TradeStatusBeginTrade tradeStatusBeginTrade) {
+            await w.WriteULong(tradeStatusBeginTrade.Unknown1, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusCloseWindow closeWindow) {
-            await w.WriteUInt((uint)closeWindow.InventoryResult, cancellationToken).ConfigureAwait(false);
+        else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusCloseWindow tradeStatusCloseWindow) {
+            await w.WriteUInt((uint)tradeStatusCloseWindow.InventoryResult, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteBool8(closeWindow.TargetError, cancellationToken).ConfigureAwait(false);
+            await w.WriteBool8(tradeStatusCloseWindow.TargetError, cancellationToken).ConfigureAwait(false);
 
-            await w.WriteUInt(closeWindow.ItemLimitCategoryId, cancellationToken).ConfigureAwait(false);
-
-        }
-
-        else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusOnlyConjured onlyConjured) {
-            await w.WriteByte(onlyConjured.Slot, cancellationToken).ConfigureAwait(false);
+            await w.WriteUInt(tradeStatusCloseWindow.ItemLimitCategoryId, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusNotOnTaplist notOnTaplist) {
-            await w.WriteByte(notOnTaplist.Slot, cancellationToken).ConfigureAwait(false);
+
+        else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusOnlyConjured tradeStatusOnlyConjured) {
+            await w.WriteByte(tradeStatusOnlyConjured.Slot, cancellationToken).ConfigureAwait(false);
+
+        }
+        else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusNotOnTaplist tradeStatusNotOnTaplist) {
+            await w.WriteByte(tradeStatusNotOnTaplist.Slot, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -137,12 +137,12 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
         // status: Generator.Generated.DataTypeEnum
         size += 4;
 
-        if (Status.Value is SMSG_TRADE_STATUS.TradeStatusBeginTrade beginTrade) {
+        if (Status.Value is SMSG_TRADE_STATUS.TradeStatusBeginTrade tradeStatusBeginTrade) {
             // unknown1: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusCloseWindow closeWindow) {
+        else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusCloseWindow tradeStatusCloseWindow) {
             // inventory_result: Generator.Generated.DataTypeEnum
             size += 4;
 
@@ -154,12 +154,12 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
 
         }
 
-        else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusOnlyConjured onlyConjured) {
+        else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusOnlyConjured tradeStatusOnlyConjured) {
             // slot: Generator.Generated.DataTypeInteger
             size += 1;
 
         }
-        else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusNotOnTaplist notOnTaplist) {
+        else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusNotOnTaplist tradeStatusNotOnTaplist) {
             // slot: Generator.Generated.DataTypeInteger
             size += 1;
 

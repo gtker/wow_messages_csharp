@@ -27,12 +27,12 @@ public class CMSG_MESSAGECHAT: VanillaClientMessage, IWorldMessage {
 
         await w.WriteUInt((uint)Language, cancellationToken).ConfigureAwait(false);
 
-        if (ChatType.Value is CMSG_MESSAGECHAT.ChatTypeWhisper whisper) {
-            await w.WriteCString(whisper.TargetPlayer, cancellationToken).ConfigureAwait(false);
+        if (ChatType.Value is CMSG_MESSAGECHAT.ChatTypeWhisper chatTypeWhisper) {
+            await w.WriteCString(chatTypeWhisper.TargetPlayer, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (ChatType.Value is CMSG_MESSAGECHAT.ChatTypeChannel channel) {
-            await w.WriteCString(channel.Channel, cancellationToken).ConfigureAwait(false);
+        else if (ChatType.Value is CMSG_MESSAGECHAT.ChatTypeChannel chatTypeChannel) {
+            await w.WriteCString(chatTypeChannel.Channel, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -93,14 +93,14 @@ public class CMSG_MESSAGECHAT: VanillaClientMessage, IWorldMessage {
         // language: Generator.Generated.DataTypeEnum
         size += 4;
 
-        if (ChatType.Value is CMSG_MESSAGECHAT.ChatTypeWhisper whisper) {
+        if (ChatType.Value is CMSG_MESSAGECHAT.ChatTypeWhisper chatTypeWhisper) {
             // target_player: Generator.Generated.DataTypeCstring
-            size += whisper.TargetPlayer.Length + 1;
+            size += chatTypeWhisper.TargetPlayer.Length + 1;
 
         }
-        else if (ChatType.Value is CMSG_MESSAGECHAT.ChatTypeChannel channel) {
+        else if (ChatType.Value is CMSG_MESSAGECHAT.ChatTypeChannel chatTypeChannel) {
             // channel: Generator.Generated.DataTypeCstring
-            size += channel.Channel.Length + 1;
+            size += chatTypeChannel.Channel.Length + 1;
 
         }
 

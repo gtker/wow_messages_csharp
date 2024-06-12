@@ -51,40 +51,40 @@ public class MSG_RAID_TARGET_UPDATE_Client: VanillaClientMessage, IWorldMessage 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteByte((byte)TargetIndexValue, cancellationToken).ConfigureAwait(false);
 
-        if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown0 unknown0) {
-            await w.WriteULong(unknown0.Target, cancellationToken).ConfigureAwait(false);
+        if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown0 raidTargetIndexUnknown0) {
+            await w.WriteULong(raidTargetIndexUnknown0.Target, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown1 unknown1) {
-            await w.WriteULong(unknown1.Target, cancellationToken).ConfigureAwait(false);
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown1 raidTargetIndexUnknown1) {
+            await w.WriteULong(raidTargetIndexUnknown1.Target, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown2 unknown2) {
-            await w.WriteULong(unknown2.Target, cancellationToken).ConfigureAwait(false);
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown2 raidTargetIndexUnknown2) {
+            await w.WriteULong(raidTargetIndexUnknown2.Target, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown3 unknown3) {
-            await w.WriteULong(unknown3.Target, cancellationToken).ConfigureAwait(false);
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown3 raidTargetIndexUnknown3) {
+            await w.WriteULong(raidTargetIndexUnknown3.Target, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown4 unknown4) {
-            await w.WriteULong(unknown4.Target, cancellationToken).ConfigureAwait(false);
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown4 raidTargetIndexUnknown4) {
+            await w.WriteULong(raidTargetIndexUnknown4.Target, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown5 unknown5) {
-            await w.WriteULong(unknown5.Target, cancellationToken).ConfigureAwait(false);
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown5 raidTargetIndexUnknown5) {
+            await w.WriteULong(raidTargetIndexUnknown5.Target, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown6 unknown6) {
-            await w.WriteULong(unknown6.Target, cancellationToken).ConfigureAwait(false);
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown6 raidTargetIndexUnknown6) {
+            await w.WriteULong(raidTargetIndexUnknown6.Target, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown7 unknown7) {
-            await w.WriteULong(unknown7.Target, cancellationToken).ConfigureAwait(false);
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown7 raidTargetIndexUnknown7) {
+            await w.WriteULong(raidTargetIndexUnknown7.Target, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown8 unknown8) {
-            await w.WriteULong(unknown8.Target, cancellationToken).ConfigureAwait(false);
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown8 raidTargetIndexUnknown8) {
+            await w.WriteULong(raidTargetIndexUnknown8.Target, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -181,47 +181,47 @@ public class MSG_RAID_TARGET_UPDATE_Client: VanillaClientMessage, IWorldMessage 
         // target_index: Generator.Generated.DataTypeEnum
         size += 1;
 
-        if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown0 unknown0) {
+        if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown0 raidTargetIndexUnknown0) {
             // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown1 unknown1) {
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown1 raidTargetIndexUnknown1) {
             // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown2 unknown2) {
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown2 raidTargetIndexUnknown2) {
             // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown3 unknown3) {
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown3 raidTargetIndexUnknown3) {
             // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown4 unknown4) {
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown4 raidTargetIndexUnknown4) {
             // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown5 unknown5) {
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown5 raidTargetIndexUnknown5) {
             // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown6 unknown6) {
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown6 raidTargetIndexUnknown6) {
             // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown7 unknown7) {
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown7 raidTargetIndexUnknown7) {
             // target: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown8 unknown8) {
+        else if (TargetIndex.Value is MSG_RAID_TARGET_UPDATE_Client.RaidTargetIndexUnknown8 raidTargetIndexUnknown8) {
             // target: Generator.Generated.DataTypeGuid
             size += 8;
 
