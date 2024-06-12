@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class MSG_INSPECT_HONOR_STATS_Server: VanillaServerMessage, IWorldMessage {
     public required ulong Guid { get; set; }
-    public required PvpRank HighestRank { get; set; }
+    public required Vanilla.PvpRank HighestRank { get; set; }
     public required uint TodayHonorableAndDishonorable { get; set; }
     public required ushort YesterdayHonorable { get; set; }
     /// <summary>
@@ -28,7 +28,7 @@ public class MSG_INSPECT_HONOR_STATS_Server: VanillaServerMessage, IWorldMessage
     public required uint YesterdayHonor { get; set; }
     public required uint LastWeekHonor { get; set; }
     public required uint ThisWeekHonor { get; set; }
-    public required PvpRank LastWeekStanding { get; set; }
+    public required Vanilla.PvpRank LastWeekStanding { get; set; }
     public required byte RankProgressBar { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -82,7 +82,7 @@ public class MSG_INSPECT_HONOR_STATS_Server: VanillaServerMessage, IWorldMessage
     public static async Task<MSG_INSPECT_HONOR_STATS_Server> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var highestRank = (PvpRank)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var highestRank = (Vanilla.PvpRank)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var todayHonorableAndDishonorable = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -108,7 +108,7 @@ public class MSG_INSPECT_HONOR_STATS_Server: VanillaServerMessage, IWorldMessage
 
         var thisWeekHonor = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var lastWeekStanding = (PvpRank)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var lastWeekStanding = (Vanilla.PvpRank)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var rankProgressBar = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 

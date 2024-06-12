@@ -135,7 +135,7 @@ public static class WriteReadImplementation
                 var prefix = d.UsedInIf ? $"{d.CsTypeName()}Type" : "var";
 
                 s.Wln(
-                    $"{prefix} {d.VariableName()} = ({dataTypeEnum.CsType()})await r.{dataTypeEnum.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false);");
+                    $"{prefix} {d.VariableName()} = ({module}.{dataTypeEnum.CsType()})await r.{dataTypeEnum.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeFlag dataTypeFlag:
                 var read =

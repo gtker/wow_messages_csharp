@@ -10,7 +10,7 @@ public class SMSG_PET_CAST_FAILED: VanillaServerMessage, IWorldMessage {
     /// vmangos sets to 2 and cmangos sets to 0.
     /// </summary>
     public required byte Unknown1 { get; set; }
-    public required SpellCastResult Result { get; set; }
+    public required Vanilla.SpellCastResult Result { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt(Id, cancellationToken).ConfigureAwait(false);
@@ -39,7 +39,7 @@ public class SMSG_PET_CAST_FAILED: VanillaServerMessage, IWorldMessage {
 
         var unknown1 = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var result = (SpellCastResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var result = (Vanilla.SpellCastResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_PET_CAST_FAILED {
             Id = id,

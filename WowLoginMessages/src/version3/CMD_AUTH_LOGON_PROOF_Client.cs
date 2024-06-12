@@ -85,7 +85,7 @@ public class CMD_AUTH_LOGON_PROOF_Client: Version3ClientMessage, ILoginMessage {
             telemetryKeys.Add(await Version3.TelemetryKey.ReadAsync(r, cancellationToken).ConfigureAwait(false));
         }
 
-        SecurityFlagType securityFlag = (SecurityFlag)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        SecurityFlagType securityFlag = (Version3.SecurityFlag)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (securityFlag.Value is Version3.SecurityFlag.Pin) {
             var pinSalt = new byte[SecurityFlagPin.PinSaltLength];

@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class BattlegroundPlayer {
     public required ulong Player { get; set; }
-    public required PvpRank Rank { get; set; }
+    public required Vanilla.PvpRank Rank { get; set; }
     public required uint KillingBlows { get; set; }
     public required uint HonorableKills { get; set; }
     public required uint Deaths { get; set; }
@@ -41,7 +41,7 @@ public class BattlegroundPlayer {
     public static async Task<BattlegroundPlayer> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var player = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var rank = (PvpRank)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var rank = (Vanilla.PvpRank)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var killingBlows = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

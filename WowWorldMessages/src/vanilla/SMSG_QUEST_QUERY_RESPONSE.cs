@@ -16,7 +16,7 @@ public class SMSG_QUEST_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
     /// <summary>
     /// cmangos: shown in quest log as part of quest objective
     /// </summary>
-    public required Faction ReputationObjectiveFaction { get; set; }
+    public required Vanilla.Faction ReputationObjectiveFaction { get; set; }
     /// <summary>
     /// cmangos: shown in quest log as part of quest objective
     /// </summary>
@@ -24,7 +24,7 @@ public class SMSG_QUEST_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
     /// <summary>
     /// cmangos: RequiredOpositeRepFaction, required faction value with another (oposite) faction (objective). cmangos sets to 0
     /// </summary>
-    public required Faction RequiredOppositeFaction { get; set; }
+    public required Vanilla.Faction RequiredOppositeFaction { get; set; }
     /// <summary>
     /// cmangos: RequiredOpositeRepValue, required faction value with another (oposite) faction (objective). cmangos sets to 0
     /// </summary>
@@ -144,11 +144,11 @@ public class SMSG_QUEST_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
 
         var questType = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var reputationObjectiveFaction = (Faction)await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+        var reputationObjectiveFaction = (Vanilla.Faction)await r.ReadUShort(cancellationToken).ConfigureAwait(false);
 
         var reputationObjectiveValue = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var requiredOppositeFaction = (Faction)await r.ReadUShort(cancellationToken).ConfigureAwait(false);
+        var requiredOppositeFaction = (Vanilla.Faction)await r.ReadUShort(cancellationToken).ConfigureAwait(false);
 
         var requiredOppositeReputationValue = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

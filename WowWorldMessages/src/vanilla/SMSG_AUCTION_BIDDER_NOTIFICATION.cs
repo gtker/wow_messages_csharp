@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_AUCTION_BIDDER_NOTIFICATION: VanillaServerMessage, IWorldMessage {
-    public required AuctionHouse AuctionHouse { get; set; }
+    public required Vanilla.AuctionHouse AuctionHouse { get; set; }
     public required uint AuctionId { get; set; }
     public required ulong Bidder { get; set; }
     /// <summary>
@@ -47,7 +47,7 @@ public class SMSG_AUCTION_BIDDER_NOTIFICATION: VanillaServerMessage, IWorldMessa
     }
 
     public static async Task<SMSG_AUCTION_BIDDER_NOTIFICATION> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var auctionHouse = (AuctionHouse)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var auctionHouse = (Vanilla.AuctionHouse)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var auctionId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

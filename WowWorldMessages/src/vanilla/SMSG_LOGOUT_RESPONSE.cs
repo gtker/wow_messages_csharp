@@ -5,8 +5,8 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_LOGOUT_RESPONSE: VanillaServerMessage, IWorldMessage {
-    public required LogoutResult Result { get; set; }
-    public required LogoutSpeed Speed { get; set; }
+    public required Vanilla.LogoutResult Result { get; set; }
+    public required Vanilla.LogoutSpeed Speed { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Result, cancellationToken).ConfigureAwait(false);
@@ -29,9 +29,9 @@ public class SMSG_LOGOUT_RESPONSE: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_LOGOUT_RESPONSE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var result = (LogoutResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var result = (Vanilla.LogoutResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var speed = (LogoutSpeed)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var speed = (Vanilla.LogoutSpeed)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_LOGOUT_RESPONSE {
             Result = result,

@@ -137,7 +137,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version8ServerMessage, ILoginMessa
         // ReSharper disable once UnusedVariable.Compiler
         var protocolVersion = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        LoginResultType result = (LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        LoginResultType result = (Version8.LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Version8.LoginResult.Success) {
             var serverPublicKey = new byte[LoginResultSuccess.ServerPublicKeyLength];

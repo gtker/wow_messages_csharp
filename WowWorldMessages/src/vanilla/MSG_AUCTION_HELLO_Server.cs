@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class MSG_AUCTION_HELLO_Server: VanillaServerMessage, IWorldMessage {
     public required ulong Auctioneer { get; set; }
-    public required AuctionHouse AuctionHouse { get; set; }
+    public required Vanilla.AuctionHouse AuctionHouse { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Auctioneer, cancellationToken).ConfigureAwait(false);
@@ -31,7 +31,7 @@ public class MSG_AUCTION_HELLO_Server: VanillaServerMessage, IWorldMessage {
     public static async Task<MSG_AUCTION_HELLO_Server> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var auctioneer = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var auctionHouse = (AuctionHouse)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var auctionHouse = (Vanilla.AuctionHouse)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new MSG_AUCTION_HELLO_Server {
             Auctioneer = auctioneer,

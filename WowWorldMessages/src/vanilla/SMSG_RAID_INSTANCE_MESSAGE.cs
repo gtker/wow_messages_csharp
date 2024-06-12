@@ -5,8 +5,8 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_RAID_INSTANCE_MESSAGE: VanillaServerMessage, IWorldMessage {
-    public required RaidInstanceMessage MessageType { get; set; }
-    public required Map Map { get; set; }
+    public required Vanilla.RaidInstanceMessage MessageType { get; set; }
+    public required Vanilla.Map Map { get; set; }
     public required uint TimeLeft { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -32,9 +32,9 @@ public class SMSG_RAID_INSTANCE_MESSAGE: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_RAID_INSTANCE_MESSAGE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var messageType = (RaidInstanceMessage)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var messageType = (Vanilla.RaidInstanceMessage)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var timeLeft = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

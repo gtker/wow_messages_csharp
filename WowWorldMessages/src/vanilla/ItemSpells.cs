@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class ItemSpells {
     public required uint Spell { get; set; }
-    public required SpellTriggerType SpellTrigger { get; set; }
+    public required Vanilla.SpellTriggerType SpellTrigger { get; set; }
     /// <summary>
     /// let the database control the sign here. negative means that the item should be consumed once the charges are consumed.
     /// </summary>
@@ -32,7 +32,7 @@ public class ItemSpells {
     public static async Task<ItemSpells> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var spell = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var spellTrigger = (SpellTriggerType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var spellTrigger = (Vanilla.SpellTriggerType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var spellCharges = await r.ReadInt(cancellationToken).ConfigureAwait(false);
 

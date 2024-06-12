@@ -23,7 +23,7 @@ public class SMSG_CAST_RESULT: VanillaServerMessage, IWorldMessage {
         public required uint EquippedItemSubclassMask { get; set; }
     }
     public class CastFailureReasonRequiresArea {
-        public required Area Area { get; set; }
+        public required Vanilla.Area Area { get; set; }
     }
     public class CastFailureReasonRequiresSpellFocus {
         public required uint RequiredSpellFocus { get; set; }
@@ -82,10 +82,10 @@ public class SMSG_CAST_RESULT: VanillaServerMessage, IWorldMessage {
     public static async Task<SMSG_CAST_RESULT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var spell = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        SimpleSpellCastResultType result = (SimpleSpellCastResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        SimpleSpellCastResultType result = (Vanilla.SimpleSpellCastResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Vanilla.SimpleSpellCastResult.Success) {
-            CastFailureReasonType reason = (CastFailureReason)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            CastFailureReasonType reason = (Vanilla.CastFailureReason)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
             if (reason.Value is Vanilla.CastFailureReason.RequiresSpellFocus) {
                 var requiredSpellFocus = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
@@ -95,7 +95,7 @@ public class SMSG_CAST_RESULT: VanillaServerMessage, IWorldMessage {
                 };
             }
             else if (reason.Value is Vanilla.CastFailureReason.RequiresArea) {
-                var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+                var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
                 reason = new CastFailureReasonRequiresArea {
                     Area = area,

@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_START_MIRROR_TIMER: VanillaServerMessage, IWorldMessage {
-    public required TimerType Timer { get; set; }
+    public required Vanilla.TimerType Timer { get; set; }
     public required uint TimeRemaining { get; set; }
     public required uint Duration { get; set; }
     public required uint Scale { get; set; }
@@ -41,7 +41,7 @@ public class SMSG_START_MIRROR_TIMER: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_START_MIRROR_TIMER> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var timer = (TimerType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var timer = (Vanilla.TimerType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var timeRemaining = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

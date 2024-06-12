@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_DUEL_WINNER: VanillaServerMessage, IWorldMessage {
-    public required DuelWinnerReason Reason { get; set; }
+    public required Vanilla.DuelWinnerReason Reason { get; set; }
     public required string OpponentName { get; set; }
     public required string InitiatorName { get; set; }
 
@@ -32,7 +32,7 @@ public class SMSG_DUEL_WINNER: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_DUEL_WINNER> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var reason = (DuelWinnerReason)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var reason = (Vanilla.DuelWinnerReason)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var opponentName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 

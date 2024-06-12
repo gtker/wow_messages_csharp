@@ -20,7 +20,7 @@ public class SMSG_CREATURE_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
         /// cmangos: CreatureType.dbc   wdbFeild8
         /// </summary>
         public required uint CreatureType { get; set; }
-        public required CreatureFamily CreatureFamily { get; set; }
+        public required Vanilla.CreatureFamily CreatureFamily { get; set; }
         /// <summary>
         /// cmangos: Creature Rank (elite, boss, etc)
         /// </summary>
@@ -121,7 +121,7 @@ public class SMSG_CREATURE_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
             var creatureType = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var creatureFamily = (CreatureFamily)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var creatureFamily = (Vanilla.CreatureFamily)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
             var creatureRank = await r.ReadUInt(cancellationToken).ConfigureAwait(false);

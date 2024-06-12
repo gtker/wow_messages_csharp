@@ -4,13 +4,13 @@ namespace WowLoginMessages.Version2;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class Realm {
-    public required RealmType RealmType { get; set; }
-    public required RealmFlag Flag { get; set; }
+    public required Version2.RealmType RealmType { get; set; }
+    public required Version2.RealmFlag Flag { get; set; }
     public required string Name { get; set; }
     public required string Address { get; set; }
     public required Population Population { get; set; }
     public required byte NumberOfCharactersOnRealm { get; set; }
-    public required RealmCategory Category { get; set; }
+    public required Version2.RealmCategory Category { get; set; }
     public required byte RealmId { get; set; }
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -33,7 +33,7 @@ public class Realm {
     }
 
     public static async Task<Realm> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var realmType = (RealmType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var realmType = (Version2.RealmType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var flag = (RealmFlag)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
@@ -45,7 +45,7 @@ public class Realm {
 
         var numberOfCharactersOnRealm = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var category = (RealmCategory)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var category = (Version2.RealmCategory)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var realmId = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 

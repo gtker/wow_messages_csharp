@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class CMSG_WORLD_TELEPORT: VanillaClientMessage, IWorldMessage {
     public required uint Time { get; set; }
-    public required Map Map { get; set; }
+    public required Vanilla.Map Map { get; set; }
     public required Vector3d Position { get; set; }
     public required float Orientation { get; set; }
 
@@ -37,7 +37,7 @@ public class CMSG_WORLD_TELEPORT: VanillaClientMessage, IWorldMessage {
     public static async Task<CMSG_WORLD_TELEPORT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var time = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var position = await Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
 

@@ -7,7 +7,7 @@ namespace WowWorldMessages.Vanilla;
 public class SMSG_SELL_ITEM: VanillaServerMessage, IWorldMessage {
     public required ulong Guid { get; set; }
     public required ulong Item { get; set; }
-    public required SellItemResult Result { get; set; }
+    public required Vanilla.SellItemResult Result { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Guid, cancellationToken).ConfigureAwait(false);
@@ -36,7 +36,7 @@ public class SMSG_SELL_ITEM: VanillaServerMessage, IWorldMessage {
 
         var item = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var result = (SellItemResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var result = (Vanilla.SellItemResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_SELL_ITEM {
             Guid = guid,

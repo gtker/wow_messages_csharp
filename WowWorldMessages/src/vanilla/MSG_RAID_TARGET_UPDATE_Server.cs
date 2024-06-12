@@ -52,7 +52,7 @@ public class MSG_RAID_TARGET_UPDATE_Server: VanillaServerMessage, IWorldMessage 
     }
 
     public static async Task<MSG_RAID_TARGET_UPDATE_Server> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        RaidTargetUpdateTypeType updateType = (RaidTargetUpdateType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        RaidTargetUpdateTypeType updateType = (Vanilla.RaidTargetUpdateType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (updateType.Value is Vanilla.RaidTargetUpdateType.Full) {
             var raidTargets = new RaidTargetUpdate[RaidTargetUpdateTypeFull.RaidTargetsLength];

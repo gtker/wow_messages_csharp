@@ -56,7 +56,7 @@ public class SMSG_LOG_XPGAIN: VanillaServerMessage, IWorldMessage {
 
         var totalExp = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        ExperienceAwardTypeType expType = (ExperienceAwardType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        ExperienceAwardTypeType expType = (Vanilla.ExperienceAwardType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (expType.Value is Vanilla.ExperienceAwardType.NonKill) {
             var experienceWithoutRested = await r.ReadUInt(cancellationToken).ConfigureAwait(false);

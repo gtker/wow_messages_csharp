@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 public class ItemDamageType {
     public required float DamageMinimum { get; set; }
     public required float DamageMaximum { get; set; }
-    public required SpellSchool School { get; set; }
+    public required Vanilla.SpellSchool School { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteFloat(DamageMinimum, cancellationToken).ConfigureAwait(false);
@@ -22,7 +22,7 @@ public class ItemDamageType {
 
         var damageMaximum = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
 
-        var school = (SpellSchool)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var school = (Vanilla.SpellSchool)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new ItemDamageType {
             DamageMinimum = damageMinimum,

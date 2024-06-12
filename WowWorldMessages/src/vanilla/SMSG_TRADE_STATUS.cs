@@ -14,7 +14,7 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
         public required ulong Unknown1 { get; set; }
     }
     public class TradeStatusCloseWindow {
-        public required InventoryResult InventoryResult { get; set; }
+        public required Vanilla.InventoryResult InventoryResult { get; set; }
         /// <summary>
         /// ItemLimitCategory.dbc entry
         /// </summary>
@@ -87,7 +87,7 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_TRADE_STATUS> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        TradeStatusType status = (TradeStatus)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        TradeStatusType status = (Vanilla.TradeStatus)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         if (status.Value is Vanilla.TradeStatus.BeginTrade) {
             var unknown1 = await r.ReadULong(cancellationToken).ConfigureAwait(false);
@@ -97,7 +97,7 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
             };
         }
         else if (status.Value is Vanilla.TradeStatus.CloseWindow) {
-            var inventoryResult = (InventoryResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var inventoryResult = (Vanilla.InventoryResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
             var targetError = await r.ReadBool8(cancellationToken).ConfigureAwait(false);
 

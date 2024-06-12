@@ -120,7 +120,7 @@ public class Mail {
     public static async Task<Mail> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var messageId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        MailTypeType messageType = (MailType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        MailTypeType messageType = (Vanilla.MailType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (messageType.Value is Vanilla.MailType.Normal) {
             var sender = await r.ReadULong(cancellationToken).ConfigureAwait(false);

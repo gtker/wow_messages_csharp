@@ -74,7 +74,7 @@ public class SMSG_PARTY_MEMBER_STATS_FULL: VanillaServerMessage, IWorldMessage {
         public required string PetName { get; set; }
     }
     public class GroupUpdateFlagsPetPowerType {
-        public required Power PetPowerType { get; set; }
+        public required Vanilla.Power PetPowerType { get; set; }
     }
     public class GroupUpdateFlagsPosition {
         /// <summary>
@@ -87,13 +87,13 @@ public class SMSG_PARTY_MEMBER_STATS_FULL: VanillaServerMessage, IWorldMessage {
         public required ushort PositionY { get; set; }
     }
     public class GroupUpdateFlagsPowerType {
-        public required Power Power { get; set; }
+        public required Vanilla.Power Power { get; set; }
     }
     public class GroupUpdateFlagsStatus {
-        public required GroupMemberOnlineStatus Status { get; set; }
+        public required Vanilla.GroupMemberOnlineStatus Status { get; set; }
     }
     public class GroupUpdateFlagsZone {
-        public required Area Area { get; set; }
+        public required Vanilla.Area Area { get; set; }
     }
     public required ulong Player { get; set; }
     public required GroupUpdateFlagsType Mask { get; set; }
@@ -247,7 +247,7 @@ public class SMSG_PARTY_MEMBER_STATS_FULL: VanillaServerMessage, IWorldMessage {
         }
 
         if (mask.Inner.HasFlag(Vanilla.GroupUpdateFlags.PowerType)) {
-            var power = (Power)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            var power = (Vanilla.Power)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
             mask.PowerType = new GroupUpdateFlagsPowerType {
                 Power = power,
@@ -279,7 +279,7 @@ public class SMSG_PARTY_MEMBER_STATS_FULL: VanillaServerMessage, IWorldMessage {
         }
 
         if (mask.Inner.HasFlag(Vanilla.GroupUpdateFlags.Zone)) {
-            var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
             mask.Zone = new GroupUpdateFlagsZone {
                 Area = area,
@@ -346,7 +346,7 @@ public class SMSG_PARTY_MEMBER_STATS_FULL: VanillaServerMessage, IWorldMessage {
         }
 
         if (mask.Inner.HasFlag(Vanilla.GroupUpdateFlags.PetPowerType)) {
-            var petPowerType = (Power)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            var petPowerType = (Vanilla.Power)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
             mask.PetPowerType = new GroupUpdateFlagsPetPowerType {
                 PetPowerType = petPowerType,

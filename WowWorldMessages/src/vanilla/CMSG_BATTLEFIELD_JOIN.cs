@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMSG_BATTLEFIELD_JOIN: VanillaClientMessage, IWorldMessage {
-    public required Map Map { get; set; }
+    public required Vanilla.Map Map { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Map, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class CMSG_BATTLEFIELD_JOIN: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_BATTLEFIELD_JOIN> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new CMSG_BATTLEFIELD_JOIN {
             Map = map,

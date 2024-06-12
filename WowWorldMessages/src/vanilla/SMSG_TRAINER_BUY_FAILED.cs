@@ -7,7 +7,7 @@ namespace WowWorldMessages.Vanilla;
 public class SMSG_TRAINER_BUY_FAILED: VanillaServerMessage, IWorldMessage {
     public required ulong Guid { get; set; }
     public required uint Id { get; set; }
-    public required TrainingFailureReason Error { get; set; }
+    public required Vanilla.TrainingFailureReason Error { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Guid, cancellationToken).ConfigureAwait(false);
@@ -36,7 +36,7 @@ public class SMSG_TRAINER_BUY_FAILED: VanillaServerMessage, IWorldMessage {
 
         var id = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var error = (TrainingFailureReason)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var error = (Vanilla.TrainingFailureReason)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_TRAINER_BUY_FAILED {
             Guid = guid,

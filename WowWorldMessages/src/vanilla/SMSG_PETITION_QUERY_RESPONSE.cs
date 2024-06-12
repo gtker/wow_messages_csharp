@@ -39,11 +39,11 @@ public class SMSG_PETITION_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
     /// <summary>
     /// cmangos/vmangos/mangoszero: Set to 0, only info is comment from vmangos
     /// </summary>
-    public required AllowedClass AllowedClass { get; set; }
+    public required Vanilla.AllowedClass AllowedClass { get; set; }
     /// <summary>
     /// cmangos/vmangos/mangoszero: Set to 0, only info is comment from vmangos
     /// </summary>
-    public required AllowedRace AllowedRace { get; set; }
+    public required Vanilla.AllowedRace AllowedRace { get; set; }
     /// <summary>
     /// cmangos/vmangos/mangoszero: Set to 0, only info is comment from vmangos
     /// </summary>

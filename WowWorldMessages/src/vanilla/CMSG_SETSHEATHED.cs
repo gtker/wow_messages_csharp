@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMSG_SETSHEATHED: VanillaClientMessage, IWorldMessage {
-    public required SheathState Sheathed { get; set; }
+    public required Vanilla.SheathState Sheathed { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Sheathed, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class CMSG_SETSHEATHED: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_SETSHEATHED> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var sheathed = (SheathState)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var sheathed = (Vanilla.SheathState)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new CMSG_SETSHEATHED {
             Sheathed = sheathed,

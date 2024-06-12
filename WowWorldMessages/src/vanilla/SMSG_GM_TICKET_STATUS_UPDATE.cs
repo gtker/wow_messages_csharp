@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_GM_TICKET_STATUS_UPDATE: VanillaServerMessage, IWorldMessage {
-    public required GmTicketStatusResponse Response { get; set; }
+    public required Vanilla.GmTicketStatusResponse Response { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Response, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class SMSG_GM_TICKET_STATUS_UPDATE: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_GM_TICKET_STATUS_UPDATE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var response = (GmTicketStatusResponse)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var response = (Vanilla.GmTicketStatusResponse)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_GM_TICKET_STATUS_UPDATE {
             Response = response,

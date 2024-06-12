@@ -7,7 +7,7 @@ public class NpcTextUpdate {
     public required float Probability { get; set; }
     public const int TextsLength = 2;
     public required string[] Texts { get; set; }
-    public required Language Language { get; set; }
+    public required Vanilla.Language Language { get; set; }
     public const int EmotesLength = 3;
     public required NpcTextUpdateEmote[] Emotes { get; set; }
 
@@ -34,7 +34,7 @@ public class NpcTextUpdate {
             texts[i] = await r.ReadCString(cancellationToken).ConfigureAwait(false);
         }
 
-        var language = (Language)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var language = (Vanilla.Language)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var emotes = new NpcTextUpdateEmote[EmotesLength];
         for (var i = 0; i < EmotesLength; ++i) {

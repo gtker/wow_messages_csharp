@@ -8,8 +8,8 @@ using CorpseQueryResultType = OneOf.OneOf<MSG_CORPSE_QUERY_Server.CorpseQueryRes
 // ReSharper disable once InconsistentNaming
 public class MSG_CORPSE_QUERY_Server: VanillaServerMessage, IWorldMessage {
     public class CorpseQueryResultFound {
-        public required Map CorpseMap { get; set; }
-        public required Map Map { get; set; }
+        public required Vanilla.Map CorpseMap { get; set; }
+        public required Vanilla.Map Map { get; set; }
         public required Vector3d Position { get; set; }
     }
     public required CorpseQueryResultType Result { get; set; }
@@ -46,14 +46,14 @@ public class MSG_CORPSE_QUERY_Server: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<MSG_CORPSE_QUERY_Server> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        CorpseQueryResultType result = (CorpseQueryResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        CorpseQueryResultType result = (Vanilla.CorpseQueryResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Vanilla.CorpseQueryResult.Found) {
-            var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
             var position = await Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
 
-            var corpseMap = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var corpseMap = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
             result = new CorpseQueryResultFound {
                 CorpseMap = corpseMap,

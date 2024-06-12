@@ -7,9 +7,9 @@ public class WhoPlayer {
     public required string Name { get; set; }
     public required string Guild { get; set; }
     public required uint Level { get; set; }
-    public required Class ClassType { get; set; }
-    public required Race Race { get; set; }
-    public required Area Area { get; set; }
+    public required Vanilla.Class ClassType { get; set; }
+    public required Vanilla.Race Race { get; set; }
+    public required Vanilla.Area Area { get; set; }
     public required uint PartyStatus { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -36,11 +36,11 @@ public class WhoPlayer {
 
         var level = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var classType = (Class)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var classType = (Vanilla.Class)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var race = (Race)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var race = (Vanilla.Race)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var partyStatus = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

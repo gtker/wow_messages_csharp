@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_NEW_WORLD: VanillaServerMessage, IWorldMessage {
-    public required Map Map { get; set; }
+    public required Vanilla.Map Map { get; set; }
     public required Vector3d Position { get; set; }
     public required float Orientation { get; set; }
 
@@ -32,7 +32,7 @@ public class SMSG_NEW_WORLD: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_NEW_WORLD> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var position = await Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
 

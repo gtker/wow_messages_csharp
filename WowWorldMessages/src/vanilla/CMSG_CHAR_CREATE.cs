@@ -6,9 +6,9 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class CMSG_CHAR_CREATE: VanillaClientMessage, IWorldMessage {
     public required string Name { get; set; }
-    public required Race Race { get; set; }
-    public required Class ClassType { get; set; }
-    public required Gender Gender { get; set; }
+    public required Vanilla.Race Race { get; set; }
+    public required Vanilla.Class ClassType { get; set; }
+    public required Vanilla.Gender Gender { get; set; }
     public required byte SkinColor { get; set; }
     public required byte Face { get; set; }
     public required byte HairStyle { get; set; }
@@ -54,11 +54,11 @@ public class CMSG_CHAR_CREATE: VanillaClientMessage, IWorldMessage {
     public static async Task<CMSG_CHAR_CREATE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var name = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
-        var race = (Race)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var race = (Vanilla.Race)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var classType = (Class)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var classType = (Vanilla.Class)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var gender = (Gender)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var gender = (Vanilla.Gender)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var skinColor = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 

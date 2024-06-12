@@ -5,9 +5,9 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_GUILD_COMMAND_RESULT: VanillaServerMessage, IWorldMessage {
-    public required GuildCommand Command { get; set; }
+    public required Vanilla.GuildCommand Command { get; set; }
     public required string StringValue { get; set; }
-    public required GuildCommandResult Result { get; set; }
+    public required Vanilla.GuildCommandResult Result { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Command, cancellationToken).ConfigureAwait(false);
@@ -32,11 +32,11 @@ public class SMSG_GUILD_COMMAND_RESULT: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_GUILD_COMMAND_RESULT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var command = (GuildCommand)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var command = (Vanilla.GuildCommand)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var stringValue = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
-        var result = (GuildCommandResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var result = (Vanilla.GuildCommandResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_GUILD_COMMAND_RESULT {
             Command = command,

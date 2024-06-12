@@ -7,7 +7,7 @@ namespace WowWorldMessages.Vanilla;
 public class SMSG_PVP_CREDIT: VanillaServerMessage, IWorldMessage {
     public required uint HonorPoints { get; set; }
     public required ulong Victim { get; set; }
-    public required PvpRank Rank { get; set; }
+    public required Vanilla.PvpRank Rank { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt(HonorPoints, cancellationToken).ConfigureAwait(false);
@@ -36,7 +36,7 @@ public class SMSG_PVP_CREDIT: VanillaServerMessage, IWorldMessage {
 
         var victim = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var rank = (PvpRank)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var rank = (Vanilla.PvpRank)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_PVP_CREDIT {
             HonorPoints = honorPoints,

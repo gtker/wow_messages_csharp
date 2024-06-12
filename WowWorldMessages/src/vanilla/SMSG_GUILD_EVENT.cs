@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_GUILD_EVENT: VanillaServerMessage, IWorldMessage {
-    public required GuildEvent EventType { get; set; }
+    public required Vanilla.GuildEvent EventType { get; set; }
     public required List<string> EventDescriptions { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -33,7 +33,7 @@ public class SMSG_GUILD_EVENT: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_GUILD_EVENT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var eventType = (GuildEvent)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var eventType = (Vanilla.GuildEvent)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
         var amountOfEvents = await r.ReadByte(cancellationToken).ConfigureAwait(false);

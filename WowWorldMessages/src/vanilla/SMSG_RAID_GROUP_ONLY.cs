@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class SMSG_RAID_GROUP_ONLY: VanillaServerMessage, IWorldMessage {
     public required uint HomebindTimer { get; set; }
-    public required RaidGroupError Error { get; set; }
+    public required Vanilla.RaidGroupError Error { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt(HomebindTimer, cancellationToken).ConfigureAwait(false);
@@ -31,7 +31,7 @@ public class SMSG_RAID_GROUP_ONLY: VanillaServerMessage, IWorldMessage {
     public static async Task<SMSG_RAID_GROUP_ONLY> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var homebindTimer = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var error = (RaidGroupError)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var error = (Vanilla.RaidGroupError)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_RAID_GROUP_ONLY {
             HomebindTimer = homebindTimer,

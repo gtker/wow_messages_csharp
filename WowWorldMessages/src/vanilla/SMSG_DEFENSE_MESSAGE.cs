@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_DEFENSE_MESSAGE: VanillaServerMessage, IWorldMessage {
-    public required Area Area { get; set; }
+    public required Vanilla.Area Area { get; set; }
     public required string Message { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -29,7 +29,7 @@ public class SMSG_DEFENSE_MESSAGE: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_DEFENSE_MESSAGE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var message = await r.ReadSizedCString(cancellationToken).ConfigureAwait(false);
 

@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMSG_UNLEARN_SKILL: VanillaClientMessage, IWorldMessage {
-    public required Skill Skill { get; set; }
+    public required Vanilla.Skill Skill { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Skill, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class CMSG_UNLEARN_SKILL: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_UNLEARN_SKILL> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var skill = (Skill)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var skill = (Vanilla.Skill)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new CMSG_UNLEARN_SKILL {
             Skill = skill,

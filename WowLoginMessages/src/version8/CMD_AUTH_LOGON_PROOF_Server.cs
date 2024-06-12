@@ -6,7 +6,7 @@ using LoginResultType = OneOf.OneOf<CMD_AUTH_LOGON_PROOF_Server.LoginResultSucce
 // ReSharper disable once InconsistentNaming
 public class CMD_AUTH_LOGON_PROOF_Server: Version8ServerMessage, ILoginMessage {
     public class LoginResultSuccess {
-        public required AccountFlag AccountFlag { get; set; }
+        public required Version8.AccountFlag AccountFlag { get; set; }
         public required uint HardwareSurveyId { get; set; }
         public const int ServerProofLength = 20;
         public required byte[] ServerProof { get; set; }
@@ -105,7 +105,7 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version8ServerMessage, ILoginMessage {
     }
 
     public static async Task<CMD_AUTH_LOGON_PROOF_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        LoginResultType result = (LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        LoginResultType result = (Version8.LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Version8.LoginResult.Success) {
             var serverProof = new byte[LoginResultSuccess.ServerProofLength];

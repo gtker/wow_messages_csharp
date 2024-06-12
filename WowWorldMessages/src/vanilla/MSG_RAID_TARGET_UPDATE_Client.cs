@@ -104,7 +104,7 @@ public class MSG_RAID_TARGET_UPDATE_Client: VanillaClientMessage, IWorldMessage 
     }
 
     public static async Task<MSG_RAID_TARGET_UPDATE_Client> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        RaidTargetIndexType targetIndex = (RaidTargetIndex)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        RaidTargetIndexType targetIndex = (Vanilla.RaidTargetIndex)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (targetIndex.Value is Vanilla.RaidTargetIndex.Unknown0) {
             var target = await r.ReadULong(cancellationToken).ConfigureAwait(false);

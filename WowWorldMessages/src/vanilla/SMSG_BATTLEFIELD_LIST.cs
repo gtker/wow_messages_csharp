@@ -6,8 +6,8 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class SMSG_BATTLEFIELD_LIST: VanillaServerMessage, IWorldMessage {
     public required ulong Battlemaster { get; set; }
-    public required Map Map { get; set; }
-    public required BattlegroundBracket Bracket { get; set; }
+    public required Vanilla.Map Map { get; set; }
+    public required Vanilla.BattlegroundBracket Bracket { get; set; }
     public required List<uint> Battlegrounds { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -41,9 +41,9 @@ public class SMSG_BATTLEFIELD_LIST: VanillaServerMessage, IWorldMessage {
     public static async Task<SMSG_BATTLEFIELD_LIST> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var battlemaster = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var bracket = (BattlegroundBracket)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var bracket = (Vanilla.BattlegroundBracket)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
         var numberOfBattlegrounds = await r.ReadUInt(cancellationToken).ConfigureAwait(false);

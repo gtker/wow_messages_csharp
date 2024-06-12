@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class SMSG_CHANNEL_LIST: VanillaServerMessage, IWorldMessage {
     public required string ChannelName { get; set; }
-    public required ChannelFlags ChannelFlags { get; set; }
+    public required Vanilla.ChannelFlags ChannelFlags { get; set; }
     public required List<ChannelMember> Members { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {

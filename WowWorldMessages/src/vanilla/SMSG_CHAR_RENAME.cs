@@ -43,7 +43,7 @@ public class SMSG_CHAR_RENAME: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_CHAR_RENAME> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        WorldResultType result = (WorldResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        WorldResultType result = (Vanilla.WorldResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Vanilla.WorldResult.ResponseSuccess) {
             var character = await r.ReadULong(cancellationToken).ConfigureAwait(false);

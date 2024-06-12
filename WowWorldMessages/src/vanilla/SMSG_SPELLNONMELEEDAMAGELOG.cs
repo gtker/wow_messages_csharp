@@ -9,7 +9,7 @@ public class SMSG_SPELLNONMELEEDAMAGELOG: VanillaServerMessage, IWorldMessage {
     public required ulong Attacker { get; set; }
     public required uint Spell { get; set; }
     public required uint Damage { get; set; }
-    public required SpellSchool School { get; set; }
+    public required Vanilla.SpellSchool School { get; set; }
     public required uint AbsorbedDamage { get; set; }
     /// <summary>
     /// cmangos/mangoszero/vmangos: sent as int32
@@ -21,7 +21,7 @@ public class SMSG_SPELLNONMELEEDAMAGELOG: VanillaServerMessage, IWorldMessage {
     public required bool PeriodicLog { get; set; }
     public required byte Unused { get; set; }
     public required uint Blocked { get; set; }
-    public required HitInfo HitInfo { get; set; }
+    public required Vanilla.HitInfo HitInfo { get; set; }
     /// <summary>
     /// cmangos has some that might be correct `https://github.com/cmangos/mangos-classic/blob/524a39412dae7946d06e4b8f319f45b615075815/src/game/Entities/Unit.cpp#L5497`.
     /// </summary>
@@ -76,7 +76,7 @@ public class SMSG_SPELLNONMELEEDAMAGELOG: VanillaServerMessage, IWorldMessage {
 
         var damage = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var school = (SpellSchool)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var school = (Vanilla.SpellSchool)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var absorbedDamage = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -88,7 +88,7 @@ public class SMSG_SPELLNONMELEEDAMAGELOG: VanillaServerMessage, IWorldMessage {
 
         var blocked = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var hitInfo = (HitInfo)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var hitInfo = (Vanilla.HitInfo)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var extendFlag = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 

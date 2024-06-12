@@ -6,9 +6,9 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class SMSG_ITEM_PUSH_RESULT: VanillaServerMessage, IWorldMessage {
     public required ulong Guid { get; set; }
-    public required NewItemSource Source { get; set; }
-    public required NewItemCreationType CreationType { get; set; }
-    public required NewItemChatAlert AlertChat { get; set; }
+    public required Vanilla.NewItemSource Source { get; set; }
+    public required Vanilla.NewItemCreationType CreationType { get; set; }
+    public required Vanilla.NewItemChatAlert AlertChat { get; set; }
     public required byte BagSlot { get; set; }
     /// <summary>
     /// mangoszero: item slot, but when added to stack: 0xFFFFFFFF
@@ -64,11 +64,11 @@ public class SMSG_ITEM_PUSH_RESULT: VanillaServerMessage, IWorldMessage {
     public static async Task<SMSG_ITEM_PUSH_RESULT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var source = (NewItemSource)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var source = (Vanilla.NewItemSource)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var creationType = (NewItemCreationType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var creationType = (Vanilla.NewItemCreationType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var alertChat = (NewItemChatAlert)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var alertChat = (Vanilla.NewItemChatAlert)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var bagSlot = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 

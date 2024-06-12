@@ -4,7 +4,7 @@ namespace WowWorldMessages.Vanilla;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class FactionInitializer {
-    public required FactionFlag Flag { get; set; }
+    public required Vanilla.FactionFlag Flag { get; set; }
     public required uint Standing { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {

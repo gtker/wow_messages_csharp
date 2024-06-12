@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_BUY_BANK_SLOT_RESULT: VanillaServerMessage, IWorldMessage {
-    public required BuyBankSlotResult Result { get; set; }
+    public required Vanilla.BuyBankSlotResult Result { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Result, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class SMSG_BUY_BANK_SLOT_RESULT: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_BUY_BANK_SLOT_RESULT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var result = (BuyBankSlotResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var result = (Vanilla.BuyBankSlotResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_BUY_BANK_SLOT_RESULT {
             Result = result,

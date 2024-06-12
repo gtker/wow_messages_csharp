@@ -8,7 +8,7 @@ public class SMSG_PROCRESIST: VanillaServerMessage, IWorldMessage {
     public required ulong Caster { get; set; }
     public required ulong Target { get; set; }
     public required uint Id { get; set; }
-    public required LogFormat LogFormat { get; set; }
+    public required Vanilla.LogFormat LogFormat { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Caster, cancellationToken).ConfigureAwait(false);
@@ -41,7 +41,7 @@ public class SMSG_PROCRESIST: VanillaServerMessage, IWorldMessage {
 
         var id = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var logFormat = (LogFormat)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var logFormat = (Vanilla.LogFormat)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_PROCRESIST {
             Caster = caster,

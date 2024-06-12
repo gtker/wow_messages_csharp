@@ -3,7 +3,7 @@ namespace WowLoginMessages.Version5;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMD_AUTH_RECONNECT_PROOF_Server: Version5ServerMessage, ILoginMessage {
-    public required LoginResult Result { get; set; }
+    public required Version5.LoginResult Result { get; set; }
 
     public async Task WriteAsync(Stream w, CancellationToken cancellationToken = default) {
         // opcode: u8
@@ -16,7 +16,7 @@ public class CMD_AUTH_RECONNECT_PROOF_Server: Version5ServerMessage, ILoginMessa
     }
 
     public static async Task<CMD_AUTH_RECONNECT_PROOF_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var result = (LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var result = (Version5.LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
         var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);

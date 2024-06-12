@@ -55,7 +55,7 @@ public class SMSG_AUTH_RESPONSE: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_AUTH_RESPONSE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        WorldResultType result = (WorldResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        WorldResultType result = (Vanilla.WorldResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Vanilla.WorldResult.AuthOk) {
             var billingTime = await r.ReadUInt(cancellationToken).ConfigureAwait(false);

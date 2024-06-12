@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_TRIGGER_CINEMATIC: VanillaServerMessage, IWorldMessage {
-    public required CinematicSequenceId CinematicSequenceId { get; set; }
+    public required Vanilla.CinematicSequenceId CinematicSequenceId { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)CinematicSequenceId, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class SMSG_TRIGGER_CINEMATIC: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_TRIGGER_CINEMATIC> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var cinematicSequenceId = (CinematicSequenceId)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var cinematicSequenceId = (Vanilla.CinematicSequenceId)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_TRIGGER_CINEMATIC {
             CinematicSequenceId = cinematicSequenceId,

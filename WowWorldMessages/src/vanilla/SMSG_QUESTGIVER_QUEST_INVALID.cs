@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_QUESTGIVER_QUEST_INVALID: VanillaServerMessage, IWorldMessage {
-    public required QuestFailedReason Msg { get; set; }
+    public required Vanilla.QuestFailedReason Msg { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Msg, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class SMSG_QUESTGIVER_QUEST_INVALID: VanillaServerMessage, IWorldMessage 
     }
 
     public static async Task<SMSG_QUESTGIVER_QUEST_INVALID> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var msg = (QuestFailedReason)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var msg = (Vanilla.QuestFailedReason)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_QUESTGIVER_QUEST_INVALID {
             Msg = msg,

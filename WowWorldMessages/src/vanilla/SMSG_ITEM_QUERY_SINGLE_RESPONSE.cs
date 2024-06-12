@@ -7,7 +7,7 @@ namespace WowWorldMessages.Vanilla;
 public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessage {
     public required uint Item { get; set; }
     public struct OptionalFound {
-        public required ItemClassAndSubClass ClassAndSubClass { get; set; }
+        public required Vanilla.ItemClassAndSubClass ClassAndSubClass { get; set; }
         public required string Name1 { get; set; }
         public required string Name2 { get; set; }
         public required string Name3 { get; set; }
@@ -16,21 +16,21 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessag
         /// id from ItemDisplayInfo.dbc
         /// </summary>
         public required uint DisplayId { get; set; }
-        public required ItemQuality Quality { get; set; }
-        public required ItemFlag Flags { get; set; }
+        public required Vanilla.ItemQuality Quality { get; set; }
+        public required Vanilla.ItemFlag Flags { get; set; }
         public required uint BuyPrice { get; set; }
         public required uint SellPrice { get; set; }
-        public required InventoryType InventoryType { get; set; }
-        public required AllowedClass AllowedClass { get; set; }
-        public required AllowedRace AllowedRace { get; set; }
+        public required Vanilla.InventoryType InventoryType { get; set; }
+        public required Vanilla.AllowedClass AllowedClass { get; set; }
+        public required Vanilla.AllowedRace AllowedRace { get; set; }
         public required uint ItemLevel { get; set; }
         public required uint RequiredLevel { get; set; }
-        public required Skill RequiredSkill { get; set; }
+        public required Vanilla.Skill RequiredSkill { get; set; }
         public required uint RequiredSkillRank { get; set; }
         public required uint RequiredSpell { get; set; }
         public required uint RequiredHonorRank { get; set; }
         public required uint RequiredCityRank { get; set; }
-        public required Faction RequiredFaction { get; set; }
+        public required Vanilla.Faction RequiredFaction { get; set; }
         /// <summary>
         /// cmangos/vmangos/mangoszero: send value only if reputation faction id setted ( needed for some items)
         /// </summary>
@@ -54,11 +54,11 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessag
         public required float RangedRangeModification { get; set; }
         public const int SpellsLength = 5;
         public required ItemSpells[] Spells { get; set; }
-        public required Bonding Bonding { get; set; }
+        public required Vanilla.Bonding Bonding { get; set; }
         public required string Description { get; set; }
         public required uint PageText { get; set; }
-        public required Language Language { get; set; }
-        public required PageTextMaterial PageTextMaterial { get; set; }
+        public required Vanilla.Language Language { get; set; }
+        public required Vanilla.PageTextMaterial PageTextMaterial { get; set; }
         /// <summary>
         /// cmangos/vmangos/mangoszero: id from QuestCache.wdb
         /// </summary>
@@ -68,17 +68,17 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessag
         /// cmangos/vmangos/mangoszero: id from Material.dbc
         /// </summary>
         public required uint Material { get; set; }
-        public required SheatheType SheatheType { get; set; }
+        public required Vanilla.SheatheType SheatheType { get; set; }
         /// <summary>
         /// cmangos/vmangos/mangoszero: id from ItemRandomProperties.dbc
         /// </summary>
         public required uint RandomProperty { get; set; }
         public required uint Block { get; set; }
-        public required ItemSet ItemSet { get; set; }
+        public required Vanilla.ItemSet ItemSet { get; set; }
         public required uint MaxDurability { get; set; }
-        public required Area Area { get; set; }
-        public required Map Map { get; set; }
-        public required BagFamily BagFamily { get; set; }
+        public required Vanilla.Area Area { get; set; }
+        public required Vanilla.Map Map { get; set; }
+        public required Vanilla.BagFamily BagFamily { get; set; }
     }
     public required OptionalFound? Found { get; set; }
 
@@ -223,7 +223,7 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessag
 
         OptionalFound? optionalFound = null;
         if (size < bodySize) {
-            var classAndSubClass = (ItemClassAndSubClass)await r.ReadULong(cancellationToken).ConfigureAwait(false);
+            var classAndSubClass = (Vanilla.ItemClassAndSubClass)await r.ReadULong(cancellationToken).ConfigureAwait(false);
             size += 8;
 
             var name1 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
@@ -241,7 +241,7 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessag
             var displayId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var quality = (ItemQuality)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var quality = (Vanilla.ItemQuality)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
             var flags = (ItemFlag)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
@@ -253,7 +253,7 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessag
             var sellPrice = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var inventoryType = (InventoryType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var inventoryType = (Vanilla.InventoryType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
             var allowedClass = (AllowedClass)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
@@ -268,7 +268,7 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessag
             var requiredLevel = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var requiredSkill = (Skill)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var requiredSkill = (Vanilla.Skill)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
             var requiredSkillRank = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
@@ -283,7 +283,7 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessag
             var requiredCityRank = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var requiredFaction = (Faction)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var requiredFaction = (Vanilla.Faction)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
             var requiredFactionRank = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
@@ -346,7 +346,7 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessag
                 size += 24;
             }
 
-            var bonding = (Bonding)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var bonding = (Vanilla.Bonding)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
             var description = await r.ReadCString(cancellationToken).ConfigureAwait(false);
@@ -355,10 +355,10 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessag
             var pageText = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var language = (Language)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var language = (Vanilla.Language)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var pageTextMaterial = (PageTextMaterial)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var pageTextMaterial = (Vanilla.PageTextMaterial)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
             var startQuest = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
@@ -370,7 +370,7 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessag
             var material = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var sheatheType = (SheatheType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var sheatheType = (Vanilla.SheatheType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
             var randomProperty = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
@@ -379,19 +379,19 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: VanillaServerMessage, IWorldMessag
             var block = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var itemSet = (ItemSet)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var itemSet = (Vanilla.ItemSet)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
             var maxDurability = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var bagFamily = (BagFamily)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var bagFamily = (Vanilla.BagFamily)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
             optionalFound = new OptionalFound {

@@ -8,13 +8,13 @@ public class SMSG_PET_SPELLS: VanillaServerMessage, IWorldMessage {
     public required ulong Pet { get; set; }
     public struct OptionalActionBars {
         public required uint Duration { get; set; }
-        public required PetReactState React { get; set; }
-        public required PetCommandState Command { get; set; }
+        public required Vanilla.PetReactState React { get; set; }
+        public required Vanilla.PetCommandState Command { get; set; }
         /// <summary>
         /// mangoszero: set to 0
         /// </summary>
         public required byte Unknown { get; set; }
-        public required PetEnabled PetEnabled { get; set; }
+        public required Vanilla.PetEnabled PetEnabled { get; set; }
         public const int ActionBarsLength = 10;
         public required uint[] ActionBars { get; set; }
         public required List<uint> Spells { get; set; }
@@ -78,16 +78,16 @@ public class SMSG_PET_SPELLS: VanillaServerMessage, IWorldMessage {
             var duration = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var react = (PetReactState)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            var react = (Vanilla.PetReactState)await r.ReadByte(cancellationToken).ConfigureAwait(false);
             size += 1;
 
-            var command = (PetCommandState)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            var command = (Vanilla.PetCommandState)await r.ReadByte(cancellationToken).ConfigureAwait(false);
             size += 1;
 
             var unknown = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             size += 1;
 
-            var petEnabled = (PetEnabled)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            var petEnabled = (Vanilla.PetEnabled)await r.ReadByte(cancellationToken).ConfigureAwait(false);
             size += 1;
 
             var actionBars = new uint[OptionalActionBars.ActionBarsLength];

@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMSG_ZONEUPDATE: VanillaClientMessage, IWorldMessage {
-    public required Area Area { get; set; }
+    public required Vanilla.Area Area { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Area, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class CMSG_ZONEUPDATE: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_ZONEUPDATE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new CMSG_ZONEUPDATE {
             Area = area,

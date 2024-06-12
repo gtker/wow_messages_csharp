@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class SMSG_TEXT_EMOTE: VanillaServerMessage, IWorldMessage {
     public required ulong Guid { get; set; }
-    public required TextEmote TextEmote { get; set; }
+    public required Vanilla.TextEmote TextEmote { get; set; }
     public required uint Emote { get; set; }
     public required string Name { get; set; }
 
@@ -37,7 +37,7 @@ public class SMSG_TEXT_EMOTE: VanillaServerMessage, IWorldMessage {
     public static async Task<SMSG_TEXT_EMOTE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var textEmote = (TextEmote)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var textEmote = (Vanilla.TextEmote)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var emote = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

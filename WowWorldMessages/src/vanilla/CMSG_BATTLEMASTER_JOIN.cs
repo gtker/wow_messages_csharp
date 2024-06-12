@@ -9,7 +9,7 @@ public class CMSG_BATTLEMASTER_JOIN: VanillaClientMessage, IWorldMessage {
     /// vmangos: battlemaster guid, or player guid if joining queue from BG portal
     /// </summary>
     public required ulong Guid { get; set; }
-    public required Map Map { get; set; }
+    public required Vanilla.Map Map { get; set; }
     /// <summary>
     /// vmangos: 0 if First Available selected
     /// </summary>
@@ -43,7 +43,7 @@ public class CMSG_BATTLEMASTER_JOIN: VanillaClientMessage, IWorldMessage {
     public static async Task<CMSG_BATTLEMASTER_JOIN> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var instanceId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

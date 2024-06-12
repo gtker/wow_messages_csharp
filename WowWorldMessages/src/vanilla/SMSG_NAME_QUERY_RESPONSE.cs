@@ -11,9 +11,9 @@ public class SMSG_NAME_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
     /// Used for showing cross realm realm names. If this is an empty string it is shown like a regular player on the same realm.
     /// </summary>
     public required string RealmName { get; set; }
-    public required Race Race { get; set; }
-    public required Gender Gender { get; set; }
-    public required Class ClassType { get; set; }
+    public required Vanilla.Race Race { get; set; }
+    public required Vanilla.Gender Gender { get; set; }
+    public required Vanilla.Class ClassType { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Guid, cancellationToken).ConfigureAwait(false);
@@ -50,11 +50,11 @@ public class SMSG_NAME_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
 
         var realmName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
-        var race = (Race)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var race = (Vanilla.Race)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var gender = (Gender)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var gender = (Vanilla.Gender)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var classType = (Class)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var classType = (Vanilla.Class)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_NAME_QUERY_RESPONSE {
             Guid = guid,

@@ -19,7 +19,7 @@ public class CMSG_MESSAGECHAT: VanillaClientMessage, IWorldMessage {
         _ => Vanilla.ChatType.Whisper,
         v => v
     );
-    public required Language Language { get; set; }
+    public required Vanilla.Language Language { get; set; }
     public required string Message { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -55,9 +55,9 @@ public class CMSG_MESSAGECHAT: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_MESSAGECHAT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        ChatTypeType chatType = (ChatType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        ChatTypeType chatType = (Vanilla.ChatType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var language = (Language)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var language = (Vanilla.Language)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         if (chatType.Value is Vanilla.ChatType.Whisper) {
             var targetPlayer = await r.ReadCString(cancellationToken).ConfigureAwait(false);

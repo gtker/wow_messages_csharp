@@ -8,7 +8,7 @@ public class CMSG_GMTICKET_UPDATETEXT: VanillaClientMessage, IWorldMessage {
     /// <summary>
     /// cmangos does not have this field, vmangos does.
     /// </summary>
-    public required GmTicketType TicketType { get; set; }
+    public required Vanilla.GmTicketType TicketType { get; set; }
     public required string Message { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -32,7 +32,7 @@ public class CMSG_GMTICKET_UPDATETEXT: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_GMTICKET_UPDATETEXT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var ticketType = (GmTicketType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var ticketType = (Vanilla.GmTicketType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var message = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 

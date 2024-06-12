@@ -23,7 +23,7 @@ public class AuraLog {
         /// vmangos: Sent as int32
         /// </summary>
         public required uint Resisted { get; set; }
-        public required SpellSchool School { get; set; }
+        public required Vanilla.SpellSchool School { get; set; }
     }
     public class AuraTypePeriodicDamagePercent {
         public required uint Absorbed { get; set; }
@@ -32,7 +32,7 @@ public class AuraLog {
         /// vmangos: Sent as int32
         /// </summary>
         public required uint Resisted { get; set; }
-        public required SpellSchool School { get; set; }
+        public required Vanilla.SpellSchool School { get; set; }
     }
     public class AuraTypePeriodicEnergize {
         public required uint Damage3 { get; set; }
@@ -122,12 +122,12 @@ public class AuraLog {
     }
 
     public static async Task<AuraLog> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        AuraTypeType auraType = (AuraType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        AuraTypeType auraType = (Vanilla.AuraType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         if (auraType.Value is Vanilla.AuraType.PeriodicDamage) {
             var damage1 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-            var school = (SpellSchool)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            var school = (Vanilla.SpellSchool)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
             var absorbed = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -143,7 +143,7 @@ public class AuraLog {
         else if (auraType.Value is Vanilla.AuraType.PeriodicDamagePercent) {
             var damage1 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-            var school = (SpellSchool)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            var school = (Vanilla.SpellSchool)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
             var absorbed = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

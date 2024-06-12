@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMSG_STANDSTATECHANGE: VanillaClientMessage, IWorldMessage {
-    public required UnitStandState AnimationState { get; set; }
+    public required Vanilla.UnitStandState AnimationState { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)AnimationState, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class CMSG_STANDSTATECHANGE: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_STANDSTATECHANGE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var animationState = (UnitStandState)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var animationState = (Vanilla.UnitStandState)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new CMSG_STANDSTATECHANGE {
             AnimationState = animationState,

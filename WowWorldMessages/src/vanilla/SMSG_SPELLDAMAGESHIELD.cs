@@ -8,7 +8,7 @@ public class SMSG_SPELLDAMAGESHIELD: VanillaServerMessage, IWorldMessage {
     public required ulong Victim { get; set; }
     public required ulong Caster { get; set; }
     public required uint Damage { get; set; }
-    public required SpellSchool School { get; set; }
+    public required Vanilla.SpellSchool School { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Victim, cancellationToken).ConfigureAwait(false);
@@ -41,7 +41,7 @@ public class SMSG_SPELLDAMAGESHIELD: VanillaServerMessage, IWorldMessage {
 
         var damage = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var school = (SpellSchool)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var school = (Vanilla.SpellSchool)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_SPELLDAMAGESHIELD {
             Victim = victim,

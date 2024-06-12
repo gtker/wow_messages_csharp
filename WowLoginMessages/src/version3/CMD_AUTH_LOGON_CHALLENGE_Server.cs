@@ -90,7 +90,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version3ServerMessage, ILoginMessa
         // ReSharper disable once UnusedVariable.Compiler
         var protocolVersion = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        LoginResultType result = (LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        LoginResultType result = (Version3.LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Version3.LoginResult.Success) {
             var serverPublicKey = new byte[LoginResultSuccess.ServerPublicKeyLength];
@@ -124,7 +124,7 @@ public class CMD_AUTH_LOGON_CHALLENGE_Server: Version3ServerMessage, ILoginMessa
                 crcSalt[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
             }
 
-            SecurityFlagType securityFlag = (SecurityFlag)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            SecurityFlagType securityFlag = (Version3.SecurityFlag)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
             if (securityFlag.Value is Version3.SecurityFlag.Pin) {
                 var pinGridSeed = await r.ReadUInt(cancellationToken).ConfigureAwait(false);

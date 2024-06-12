@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMSG_EMOTE: VanillaClientMessage, IWorldMessage {
-    public required Emote Emote { get; set; }
+    public required Vanilla.Emote Emote { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Emote, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class CMSG_EMOTE: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_EMOTE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var emote = (Emote)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var emote = (Vanilla.Emote)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new CMSG_EMOTE {
             Emote = emote,

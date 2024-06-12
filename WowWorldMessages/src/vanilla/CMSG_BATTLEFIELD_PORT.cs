@@ -5,8 +5,8 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMSG_BATTLEFIELD_PORT: VanillaClientMessage, IWorldMessage {
-    public required Map Map { get; set; }
-    public required BattlefieldPortAction Action { get; set; }
+    public required Vanilla.Map Map { get; set; }
+    public required Vanilla.BattlefieldPortAction Action { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Map, cancellationToken).ConfigureAwait(false);
@@ -29,9 +29,9 @@ public class CMSG_BATTLEFIELD_PORT: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_BATTLEFIELD_PORT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var action = (BattlefieldPortAction)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var action = (Vanilla.BattlefieldPortAction)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new CMSG_BATTLEFIELD_PORT {
             Map = map,

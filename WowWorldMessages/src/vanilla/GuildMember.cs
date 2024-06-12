@@ -18,8 +18,8 @@ public class GuildMember {
     public required string Name { get; set; }
     public required uint Rank { get; set; }
     public required byte Level { get; set; }
-    public required Class ClassType { get; set; }
-    public required Area Area { get; set; }
+    public required Vanilla.Class ClassType { get; set; }
+    public required Vanilla.Area Area { get; set; }
     public required string PublicNote { get; set; }
     public required string OfficerNote { get; set; }
 
@@ -52,7 +52,7 @@ public class GuildMember {
     public static async Task<GuildMember> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        GuildMemberStatusType status = (GuildMemberStatus)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        GuildMemberStatusType status = (Vanilla.GuildMemberStatus)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var name = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
@@ -60,9 +60,9 @@ public class GuildMember {
 
         var level = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var classType = (Class)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var classType = (Vanilla.Class)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         if (status.Value is Vanilla.GuildMemberStatus.Offline) {
             var timeOffline = await r.ReadFloat(cancellationToken).ConfigureAwait(false);

@@ -7,7 +7,7 @@ namespace WowWorldMessages.Vanilla;
 public class SMSG_BUY_FAILED: VanillaServerMessage, IWorldMessage {
     public required ulong Guid { get; set; }
     public required uint Item { get; set; }
-    public required BuyResult Result { get; set; }
+    public required Vanilla.BuyResult Result { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Guid, cancellationToken).ConfigureAwait(false);
@@ -36,7 +36,7 @@ public class SMSG_BUY_FAILED: VanillaServerMessage, IWorldMessage {
 
         var item = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var result = (BuyResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var result = (Vanilla.BuyResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_BUY_FAILED {
             Guid = guid,

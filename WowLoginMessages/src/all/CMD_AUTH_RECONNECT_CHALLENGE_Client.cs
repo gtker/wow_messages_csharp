@@ -7,11 +7,11 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client: AllClientMessage, ILoginMessag
     /// <summary>
     /// Determines which version of messages are used for further communication.
     /// </summary>
-    public required ProtocolVersion ProtocolVersion { get; set; }
+    public required All.ProtocolVersion ProtocolVersion { get; set; }
     public required Version Version { get; set; }
-    public required Platform Platform { get; set; }
-    public required Os Os { get; set; }
-    public required Locale Locale { get; set; }
+    public required All.Platform Platform { get; set; }
+    public required All.Os Os { get; set; }
+    public required All.Locale Locale { get; set; }
     /// <summary>
     /// Offset in minutes from UTC time. 180 would be UTC+3
     /// </summary>
@@ -51,7 +51,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client: AllClientMessage, ILoginMessag
     }
 
     public static async Task<CMD_AUTH_RECONNECT_CHALLENGE_Client> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        var protocolVersion = (ProtocolVersion)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var protocolVersion = (All.ProtocolVersion)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
         var size = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
@@ -61,11 +61,11 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client: AllClientMessage, ILoginMessag
 
         var version = await Version.ReadAsync(r, cancellationToken).ConfigureAwait(false);
 
-        var platform = (Platform)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var platform = (All.Platform)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var os = (Os)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var os = (All.Os)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var locale = (Locale)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var locale = (All.Locale)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var utcTimezoneOffset = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

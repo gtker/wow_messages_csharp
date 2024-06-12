@@ -13,7 +13,7 @@ public class CMSG_AUCTION_LIST_ITEMS: VanillaClientMessage, IWorldMessage {
     public required uint AuctionSlotId { get; set; }
     public required uint AuctionMainCategory { get; set; }
     public required uint AuctionSubCategory { get; set; }
-    public required ItemQuality AuctionQuality { get; set; }
+    public required Vanilla.ItemQuality AuctionQuality { get; set; }
     public required byte Usable { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -69,7 +69,7 @@ public class CMSG_AUCTION_LIST_ITEMS: VanillaClientMessage, IWorldMessage {
 
         var auctionSubCategory = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var auctionQuality = (ItemQuality)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var auctionQuality = (Vanilla.ItemQuality)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var usable = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 

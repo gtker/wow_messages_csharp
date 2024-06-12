@@ -16,7 +16,7 @@ public class CMSG_GMTICKET_CREATE: VanillaClientMessage, IWorldMessage {
         _ => Vanilla.GmTicketType.BehaviorHarassment,
         v => v
     );
-    public required Map Map { get; set; }
+    public required Vanilla.Map Map { get; set; }
     public required Vector3d Position { get; set; }
     public required string Message { get; set; }
     /// <summary>
@@ -79,10 +79,10 @@ public class CMSG_GMTICKET_CREATE: VanillaClientMessage, IWorldMessage {
 
     public static async Task<CMSG_GMTICKET_CREATE> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
         var size = 0;
-        GmTicketTypeType category = (GmTicketType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        GmTicketTypeType category = (Vanilla.GmTicketType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
         size += 1;
 
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
         size += 4;
 
         var position = await Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);

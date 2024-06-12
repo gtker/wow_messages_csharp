@@ -8,7 +8,7 @@ public class SMSG_SPELLENERGIZELOG: VanillaServerMessage, IWorldMessage {
     public required ulong Victim { get; set; }
     public required ulong Caster { get; set; }
     public required uint Spell { get; set; }
-    public required Power Power { get; set; }
+    public required Vanilla.Power Power { get; set; }
     public required uint Damage { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -44,7 +44,7 @@ public class SMSG_SPELLENERGIZELOG: VanillaServerMessage, IWorldMessage {
 
         var spell = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var power = (Power)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var power = (Vanilla.Power)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var damage = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

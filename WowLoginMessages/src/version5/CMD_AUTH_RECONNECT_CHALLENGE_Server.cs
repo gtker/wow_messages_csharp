@@ -37,7 +37,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Server: Version5ServerMessage, ILoginM
     }
 
     public static async Task<CMD_AUTH_RECONNECT_CHALLENGE_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        LoginResultType result = (LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        LoginResultType result = (Version5.LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Version5.LoginResult.Success) {
             var challengeData = new byte[LoginResultSuccess.ChallengeDataLength];

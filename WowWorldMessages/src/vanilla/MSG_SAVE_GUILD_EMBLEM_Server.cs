@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class MSG_SAVE_GUILD_EMBLEM_Server: VanillaServerMessage, IWorldMessage {
-    public required GuildEmblemResult Result { get; set; }
+    public required Vanilla.GuildEmblemResult Result { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Result, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class MSG_SAVE_GUILD_EMBLEM_Server: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<MSG_SAVE_GUILD_EMBLEM_Server> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var result = (GuildEmblemResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var result = (Vanilla.GuildEmblemResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new MSG_SAVE_GUILD_EMBLEM_Server {
             Result = result,

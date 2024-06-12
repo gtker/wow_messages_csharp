@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class CMSG_BUYBACK_ITEM: VanillaClientMessage, IWorldMessage {
     public required ulong Guid { get; set; }
-    public required BuybackSlot Slot { get; set; }
+    public required Vanilla.BuybackSlot Slot { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Guid, cancellationToken).ConfigureAwait(false);
@@ -31,7 +31,7 @@ public class CMSG_BUYBACK_ITEM: VanillaClientMessage, IWorldMessage {
     public static async Task<CMSG_BUYBACK_ITEM> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var slot = (BuybackSlot)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var slot = (Vanilla.BuybackSlot)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new CMSG_BUYBACK_ITEM {
             Guid = guid,

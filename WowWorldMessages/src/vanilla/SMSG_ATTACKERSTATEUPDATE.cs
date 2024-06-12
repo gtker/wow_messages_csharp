@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_ATTACKERSTATEUPDATE: VanillaServerMessage, IWorldMessage {
-    public required HitInfo HitInfo { get; set; }
+    public required Vanilla.HitInfo HitInfo { get; set; }
     public required ulong Attacker { get; set; }
     public required ulong Target { get; set; }
     public required uint TotalDamage { get; set; }
@@ -57,7 +57,7 @@ public class SMSG_ATTACKERSTATEUPDATE: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_ATTACKERSTATEUPDATE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var hitInfo = (HitInfo)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var hitInfo = (Vanilla.HitInfo)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var attacker = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
 

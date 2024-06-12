@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class MSG_QUEST_PUSH_RESULT: VanillaClientMessage, VanillaServerMessage, IWorldMessage {
     public required ulong Guid { get; set; }
-    public required QuestPartyMessage Message { get; set; }
+    public required Vanilla.QuestPartyMessage Message { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Guid, cancellationToken).ConfigureAwait(false);
@@ -44,7 +44,7 @@ public class MSG_QUEST_PUSH_RESULT: VanillaClientMessage, VanillaServerMessage, 
     public static async Task<MSG_QUEST_PUSH_RESULT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var message = (QuestPartyMessage)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var message = (Vanilla.QuestPartyMessage)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new MSG_QUEST_PUSH_RESULT {
             Guid = guid,

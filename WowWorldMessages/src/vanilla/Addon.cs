@@ -63,7 +63,7 @@ public class Addon {
     public class UrlInfoAvailable {
         public required string Url { get; set; }
     }
-    public required AddonType AddonType { get; set; }
+    public required Vanilla.AddonType AddonType { get; set; }
     public required InfoBlockType InfoBlock { get; set; }
     internal InfoBlock InfoBlockValue => InfoBlock.Match(
         _ => Vanilla.InfoBlock.Available,
@@ -152,12 +152,12 @@ public class Addon {
     }
 
     public static async Task<Addon> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var addonType = (AddonType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var addonType = (Vanilla.AddonType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        InfoBlockType infoBlock = (InfoBlock)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        InfoBlockType infoBlock = (Vanilla.InfoBlock)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (infoBlock.Value is Vanilla.InfoBlock.Available) {
-            KeyVersionType keyVersion = (KeyVersion)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            KeyVersionType keyVersion = (Vanilla.KeyVersion)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
             if (keyVersion.Value is Vanilla.KeyVersion.One) {
                 var publicKey = new byte[KeyVersionOne.PublicKeyLength];
@@ -258,7 +258,7 @@ public class Addon {
             };
         }
 
-        UrlInfoType urlInfo = (UrlInfo)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        UrlInfoType urlInfo = (Vanilla.UrlInfo)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (urlInfo.Value is Vanilla.UrlInfo.Available) {
             var url = await r.ReadCString(cancellationToken).ConfigureAwait(false);

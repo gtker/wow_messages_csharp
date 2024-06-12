@@ -7,23 +7,23 @@ using FriendStatusType = OneOf.OneOf<Friend.FriendStatusAfk, Friend.FriendStatus
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class Friend {
     public class FriendStatusAfk {
-        public required Area Area { get; set; }
-        public required Class ClassType { get; set; }
+        public required Vanilla.Area Area { get; set; }
+        public required Vanilla.Class ClassType { get; set; }
         public required uint Level { get; set; }
     }
     public class FriendStatusDnd {
-        public required Area Area { get; set; }
-        public required Class ClassType { get; set; }
+        public required Vanilla.Area Area { get; set; }
+        public required Vanilla.Class ClassType { get; set; }
         public required uint Level { get; set; }
     }
     public class FriendStatusOnline {
-        public required Area Area { get; set; }
-        public required Class ClassType { get; set; }
+        public required Vanilla.Area Area { get; set; }
+        public required Vanilla.Class ClassType { get; set; }
         public required uint Level { get; set; }
     }
     public class FriendStatusUnknown3 {
-        public required Area Area { get; set; }
-        public required Class ClassType { get; set; }
+        public required Vanilla.Area Area { get; set; }
+        public required Vanilla.Class ClassType { get; set; }
         public required uint Level { get; set; }
     }
     public required ulong Guid { get; set; }
@@ -79,14 +79,14 @@ public class Friend {
     public static async Task<Friend> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        FriendStatusType status = (FriendStatus)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        FriendStatusType status = (Vanilla.FriendStatus)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (status.Value is Vanilla.FriendStatus.Online) {
-            var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
             var level = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-            var classType = (Class)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var classType = (Vanilla.Class)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
             status = new FriendStatusOnline {
                 Area = area,
@@ -95,11 +95,11 @@ public class Friend {
             };
         }
         else if (status.Value is Vanilla.FriendStatus.Afk) {
-            var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
             var level = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-            var classType = (Class)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var classType = (Vanilla.Class)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
             status = new FriendStatusAfk {
                 Area = area,
@@ -108,11 +108,11 @@ public class Friend {
             };
         }
         else if (status.Value is Vanilla.FriendStatus.Unknown3) {
-            var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
             var level = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-            var classType = (Class)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var classType = (Vanilla.Class)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
             status = new FriendStatusUnknown3 {
                 Area = area,
@@ -121,11 +121,11 @@ public class Friend {
             };
         }
         else if (status.Value is Vanilla.FriendStatus.Dnd) {
-            var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
             var level = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-            var classType = (Class)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var classType = (Vanilla.Class)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
             status = new FriendStatusDnd {
                 Area = area,

@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMSG_TEXT_EMOTE: VanillaClientMessage, IWorldMessage {
-    public required TextEmote TextEmote { get; set; }
+    public required Vanilla.TextEmote TextEmote { get; set; }
     public required uint Emote { get; set; }
     /// <summary>
     /// Guid targeted by the client.
@@ -35,7 +35,7 @@ public class CMSG_TEXT_EMOTE: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_TEXT_EMOTE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var textEmote = (TextEmote)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var textEmote = (Vanilla.TextEmote)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var emote = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

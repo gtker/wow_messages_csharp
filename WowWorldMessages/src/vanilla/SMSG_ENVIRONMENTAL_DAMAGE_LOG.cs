@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class SMSG_ENVIRONMENTAL_DAMAGE_LOG: VanillaServerMessage, IWorldMessage {
     public required ulong Guid { get; set; }
-    public required EnvironmentalDamageType DamageType { get; set; }
+    public required Vanilla.EnvironmentalDamageType DamageType { get; set; }
     public required uint Damage { get; set; }
     public required uint Absorb { get; set; }
     public required uint Resist { get; set; }
@@ -40,7 +40,7 @@ public class SMSG_ENVIRONMENTAL_DAMAGE_LOG: VanillaServerMessage, IWorldMessage 
     public static async Task<SMSG_ENVIRONMENTAL_DAMAGE_LOG> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var damageType = (EnvironmentalDamageType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var damageType = (Vanilla.EnvironmentalDamageType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var damage = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

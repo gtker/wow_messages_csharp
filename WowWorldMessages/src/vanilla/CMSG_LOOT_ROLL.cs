@@ -7,7 +7,7 @@ namespace WowWorldMessages.Vanilla;
 public class CMSG_LOOT_ROLL: VanillaClientMessage, IWorldMessage {
     public required ulong Item { get; set; }
     public required uint ItemSlot { get; set; }
-    public required RollVote Vote { get; set; }
+    public required Vanilla.RollVote Vote { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Item, cancellationToken).ConfigureAwait(false);
@@ -36,7 +36,7 @@ public class CMSG_LOOT_ROLL: VanillaClientMessage, IWorldMessage {
 
         var itemSlot = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var vote = (RollVote)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var vote = (Vanilla.RollVote)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new CMSG_LOOT_ROLL {
             Item = item,

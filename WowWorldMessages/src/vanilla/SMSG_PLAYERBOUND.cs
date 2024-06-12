@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class SMSG_PLAYERBOUND: VanillaServerMessage, IWorldMessage {
     public required ulong Guid { get; set; }
-    public required Area Area { get; set; }
+    public required Vanilla.Area Area { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Guid, cancellationToken).ConfigureAwait(false);
@@ -31,7 +31,7 @@ public class SMSG_PLAYERBOUND: VanillaServerMessage, IWorldMessage {
     public static async Task<SMSG_PLAYERBOUND> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_PLAYERBOUND {
             Guid = guid,

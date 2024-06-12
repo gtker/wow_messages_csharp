@@ -18,7 +18,7 @@ public class SMSG_QUESTGIVER_REQUEST_ITEMS: VanillaServerMessage, IWorldMessage 
     /// cmangos/vmangos/mangoszero: All emulators set to 0x02
     /// </summary>
     public required uint Unknown1 { get; set; }
-    public required QuestCompletable Completable { get; set; }
+    public required Vanilla.QuestCompletable Completable { get; set; }
     /// <summary>
     /// cmangos/vmangos/mangoszero: set to 0x04
     /// </summary>
@@ -101,7 +101,7 @@ public class SMSG_QUESTGIVER_REQUEST_ITEMS: VanillaServerMessage, IWorldMessage 
 
         var unknown1 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var completable = (QuestCompletable)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var completable = (Vanilla.QuestCompletable)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var flags2 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

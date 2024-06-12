@@ -6,24 +6,24 @@ namespace WowWorldMessages.Vanilla;
 public class Character {
     public required ulong Guid { get; set; }
     public required string Name { get; set; }
-    public required Race Race { get; set; }
-    public required Class ClassType { get; set; }
-    public required Gender Gender { get; set; }
+    public required Vanilla.Race Race { get; set; }
+    public required Vanilla.Class ClassType { get; set; }
+    public required Vanilla.Gender Gender { get; set; }
     public required byte Skin { get; set; }
     public required byte Face { get; set; }
     public required byte HairStyle { get; set; }
     public required byte HairColor { get; set; }
     public required byte FacialHair { get; set; }
     public required byte Level { get; set; }
-    public required Area Area { get; set; }
-    public required Map Map { get; set; }
+    public required Vanilla.Area Area { get; set; }
+    public required Vanilla.Map Map { get; set; }
     public required Vector3d Position { get; set; }
     public required uint GuildId { get; set; }
-    public required CharacterFlags Flags { get; set; }
+    public required Vanilla.CharacterFlags Flags { get; set; }
     public required bool FirstLogin { get; set; }
     public required uint PetDisplayId { get; set; }
     public required uint PetLevel { get; set; }
-    public required CreatureFamily PetFamily { get; set; }
+    public required Vanilla.CreatureFamily PetFamily { get; set; }
     public const int EquipmentLength = 19;
     public required CharacterGear[] Equipment { get; set; }
 
@@ -83,11 +83,11 @@ public class Character {
 
         var name = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
-        var race = (Race)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var race = (Vanilla.Race)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var classType = (Class)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var classType = (Vanilla.Class)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var gender = (Gender)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var gender = (Vanilla.Gender)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var skin = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
@@ -101,9 +101,9 @@ public class Character {
 
         var level = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var position = await Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
 
@@ -117,7 +117,7 @@ public class Character {
 
         var petLevel = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var petFamily = (CreatureFamily)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var petFamily = (Vanilla.CreatureFamily)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var equipment = new CharacterGear[EquipmentLength];
         for (var i = 0; i < EquipmentLength; ++i) {

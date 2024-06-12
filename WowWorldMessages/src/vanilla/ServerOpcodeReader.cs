@@ -143,6 +143,7 @@ public static class ServerOpcodeReader {
             344 => await SMSG_PLAYERBOUND.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             345 => await SMSG_CLIENT_CONTROL_UPDATE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             347 => await SMSG_RESURRECT_REQUEST.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            352 => await SMSG_LOOT_RESPONSE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             353 => await SMSG_LOOT_RELEASE_RESPONSE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             354 => await SMSG_LOOT_REMOVED.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             355 => await SMSG_LOOT_MONEY_NOTIFY.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),

@@ -8,7 +8,7 @@ using BattlegroundEndStatusType = OneOf.OneOf<MSG_PVP_LOG_DATA_Server.Battlegrou
 // ReSharper disable once InconsistentNaming
 public class MSG_PVP_LOG_DATA_Server: VanillaServerMessage, IWorldMessage {
     public class BattlegroundEndStatusEnded {
-        public required BattlegroundWinner Winner { get; set; }
+        public required Vanilla.BattlegroundWinner Winner { get; set; }
     }
     public required BattlegroundEndStatusType Status { get; set; }
     internal BattlegroundEndStatus StatusValue => Status.Match(
@@ -47,10 +47,10 @@ public class MSG_PVP_LOG_DATA_Server: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<MSG_PVP_LOG_DATA_Server> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        BattlegroundEndStatusType status = (BattlegroundEndStatus)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        BattlegroundEndStatusType status = (Vanilla.BattlegroundEndStatus)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (status.Value is Vanilla.BattlegroundEndStatus.Ended) {
-            var winner = (BattlegroundWinner)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            var winner = (Vanilla.BattlegroundWinner)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
             status = new BattlegroundEndStatusEnded {
                 Winner = winner,

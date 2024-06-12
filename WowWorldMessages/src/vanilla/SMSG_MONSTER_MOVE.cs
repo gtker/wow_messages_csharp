@@ -26,7 +26,7 @@ public class SMSG_MONSTER_MOVE: VanillaServerMessage, IWorldMessage {
         _ => Vanilla.MonsterMoveType.FacingTarget,
         v => v
     );
-    public required SplineFlag SplineFlags { get; set; }
+    public required Vanilla.SplineFlag SplineFlags { get; set; }
     public required uint Duration { get; set; }
     public required List<Vector3d> Splines { get; set; }
 
@@ -82,7 +82,7 @@ public class SMSG_MONSTER_MOVE: VanillaServerMessage, IWorldMessage {
 
         var splineId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        MonsterMoveTypeType moveType = (MonsterMoveType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        MonsterMoveTypeType moveType = (Vanilla.MonsterMoveType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (moveType.Value is Vanilla.MonsterMoveType.FacingTarget) {
             var target = await r.ReadULong(cancellationToken).ConfigureAwait(false);

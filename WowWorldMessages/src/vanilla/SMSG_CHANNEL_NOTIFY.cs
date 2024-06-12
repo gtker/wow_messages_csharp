@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_CHANNEL_NOTIFY: VanillaServerMessage, IWorldMessage {
-    public required ChatNotify NotifyType { get; set; }
+    public required Vanilla.ChatNotify NotifyType { get; set; }
     public required string ChannelName { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -29,7 +29,7 @@ public class SMSG_CHANNEL_NOTIFY: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_CHANNEL_NOTIFY> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var notifyType = (ChatNotify)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var notifyType = (Vanilla.ChatNotify)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var channelName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 

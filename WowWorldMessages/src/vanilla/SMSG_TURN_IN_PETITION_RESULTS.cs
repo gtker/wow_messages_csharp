@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_TURN_IN_PETITION_RESULTS: VanillaServerMessage, IWorldMessage {
-    public required PetitionResult Result { get; set; }
+    public required Vanilla.PetitionResult Result { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Result, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class SMSG_TURN_IN_PETITION_RESULTS: VanillaServerMessage, IWorldMessage 
     }
 
     public static async Task<SMSG_TURN_IN_PETITION_RESULTS> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var result = (PetitionResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var result = (Vanilla.PetitionResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_TURN_IN_PETITION_RESULTS {
             Result = result,

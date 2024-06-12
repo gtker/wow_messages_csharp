@@ -98,7 +98,7 @@ public static class WriteContainers
         return s;
     }
 
-    private static void WriteMemberDefinition(Writer s, Container e, Definition d)
+    private static void WriteMemberDefinition(Writer s, Container e, Definition d, string module)
     {
         if (d.IsNotInType())
         {
@@ -123,7 +123,9 @@ public static class WriteContainers
             }
         }
 
-        s.Wln($"public required {d.CsTypeName()}{postfix} {d.MemberName()} {{ get; set; }}");
+        var prefix = (d.DataType is DataTypeEnum or DataTypeFlag) && !d.UsedInIf ? $"{module}." : "";
+
+        s.Wln($"public required {prefix}{d.CsTypeName()}{postfix} {d.MemberName()} {{ get; set; }}");
     }
 
     private static void WriteEnumValue(Writer s, PreparedObject po, Definition d, Container e, string module)
@@ -168,7 +170,7 @@ public static class WriteContainers
                                 foreach (var member in members)
                                 {
                                     var d = e.FindDefinitionByName(member.Name);
-                                    WriteMemberDefinition(s, e, d);
+                                    WriteMemberDefinition(s, e, d, module);
 
                                     WriteEnumValue(s, member, d, e, module);
                                 }
@@ -196,7 +198,7 @@ public static class WriteContainers
                             foreach (var member in members)
                             {
                                 var d = e.FindDefinitionByName(member.Name);
-                                WriteMemberDefinition(s, e, d);
+                                WriteMemberDefinition(s, e, d, module);
                             }
                         });
                     }
@@ -207,7 +209,7 @@ public static class WriteContainers
         foreach (var po in e.PreparedObjects)
         {
             var d = e.FindDefinitionByName(po.Name);
-            WriteMemberDefinition(s, e, d);
+            WriteMemberDefinition(s, e, d, module);
 
             WriteEnumValue(s, po, d, e, module);
         }
@@ -219,7 +221,7 @@ public static class WriteContainers
                 foreach (var po in optional.PreparedObjects)
                 {
                     var d = e.FindDefinitionByName(po.Name);
-                    WriteMemberDefinition(s, e, d);
+                    WriteMemberDefinition(s, e, d, module);
                 }
             });
 

@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class SMSG_PET_ACTION_SOUND: VanillaServerMessage, IWorldMessage {
     public required ulong Guid { get; set; }
-    public required PetTalkReason Reason { get; set; }
+    public required Vanilla.PetTalkReason Reason { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Guid, cancellationToken).ConfigureAwait(false);
@@ -31,7 +31,7 @@ public class SMSG_PET_ACTION_SOUND: VanillaServerMessage, IWorldMessage {
     public static async Task<SMSG_PET_ACTION_SOUND> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var reason = (PetTalkReason)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var reason = (Vanilla.PetTalkReason)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_PET_ACTION_SOUND {
             Guid = guid,

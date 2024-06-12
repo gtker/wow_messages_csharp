@@ -5,8 +5,8 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_MEETINGSTONE_SETQUEUE: VanillaServerMessage, IWorldMessage {
-    public required Area Area { get; set; }
-    public required MeetingStoneStatus Status { get; set; }
+    public required Vanilla.Area Area { get; set; }
+    public required Vanilla.MeetingStoneStatus Status { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Area, cancellationToken).ConfigureAwait(false);
@@ -29,9 +29,9 @@ public class SMSG_MEETINGSTONE_SETQUEUE: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_MEETINGSTONE_SETQUEUE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var status = (MeetingStoneStatus)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var status = (Vanilla.MeetingStoneStatus)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_MEETINGSTONE_SETQUEUE {
             Area = area,

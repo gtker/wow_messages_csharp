@@ -7,7 +7,7 @@ namespace WowWorldMessages.Vanilla;
 public class SMSG_SPELL_FAILURE: VanillaServerMessage, IWorldMessage {
     public required ulong Guid { get; set; }
     public required uint Spell { get; set; }
-    public required SpellCastResult Result { get; set; }
+    public required Vanilla.SpellCastResult Result { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Guid, cancellationToken).ConfigureAwait(false);
@@ -36,7 +36,7 @@ public class SMSG_SPELL_FAILURE: VanillaServerMessage, IWorldMessage {
 
         var spell = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var result = (SpellCastResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var result = (Vanilla.SpellCastResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_SPELL_FAILURE {
             Guid = guid,

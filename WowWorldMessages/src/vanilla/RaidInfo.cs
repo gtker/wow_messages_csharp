@@ -4,7 +4,7 @@ namespace WowWorldMessages.Vanilla;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class RaidInfo {
-    public required Map Map { get; set; }
+    public required Vanilla.Map Map { get; set; }
     public required uint ResetTime { get; set; }
     public required uint InstanceId { get; set; }
 
@@ -18,7 +18,7 @@ public class RaidInfo {
     }
 
     public static async Task<RaidInfo> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var resetTime = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

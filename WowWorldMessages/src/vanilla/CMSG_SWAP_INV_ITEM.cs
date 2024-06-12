@@ -5,8 +5,8 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMSG_SWAP_INV_ITEM: VanillaClientMessage, IWorldMessage {
-    public required ItemSlot SourceSlot { get; set; }
-    public required ItemSlot DestinationSlot { get; set; }
+    public required Vanilla.ItemSlot SourceSlot { get; set; }
+    public required Vanilla.ItemSlot DestinationSlot { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteByte((byte)SourceSlot, cancellationToken).ConfigureAwait(false);
@@ -29,9 +29,9 @@ public class CMSG_SWAP_INV_ITEM: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_SWAP_INV_ITEM> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var sourceSlot = (ItemSlot)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var sourceSlot = (Vanilla.ItemSlot)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var destinationSlot = (ItemSlot)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var destinationSlot = (Vanilla.ItemSlot)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new CMSG_SWAP_INV_ITEM {
             SourceSlot = sourceSlot,

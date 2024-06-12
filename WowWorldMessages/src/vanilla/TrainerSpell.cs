@@ -8,7 +8,7 @@ public class TrainerSpell {
     /// cmangos: learned spell (or cast-spell in profession case)
     /// </summary>
     public required uint Spell { get; set; }
-    public required TrainerSpellState State { get; set; }
+    public required Vanilla.TrainerSpellState State { get; set; }
     public required uint SpellCost { get; set; }
     /// <summary>
     /// cmangos: spells don't cost talent points
@@ -21,7 +21,7 @@ public class TrainerSpell {
     /// </summary>
     public required uint FirstRank { get; set; }
     public required byte RequiredLevel { get; set; }
-    public required Skill RequiredSkill { get; set; }
+    public required Vanilla.Skill RequiredSkill { get; set; }
     public required uint RequiredSkillValue { get; set; }
     public const int RequiredSpellsLength = 3;
     public required uint[] RequiredSpells { get; set; }
@@ -52,7 +52,7 @@ public class TrainerSpell {
     public static async Task<TrainerSpell> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var spell = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var state = (TrainerSpellState)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var state = (Vanilla.TrainerSpellState)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var spellCost = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -62,7 +62,7 @@ public class TrainerSpell {
 
         var requiredLevel = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var requiredSkill = (Skill)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var requiredSkill = (Vanilla.Skill)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var requiredSkillValue = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

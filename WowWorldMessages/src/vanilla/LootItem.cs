@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 public class LootItem {
     public required byte Index { get; set; }
     public required uint Item { get; set; }
-    public required LootSlotType Ty { get; set; }
+    public required Vanilla.LootSlotType Ty { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteByte(Index, cancellationToken).ConfigureAwait(false);
@@ -22,7 +22,7 @@ public class LootItem {
 
         var item = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var ty = (LootSlotType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var ty = (Vanilla.LootSlotType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new LootItem {
             Index = index,

@@ -21,7 +21,7 @@ public class SMSG_LOOT_ROLL_WON: VanillaServerMessage, IWorldMessage {
     /// <summary>
     /// Rolltype related to SMSG_LOOT_ROLL
     /// </summary>
-    public required RollVote Vote { get; set; }
+    public required Vanilla.RollVote Vote { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(LootedTarget, cancellationToken).ConfigureAwait(false);
@@ -70,7 +70,7 @@ public class SMSG_LOOT_ROLL_WON: VanillaServerMessage, IWorldMessage {
 
         var winningRoll = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var vote = (RollVote)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var vote = (Vanilla.RollVote)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_LOOT_ROLL_WON {
             LootedTarget = lootedTarget,

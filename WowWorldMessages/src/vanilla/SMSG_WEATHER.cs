@@ -5,10 +5,10 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_WEATHER: VanillaServerMessage, IWorldMessage {
-    public required WeatherType WeatherType { get; set; }
+    public required Vanilla.WeatherType WeatherType { get; set; }
     public required float Grade { get; set; }
     public required uint SoundId { get; set; }
-    public required WeatherChangeType Change { get; set; }
+    public required Vanilla.WeatherChangeType Change { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)WeatherType, cancellationToken).ConfigureAwait(false);
@@ -35,13 +35,13 @@ public class SMSG_WEATHER: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_WEATHER> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var weatherType = (WeatherType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var weatherType = (Vanilla.WeatherType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var grade = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
 
         var soundId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var change = (WeatherChangeType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var change = (Vanilla.WeatherChangeType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_WEATHER {
             WeatherType = weatherType,

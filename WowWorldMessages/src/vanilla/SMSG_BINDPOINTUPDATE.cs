@@ -6,8 +6,8 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class SMSG_BINDPOINTUPDATE: VanillaServerMessage, IWorldMessage {
     public required Vector3d Position { get; set; }
-    public required Map Map { get; set; }
-    public required Area Area { get; set; }
+    public required Vanilla.Map Map { get; set; }
+    public required Vanilla.Area Area { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await Position.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
@@ -34,9 +34,9 @@ public class SMSG_BINDPOINTUPDATE: VanillaServerMessage, IWorldMessage {
     public static async Task<SMSG_BINDPOINTUPDATE> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var position = await Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
 
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var area = (Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_BINDPOINTUPDATE {
             Position = position,

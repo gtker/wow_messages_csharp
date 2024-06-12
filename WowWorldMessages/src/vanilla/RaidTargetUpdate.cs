@@ -4,7 +4,7 @@ namespace WowWorldMessages.Vanilla;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class RaidTargetUpdate {
-    public required RaidTargetIndex Index { get; set; }
+    public required Vanilla.RaidTargetIndex Index { get; set; }
     public required ulong Guid { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -15,7 +15,7 @@ public class RaidTargetUpdate {
     }
 
     public static async Task<RaidTargetUpdate> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var index = (RaidTargetIndex)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var index = (Vanilla.RaidTargetIndex)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 

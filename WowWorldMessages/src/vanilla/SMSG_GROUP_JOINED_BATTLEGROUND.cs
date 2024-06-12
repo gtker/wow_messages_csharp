@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_GROUP_JOINED_BATTLEGROUND: VanillaServerMessage, IWorldMessage {
-    public required BgTypeId Id { get; set; }
+    public required Vanilla.BgTypeId Id { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Id, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class SMSG_GROUP_JOINED_BATTLEGROUND: VanillaServerMessage, IWorldMessage
     }
 
     public static async Task<SMSG_GROUP_JOINED_BATTLEGROUND> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var id = (BgTypeId)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var id = (Vanilla.BgTypeId)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_GROUP_JOINED_BATTLEGROUND {
             Id = id,

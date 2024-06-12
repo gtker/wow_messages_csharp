@@ -8,7 +8,7 @@ public class CMSG_UPDATE_ACCOUNT_DATA: VanillaClientMessage, IWorldMessage {
     /// <summary>
     /// Exact meaning unknown. Seems to be between 0 and 7. Block 6 is changed when changing `layout-cache.txt` inside the WTF folder.
     /// </summary>
-    public required AccountDataType DataType { get; set; }
+    public required Vanilla.AccountDataType DataType { get; set; }
     public required List<byte> CompressedData { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -52,7 +52,7 @@ public class CMSG_UPDATE_ACCOUNT_DATA: VanillaClientMessage, IWorldMessage {
 
     public static async Task<CMSG_UPDATE_ACCOUNT_DATA> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
         var size = 0;
-        var dataType = (AccountDataType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var dataType = (Vanilla.AccountDataType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
         size += 4;
 
         var decompressedLength = await r.ReadUInt(cancellationToken).ConfigureAwait(false);

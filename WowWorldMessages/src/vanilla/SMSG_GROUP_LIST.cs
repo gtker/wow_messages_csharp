@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_GROUP_LIST: VanillaServerMessage, IWorldMessage {
-    public required GroupType GroupType { get; set; }
+    public required Vanilla.GroupType GroupType { get; set; }
     /// <summary>
     /// mangoszero/cmangos/vmangos: own flags (groupid | (assistant?0x80:0))
     /// </summary>
@@ -13,12 +13,12 @@ public class SMSG_GROUP_LIST: VanillaServerMessage, IWorldMessage {
     public required List<GroupListMember> Members { get; set; }
     public required ulong Leader { get; set; }
     public struct OptionalGroupNotEmpty {
-        public required GroupLootSetting LootSetting { get; set; }
+        public required Vanilla.GroupLootSetting LootSetting { get; set; }
         /// <summary>
         /// Zero if loot_setting is not MASTER_LOOT
         /// </summary>
         public required ulong MasterLoot { get; set; }
-        public required ItemQuality LootThreshold { get; set; }
+        public required Vanilla.ItemQuality LootThreshold { get; set; }
     }
     public required OptionalGroupNotEmpty? GroupNotEmpty { get; set; }
 
@@ -60,7 +60,7 @@ public class SMSG_GROUP_LIST: VanillaServerMessage, IWorldMessage {
 
     public static async Task<SMSG_GROUP_LIST> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
         var size = 0;
-        var groupType = (GroupType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var groupType = (Vanilla.GroupType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
         size += 1;
 
         var flags = await r.ReadByte(cancellationToken).ConfigureAwait(false);
@@ -81,13 +81,13 @@ public class SMSG_GROUP_LIST: VanillaServerMessage, IWorldMessage {
 
         OptionalGroupNotEmpty? optionalGroupNotEmpty = null;
         if (size < bodySize) {
-            var lootSetting = (GroupLootSetting)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            var lootSetting = (Vanilla.GroupLootSetting)await r.ReadByte(cancellationToken).ConfigureAwait(false);
             size += 1;
 
             var masterLoot = await r.ReadULong(cancellationToken).ConfigureAwait(false);
             size += 8;
 
-            var lootThreshold = (ItemQuality)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+            var lootThreshold = (Vanilla.ItemQuality)await r.ReadByte(cancellationToken).ConfigureAwait(false);
             size += 1;
 
             optionalGroupNotEmpty = new OptionalGroupNotEmpty {

@@ -7,7 +7,7 @@ namespace WowWorldMessages.Vanilla;
 public class SMSG_PETITION_SIGN_RESULTS: VanillaServerMessage, IWorldMessage {
     public required ulong Petition { get; set; }
     public required ulong Owner { get; set; }
-    public required PetitionResult Result { get; set; }
+    public required Vanilla.PetitionResult Result { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Petition, cancellationToken).ConfigureAwait(false);
@@ -36,7 +36,7 @@ public class SMSG_PETITION_SIGN_RESULTS: VanillaServerMessage, IWorldMessage {
 
         var owner = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var result = (PetitionResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var result = (Vanilla.PetitionResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_PETITION_SIGN_RESULTS {
             Petition = petition,

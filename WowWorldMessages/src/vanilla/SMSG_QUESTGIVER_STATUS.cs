@@ -6,7 +6,7 @@ namespace WowWorldMessages.Vanilla;
 // ReSharper disable once InconsistentNaming
 public class SMSG_QUESTGIVER_STATUS: VanillaServerMessage, IWorldMessage {
     public required ulong Guid { get; set; }
-    public required QuestGiverStatus Status { get; set; }
+    public required Vanilla.QuestGiverStatus Status { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Guid, cancellationToken).ConfigureAwait(false);
@@ -31,7 +31,7 @@ public class SMSG_QUESTGIVER_STATUS: VanillaServerMessage, IWorldMessage {
     public static async Task<SMSG_QUESTGIVER_STATUS> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        var status = (QuestGiverStatus)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var status = (Vanilla.QuestGiverStatus)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_QUESTGIVER_STATUS {
             Guid = guid,

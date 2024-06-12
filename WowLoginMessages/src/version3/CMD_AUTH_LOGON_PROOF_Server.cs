@@ -34,7 +34,7 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version3ServerMessage, ILoginMessage {
     }
 
     public static async Task<CMD_AUTH_LOGON_PROOF_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
-        LoginResultType result = (LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        LoginResultType result = (Version3.LoginResult)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         if (result.Value is Version3.LoginResult.Success) {
             var serverProof = new byte[LoginResultSuccess.ServerProofLength];

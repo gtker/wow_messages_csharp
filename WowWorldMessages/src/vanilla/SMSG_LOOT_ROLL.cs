@@ -18,7 +18,7 @@ public class SMSG_LOOT_ROLL: VanillaServerMessage, IWorldMessage {
     /// vmangos/cmangos/mangoszero: 0: Need for: `item_name` > 127: you passed on: `item_name`      Roll number
     /// </summary>
     public required byte RollNumber { get; set; }
-    public required RollVote Vote { get; set; }
+    public required Vanilla.RollVote Vote { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteULong(Creature, cancellationToken).ConfigureAwait(false);
@@ -67,7 +67,7 @@ public class SMSG_LOOT_ROLL: VanillaServerMessage, IWorldMessage {
 
         var rollNumber = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        var vote = (RollVote)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var vote = (Vanilla.RollVote)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_LOOT_ROLL {
             Creature = creature,

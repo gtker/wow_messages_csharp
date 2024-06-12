@@ -5,8 +5,8 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_TRANSFER_ABORTED: VanillaServerMessage, IWorldMessage {
-    public required Map Map { get; set; }
-    public required TransferAbortReason Reason { get; set; }
+    public required Vanilla.Map Map { get; set; }
+    public required Vanilla.TransferAbortReason Reason { get; set; }
     /// <summary>
     /// Possibly not needed.
     /// </summary>
@@ -35,9 +35,9 @@ public class SMSG_TRANSFER_ABORTED: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_TRANSFER_ABORTED> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var reason = (TransferAbortReason)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var reason = (Vanilla.TransferAbortReason)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var argument = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 

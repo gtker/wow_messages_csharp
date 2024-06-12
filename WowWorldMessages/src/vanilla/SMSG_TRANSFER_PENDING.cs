@@ -5,10 +5,10 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_TRANSFER_PENDING: VanillaServerMessage, IWorldMessage {
-    public required Map Map { get; set; }
+    public required Vanilla.Map Map { get; set; }
     public struct OptionalHasTransport {
         public required uint Transport { get; set; }
-        public required Map TransportMap { get; set; }
+        public required Vanilla.Map TransportMap { get; set; }
     }
     public required OptionalHasTransport? HasTransport { get; set; }
 
@@ -38,7 +38,7 @@ public class SMSG_TRANSFER_PENDING: VanillaServerMessage, IWorldMessage {
 
     public static async Task<SMSG_TRANSFER_PENDING> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
         var size = 0;
-        var map = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var map = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
         size += 4;
 
         OptionalHasTransport? optionalHasTransport = null;
@@ -46,7 +46,7 @@ public class SMSG_TRANSFER_PENDING: VanillaServerMessage, IWorldMessage {
             var transport = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
-            var transportMap = (Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+            var transportMap = (Vanilla.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
             size += 4;
 
             optionalHasTransport = new OptionalHasTransport {

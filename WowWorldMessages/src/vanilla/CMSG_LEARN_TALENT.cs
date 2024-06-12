@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMSG_LEARN_TALENT: VanillaClientMessage, IWorldMessage {
-    public required Talent Talent { get; set; }
+    public required Vanilla.Talent Talent { get; set; }
     public required uint RequestedRank { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
@@ -29,7 +29,7 @@ public class CMSG_LEARN_TALENT: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_LEARN_TALENT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var talent = (Talent)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var talent = (Vanilla.Talent)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var requestedRank = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

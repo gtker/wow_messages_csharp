@@ -5,9 +5,9 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_PARTY_COMMAND_RESULT: VanillaServerMessage, IWorldMessage {
-    public required PartyOperation Operation { get; set; }
+    public required Vanilla.PartyOperation Operation { get; set; }
     public required string Member { get; set; }
-    public required PartyResult Result { get; set; }
+    public required Vanilla.PartyResult Result { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Operation, cancellationToken).ConfigureAwait(false);
@@ -32,11 +32,11 @@ public class SMSG_PARTY_COMMAND_RESULT: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_PARTY_COMMAND_RESULT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var operation = (PartyOperation)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var operation = (Vanilla.PartyOperation)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var member = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
-        var result = (PartyResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var result = (Vanilla.PartyResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_PARTY_COMMAND_RESULT {
             Operation = operation,

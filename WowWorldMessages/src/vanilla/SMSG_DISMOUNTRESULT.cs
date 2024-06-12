@@ -5,7 +5,7 @@ namespace WowWorldMessages.Vanilla;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_DISMOUNTRESULT: VanillaServerMessage, IWorldMessage {
-    public required DismountResult Result { get; set; }
+    public required Vanilla.DismountResult Result { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Result, cancellationToken).ConfigureAwait(false);
@@ -26,7 +26,7 @@ public class SMSG_DISMOUNTRESULT: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_DISMOUNTRESULT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var result = (DismountResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var result = (Vanilla.DismountResult)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new SMSG_DISMOUNTRESULT {
             Result = result,
