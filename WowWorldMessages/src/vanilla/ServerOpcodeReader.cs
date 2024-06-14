@@ -250,6 +250,7 @@ public static class ServerOpcodeReader {
             592 => await SMSG_SPELLNONMELEEDAMAGELOG.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             596 => await SMSG_ZONE_UNDER_ATTACK.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             597 => await MSG_AUCTION_HELLO_Server.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            603 => await SMSG_AUCTION_COMMAND_RESULT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             604 => await SMSG_AUCTION_LIST_RESULT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             605 => await SMSG_AUCTION_OWNER_LIST_RESULT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             606 => await SMSG_AUCTION_BIDDER_NOTIFICATION.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),

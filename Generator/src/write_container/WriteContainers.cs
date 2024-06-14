@@ -15,28 +15,22 @@ public static class WriteContainers
 
         var newline = false;
 
-        foreach (var po in e.AllPreparedObjects())
+        foreach (var po in e.AllEnumsWithMembers())
         {
-            if (po.Enumerators is { } enumerators)
+            newline = true;
+
+            var d = e.FindDefinitionByName(po.Name);
+            s.W($"using {d.CsTypeName()}Type = OneOf.OneOf<");
+
+            foreach (var (enumerator, members) in po.Enumerators)
             {
-                newline = true;
-
-                var d = e.FindDefinitionByName(po.Name);
-                if (d.DataType is DataTypeEnum)
+                if (members.Any(m => e.FindDefinitionByName(m.Name).IsInType()))
                 {
-                    s.W($"using {d.CsTypeName()}Type = OneOf.OneOf<");
-
-                    foreach (var (enumerator, members) in enumerators)
-                    {
-                        if (members.Any(m => e.FindDefinitionByName(m.Name).IsInType()))
-                        {
-                            s.WNoIndentation($"{e.Name}.{d.PreparedObjectTypeName(enumerator)}, ");
-                        }
-                    }
-
-                    s.WlnNoIndentation($"{d.CsTypeName()}>;");
+                    s.WNoIndentation($"{e.Name}.{d.PreparedObjectTypeName(enumerator)}, ");
                 }
             }
+
+            s.WlnNoIndentation($"{d.CsTypeName()}>;");
         }
 
         if (newline)
@@ -123,7 +117,7 @@ public static class WriteContainers
             }
         }
 
-        var prefix = (d.DataType is DataTypeEnum or DataTypeFlag) && !d.UsedInIf ? $"{module}." : "";
+        var prefix = d.DataType is DataTypeEnum or DataTypeFlag && !d.UsedInIf ? $"{module}." : "";
 
         s.Wln($"public required {prefix}{d.CsTypeName()}{postfix} {d.MemberName()} {{ get; set; }}");
     }
@@ -154,55 +148,52 @@ public static class WriteContainers
 
     private static void WriteDefinition(Writer s, Container e, string module)
     {
-        foreach (var po in e.AllPreparedObjects())
+        foreach (var po in e.AllEnumsWithMembers())
         {
-            if (po.Enumerators is { } enumerators)
+            foreach (var (enumerator, members) in po.Enumerators)
             {
                 var d = e.FindDefinitionByName(po.Name);
-                if (d.DataType is DataTypeEnum)
+                if (members.Any(m => e.FindDefinitionByName(m.Name).IsInType()))
                 {
-                    foreach (var (enumerator, members) in enumerators)
+                    s.Body($"public class {d.PreparedObjectTypeName(enumerator)}", s =>
                     {
-                        if (members.Any(m => e.FindDefinitionByName(m.Name).IsInType()))
+                        foreach (var member in members)
                         {
-                            s.Body($"public class {d.PreparedObjectTypeName(enumerator)}", s =>
-                            {
-                                foreach (var member in members)
-                                {
-                                    var d = e.FindDefinitionByName(member.Name);
-                                    WriteMemberDefinition(s, e, d, module);
+                            var d = e.FindDefinitionByName(member.Name);
+                            WriteMemberDefinition(s, e, d, module);
 
-                                    WriteEnumValue(s, member, d, e, module);
-                                }
-                            });
-                        }
-                    }
-                }
-                else
-                {
-                    s.Body($"public class {d.CsTypeName()}Type", s =>
-                    {
-                        s.Wln($"public required {d.CsTypeName()} Inner;");
-
-                        foreach (var (enumerator, _) in enumerators)
-                        {
-                            s.Wln(
-                                $"public {d.PreparedObjectTypeName(enumerator)}? {enumerator.ToEnumerator()};");
+                            WriteEnumValue(s, member, d, e, module);
                         }
                     });
-
-                    foreach (var (enumerator, members) in enumerators)
-                    {
-                        s.Body($"public class {d.PreparedObjectTypeName(enumerator)}", s =>
-                        {
-                            foreach (var member in members)
-                            {
-                                var d = e.FindDefinitionByName(member.Name);
-                                WriteMemberDefinition(s, e, d, module);
-                            }
-                        });
-                    }
                 }
+            }
+        }
+
+        foreach (var po in e.AllFlagsWithMembers())
+        {
+            var d = e.FindDefinitionByName(po.Name);
+
+            s.Body($"public class {d.CsTypeName()}Type", s =>
+            {
+                s.Wln($"public required {d.CsTypeName()} Inner;");
+
+                foreach (var (enumerator, _) in po.Enumerators)
+                {
+                    s.Wln(
+                        $"public {d.PreparedObjectTypeName(enumerator)}? {enumerator.ToEnumerator()};");
+                }
+            });
+
+            foreach (var (enumerator, members) in po.Enumerators)
+            {
+                s.Body($"public class {d.PreparedObjectTypeName(enumerator)}", s =>
+                {
+                    foreach (var member in members)
+                    {
+                        var d = e.FindDefinitionByName(member.Name);
+                        WriteMemberDefinition(s, e, d, module);
+                    }
+                });
             }
         }
 

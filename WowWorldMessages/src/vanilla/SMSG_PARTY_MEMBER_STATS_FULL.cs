@@ -2,7 +2,6 @@ using WowSrp.Header;
 
 namespace WowWorldMessages.Vanilla;
 
-
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_PARTY_MEMBER_STATS_FULL: VanillaServerMessage, IWorldMessage {

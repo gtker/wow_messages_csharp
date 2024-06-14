@@ -2,7 +2,6 @@ using WowSrp.Header;
 
 namespace WowWorldMessages.Vanilla;
 
-
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class MovementInfo {
     public class MovementFlagsType {

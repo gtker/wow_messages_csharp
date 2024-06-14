@@ -1,6 +1,5 @@
 namespace WowLoginMessages.Version6;
 
-
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class CMD_AUTH_LOGON_PROOF_Client: Version6ClientMessage, ILoginMessage {

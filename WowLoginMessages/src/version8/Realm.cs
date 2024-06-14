@@ -3,7 +3,6 @@ using Version = WowLoginMessages.All.Version;
 
 namespace WowLoginMessages.Version8;
 
-
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class Realm {
     public class RealmFlagType {
