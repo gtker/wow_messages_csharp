@@ -313,11 +313,26 @@ public static class WriteContainers
         }
     }
 
-    private static string GetIfStatementVariablePrefix(Definition d, string enumerator)
+    private static string GetVariablePrefixExtra(IfStatement statement)
+    {
+        // C# does not have block scope variables, so if the same if
+        // statement is present multiple times we need separate identifiers
+        var str = "";
+
+        foreach (var d in statement.AllDefinitions())
+        {
+            str += d.Name[0];
+        }
+
+        return str;
+    }
+
+    private static string GetIfStatementVariablePrefix(Definition d, string enumerator, IfStatement statement)
     {
         var s = d.PreparedObjectTypeName(enumerator);
         var t = char.ToLower(s[0]);
-        return t + s[1..];
+        var extra = statement.PartOfSeparateIfStatement ? GetVariablePrefixExtra(statement) : "";
+        return t + s[1..] + extra;
     }
 
     public static void WriteIfStatement(Writer s, Container e, IfStatement statement, string module,
@@ -333,7 +348,7 @@ public static class WriteContainers
             var po = e.FindPreparedObject(statement.VariableName);
             var d = e.FindDefinitionByName(statement.VariableName);
 
-            var newVariablePrefix = GetIfStatementVariablePrefix(d, enumerator);
+            var newVariablePrefix = GetIfStatementVariablePrefix(d, enumerator, statement);
             var cond = GetConditional(statement, isWrite, statement.OriginalType.CsType(), e.Name, module,
                 enumerator, newVariablePrefix);
             var flag = statement.OriginalType is DataTypeFlag;
@@ -353,7 +368,10 @@ public static class WriteContainers
 
                 if (members.Any(po => e.FindDefinitionByName(po.Name).IsInType()))
                 {
-                    end(s, d, members, enumerator);
+                    if (!statement.PartOfSeparateIfStatement)
+                    {
+                        end(s, d, members, enumerator);
+                    }
                 }
             });
         }

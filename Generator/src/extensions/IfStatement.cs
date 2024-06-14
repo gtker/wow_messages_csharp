@@ -4,6 +4,32 @@ namespace Generator.Extensions;
 
 public static class IfStatementExtensions
 {
+    public static IEnumerable<StructMember> AllMembers(this IfStatement statement)
+    {
+        foreach (var m in statement.Members)
+        {
+            yield return m;
+
+            switch (m)
+            {
+                case StructMemberDefinition:
+                    break;
+                case StructMemberIfStatement innerStatement:
+                    foreach (var member in innerStatement.StructMemberContent.AllMembers())
+                    {
+                        yield return member;
+                    }
+
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(m));
+            }
+        }
+    }
+
+    public static string SeparateIfStatementNamePrefix(this IfStatement statement) =>
+        $"{statement.VariableName.ToVariableName()}If";
+
     public static IEnumerable<Definition> AllDefinitions(this IfStatement statement)
     {
         foreach (var member in statement.Members)

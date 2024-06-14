@@ -60,14 +60,70 @@ public static class ContainerExtensions
             {
                 StructMemberDefinition d => HasInvalidDefinition(d.StructMemberContent),
                 StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition) ||
-                                                     statement.StructMemberContent.IsElseIfFlag ||
-                                                     statement.StructMemberContent.PartOfSeparateIfStatement,
+                                                     statement.StructMemberContent.IsElseIfFlag,
                 _ => throw new ArgumentOutOfRangeException(nameof(c))
             };
     }
 
     public static bool NeedsBodySize(this Container e) =>
         (e.IsWorld() && e.AllDefinitions().Any(d => d.IsCompressed() || d.IsEndlessArray())) || e.Optional is not null;
+
+    public static IEnumerable<StructMember> AllMembers(this Container e)
+    {
+        foreach (var m in e.Members)
+        {
+            yield return m;
+
+            switch (m)
+            {
+                case StructMemberDefinition:
+                    break;
+                case StructMemberIfStatement statement:
+                    foreach (var member in statement.StructMemberContent.AllMembers())
+                    {
+                        yield return member;
+                    }
+
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(m));
+            }
+        }
+
+        if (e.Optional is { } optional)
+        {
+            foreach (var m in optional.Members)
+            {
+                yield return m;
+            }
+        }
+    }
+
+    public static IEnumerable<string> EnumSeparateIfStatementVariables(this Container e)
+    {
+        foreach (var m in e.AllMembers())
+        {
+            switch (m)
+            {
+                case StructMemberDefinition:
+                    break;
+                case StructMemberIfStatement statement:
+                    if (statement.StructMemberContent is
+                        { PartOfSeparateIfStatement: true, OriginalType: DataTypeEnum })
+                    {
+                        foreach (var d in statement.AllDefinitions())
+                        {
+                            yield return
+                                $"{d.DataType.CsType()} {statement.StructMemberContent.SeparateIfStatementNamePrefix()}{d.Name.ToMemberName()} = default;";
+                        }
+                    }
+
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(m));
+            }
+        }
+    }
 
     public static IEnumerable<Definition> AllDefinitions(this Container e)
     {

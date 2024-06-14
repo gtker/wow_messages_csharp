@@ -11,6 +11,12 @@ namespace Generator.Generated
     /// </summary>
     public class PreparedObject
     {
+        [JsonPropertyName("enum_part_of_separate_statements")]
+        public bool EnumPartOfSeparateStatements { get; set; }
+
+        [JsonPropertyName("is_elseif_flag")]
+        public bool IsElseifFlag { get; set; }
+
         /// <summary>
         /// Name inside the object. Search through the original object to get
         /// type and other information.

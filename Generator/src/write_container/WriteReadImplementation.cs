@@ -18,9 +18,21 @@ public static class WriteReadImplementation
                     s.Wln("var size = 0;");
                 }
 
+                var newline = false;
+                foreach (var variable in e.EnumSeparateIfStatementVariables())
+                {
+                    newline = true;
+                    s.Wln(variable);
+                }
+
+                if (newline)
+                {
+                    s.Newline();
+                }
+
                 foreach (var member in e.Members)
                 {
-                    WriteReadMember(s, e, member, module, "");
+                    WriteReadMember(s, e, member, module, "", null);
                 }
 
                 if (e.Optional is { } optional)
@@ -31,7 +43,7 @@ public static class WriteReadImplementation
                     {
                         foreach (var member in optional.Members)
                         {
-                            WriteReadMember(s, e, member, module, $"Optional{e.Optional.Name.ToMemberName()}.");
+                            WriteReadMember(s, e, member, module, $"Optional{e.Optional.Name.ToMemberName()}.", null);
                         }
 
                         s.Body($"optional{optional.Name.ToMemberName()} = new Optional{optional.Name.ToMemberName()}",
@@ -52,6 +64,26 @@ public static class WriteReadImplementation
                     s.Newline();
                 }
 
+                foreach (var po in e.AllPreparedObjects())
+                {
+                    if (po.EnumPartOfSeparateStatements)
+                    {
+                        foreach (var (i, (enumerator, members)) in po.Enumerators.Select((e, i) => (i, e)))
+                        {
+                            var prefix = i != 0 ? "else " : "";
+                            var d = e.FindDefinitionByName(po.Name);
+
+                            s.Body(
+                                $"{prefix}if ({po.Name.ToVariableName()}.Value is {module}.{d.CsTypeName()}.{enumerator.ToEnumerator()})",
+                                s =>
+                                {
+                                    WriteEnd(s, d, members, enumerator, false, e,
+                                        str => $"{d.Name.ToVariableName()}If{str.ToMemberName()}");
+                                });
+                        }
+                    }
+                }
+
                 s.Body($"return new {e.Name}", s =>
                 {
                     foreach (var po in e.PreparedObjects)
@@ -61,6 +93,7 @@ public static class WriteReadImplementation
                         {
                             continue;
                         }
+
 
                         s.Wln($"{po.Name.ToMemberName()} = {po.Name.ToVariableName()},");
                     }
@@ -73,7 +106,8 @@ public static class WriteReadImplementation
             });
     }
 
-    private static void WriteReadMember(Writer s, Container e, StructMember member, string module, string objectPrefix)
+    private static void WriteReadMember(Writer s, Container e, StructMember member, string module, string objectPrefix,
+        string? variableNameOverride)
     {
         switch (member)
         {
@@ -81,32 +115,24 @@ public static class WriteReadImplementation
             {
                 var d = definition.StructMemberContent;
 
-                WriteReadForType(s, d, e.NeedsBodySize(), module, objectPrefix);
+                WriteReadForType(s, d, e.NeedsBodySize(), module, objectPrefix, variableNameOverride);
                 break;
             }
             case StructMemberIfStatement statement:
+
                 WriteContainers.WriteIfStatement(s, e, statement.StructMemberContent, module,
-                    (s, e, member, enumerator, _, objectPrefix) =>
+                    (s, e, member, _, _, objectPrefix) =>
                     {
-                        WriteReadMember(s, e, member, module, objectPrefix);
+                        var variableNameOverride = statement.StructMemberContent.PartOfSeparateIfStatement
+                            ? statement.StructMemberContent.SeparateIfStatementNamePrefix()
+                            : null;
+
+                        WriteReadMember(s, e, member, module, objectPrefix, variableNameOverride);
                     },
                     (s, d, members, enumerator) =>
                     {
-                        var flagExtra = statement.StructMemberContent.IsFlag() ? $".{enumerator.ToMemberName()}" : "";
-                        s.Body($"{d.VariableName()}{flagExtra} = new {d.PreparedObjectTypeName(enumerator)}", s =>
-                            {
-                                foreach (var member in members)
-                                {
-                                    var d = e.FindDefinitionByName(member.Name);
-                                    if (d.IsNotInType())
-                                    {
-                                        continue;
-                                    }
-
-                                    s.Wln($"{member.Name.ToMemberName()} = {member.Name.ToVariableName()},");
-                                }
-                            }
-                            , ";");
+                        WriteEnd(s, d, members, enumerator, statement.StructMemberContent.IsFlag(), e,
+                            str => str.ToVariableName());
                     },
                     false, "");
                 break;
@@ -115,7 +141,27 @@ public static class WriteReadImplementation
         }
     }
 
-    private static void WriteReadForType(Writer s, Definition d, bool needsSize, string module, string objectPrefix)
+    private static void WriteEnd(Writer s, Definition d, IList<PreparedObject> members, string enumerator, bool isFlag,
+        Container e, Func<string, string> variableName)
+    {
+        var flagExtra = isFlag ? $".{enumerator.ToMemberName()}" : "";
+        s.Body($"{d.VariableName()}{flagExtra} = new {d.PreparedObjectTypeName(enumerator)}", s =>
+        {
+            foreach (var member in members)
+            {
+                var d = e.FindDefinitionByName(member.Name);
+                if (d.IsNotInType())
+                {
+                    continue;
+                }
+
+                s.Wln($"{member.Name.ToMemberName()} = {variableName(member.Name)},");
+            }
+        }, ";");
+    }
+
+    private static void WriteReadForType(Writer s, Definition d, bool needsSize, string module, string objectPrefix,
+        string? variableNameOverride)
     {
         if (d.IsNotInType())
         {
@@ -124,118 +170,122 @@ public static class WriteReadImplementation
 
         var isWorld = module is "Vanilla" or "Tbc" or "Wrath";
 
+        var prefix = d.UsedInIf && d.DataType is DataTypeEnum ? $"{d.CsTypeName()}Type" : "var";
+        var variable = variableNameOverride is not null
+            ? $"{variableNameOverride}{d.MemberName()}"
+            : $"{prefix} {d.VariableName()}";
+
         switch (d.DataType)
         {
             case DataTypeInteger i:
                 s.Wln(
-                    $"var {d.VariableName()} = await r.{i.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await r.{i.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeEnum dataTypeEnum:
-                var prefix = d.UsedInIf ? $"{d.CsTypeName()}Type" : "var";
 
                 s.Wln(
-                    $"{prefix} {d.VariableName()} = ({module}.{dataTypeEnum.CsType()})await r.{dataTypeEnum.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = ({module}.{dataTypeEnum.CsType()})await r.{dataTypeEnum.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeFlag dataTypeFlag:
                 var read =
                     $"({dataTypeFlag.CsType()})await r.{dataTypeFlag.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false)";
                 if (d.UsedInIf)
                 {
-                    s.Body($"var {d.VariableName()} = new {d.CsTypeName()}Type", s => { s.Wln($"Inner = {read},"); },
+                    s.Body($"{variable} = new {d.CsTypeName()}Type", s => { s.Wln($"Inner = {read},"); },
                         ";");
                 }
                 else
                 {
                     s.Wln(
-                        $"var {d.VariableName()} = {read};");
+                        $"{variable} = {read};");
                 }
 
                 break;
             case DataTypeStruct:
                 var body = isWorld ? "Body" : "";
                 s.Wln(
-                    $"var {d.VariableName()} = await {d.CsTypeName()}.Read{body}Async(r, cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await {d.CsTypeName()}.Read{body}Async(r, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeSpell or DataTypeIpAddress or DataTypeItem or DataTypeLevel32 or DataTypeSeconds
                 or DataTypeMilliseconds or DataTypeGold or DataTypeDateTime:
             {
                 s.Wln(
-                    $"var {d.VariableName()} = await r.ReadUInt(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await r.ReadUInt(cancellationToken).ConfigureAwait(false);");
             }
                 break;
             case DataTypeSpell16 or DataTypeLevel16:
             {
                 s.Wln(
-                    $"var {d.VariableName()} = await r.ReadUShort(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await r.ReadUShort(cancellationToken).ConfigureAwait(false);");
             }
                 break;
             case DataTypeLevel:
                 s.Wln(
-                    $"var {d.VariableName()} = await r.ReadByte(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await r.ReadByte(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeGuid:
                 s.Wln(
-                    $"var {d.VariableName()} = await r.ReadULong(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await r.ReadULong(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeString:
                 s.Wln(
-                    $"var {d.VariableName()} = await r.ReadString(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await r.ReadString(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypePopulation:
                 s.Wln(
-                    $"var {d.VariableName()} = await r.ReadPopulation(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await r.ReadPopulation(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeFloatingPoint:
                 s.Wln(
-                    $"var {d.VariableName()} = await r.ReadFloat(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await r.ReadFloat(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeBool b:
                 s.Wln(
-                    $"var {d.VariableName()} = await r.ReadBool{b.IntegerType.SizeBits()}(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await r.ReadBool{b.IntegerType.SizeBits()}(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeSizedCstring:
                 s.Wln(
-                    $"var {d.VariableName()} = await r.ReadSizedCString(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await r.ReadSizedCString(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeCstring:
                 s.Wln(
-                    $"var {d.VariableName()} = await r.ReadCString(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await r.ReadCString(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypePackedGuid:
                 s.Wln(
-                    $"var {d.VariableName()} = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeNamedGuid:
-                s.Wln($"var {d.VariableName()} = await NamedGuid.ReadAsync(cancellationToken).ConfigureAwait(false);");
+                s.Wln($"{variable} = await NamedGuid.ReadAsync(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeUpdateMask:
-                s.Wln($"var {d.VariableName()} = await UpdateMask.ReadAsync(cancellationToken).ConfigureAwait(false);");
+                s.Wln($"{variable} = await UpdateMask.ReadAsync(cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeMonsterMoveSpline:
                 s.Wln(
-                    $"var {d.VariableName()} = await ReadUtils.ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await ReadUtils.ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeAuraMask:
                 s.Wln(
-                    $"var {d.VariableName()} = await AuraMask.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await AuraMask.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeArray array:
-                WriteReadForArray(s, d, array, module, needsSize, objectPrefix);
+                WriteReadForArray(s, d, array, module, needsSize, objectPrefix, variable);
                 break;
 
 
@@ -267,7 +317,7 @@ public static class WriteReadImplementation
     }
 
     private static void WriteReadForArray(Writer s, Definition d, DataTypeArray array, string module, bool needsSize,
-        string objectPrefix)
+        string objectPrefix, string variable)
     {
         if (array.Compressed)
         {
@@ -293,10 +343,10 @@ public static class WriteReadImplementation
         switch (array.Size)
         {
             case ArraySizeFixed:
-                s.Wln($"var {d.VariableName()} = new {array.InnerType.CsType()}[{memberLength}];");
+                s.Wln($"{variable} = new {array.InnerType.CsType()}[{memberLength}];");
                 break;
             case ArraySizeVariable or ArraySizeEndless:
-                s.Wln($"var {d.VariableName()} = new List<{array.InnerType.CsType()}>();");
+                s.Wln($"{variable} = new List<{array.InnerType.CsType()}>();");
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
