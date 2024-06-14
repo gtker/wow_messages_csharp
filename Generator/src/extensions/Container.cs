@@ -9,6 +9,12 @@ public static class ContainerExtensions
 
     public static bool ShouldSkip(this Container e)
     {
+        if (e.Tags.Compressed is true)
+        {
+            Console.WriteLine($"Skipping {e.Name} because it is compressed");
+            return true;
+        }
+
         if (e.Members.Any(HasInvalidMember))
         {
             Console.WriteLine($"Skipping {e.Name} because it has unimplemented statements");

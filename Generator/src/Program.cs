@@ -302,6 +302,10 @@ internal static class Program
     private static void WriteFiles(Objects objects, ObjectVersions version, string module, string modulePath,
         string project)
     {
+        var path = ProjectDir + $"Wow{project}Messages/src/{modulePath}";
+        Directory.Delete(path, true);
+        Directory.CreateDirectory(path);
+
         WriteDefiners(objects.Enums, module, modulePath, project, version, false);
         WriteDefiners(objects.Flags, module, modulePath, project, version, true);
 
