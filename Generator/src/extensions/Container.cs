@@ -9,17 +9,7 @@ public static class ContainerExtensions
 
     public static bool ShouldSkip(this Container e)
     {
-        bool hasUnimplementedStatements;
-        try
-        {
-            hasUnimplementedStatements = e.Members.Any(HasInvalidMember);
-        }
-        catch
-        {
-            hasUnimplementedStatements = true;
-        }
-
-        if (hasUnimplementedStatements)
+        if (e.Members.Any(HasInvalidMember))
         {
             Console.WriteLine($"Skipping {e.Name} because it has unimplemented statements");
             return true;
@@ -54,7 +44,14 @@ public static class ContainerExtensions
                 _ => throw new ArgumentOutOfRangeException()
             },
             DataTypeStruct s => s.StructData.ShouldSkip(),
-            _ => d.DataType.CsType() == ""
+            DataTypeAddonArray => true,
+            DataTypeAchievementDoneArray => true,
+            DataTypeAchievementInProgressArray => true,
+            DataTypeVariableItemRandomProperty => true,
+            DataTypeInspectTalentGearMask => true,
+            DataTypeEnchantMask => true,
+            DataTypeCacheMask => true,
+            _ => false
         };
 
 
