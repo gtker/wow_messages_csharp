@@ -39,7 +39,7 @@ public static class ContainerExtensions
             return true;
         }
 
-        if (e.Name is "SMSG_AUCTION_COMMAND_RESULT" or "SMSG_SEND_MAIL_RESULT" or "MonsterMove")
+        if (e.Name is "SMSG_AUCTION_COMMAND_RESULT" or "SMSG_SEND_MAIL_RESULT")
         {
             Console.WriteLine($"Skipping {e.Name} because of name");
             return true;
@@ -69,7 +69,7 @@ public static class ContainerExtensions
             {
                 StructMemberDefinition d => HasInvalidDefinition(d.StructMemberContent),
                 StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition) ||
-                                                     statement.StructMemberContent.IsElseIfFlag,
+                                                     statement.StructMemberContent.IsElseIfFlag || statement.StructMemberContent.PartOfSeparateIfStatement,
                 _ => throw new ArgumentOutOfRangeException(nameof(c))
             };
     }
