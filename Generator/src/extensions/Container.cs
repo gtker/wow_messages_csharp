@@ -39,12 +39,6 @@ public static class ContainerExtensions
             return true;
         }
 
-        if (e.Name is "SMSG_SEND_MAIL_RESULT")
-        {
-            Console.WriteLine($"Skipping {e.Name} because of name");
-            return true;
-        }
-
         return false;
 
         bool HasInvalidDefinition(Definition d) => d.DataType switch

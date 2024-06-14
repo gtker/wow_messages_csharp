@@ -241,6 +241,7 @@ public static class ServerOpcodeReader {
             546 => await SMSG_SPIRIT_HEALER_CONFIRM.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             548 => await SMSG_GOSSIP_POI.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             566 => await SMSG_LOGIN_VERIFY_WORLD.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            569 => await SMSG_SEND_MAIL_RESULT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             571 => await SMSG_MAIL_LIST_RESULT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             573 => await SMSG_BATTLEFIELD_LIST.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             580 => await SMSG_ITEM_TEXT_QUERY_RESPONSE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
