@@ -15,7 +15,7 @@ public static class ContainerExtensions
             return true;
         }
 
-        if (e.Members.Any(HasInvalidMember))
+        if (e.AllMembers().Any(HasInvalidMember))
         {
             Console.WriteLine($"Skipping {e.Name} because it has unimplemented statements");
             return true;
