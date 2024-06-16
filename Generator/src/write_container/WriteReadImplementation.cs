@@ -384,7 +384,8 @@ public static class WriteReadImplementation
                         $"await {module}.{e.StructData.Name}.Read{body}Async(r, cancellationToken).ConfigureAwait(false)";
                     break;
                 case ArrayTypePackedGuid:
-                    throw new NotImplementedException();
+                    item = "await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false)";
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

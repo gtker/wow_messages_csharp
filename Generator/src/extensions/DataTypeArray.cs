@@ -34,6 +34,8 @@ public static class DataTypeArrayExtensions
                 }
 
                 return $"{prefix}{name}.Sum(e => e.Size())";
+            case ArrayTypePackedGuid:
+                return $"{prefix}{name}.Sum(e => e.PackedGuidLength())";
             default:
                 throw new ArgumentOutOfRangeException();
         }

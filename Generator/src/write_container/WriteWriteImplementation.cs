@@ -239,6 +239,9 @@ public static class WriteWriteImplementation
                     var body = dataTypeStruct.StructData.IsWorld() ? "Body" : "";
                     s.Wln($"await v.Write{body}Async(w, cancellationToken).ConfigureAwait(false);");
                     break;
+                case ArrayTypePackedGuid:
+                    s.Wln("await w.WritePackedGuid(v, cancellationToken).ConfigureAwait(false);");
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

@@ -364,7 +364,7 @@ public static class WriteContainers
                     invocation(s, e, member, enumerator, $"{newVariablePrefix}.", objectPrefix);
                 }
 
-                var members = po.Enumerators[enumerator];
+                var members = !po.IsElseifFlag ? po.Enumerators[enumerator] : po.Enumerators.Take(1).First().Value;
 
                 if (members.Any(po => e.FindDefinitionByName(po.Name).IsInType()))
                 {
