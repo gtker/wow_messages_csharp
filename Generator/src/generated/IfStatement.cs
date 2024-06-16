@@ -8,7 +8,7 @@ namespace Generator.Generated
     public class IfStatement
     {
         [JsonPropertyName("definer_type")]
-        public IfStatementDefinerType DefinerType { get; set; }
+        public DefinerType DefinerType { get; set; }
 
         [JsonPropertyName("else_if_statements")]
         public IList<IfStatement> ElseIfStatements { get; set; }

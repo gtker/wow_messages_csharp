@@ -293,14 +293,14 @@ public static class WriteContainers
 
         switch (statement.DefinerType)
         {
-            case IfStatementDefinerType.Flag:
+            case DefinerType.Flag:
                 if (isWrite)
                 {
                     return $" is {{}} {variablePrefix}";
                 }
 
                 return $".HasFlag({modulePrefix}.{originalType}{dot}{enumerator.ToEnumerator()})";
-            case IfStatementDefinerType.Enum_:
+            case DefinerType.Enum_:
                 if (isWrite && typeExists)
                 {
                     return

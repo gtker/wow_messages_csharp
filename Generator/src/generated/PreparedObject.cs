@@ -24,6 +24,10 @@ namespace Generator.Generated
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
+        [JsonPropertyName("definer_type")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public DefinerType? DefinerType { get; set; }
+
         /// <summary>
         /// If this is present the field contains other fields.
         /// </summary>
