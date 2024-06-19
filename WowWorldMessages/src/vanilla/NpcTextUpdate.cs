@@ -56,7 +56,7 @@ public class NpcTextUpdate {
         size += 4;
 
         // texts: Generator.Generated.DataTypeArray
-        size += Texts.Sum(e => e.Length);
+        size += Texts.Sum(e => e.Length + 1);
 
         // language: Generator.Generated.DataTypeEnum
         size += 4;

@@ -307,7 +307,7 @@ public class SMSG_QUEST_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
         size += Objectives.Sum(e => 16);
 
         // objective_texts: Generator.Generated.DataTypeArray
-        size += ObjectiveTexts.Sum(e => e.Length);
+        size += ObjectiveTexts.Sum(e => e.Length + 1);
 
         return size;
     }

@@ -21,7 +21,7 @@ public static class DefinitionExtensions
     public static string PreparedObjectTypeName(this Definition d, string enumerator) =>
         $"{d.CsTypeName()}{enumerator.ToEnumerator()}";
 
-    public static string Size(this Definition d, string prefix = "", bool isMember = true)
+    public static string Size(this Definition d, string module, string prefix = "", bool isMember = true)
     {
         var name = isMember ? d.MemberName() : d.VariableName();
         return d.DataType switch
@@ -58,7 +58,7 @@ public static class DefinitionExtensions
             DataTypeNamedGuid => $"{prefix}{name}.Length()",
             DataTypeUpdateMask => $"{prefix}{name}.Length()",
 
-            DataTypeMonsterMoveSpline => $"ReadUtils.MonsterMoveSplineLength({prefix}{name})",
+            DataTypeMonsterMoveSpline => $"ReadUtils.{module}MonsterMoveSplineLength({prefix}{name})",
 
             DataTypeAuraMask => $"{prefix}{name}.Length();",
 

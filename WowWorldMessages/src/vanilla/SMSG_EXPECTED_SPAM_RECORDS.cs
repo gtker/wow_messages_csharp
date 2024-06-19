@@ -50,7 +50,7 @@ public class SMSG_EXPECTED_SPAM_RECORDS: VanillaServerMessage, IWorldMessage {
         size += 4;
 
         // records: Generator.Generated.DataTypeArray
-        size += Records.Sum(e => e.Length);
+        size += Records.Sum(e => e.Length + 1);
 
         return size;
     }

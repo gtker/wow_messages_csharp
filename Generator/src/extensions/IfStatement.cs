@@ -15,9 +15,17 @@ public static class IfStatementExtensions
                 case StructMemberDefinition:
                     break;
                 case StructMemberIfStatement innerStatement:
-                    foreach (var member in innerStatement.StructMemberContent.AllMembers())
+                    foreach (var member in innerStatement.StructMemberContent.Members)
                     {
                         yield return member;
+                    }
+
+                    foreach (var elseif in innerStatement.StructMemberContent.ElseIfStatements)
+                    {
+                        foreach (var member in elseif.AllMembers())
+                        {
+                            yield return member;
+                        }
                     }
 
                     break;

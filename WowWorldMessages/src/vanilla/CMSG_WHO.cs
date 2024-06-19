@@ -126,7 +126,7 @@ public class CMSG_WHO: VanillaClientMessage, IWorldMessage {
         size += 4;
 
         // search_strings: Generator.Generated.DataTypeArray
-        size += SearchStrings.Sum(e => e.Length);
+        size += SearchStrings.Sum(e => e.Length + 1);
 
         return size;
     }

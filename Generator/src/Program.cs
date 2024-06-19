@@ -11,13 +11,8 @@ internal static class Program
     private static string? _lazyValue;
 
     public static readonly WorldVersion Vanilla = new() { Major = 1, Minor = 12, Patch = 1, Build = 5875 };
-
-    private static readonly Dictionary<string, string> ReplacementNames = new()
-    {
-        { "class", "class_type" },
-        { "string", "string_value" },
-        { "event", "event_type" }
-    };
+    public static readonly WorldVersion Tbc = new() { Major = 2, Minor = 4, Patch = 3, Build = 8606 };
+    public static readonly WorldVersion Wrath = new() { Major = 3, Minor = 3, Patch = 5, Build = 12340 };
 
     private static string ProjectDir
     {
@@ -55,7 +50,7 @@ internal static class Program
             Environment.Exit(1);
         }
 
-        SanitizeModel(schema);
+        Sanitizer.SanitizeModel(schema);
 
         if (!CompareSchemaVersions(schema.Version_))
         {
@@ -75,137 +70,9 @@ internal static class Program
 
         WriteFiles(schema.World, schema.VanillaUpdateMask, Vanilla.ToObjectVersionsWorld(), Vanilla.Module(),
             Vanilla.ModulePath(), "World");
+        WriteFiles(schema.World, schema.TbcUpdateMask, Tbc.ToObjectVersionsWorld(), Tbc.Module(),
+            Tbc.ModulePath(), "World");
         Console.WriteLine("Wrote all world files");
-    }
-
-    private static void SanitizeModel(IntermediateRepresentationSchema schema)
-    {
-        foreach (var e in schema.Login.Messages)
-        {
-            SanitizeContainer(e);
-        }
-
-        foreach (var e in schema.Login.Structs)
-        {
-            SanitizeContainer(e);
-        }
-
-        foreach (var e in schema.World.Messages)
-        {
-            SanitizeContainer(e);
-        }
-
-        foreach (var e in schema.World.Structs)
-        {
-            SanitizeContainer(e);
-        }
-
-        SanitizeUpdateMask(schema.VanillaUpdateMask);
-        SanitizeUpdateMask(schema.TbcUpdateMask);
-        SanitizeUpdateMask(schema.WrathUpdateMask);
-
-        return;
-
-        void SanitizeUpdateMask(IList<UpdateMask> updateMasks)
-        {
-            foreach (var updateMask in updateMasks)
-            {
-                if (ReplacementNames.TryGetValue(updateMask.Name, out var name))
-                {
-                    updateMask.Name = name;
-                }
-
-                switch (updateMask.DataType)
-                {
-                    case UpdateMaskDataTypeArrayOfStruct e:
-                        if (ReplacementNames.TryGetValue(e.Content.VariableName, out name))
-                        {
-                            e.Content.VariableName = name;
-                        }
-
-                        foreach (var members in e.Content.UpdateMaskStruct.Members)
-                        {
-                            foreach (var member in members)
-                            {
-                                if (ReplacementNames.TryGetValue(member.Member.Name, out name))
-                                {
-                                    member.Member.Name = name;
-                                }
-                            }
-                        }
-
-                        break;
-                    case UpdateMaskDataTypeBytes b:
-                        if (ReplacementNames.TryGetValue(b.Content.First.Name, out name))
-                        {
-                            b.Content.First.Name = name;
-                        }
-
-                        if (ReplacementNames.TryGetValue(b.Content.Second.Name, out name))
-                        {
-                            b.Content.Second.Name = name;
-                        }
-
-                        if (ReplacementNames.TryGetValue(b.Content.Third.Name, out name))
-                        {
-                            b.Content.Third.Name = name;
-                        }
-
-                        if (ReplacementNames.TryGetValue(b.Content.Fourth.Name, out name))
-                        {
-                            b.Content.Fourth.Name = name;
-                        }
-
-                        break;
-                    case UpdateMaskDataTypeTwoShort s:
-                        if (ReplacementNames.TryGetValue(s.Content.First.Name, out name))
-                        {
-                            s.Content.First.Name = name;
-                        }
-
-                        if (ReplacementNames.TryGetValue(s.Content.Second.Name, out name))
-                        {
-                            s.Content.Second.Name = name;
-                        }
-
-                        break;
-                    case UpdateMaskDataTypeGuidArrayUsingEnum a:
-                        if (ReplacementNames.TryGetValue(a.Content.VariableName, out name))
-                        {
-                            a.Content.VariableName = name;
-                        }
-
-                        break;
-                    case UpdateMaskDataTypeGuid:
-                        break;
-                    case UpdateMaskDataTypeInt:
-                        break;
-                    case UpdateMaskDataTypeFloat:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-        }
-
-        void SanitizeContainer(Container e)
-        {
-            foreach (var d in e.AllDefinitions())
-            {
-                if (ReplacementNames.TryGetValue(d.Name, out var name))
-                {
-                    d.Name = name;
-                }
-            }
-
-            foreach (var po in e.AllPreparedObjects())
-            {
-                if (ReplacementNames.TryGetValue(po.Name, out var name))
-                {
-                    po.Name = name;
-                }
-            }
-        }
     }
 
     private static void WriteDefiners(IList<Definer> enums, string module, string modulePath, string project,

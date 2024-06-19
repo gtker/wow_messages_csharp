@@ -59,7 +59,7 @@ public static class WriteWriteImplementation
         switch (member)
         {
             case StructMemberDefinition d:
-                WriteWriteForType(s, d.StructMemberContent, prefix);
+                WriteWriteForType(s, d.StructMemberContent, prefix, module);
                 s.Newline();
                 break;
             case StructMemberIfStatement statement:
@@ -76,7 +76,7 @@ public static class WriteWriteImplementation
         }
     }
 
-    private static void WriteWriteForType(Writer s, Definition d, string prefix)
+    private static void WriteWriteForType(Writer s, Definition d, string prefix, string module)
     {
         var value = $"{prefix}{d.MemberName()}";
         if (d.SizeOfFieldsBeforeSize is not null)
@@ -179,7 +179,7 @@ public static class WriteWriteImplementation
                 break;
 
             case DataTypeMonsterMoveSpline:
-                s.Wln($"await ReadUtils.WriteMonsterMoveSpline(w, {value}, cancellationToken).ConfigureAwait(false);");
+                s.Wln($"await ReadUtils.{module}WriteMonsterMoveSpline(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeAuraMask:

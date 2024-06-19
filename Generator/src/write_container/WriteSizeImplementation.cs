@@ -47,7 +47,7 @@ public class WriteSizeImplementation
         {
             case StructMemberDefinition d:
                 s.Wln($"// {d.StructMemberContent.Name}: {d.StructMemberContent.DataType}");
-                s.Wln($"size += {d.StructMemberContent.Size(prefix)};");
+                s.Wln($"size += {d.StructMemberContent.Size(module, prefix)};");
                 s.Newline();
                 break;
             case StructMemberIfStatement statement:

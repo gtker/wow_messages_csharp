@@ -91,7 +91,7 @@ public class SMSG_GUILD_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage {
         size += Name.Length + 1;
 
         // rank_names: Generator.Generated.DataTypeArray
-        size += RankNames.Sum(e => e.Length);
+        size += RankNames.Sum(e => e.Length + 1);
 
         // emblem_style: Generator.Generated.DataTypeInteger
         size += 4;

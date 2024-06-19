@@ -276,7 +276,7 @@ public static class WriteReadImplementation
 
             case DataTypeMonsterMoveSpline:
                 s.Wln(
-                    $"{variable} = await ReadUtils.ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await ReadUtils.{module}ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeAuraMask:
@@ -309,7 +309,7 @@ public static class WriteReadImplementation
 
         if (needsSize && d.DataType is not DataTypeArray)
         {
-            var size = d.Size("", false);
+            var size = d.Size(module, "", false);
             s.Wln($"size += {size};");
         }
 

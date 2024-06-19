@@ -59,7 +59,7 @@ public class SMSG_GUILD_EVENT: VanillaServerMessage, IWorldMessage {
         size += 1;
 
         // event_descriptions: Generator.Generated.DataTypeArray
-        size += EventDescriptions.Sum(e => e.Length);
+        size += EventDescriptions.Sum(e => e.Length + 1);
 
         return size;
     }

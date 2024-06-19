@@ -58,7 +58,7 @@ public class SMSG_MONSTER_MOVE: VanillaServerMessage, IWorldMessage {
 
         await w.WriteUInt(Duration, cancellationToken).ConfigureAwait(false);
 
-        await ReadUtils.WriteMonsterMoveSpline(w, Splines, cancellationToken).ConfigureAwait(false);
+        await ReadUtils.VanillaWriteMonsterMoveSpline(w, Splines, cancellationToken).ConfigureAwait(false);
 
     }
 
@@ -112,7 +112,7 @@ public class SMSG_MONSTER_MOVE: VanillaServerMessage, IWorldMessage {
 
         var duration = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var splines = await ReadUtils.ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);
+        var splines = await ReadUtils.VanillaReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);
 
         return new SMSG_MONSTER_MOVE {
             Guid = guid,
@@ -165,7 +165,7 @@ public class SMSG_MONSTER_MOVE: VanillaServerMessage, IWorldMessage {
         size += 4;
 
         // splines: Generator.Generated.DataTypeMonsterMoveSpline
-        size += ReadUtils.MonsterMoveSplineLength(Splines);
+        size += ReadUtils.VanillaMonsterMoveSplineLength(Splines);
 
         return size;
     }

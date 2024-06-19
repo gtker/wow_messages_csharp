@@ -192,6 +192,8 @@ public static class WriteContainers
                     {
                         var d = e.FindDefinitionByName(member.Name);
                         WriteMemberDefinition(s, e, d, module);
+
+                        WriteEnumValue(s, member, d, e, module);
                     }
                 });
             }

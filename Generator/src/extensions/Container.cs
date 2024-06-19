@@ -98,7 +98,7 @@ public static class ContainerExtensions
 
         if (e.Optional is { } optional)
         {
-            foreach (var m in optional.Members)
+            foreach (var m in optional.AllMembers())
             {
                 yield return m;
             }

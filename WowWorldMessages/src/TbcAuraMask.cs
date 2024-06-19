@@ -1,0 +1,69 @@
+namespace WowWorldMessages.Tbc;
+
+public class AuraMask
+{
+    private readonly Aura?[] _auras;
+
+    public AuraMask(Aura?[] auras)
+    {
+        _auras = auras;
+    }
+
+    public Aura? Aura(int index) => _auras[index];
+
+    public void SetAura(int index, Aura value) => _auras[index] = value;
+
+    internal static async Task<AuraMask> ReadAsync(Stream stream, CancellationToken cancellationToken)
+    {
+        var mask = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
+
+        var auras = new Aura?[32];
+
+        for (var i = 0; i < 32; i++)
+        {
+            if ((mask & (1 << i)) != 0)
+            {
+                auras[i] = await Tbc.Aura.ReadBodyAsync(stream, cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        return new AuraMask(auras);
+    }
+
+    internal async Task WriteAsync(Stream stream, CancellationToken cancellationToken)
+    {
+        uint mask = 0;
+        for (var i = 0; i < 32; i++)
+        {
+            if (_auras[i] != null)
+            {
+                mask |= (uint)(1 << i);
+            }
+        }
+
+        await stream.WriteUInt(mask, cancellationToken).ConfigureAwait(false);
+
+        foreach (var aura in _auras)
+        {
+            if (aura != null)
+            {
+                await aura.WriteBodyAsync(stream, cancellationToken).ConfigureAwait(false);
+            }
+        }
+    }
+
+    internal int Length()
+    {
+        var size = 4;
+
+        for (var i = 0; i < 32; i++)
+        {
+            if (_auras[i] != null)
+            {
+                size += 2;
+            }
+        }
+
+        return size;
+    }
+}

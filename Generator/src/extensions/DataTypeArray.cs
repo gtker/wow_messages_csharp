@@ -20,7 +20,7 @@ public static class DataTypeArrayExtensions
         switch (array.InnerType)
         {
             case ArrayTypeCstring:
-                return $"{prefix}{name}.Sum(e => e.Length)";
+                return $"{prefix}{name}.Sum(e => e.Length + 1)";
             case ArrayTypeGuid:
                 return $"{prefix}{name}.Sum(e => 8)";
             case ArrayTypeInteger it:
