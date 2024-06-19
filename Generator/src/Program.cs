@@ -73,11 +73,9 @@ internal static class Program
 
         Console.WriteLine("Wrote all login files");
 
-        WriteFiles(schema.World, Vanilla.ToObjectVersionsWorld(), Vanilla.Module(), Vanilla.ModulePath(), "World");
+        WriteFiles(schema.World, schema.VanillaUpdateMask, Vanilla.ToObjectVersionsWorld(), Vanilla.Module(),
+            Vanilla.ModulePath(), "World");
         Console.WriteLine("Wrote all world files");
-
-        WriteUpdateMasks.WriteUpdateMask(schema.VanillaUpdateMask,
-            "Vanilla", ProjectDir + "WowWorldMessages/src/vanilla/UpdateMask.cs");
     }
 
     private static void SanitizeModel(IntermediateRepresentationSchema schema)
@@ -296,13 +294,14 @@ internal static class Program
 
         const string project = "Login";
 
-        WriteFiles(objects, version.ToLoginVersion(), module, modulePath, project);
+        WriteFiles(objects, null, version.ToLoginVersion(), module, modulePath, project);
     }
 
-    private static void WriteFiles(Objects objects, ObjectVersions version, string module, string modulePath,
+    private static void WriteFiles(Objects objects, IList<UpdateMask>? updateMask, ObjectVersions version,
+        string module, string modulePath,
         string project)
     {
-        var path = ProjectDir + $"Wow{project}Messages/src/{modulePath}";
+        var path = $"{ProjectDir}Wow{project}Messages/src/{modulePath}";
         Directory.Delete(path, true);
         Directory.CreateDirectory(path);
 
@@ -313,5 +312,10 @@ internal static class Program
             project, version);
 
         WriteOpcodes(objects.Messages, module, modulePath, project, version);
+
+        if (updateMask != null)
+        {
+            WriteUpdateMasks.WriteUpdateMask(updateMask, module, $"{path}/UpdateMask.cs");
+        }
     }
 }
