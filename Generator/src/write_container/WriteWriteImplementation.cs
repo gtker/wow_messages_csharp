@@ -186,14 +186,19 @@ public static class WriteWriteImplementation
                 s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
                 break;
 
+            case DataTypeAchievementDoneArray:
+                s.Wln(
+                    $"await ReadUtils.WriteAchievementDoneArray({value}, w, cancellationToken).ConfigureAwait(false);");
+                break;
+            case DataTypeAchievementInProgressArray:
+                s.Wln(
+                    $"await ReadUtils.WriteAchievementInProgressArray({value}, w, cancellationToken).ConfigureAwait(false);");
+                break;
+
             case DataTypeArray array:
                 WriteWriteForArray(s, d, array, prefix);
                 break;
 
-            case DataTypeAchievementDoneArray dataTypeAchievementDoneArray:
-                throw new NotImplementedException();
-            case DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray:
-                throw new NotImplementedException();
             case DataTypeAddonArray dataTypeAddonArray:
                 throw new NotImplementedException();
             case DataTypeCacheMask dataTypeCacheMask:

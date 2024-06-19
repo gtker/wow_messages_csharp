@@ -51,8 +51,6 @@ public static class ContainerExtensions
             },
             DataTypeStruct s => s.StructData.ShouldSkip(),
             DataTypeAddonArray => true,
-            DataTypeAchievementDoneArray => true,
-            DataTypeAchievementInProgressArray => true,
             DataTypeVariableItemRandomProperty => true,
             DataTypeInspectTalentGearMask => true,
             DataTypeEnchantMask => true,

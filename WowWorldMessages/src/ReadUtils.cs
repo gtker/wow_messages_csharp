@@ -1,10 +1,13 @@
 using System.Text;
 using WowWorldMessages.All;
+using WowWorldMessages.Wrath;
 
 namespace WowWorldMessages;
 
 internal static class ReadUtils
 {
+    private const uint AchievementArraySentinelValue = 0xFF_FF_FF_FF;
+
     internal static async Task<byte> ReadByte(this Stream r,
         CancellationToken cancellationToken
     )
@@ -215,5 +218,86 @@ internal static class ReadUtils
                 await stream.WriteUInt(PackedFromVector3d(splines[i]), cancellationToken).ConfigureAwait(false);
             }
         }
+    }
+
+    internal static async Task WriteAchievementDoneArray(IList<AchievementDone> array, Stream w,
+        CancellationToken cancellationToken)
+    {
+        foreach (var a in array)
+        {
+            await a.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
+        }
+
+        await w.WriteUInt(AchievementArraySentinelValue, cancellationToken).ConfigureAwait(false);
+    }
+
+    internal static async Task WriteAchievementInProgressArray(IList<AchievementInProgress> array, Stream w,
+        CancellationToken cancellationToken)
+    {
+        foreach (var a in array)
+        {
+            await a.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
+        }
+
+        await w.WriteUInt(AchievementArraySentinelValue, cancellationToken).ConfigureAwait(false);
+    }
+
+    internal static async Task<List<AchievementDone>> ReadAchievementDoneArray(Stream stream,
+        CancellationToken cancellationToken)
+    {
+        var first = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
+
+        var array = new List<AchievementDone>();
+        while (first != AchievementArraySentinelValue)
+        {
+            var time = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
+
+            array.Add(new AchievementDone
+            {
+                Achievement = first,
+                Time = time
+            });
+
+            first = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
+        }
+
+        return array;
+    }
+
+    internal static async Task<List<AchievementInProgress>> ReadAchievementInProgressArray(Stream stream,
+        CancellationToken cancellationToken)
+    {
+        var first = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
+
+        var array = new List<AchievementInProgress>();
+        while (first != AchievementArraySentinelValue)
+        {
+            var counter = await stream.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
+
+            var player = await stream.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
+
+            var timedCriteriaFailed = await stream.ReadBool32(cancellationToken).ConfigureAwait(false);
+
+            var progressDate = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
+
+            var timeSinceProgress = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
+
+            var timeSinceProgress2 = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
+
+            array.Add(new AchievementInProgress
+            {
+                Achievement = first,
+                Counter = counter,
+                Player = player,
+                TimedCriteriaFailed = timedCriteriaFailed,
+                ProgressDate = progressDate,
+                TimeSinceProgress = timeSinceProgress,
+                TimeSinceProgress2 = timeSinceProgress2
+            });
+
+            first = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
+        }
+
+        return array;
     }
 }

@@ -40,11 +40,11 @@ public static class DataTypeExtension
         DataTypeUpdateMask => "UpdateMask",
         DataTypeMonsterMoveSpline => "List<Vector3d>",
         DataTypeAuraMask => "AuraMask",
+        DataTypeAchievementDoneArray => "List<AchievementDone>",
+        DataTypeAchievementInProgressArray => "List<AchievementInProgress>",
 
         // Wrath/Tbc
         DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
-        DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
-        DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray => throw new NotImplementedException(),
         DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty => throw new NotImplementedException(),
         DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
         DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),

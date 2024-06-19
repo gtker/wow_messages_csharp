@@ -62,12 +62,11 @@ public static class DefinitionExtensions
 
             DataTypeAuraMask => $"{prefix}{name}.Length();",
 
+            DataTypeAchievementDoneArray => $"{prefix}{name}.Count * 2",
+            DataTypeAchievementInProgressArray => $"{prefix}{name}.Sum(e => e.Size())",
+
             DataTypeArray array => array.ArraySize(d, name, prefix),
 
-            DataTypeAchievementDoneArray dataTypeAchievementDoneArray => throw new NotImplementedException(),
-
-            DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray =>
-                throw new NotImplementedException(),
             DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
             DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
             DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),

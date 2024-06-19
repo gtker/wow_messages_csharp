@@ -285,15 +285,20 @@ public static class WriteReadImplementation
                     $"{variable} = await AuraMask.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
                 break;
 
+            case DataTypeAchievementDoneArray:
+                s.Wln(
+                    $"{variable} = await ReadUtils.ReadAchievementDoneArray(r, cancellationToken).ConfigureAwait(false);");
+                break;
+            case DataTypeAchievementInProgressArray:
+                s.Wln(
+                    $"{variable} = await ReadUtils.ReadAchievementInProgressArray(r, cancellationToken).ConfigureAwait(false);");
+                break;
+
             case DataTypeArray array:
                 WriteReadForArray(s, d, array, module, needsSize, objectPrefix, variable);
                 break;
 
 
-            case DataTypeAchievementDoneArray dataTypeAchievementDoneArray:
-                throw new NotImplementedException();
-            case DataTypeAchievementInProgressArray dataTypeAchievementInProgressArray:
-                throw new NotImplementedException();
             case DataTypeAddonArray dataTypeAddonArray:
                 throw new NotImplementedException();
             case DataTypeCacheMask dataTypeCacheMask:
