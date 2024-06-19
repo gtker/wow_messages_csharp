@@ -1,18 +1,12 @@
 namespace WowWorldMessages.Wrath;
 
-public class AuraMask
+public class AuraMask(Aura?[] auras)
 {
     private const int AuraArraySize = 64;
-    private readonly Aura?[] _auras;
 
-    public AuraMask(Aura?[] auras)
-    {
-        _auras = auras;
-    }
+    public Aura? Aura(int index) => auras[index];
 
-    public Aura? Aura(int index) => _auras[index];
-
-    public void SetAura(int index, Aura value) => _auras[index] = value;
+    public void SetAura(int index, Aura value) => auras[index] = value;
 
     internal static async Task<AuraMask> ReadAsync(Stream stream, CancellationToken cancellationToken)
     {
@@ -33,18 +27,18 @@ public class AuraMask
 
     internal async Task WriteAsync(Stream stream, CancellationToken cancellationToken)
     {
-        uint mask = 0;
+        ulong mask = 0;
         for (var i = 0; i < AuraArraySize; i++)
         {
-            if (_auras[i] != null)
+            if (auras[i] != null)
             {
                 mask |= (uint)(1 << i);
             }
         }
 
-        await stream.WriteUInt(mask, cancellationToken).ConfigureAwait(false);
+        await stream.WriteULong(mask, cancellationToken).ConfigureAwait(false);
 
-        foreach (var aura in _auras)
+        foreach (var aura in auras)
         {
             if (aura != null)
             {
@@ -55,13 +49,13 @@ public class AuraMask
 
     internal int Length()
     {
-        var size = 4;
+        var size = 8;
 
         for (var i = 0; i < AuraArraySize; i++)
         {
-            if (_auras[i] != null)
+            if (auras[i] != null)
             {
-                size += 2;
+                size += 5;
             }
         }
 

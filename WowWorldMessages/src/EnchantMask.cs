@@ -1,26 +1,20 @@
-namespace WowWorldMessages.Vanilla;
+namespace WowWorldMessages.Wrath;
 
-public class AuraMask
+public class EnchantMask(ushort[] auras)
 {
-    private readonly ushort[] _auras;
-    private const int AuraArraySize = 32;
+    private const int EnchantArraySize = 16;
 
-    public AuraMask(ushort[] auras)
-    {
-        _auras = auras;
-    }
+    public ushort Enchant(int index) => auras[index];
 
-    public ushort Aura(int index) => _auras[index];
+    public void SetEnchant(int index, ushort value) => auras[index] = value;
 
-    public void SetAura(int index, ushort value) => _auras[index] = value;
-
-    internal static async Task<AuraMask> ReadAsync(Stream stream, CancellationToken cancellationToken)
+    internal static async Task<EnchantMask> ReadAsync(Stream stream, CancellationToken cancellationToken)
     {
         var mask = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var auras = new ushort[AuraArraySize];
+        var auras = new ushort[EnchantArraySize];
 
-        for (var i = 0; i < AuraArraySize; i++)
+        for (var i = 0; i < EnchantArraySize; i++)
         {
             if ((mask & (1 << i)) != 0)
             {
@@ -28,15 +22,15 @@ public class AuraMask
             }
         }
 
-        return new AuraMask(auras);
+        return new EnchantMask(auras);
     }
 
     internal async Task WriteAsync(Stream stream, CancellationToken cancellationToken)
     {
         uint mask = 0;
-        for (var i = 0; i < AuraArraySize; i++)
+        for (var i = 0; i < EnchantArraySize; i++)
         {
-            if (_auras[i] != 0)
+            if (auras[i] != 0)
             {
                 mask |= (uint)(1 << i);
             }
@@ -44,7 +38,7 @@ public class AuraMask
 
         await stream.WriteUInt(mask, cancellationToken).ConfigureAwait(false);
 
-        foreach (var aura in _auras)
+        foreach (var aura in auras)
         {
             if (aura != 0)
             {
@@ -57,9 +51,9 @@ public class AuraMask
     {
         var size = 4;
 
-        for (var i = 0; i < AuraArraySize; i++)
+        for (var i = 0; i < EnchantArraySize; i++)
         {
-            if (_auras[i] != 0)
+            if (auras[i] != 0)
             {
                 size += 2;
             }

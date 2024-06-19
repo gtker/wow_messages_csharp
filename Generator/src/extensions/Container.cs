@@ -53,7 +53,6 @@ public static class ContainerExtensions
             DataTypeAddonArray => true,
             DataTypeVariableItemRandomProperty => true,
             DataTypeInspectTalentGearMask => true,
-            DataTypeEnchantMask => true,
             DataTypeCacheMask => true,
             _ => false
         };

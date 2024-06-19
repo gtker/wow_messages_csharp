@@ -42,12 +42,12 @@ public static class DataTypeExtension
         DataTypeAuraMask => "AuraMask",
         DataTypeAchievementDoneArray => "List<AchievementDone>",
         DataTypeAchievementInProgressArray => "List<AchievementInProgress>",
+        DataTypeEnchantMask => "EnchantMask",
 
         // Wrath/Tbc
         DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
         DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty => throw new NotImplementedException(),
         DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
-        DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),
         DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
 
         _ => throw new ArgumentOutOfRangeException(nameof(d))

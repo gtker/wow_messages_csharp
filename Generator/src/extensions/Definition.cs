@@ -64,12 +64,12 @@ public static class DefinitionExtensions
 
             DataTypeAchievementDoneArray => $"{prefix}{name}.Count * 2",
             DataTypeAchievementInProgressArray => $"{prefix}{name}.Sum(e => e.Size())",
+            DataTypeEnchantMask => $"{prefix}{name}.Length();",
 
             DataTypeArray array => array.ArraySize(d, name, prefix),
 
             DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
             DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
-            DataTypeEnchantMask dataTypeEnchantMask => throw new NotImplementedException(),
             DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
             DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty =>
                 throw new NotImplementedException(),

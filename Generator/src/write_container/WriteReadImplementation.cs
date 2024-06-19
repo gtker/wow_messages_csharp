@@ -284,6 +284,11 @@ public static class WriteReadImplementation
                 s.Wln(
                     $"{variable} = await AuraMask.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
                 break;
+            case DataTypeEnchantMask:
+                s.Wln(
+                    $"{variable} = await EnchantMask.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
+                break;
+
 
             case DataTypeAchievementDoneArray:
                 s.Wln(
@@ -302,8 +307,6 @@ public static class WriteReadImplementation
             case DataTypeAddonArray dataTypeAddonArray:
                 throw new NotImplementedException();
             case DataTypeCacheMask dataTypeCacheMask:
-                throw new NotImplementedException();
-            case DataTypeEnchantMask dataTypeEnchantMask:
                 throw new NotImplementedException();
             case DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask:
                 throw new NotImplementedException();
