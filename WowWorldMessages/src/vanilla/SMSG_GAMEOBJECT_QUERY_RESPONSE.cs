@@ -61,37 +61,38 @@ public class SMSG_GAMEOBJECT_QUERY_RESPONSE: VanillaServerMessage, IWorldMessage
     }
 
     public static async Task<SMSG_GAMEOBJECT_QUERY_RESPONSE> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var entryId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         OptionalFound? optionalFound = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var infoType = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var displayId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var name1 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name1.Length + 1;
+            __size += name1.Length + 1;
 
             var name2 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name2.Length + 1;
+            __size += name2.Length + 1;
 
             var name3 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name3.Length + 1;
+            __size += name3.Length + 1;
 
             var name4 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name4.Length + 1;
+            __size += name4.Length + 1;
 
             var name5 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name5.Length + 1;
+            __size += name5.Length + 1;
 
             var rawData = new uint[OptionalFound.RawDataLength];
             for (var i = 0; i < OptionalFound.RawDataLength; ++i) {
                 rawData[i] = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-                size += 4;
+                __size += 4;
             }
 
             optionalFound = new OptionalFound {

@@ -79,31 +79,32 @@ public class CMSG_GMTICKET_CREATE: TbcClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_GMTICKET_CREATE> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         GmTicketTypeType category = (Tbc.GmTicketType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
-        size += 1;
+        __size += 1;
 
         var map = (Tbc.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var position = await Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
-        size += 12;
+        __size += 12;
 
         var message = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-        size += message.Length + 1;
+        __size += message.Length + 1;
 
         var reservedForFutureUse = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-        size += reservedForFutureUse.Length + 1;
+        __size += reservedForFutureUse.Length + 1;
 
         if (category.Value is Tbc.GmTicketType.BehaviorHarassment) {
             var chatDataLineCount = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var decompressedLength = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var decompressed = new byte[decompressedLength];
-            var remaining = new byte[bodySize - size];
+            var remaining = new byte[bodySize - __size];
             r.ReadExactly(remaining);
 
             var zlib = new System.IO.Compression.ZLibStream(new MemoryStream(remaining), System.IO.Compression.CompressionMode.Decompress);
@@ -113,7 +114,7 @@ public class CMSG_GMTICKET_CREATE: TbcClientMessage, IWorldMessage {
             var compressedChatData = new List<byte>();
             while (r.Position < r.Length) {
                 compressedChatData.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
-                size += 1;
+                __size += 1;
             }
 
             category = new GmTicketTypeBehaviorHarassment {

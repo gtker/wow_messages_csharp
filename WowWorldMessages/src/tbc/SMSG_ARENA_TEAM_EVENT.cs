@@ -33,8 +33,8 @@ public class SMSG_ARENA_TEAM_EVENT: TbcServerMessage, IWorldMessage {
         public required string KickedPlayerName { get; set; }
         public required string KickerName { get; set; }
     }
-    public required ArenaTeamEventType EventType { get; set; }
-    internal ArenaTeamEvent EventTypeValue => EventType.Match(
+    public required ArenaTeamEventType EventValue { get; set; }
+    internal ArenaTeamEvent EventValueValue => EventValue.Match(
         _ => Tbc.ArenaTeamEvent.Disbanded,
         _ => Tbc.ArenaTeamEvent.Join,
         _ => Tbc.ArenaTeamEvent.LeaderChanged,
@@ -46,9 +46,9 @@ public class SMSG_ARENA_TEAM_EVENT: TbcServerMessage, IWorldMessage {
     public required List<string> StringValue { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
-        await w.WriteByte((byte)EventTypeValue, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte((byte)EventValueValue, cancellationToken).ConfigureAwait(false);
 
-        if (EventType.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventJoin arenaTeamEventJoin) {
+        if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventJoin arenaTeamEventJoin) {
             await w.WriteCString(arenaTeamEventJoin.JoinerName, cancellationToken).ConfigureAwait(false);
 
             await w.WriteCString(arenaTeamEventJoin.ArenaTeamName1, cancellationToken).ConfigureAwait(false);
@@ -56,14 +56,14 @@ public class SMSG_ARENA_TEAM_EVENT: TbcServerMessage, IWorldMessage {
             await w.WriteULong(arenaTeamEventJoin.Joiner, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (EventType.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeave arenaTeamEventLeave) {
+        else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeave arenaTeamEventLeave) {
             await w.WriteCString(arenaTeamEventLeave.LeaverName, cancellationToken).ConfigureAwait(false);
 
             await w.WriteULong(arenaTeamEventLeave.Leaver, cancellationToken).ConfigureAwait(false);
 
         }
 
-        else if (EventType.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventRemove arenaTeamEventRemove) {
+        else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventRemove arenaTeamEventRemove) {
             await w.WriteCString(arenaTeamEventRemove.KickedPlayerName, cancellationToken).ConfigureAwait(false);
 
             await w.WriteCString(arenaTeamEventRemove.ArenaTeamName2, cancellationToken).ConfigureAwait(false);
@@ -72,20 +72,20 @@ public class SMSG_ARENA_TEAM_EVENT: TbcServerMessage, IWorldMessage {
 
         }
 
-        else if (EventType.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeaderIs arenaTeamEventLeaderIs) {
+        else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeaderIs arenaTeamEventLeaderIs) {
             await w.WriteCString(arenaTeamEventLeaderIs.LeaderName, cancellationToken).ConfigureAwait(false);
 
             await w.WriteCString(arenaTeamEventLeaderIs.ArenaTeamName3, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (EventType.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventDisbanded arenaTeamEventDisbanded) {
+        else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventDisbanded arenaTeamEventDisbanded) {
             await w.WriteCString(arenaTeamEventDisbanded.LeaderName, cancellationToken).ConfigureAwait(false);
 
             await w.WriteCString(arenaTeamEventDisbanded.ArenaTeamName3, cancellationToken).ConfigureAwait(false);
 
         }
 
-        else if (EventType.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeaderChanged arenaTeamEventLeaderChanged) {
+        else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeaderChanged arenaTeamEventLeaderChanged) {
             await w.WriteCString(arenaTeamEventLeaderChanged.OldLeader, cancellationToken).ConfigureAwait(false);
 
             await w.WriteCString(arenaTeamEventLeaderChanged.NewLeader, cancellationToken).ConfigureAwait(false);
@@ -115,73 +115,73 @@ public class SMSG_ARENA_TEAM_EVENT: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_ARENA_TEAM_EVENT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        ArenaTeamEventType eventType = (Tbc.ArenaTeamEvent)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        ArenaTeamEventType eventValue = (Tbc.ArenaTeamEvent)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-        if (eventType.Value is Tbc.ArenaTeamEvent.Join) {
+        if (eventValue.Value is Tbc.ArenaTeamEvent.Join) {
             var joinerName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
             var arenaTeamName1 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
             var joiner = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-            eventType = new ArenaTeamEventJoin {
+            eventValue = new ArenaTeamEventJoin {
                 ArenaTeamName1 = arenaTeamName1,
                 Joiner = joiner,
                 JoinerName = joinerName,
             };
         }
-        else if (eventType.Value is Tbc.ArenaTeamEvent.Leave) {
+        else if (eventValue.Value is Tbc.ArenaTeamEvent.Leave) {
             var leaverName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
             var leaver = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-            eventType = new ArenaTeamEventLeave {
+            eventValue = new ArenaTeamEventLeave {
                 Leaver = leaver,
                 LeaverName = leaverName,
             };
         }
 
-        else if (eventType.Value is Tbc.ArenaTeamEvent.Remove) {
+        else if (eventValue.Value is Tbc.ArenaTeamEvent.Remove) {
             var kickedPlayerName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
             var arenaTeamName2 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
             var kickerName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
-            eventType = new ArenaTeamEventRemove {
+            eventValue = new ArenaTeamEventRemove {
                 ArenaTeamName2 = arenaTeamName2,
                 KickedPlayerName = kickedPlayerName,
                 KickerName = kickerName,
             };
         }
 
-        else if (eventType.Value is Tbc.ArenaTeamEvent.LeaderIs) {
+        else if (eventValue.Value is Tbc.ArenaTeamEvent.LeaderIs) {
             var leaderName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
             var arenaTeamName3 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
-            eventType = new ArenaTeamEventLeaderIs {
+            eventValue = new ArenaTeamEventLeaderIs {
                 ArenaTeamName3 = arenaTeamName3,
                 LeaderName = leaderName,
             };
         }
-        else if (eventType.Value is Tbc.ArenaTeamEvent.Disbanded) {
+        else if (eventValue.Value is Tbc.ArenaTeamEvent.Disbanded) {
             var leaderName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
             var arenaTeamName3 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
-            eventType = new ArenaTeamEventDisbanded {
+            eventValue = new ArenaTeamEventDisbanded {
                 ArenaTeamName3 = arenaTeamName3,
                 LeaderName = leaderName,
             };
         }
 
-        else if (eventType.Value is Tbc.ArenaTeamEvent.LeaderChanged) {
+        else if (eventValue.Value is Tbc.ArenaTeamEvent.LeaderChanged) {
             var oldLeader = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
             var newLeader = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
-            eventType = new ArenaTeamEventLeaderChanged {
+            eventValue = new ArenaTeamEventLeaderChanged {
                 NewLeader = newLeader,
                 OldLeader = oldLeader,
             };
@@ -197,7 +197,7 @@ public class SMSG_ARENA_TEAM_EVENT: TbcServerMessage, IWorldMessage {
         }
 
         return new SMSG_ARENA_TEAM_EVENT {
-            EventType = eventType,
+            EventValue = eventValue,
             StringValue = stringValue,
         };
     }
@@ -205,10 +205,10 @@ public class SMSG_ARENA_TEAM_EVENT: TbcServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // event_type: Generator.Generated.DataTypeEnum
+        // event_value: Generator.Generated.DataTypeEnum
         size += 1;
 
-        if (EventType.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventJoin arenaTeamEventJoin) {
+        if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventJoin arenaTeamEventJoin) {
             // joiner_name: Generator.Generated.DataTypeCstring
             size += arenaTeamEventJoin.JoinerName.Length + 1;
 
@@ -219,7 +219,7 @@ public class SMSG_ARENA_TEAM_EVENT: TbcServerMessage, IWorldMessage {
             size += 8;
 
         }
-        else if (EventType.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeave arenaTeamEventLeave) {
+        else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeave arenaTeamEventLeave) {
             // leaver_name: Generator.Generated.DataTypeCstring
             size += arenaTeamEventLeave.LeaverName.Length + 1;
 
@@ -228,7 +228,7 @@ public class SMSG_ARENA_TEAM_EVENT: TbcServerMessage, IWorldMessage {
 
         }
 
-        else if (EventType.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventRemove arenaTeamEventRemove) {
+        else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventRemove arenaTeamEventRemove) {
             // kicked_player_name: Generator.Generated.DataTypeCstring
             size += arenaTeamEventRemove.KickedPlayerName.Length + 1;
 
@@ -240,7 +240,7 @@ public class SMSG_ARENA_TEAM_EVENT: TbcServerMessage, IWorldMessage {
 
         }
 
-        else if (EventType.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeaderIs arenaTeamEventLeaderIs) {
+        else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeaderIs arenaTeamEventLeaderIs) {
             // leader_name: Generator.Generated.DataTypeCstring
             size += arenaTeamEventLeaderIs.LeaderName.Length + 1;
 
@@ -248,7 +248,7 @@ public class SMSG_ARENA_TEAM_EVENT: TbcServerMessage, IWorldMessage {
             size += arenaTeamEventLeaderIs.ArenaTeamName3.Length + 1;
 
         }
-        else if (EventType.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventDisbanded arenaTeamEventDisbanded) {
+        else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventDisbanded arenaTeamEventDisbanded) {
             // leader_name: Generator.Generated.DataTypeCstring
             size += arenaTeamEventDisbanded.LeaderName.Length + 1;
 
@@ -257,7 +257,7 @@ public class SMSG_ARENA_TEAM_EVENT: TbcServerMessage, IWorldMessage {
 
         }
 
-        else if (EventType.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeaderChanged arenaTeamEventLeaderChanged) {
+        else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeaderChanged arenaTeamEventLeaderChanged) {
             // old_leader: Generator.Generated.DataTypeCstring
             size += arenaTeamEventLeaderChanged.OldLeader.Length + 1;
 

@@ -15,7 +15,8 @@ public static class WriteReadImplementation
             {
                 if (e.NeedsBodySize())
                 {
-                    s.Wln("var size = 0;");
+                    s.Wln("// ReSharper disable once InconsistentNaming");
+                    s.Wln("var __size = 0;");
                 }
 
                 var newline = false;
@@ -39,7 +40,7 @@ public static class WriteReadImplementation
                 {
                     s.Wln($"Optional{optional.Name.ToMemberName()}? optional{optional.Name.ToMemberName()} = null;");
 
-                    s.Body("if (size < bodySize)", s =>
+                    s.Body("if (__size < bodySize)", s =>
                     {
                         foreach (var member in optional.Members)
                         {
@@ -310,7 +311,7 @@ public static class WriteReadImplementation
         if (needsSize && d.DataType is not DataTypeArray)
         {
             var size = d.Size(module, "", false);
-            s.Wln($"size += {size};");
+            s.Wln($"__size += {size};");
         }
 
         s.Newline();
@@ -322,11 +323,11 @@ public static class WriteReadImplementation
         if (array.Compressed)
         {
             s.Wln("var decompressedLength = await r.ReadUInt(cancellationToken).ConfigureAwait(false);");
-            s.Wln("size += 4;");
+            s.Wln("__size += 4;");
             s.Newline();
 
             s.Wln("var decompressed = new byte[decompressedLength];");
-            s.Wln("var remaining = new byte[bodySize - size];");
+            s.Wln("var remaining = new byte[bodySize - __size];");
             s.Wln("r.ReadExactly(remaining);");
             s.Newline();
 
@@ -356,7 +357,7 @@ public static class WriteReadImplementation
         {
             ArraySizeFixed v => $"for (var i = 0; i < {memberLength}; ++i)",
             ArraySizeVariable v => $"for (var i = 0; i < {v.Size.ToCamelCase()}; ++i)",
-            ArraySizeEndless v => array.Compressed ? "while (r.Position < r.Length)" : "while (size <= bodySize)",
+            ArraySizeEndless v => array.Compressed ? "while (r.Position < r.Length)" : "while (__size <= bodySize)",
             _ => throw new ArgumentOutOfRangeException()
         };
 
@@ -404,25 +405,25 @@ public static class WriteReadImplementation
                 switch (array.InnerType)
                 {
                     case ArrayTypeCstring:
-                        s.Wln($"size += {d.VariableName()}[^1].Length + 1;");
+                        s.Wln($"__size += {d.VariableName()}[^1].Length + 1;");
                         break;
                     case ArrayTypeGuid:
-                        s.Wln("size += 8;");
+                        s.Wln("__size += 8;");
                         break;
                     case ArrayTypeSpell:
-                        s.Wln("size += 4;");
+                        s.Wln("__size += 4;");
                         break;
                     case ArrayTypeInteger arrayTypeInteger:
-                        s.Wln($"size += {arrayTypeInteger.IntegerType.SizeBytes()};");
+                        s.Wln($"__size += {arrayTypeInteger.IntegerType.SizeBytes()};");
                         break;
                     case ArrayTypeStruct arrayTypeStruct:
                         if (arrayTypeStruct.StructData.Sizes.ConstantSized)
                         {
-                            s.Wln($"size += {arrayTypeStruct.StructData.Sizes.MinimumSize};");
+                            s.Wln($"__size += {arrayTypeStruct.StructData.Sizes.MinimumSize};");
                         }
                         else
                         {
-                            s.Wln($"size += {d.VariableName()}[^1].Size();");
+                            s.Wln($"__size += {d.VariableName()}[^1].Size();");
                         }
 
                         break;

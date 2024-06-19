@@ -18,8 +18,8 @@ public class GuildLogEvent {
     public class GuildEventPromotion {
         public required byte NewRank { get; set; }
     }
-    public required GuildEventType EventType { get; set; }
-    internal GuildEvent EventTypeValue => EventType.Match(
+    public required GuildEventType EventValue { get; set; }
+    internal GuildEvent EventValueValue => EventValue.Match(
         _ => Tbc.GuildEvent.Demotion,
         _ => Tbc.GuildEvent.Joined,
         _ => Tbc.GuildEvent.Left,
@@ -30,23 +30,23 @@ public class GuildLogEvent {
     public required uint UnixTime { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
-        await w.WriteByte((byte)EventTypeValue, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte((byte)EventValueValue, cancellationToken).ConfigureAwait(false);
 
         await w.WriteULong(Player1, cancellationToken).ConfigureAwait(false);
 
-        if (EventType.Value is GuildLogEvent.GuildEventJoined guildEventJoined) {
+        if (EventValue.Value is GuildLogEvent.GuildEventJoined guildEventJoined) {
             await w.WriteULong(guildEventJoined.Player2, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (EventType.Value is GuildLogEvent.GuildEventLeft guildEventLeft) {
+        else if (EventValue.Value is GuildLogEvent.GuildEventLeft guildEventLeft) {
             await w.WriteULong(guildEventLeft.Player2, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (EventType.Value is GuildLogEvent.GuildEventPromotion guildEventPromotion) {
+        else if (EventValue.Value is GuildLogEvent.GuildEventPromotion guildEventPromotion) {
             await w.WriteByte(guildEventPromotion.NewRank, cancellationToken).ConfigureAwait(false);
 
         }
-        else if (EventType.Value is GuildLogEvent.GuildEventDemotion guildEventDemotion) {
+        else if (EventValue.Value is GuildLogEvent.GuildEventDemotion guildEventDemotion) {
             await w.WriteByte(guildEventDemotion.NewRank, cancellationToken).ConfigureAwait(false);
 
         }
@@ -57,35 +57,35 @@ public class GuildLogEvent {
     }
 
     public static async Task<GuildLogEvent> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        GuildEventType eventType = (Tbc.GuildEvent)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        GuildEventType eventValue = (Tbc.GuildEvent)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         var player1 = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-        if (eventType.Value is Tbc.GuildEvent.Joined) {
+        if (eventValue.Value is Tbc.GuildEvent.Joined) {
             var player2 = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-            eventType = new GuildEventJoined {
+            eventValue = new GuildEventJoined {
                 Player2 = player2,
             };
         }
-        else if (eventType.Value is Tbc.GuildEvent.Left) {
+        else if (eventValue.Value is Tbc.GuildEvent.Left) {
             var player2 = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
-            eventType = new GuildEventLeft {
+            eventValue = new GuildEventLeft {
                 Player2 = player2,
             };
         }
-        else if (eventType.Value is Tbc.GuildEvent.Promotion) {
+        else if (eventValue.Value is Tbc.GuildEvent.Promotion) {
             var newRank = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-            eventType = new GuildEventPromotion {
+            eventValue = new GuildEventPromotion {
                 NewRank = newRank,
             };
         }
-        else if (eventType.Value is Tbc.GuildEvent.Demotion) {
+        else if (eventValue.Value is Tbc.GuildEvent.Demotion) {
             var newRank = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
-            eventType = new GuildEventDemotion {
+            eventValue = new GuildEventDemotion {
                 NewRank = newRank,
             };
         }
@@ -94,7 +94,7 @@ public class GuildLogEvent {
         var unixTime = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new GuildLogEvent {
-            EventType = eventType,
+            EventValue = eventValue,
             Player1 = player1,
             UnixTime = unixTime,
         };
@@ -103,28 +103,28 @@ public class GuildLogEvent {
     internal int Size() {
         var size = 0;
 
-        // event_type: Generator.Generated.DataTypeEnum
+        // event_value: Generator.Generated.DataTypeEnum
         size += 1;
 
         // player1: Generator.Generated.DataTypeGuid
         size += 8;
 
-        if (EventType.Value is GuildLogEvent.GuildEventJoined guildEventJoined) {
+        if (EventValue.Value is GuildLogEvent.GuildEventJoined guildEventJoined) {
             // player2: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (EventType.Value is GuildLogEvent.GuildEventLeft guildEventLeft) {
+        else if (EventValue.Value is GuildLogEvent.GuildEventLeft guildEventLeft) {
             // player2: Generator.Generated.DataTypeGuid
             size += 8;
 
         }
-        else if (EventType.Value is GuildLogEvent.GuildEventPromotion guildEventPromotion) {
+        else if (EventValue.Value is GuildLogEvent.GuildEventPromotion guildEventPromotion) {
             // new_rank: Generator.Generated.DataTypeInteger
             size += 1;
 
         }
-        else if (EventType.Value is GuildLogEvent.GuildEventDemotion guildEventDemotion) {
+        else if (EventValue.Value is GuildLogEvent.GuildEventDemotion guildEventDemotion) {
             // new_rank: Generator.Generated.DataTypeInteger
             size += 1;
 

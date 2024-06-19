@@ -34,11 +34,12 @@ public class CMSG_TOGGLE_PVP: TbcClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_TOGGLE_PVP> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         OptionalSet? optionalSet = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var enablePvp = await r.ReadBool8(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             optionalSet = new OptionalSet {
                 EnablePvp = enablePvp,

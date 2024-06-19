@@ -127,37 +127,38 @@ public class CMSG_GUILD_BANK_SWAP_ITEMS: TbcClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_GUILD_BANK_SWAP_ITEMS> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var bank = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-        size += 8;
+        __size += 8;
 
         BankSwapSourceType source = (Tbc.BankSwapSource)await r.ReadByte(cancellationToken).ConfigureAwait(false);
-        size += 1;
+        __size += 1;
 
         if (source.Value is Tbc.BankSwapSource.Bank) {
             var bankDestinationTab = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var bankDestinationSlot = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var unknown1 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var bankSourceTab = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var bankSourceSlot = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var item1 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var unknown2 = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var amount = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             source = new BankSwapSourceBank {
                 Amount = amount,
@@ -172,26 +173,26 @@ public class CMSG_GUILD_BANK_SWAP_ITEMS: TbcClientMessage, IWorldMessage {
         }
         else if (source.Value is Tbc.BankSwapSource.Inventory) {
             var bankTab = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var bankSlot = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var item2 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             BankSwapStoreModeType mode = (Tbc.BankSwapStoreMode)await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             if (mode.Value is Tbc.BankSwapStoreMode.Automatic) {
                 var autoCount = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-                size += 4;
+                __size += 4;
 
                 var unknown3 = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-                size += 1;
+                __size += 1;
 
                 var unknown4 = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-                size += 1;
+                __size += 1;
 
                 mode = new BankSwapStoreModeAutomatic {
                     AutoCount = autoCount,
@@ -201,16 +202,16 @@ public class CMSG_GUILD_BANK_SWAP_ITEMS: TbcClientMessage, IWorldMessage {
             }
             else if (mode.Value is Tbc.BankSwapStoreMode.Manual) {
                 var playerBag = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-                size += 1;
+                __size += 1;
 
                 var playerBagSlot = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-                size += 1;
+                __size += 1;
 
                 var bankToCharacterTransfer = await r.ReadBool8(cancellationToken).ConfigureAwait(false);
-                size += 1;
+                __size += 1;
 
                 var splitAmount = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-                size += 1;
+                __size += 1;
 
                 mode = new BankSwapStoreModeManual {
                     BankToCharacterTransfer = bankToCharacterTransfer,
@@ -231,9 +232,9 @@ public class CMSG_GUILD_BANK_SWAP_ITEMS: TbcClientMessage, IWorldMessage {
 
 
         var unknown5 = new List<byte>();
-        while (size <= bodySize) {
+        while (__size <= bodySize) {
             unknown5.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
-            size += 1;
+            __size += 1;
         }
 
         return new CMSG_GUILD_BANK_SWAP_ITEMS {

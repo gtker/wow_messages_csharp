@@ -5,11 +5,11 @@ namespace WowWorldMessages.Tbc;
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 // ReSharper disable once InconsistentNaming
 public class SMSG_GUILD_EVENT: TbcServerMessage, IWorldMessage {
-    public required Tbc.GuildEvent EventType { get; set; }
+    public required Tbc.GuildEvent EventValue { get; set; }
     public required List<string> EventDescriptions { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
-        await w.WriteByte((byte)EventType, cancellationToken).ConfigureAwait(false);
+        await w.WriteByte((byte)EventValue, cancellationToken).ConfigureAwait(false);
 
         await w.WriteByte((byte)EventDescriptions.Count, cancellationToken).ConfigureAwait(false);
 
@@ -33,7 +33,7 @@ public class SMSG_GUILD_EVENT: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_GUILD_EVENT> ReadBodyAsync(Stream r, CancellationToken cancellationToken = default) {
-        var eventType = (Tbc.GuildEvent)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var eventValue = (Tbc.GuildEvent)await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
         // ReSharper disable once UnusedVariable.Compiler
         var amountOfEvents = await r.ReadByte(cancellationToken).ConfigureAwait(false);
@@ -44,7 +44,7 @@ public class SMSG_GUILD_EVENT: TbcServerMessage, IWorldMessage {
         }
 
         return new SMSG_GUILD_EVENT {
-            EventType = eventType,
+            EventValue = eventValue,
             EventDescriptions = eventDescriptions,
         };
     }
@@ -52,7 +52,7 @@ public class SMSG_GUILD_EVENT: TbcServerMessage, IWorldMessage {
     internal int Size() {
         var size = 0;
 
-        // event_type: Generator.Generated.DataTypeEnum
+        // event_value: Generator.Generated.DataTypeEnum
         size += 1;
 
         // amount_of_events: Generator.Generated.DataTypeInteger

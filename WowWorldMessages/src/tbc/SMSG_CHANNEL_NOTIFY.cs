@@ -40,20 +40,21 @@ public class SMSG_CHANNEL_NOTIFY: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_CHANNEL_NOTIFY> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var notifyType = (Tbc.ChatNotify)await r.ReadByte(cancellationToken).ConfigureAwait(false);
-        size += 1;
+        __size += 1;
 
         var channelName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-        size += channelName.Length + 1;
+        __size += channelName.Length + 1;
 
         OptionalUnknown1? optionalUnknown1 = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var unknown2 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var unkwown3 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             optionalUnknown1 = new OptionalUnknown1 {
                 Unknown2 = unknown2,

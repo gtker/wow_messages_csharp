@@ -43,23 +43,24 @@ public class SMSG_SET_EXTRA_AURA_INFO: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_SET_EXTRA_AURA_INFO> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var unit = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
-        size += unit.PackedGuidLength();
+        __size += unit.PackedGuidLength();
 
         OptionalAura? optionalAura = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var slot = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var spell = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var maxDuration = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var remainingDuration = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             optionalAura = new OptionalAura {
                 Slot = slot,

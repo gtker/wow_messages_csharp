@@ -16,6 +16,7 @@ public static class IntegerTypeExtensions
                 IntegerType.U32 => "uint",
                 IntegerType.U64 => "ulong",
                 IntegerType.U8 => "byte",
+                IntegerType.U48 => "ulong",
                 _ => throw new ArgumentOutOfRangeException(nameof(it), it, null)
             };
 

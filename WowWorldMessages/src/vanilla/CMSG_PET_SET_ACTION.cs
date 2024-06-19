@@ -43,23 +43,24 @@ public class CMSG_PET_SET_ACTION: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_PET_SET_ACTION> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-        size += 8;
+        __size += 8;
 
         var position1 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var data1 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         OptionalExtra? optionalExtra = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var position2 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var data2 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             optionalExtra = new OptionalExtra {
                 Position2 = position2,

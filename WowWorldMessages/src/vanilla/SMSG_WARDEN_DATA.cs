@@ -28,11 +28,12 @@ public class SMSG_WARDEN_DATA: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_WARDEN_DATA> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var encryptedData = new List<byte>();
-        while (size <= bodySize) {
+        while (__size <= bodySize) {
             encryptedData.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
-            size += 1;
+            __size += 1;
         }
 
         return new SMSG_WARDEN_DATA {

@@ -9,15 +9,16 @@ public static class Sanitizer
     {
         { "class", "class_type" },
         { "string", "string_value" },
-        { "event", "event_type" },
-        { "float", "float_value" }
+        { "event", "event_value" },
+        { "float", "float_value" },
+        { "new", "new_value" }
     };
 
-    private static string ReplaceName(string arg, string? containerName = null)
+    private static string ReplaceName(string arg, Container? c = null)
     {
-        if (containerName != null)
+        if (c != null)
         {
-            if (containerName == arg.ToMemberName())
+            if (c.Name == arg.ToMemberName())
             {
                 arg += "_value";
             }
@@ -107,29 +108,25 @@ public static class Sanitizer
 
     private static void SanitizeContainer(Container e)
     {
-        foreach (var d in e.AllDefinitions())
-        {
-            if (d.UsedAsSizeIn != null)
-            {
-                d.UsedAsSizeIn = ReplaceName(d.UsedAsSizeIn, e.Name);
-            }
-
-            d.Name = ReplaceName(d.Name, e.Name);
-        }
-
         foreach (var m in e.AllMembers())
         {
             switch (m)
             {
-                case StructMemberDefinition:
+                case StructMemberDefinition d:
+                    if (d.StructMemberContent.UsedAsSizeIn != null)
+                    {
+                        d.StructMemberContent.UsedAsSizeIn = ReplaceName(d.StructMemberContent.UsedAsSizeIn, e);
+                    }
+
+                    d.StructMemberContent.Name = ReplaceName(d.StructMemberContent.Name, e);
                     break;
                 case StructMemberIfStatement statement:
                     statement.StructMemberContent.VariableName =
-                        ReplaceName(statement.StructMemberContent.VariableName, e.Name);
+                        ReplaceName(statement.StructMemberContent.VariableName, e);
 
                     foreach (var elseif in statement.StructMemberContent.ElseIfStatements)
                     {
-                        elseif.VariableName = ReplaceName(elseif.VariableName, e.Name);
+                        elseif.VariableName = ReplaceName(elseif.VariableName, e);
                     }
 
                     break;
@@ -140,7 +137,7 @@ public static class Sanitizer
 
         foreach (var po in e.AllPreparedObjects())
         {
-            po.Name = ReplaceName(po.Name, e.Name);
+            po.Name = ReplaceName(po.Name, e);
         }
     }
 }

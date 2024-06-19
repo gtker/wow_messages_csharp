@@ -37,17 +37,18 @@ public class SMSG_TRANSFER_PENDING: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_TRANSFER_PENDING> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var map = (Tbc.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         OptionalHasTransport? optionalHasTransport = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var transport = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var transportMap = (Tbc.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             optionalHasTransport = new OptionalHasTransport {
                 Transport = transport,

@@ -1,0 +1,38 @@
+namespace WowWorldMessages.Wrath;
+
+[Flags]
+public enum ItemFlag : uint {
+    NoPickup = 1,
+    Conjured = 2,
+    Lootable = 4,
+    HeroicTooltip = 8,
+    Deprecated = 16,
+    Indestructible = 32,
+    PlayerCast = 64,
+    NoEquipCooldown = 128,
+    MultiLootQuest = 256,
+    Wrapper = 512,
+    UsesResources = 1024,
+    MultiDrop = 2048,
+    ItemPurchaseRecord = 4096,
+    Charter = 8192,
+    HasText = 16384,
+    NoDisenchant = 32768,
+    RealDuration = 65536,
+    NoCreator = 131072,
+    IsProspectable = 262144,
+    UniqueEquipped = 524288,
+    IgnoreForAuras = 1048576,
+    IgnoreDefaultArenaRestrictions = 2097152,
+    NoDurabilityLoss = 4194304,
+    UseWhenShapeshifted = 8388608,
+    HasQuestGlow = 16777216,
+    HideUnusableRecipe = 33554432,
+    NotUseableInArena = 67108864,
+    IsBoundToAccount = 134217728,
+    NoReagentCost = 268435456,
+    IsMillable = 536870912,
+    ReportToGuildChat = 1073741824,
+    NoProgressiveLoot = 2147483648,
+}
+

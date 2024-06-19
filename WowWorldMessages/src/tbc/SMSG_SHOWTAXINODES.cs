@@ -40,20 +40,21 @@ public class SMSG_SHOWTAXINODES: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_SHOWTAXINODES> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var unknown1 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-        size += 8;
+        __size += 8;
 
         var nearestNode = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var nodes = new List<uint>();
-        while (size <= bodySize) {
+        while (__size <= bodySize) {
             nodes.Add(await r.ReadUInt(cancellationToken).ConfigureAwait(false));
-            size += 4;
+            __size += 4;
         }
 
         return new SMSG_SHOWTAXINODES {

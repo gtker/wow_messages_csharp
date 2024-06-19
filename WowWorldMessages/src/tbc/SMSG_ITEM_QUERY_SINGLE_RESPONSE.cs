@@ -255,209 +255,210 @@ public class SMSG_ITEM_QUERY_SINGLE_RESPONSE: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_ITEM_QUERY_SINGLE_RESPONSE> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var item = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         OptionalFound? optionalFound = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var classAndSubClass = (Tbc.ItemClassAndSubClass)await r.ReadULong(cancellationToken).ConfigureAwait(false);
-            size += 8;
+            __size += 8;
 
             var soundOverrideSubClass = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var name1 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name1.Length + 1;
+            __size += name1.Length + 1;
 
             var name2 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name2.Length + 1;
+            __size += name2.Length + 1;
 
             var name3 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name3.Length + 1;
+            __size += name3.Length + 1;
 
             var name4 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name4.Length + 1;
+            __size += name4.Length + 1;
 
             var displayId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var quality = (Tbc.ItemQuality)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var flags = (ItemFlag)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var buyPrice = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var sellPrice = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var inventoryType = (Tbc.InventoryType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var allowedClass = (AllowedClass)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var allowedRace = (AllowedRace)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var itemLevel = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var requiredLevel = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var requiredSkill = (Tbc.Skill)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var requiredSkillRank = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var requiredSpell = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var requiredHonorRank = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var requiredCityRank = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var requiredFaction = (Tbc.Faction)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var requiredFactionRank = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var maxCount = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var stackable = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var containerSlots = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var stats = new ItemStat[OptionalFound.StatsLength];
             for (var i = 0; i < OptionalFound.StatsLength; ++i) {
                 stats[i] = await Tbc.ItemStat.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
-                size += 8;
+                __size += 8;
             }
 
             var damages = new ItemDamageType[OptionalFound.DamagesLength];
             for (var i = 0; i < OptionalFound.DamagesLength; ++i) {
                 damages[i] = await Tbc.ItemDamageType.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
-                size += 12;
+                __size += 12;
             }
 
             var armor = await r.ReadInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var holyResistance = await r.ReadInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var fireResistance = await r.ReadInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var natureResistance = await r.ReadInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var frostResistance = await r.ReadInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var shadowResistance = await r.ReadInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var arcaneResistance = await r.ReadInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var delay = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var ammoType = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var rangedRangeModification = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var spells = new ItemSpells[OptionalFound.SpellsLength];
             for (var i = 0; i < OptionalFound.SpellsLength; ++i) {
                 spells[i] = await Tbc.ItemSpells.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
-                size += 24;
+                __size += 24;
             }
 
             var bonding = (Tbc.Bonding)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var description = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += description.Length + 1;
+            __size += description.Length + 1;
 
             var pageText = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var language = (Tbc.Language)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var pageTextMaterial = (Tbc.PageTextMaterial)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var startQuest = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var lockId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var material = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var sheatheType = (Tbc.SheatheType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var randomProperty = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var block = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var itemSet = (Tbc.ItemSet)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var maxDurability = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var area = (Tbc.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var map = (Tbc.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var bagFamily = (BagFamily)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var totemCategory = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var sockets = new ItemSocket[OptionalFound.SocketsLength];
             for (var i = 0; i < OptionalFound.SocketsLength; ++i) {
                 sockets[i] = await Tbc.ItemSocket.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
-                size += 8;
+                __size += 8;
             }
 
             var socketBonus = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var gemProperties = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var requiredDisenchantSkill = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var armorDamageModifier = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var duration = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             optionalFound = new OptionalFound {
                 ClassAndSubClass = classAndSubClass,

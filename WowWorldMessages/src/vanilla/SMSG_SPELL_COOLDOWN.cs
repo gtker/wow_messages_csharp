@@ -31,14 +31,15 @@ public class SMSG_SPELL_COOLDOWN: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_SPELL_COOLDOWN> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-        size += 8;
+        __size += 8;
 
         var cooldowns = new List<SpellCooldownStatus>();
-        while (size <= bodySize) {
+        while (__size <= bodySize) {
             cooldowns.Add(await Vanilla.SpellCooldownStatus.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
-            size += 8;
+            __size += 8;
         }
 
         return new SMSG_SPELL_COOLDOWN {

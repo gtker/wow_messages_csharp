@@ -51,15 +51,16 @@ public class CMSG_UPDATE_ACCOUNT_DATA: TbcClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_UPDATE_ACCOUNT_DATA> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var dataType = (Tbc.AccountDataType)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var decompressedLength = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var decompressed = new byte[decompressedLength];
-        var remaining = new byte[bodySize - size];
+        var remaining = new byte[bodySize - __size];
         r.ReadExactly(remaining);
 
         var zlib = new System.IO.Compression.ZLibStream(new MemoryStream(remaining), System.IO.Compression.CompressionMode.Decompress);
@@ -69,7 +70,7 @@ public class CMSG_UPDATE_ACCOUNT_DATA: TbcClientMessage, IWorldMessage {
         var compressedData = new List<byte>();
         while (r.Position < r.Length) {
             compressedData.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
-            size += 1;
+            __size += 1;
         }
 
         return new CMSG_UPDATE_ACCOUNT_DATA {

@@ -69,51 +69,52 @@ public class SMSG_PET_SPELLS: VanillaServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_PET_SPELLS> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var pet = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-        size += 8;
+        __size += 8;
 
         OptionalActionBars? optionalActionBars = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var duration = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var react = (Vanilla.PetReactState)await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var command = (Vanilla.PetCommandState)await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var unknown = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var petEnabled = (Vanilla.PetEnabled)await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var actionBars = new uint[OptionalActionBars.ActionBarsLength];
             for (var i = 0; i < OptionalActionBars.ActionBarsLength; ++i) {
                 actionBars[i] = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-                size += 4;
+                __size += 4;
             }
 
             // ReSharper disable once UnusedVariable.Compiler
             var amountOfSpells = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var spells = new List<uint>();
             for (var i = 0; i < amountOfSpells; ++i) {
                 spells.Add(await r.ReadUInt(cancellationToken).ConfigureAwait(false));
-                size += 4;
+                __size += 4;
             }
 
             // ReSharper disable once UnusedVariable.Compiler
             var amountOfCooldowns = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var cooldowns = new List<PetSpellCooldown>();
             for (var i = 0; i < amountOfCooldowns; ++i) {
                 cooldowns.Add(await Vanilla.PetSpellCooldown.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
-                size += 12;
+                __size += 12;
             }
 
             optionalActionBars = new OptionalActionBars {

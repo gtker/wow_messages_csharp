@@ -34,11 +34,12 @@ public class MSG_RAID_READY_CHECK_Client: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<MSG_RAID_READY_CHECK_Client> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         OptionalAnswer? optionalAnswer = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var state = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             optionalAnswer = new OptionalAnswer {
                 State = state,

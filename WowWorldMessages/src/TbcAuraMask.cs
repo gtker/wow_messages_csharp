@@ -2,6 +2,7 @@ namespace WowWorldMessages.Tbc;
 
 public class AuraMask
 {
+    private const int AuraArraySize = 32;
     private readonly Aura?[] _auras;
 
     public AuraMask(Aura?[] auras)
@@ -17,9 +18,9 @@ public class AuraMask
     {
         var mask = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var auras = new Aura?[32];
+        var auras = new Aura?[AuraArraySize];
 
-        for (var i = 0; i < 32; i++)
+        for (var i = 0; i < AuraArraySize; i++)
         {
             if ((mask & (1 << i)) != 0)
             {
@@ -33,7 +34,7 @@ public class AuraMask
     internal async Task WriteAsync(Stream stream, CancellationToken cancellationToken)
     {
         uint mask = 0;
-        for (var i = 0; i < 32; i++)
+        for (var i = 0; i < AuraArraySize; i++)
         {
             if (_auras[i] != null)
             {
@@ -56,7 +57,7 @@ public class AuraMask
     {
         var size = 4;
 
-        for (var i = 0; i < 32; i++)
+        for (var i = 0; i < AuraArraySize; i++)
         {
             if (_auras[i] != null)
             {

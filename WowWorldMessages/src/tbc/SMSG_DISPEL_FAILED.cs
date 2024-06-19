@@ -34,17 +34,18 @@ public class SMSG_DISPEL_FAILED: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_DISPEL_FAILED> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var caster = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-        size += 8;
+        __size += 8;
 
         var target = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-        size += 8;
+        __size += 8;
 
         var spells = new List<uint>();
-        while (size <= bodySize) {
+        while (__size <= bodySize) {
             spells.Add(await r.ReadUInt(cancellationToken).ConfigureAwait(false));
-            size += 4;
+            __size += 4;
         }
 
         return new SMSG_DISPEL_FAILED {

@@ -31,14 +31,15 @@ public class SMSG_INSPECT_TALENT: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_INSPECT_TALENT> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var player = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
-        size += player.PackedGuidLength();
+        __size += player.PackedGuidLength();
 
         var talentData = new List<byte>();
-        while (size <= bodySize) {
+        while (__size <= bodySize) {
             talentData.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
-            size += 1;
+            __size += 1;
         }
 
         return new SMSG_INSPECT_TALENT {

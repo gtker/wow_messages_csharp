@@ -34,17 +34,18 @@ public class SMSG_SPELL_COOLDOWN: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_SPELL_COOLDOWN> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-        size += 8;
+        __size += 8;
 
         var flags = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-        size += 1;
+        __size += 1;
 
         var cooldowns = new List<SpellCooldownStatus>();
-        while (size <= bodySize) {
+        while (__size <= bodySize) {
             cooldowns.Add(await Tbc.SpellCooldownStatus.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
-            size += 8;
+            __size += 8;
         }
 
         return new SMSG_SPELL_COOLDOWN {

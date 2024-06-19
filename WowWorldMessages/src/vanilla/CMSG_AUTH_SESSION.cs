@@ -66,30 +66,31 @@ public class CMSG_AUTH_SESSION: VanillaClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_AUTH_SESSION> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var build = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var serverId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var username = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-        size += username.Length + 1;
+        __size += username.Length + 1;
 
         var clientSeed = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var clientProof = new byte[ClientProofLength];
         for (var i = 0; i < ClientProofLength; ++i) {
             clientProof[i] = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
         }
 
         var decompressedLength = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var decompressed = new byte[decompressedLength];
-        var remaining = new byte[bodySize - size];
+        var remaining = new byte[bodySize - __size];
         r.ReadExactly(remaining);
 
         var zlib = new System.IO.Compression.ZLibStream(new MemoryStream(remaining), System.IO.Compression.CompressionMode.Decompress);
@@ -99,7 +100,7 @@ public class CMSG_AUTH_SESSION: VanillaClientMessage, IWorldMessage {
         var addonInfo = new List<AddonInfo>();
         while (r.Position < r.Length) {
             addonInfo.Add(await Vanilla.AddonInfo.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
-            size += addonInfo[^1].Size();
+            __size += addonInfo[^1].Size();
         }
 
         return new CMSG_AUTH_SESSION {

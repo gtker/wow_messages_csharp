@@ -1,0 +1,38 @@
+namespace WowWorldMessages.Wrath;
+
+[Flags]
+public enum ItemFlag2 : uint {
+    FactionHorde = 1,
+    FactionAlliance = 2,
+    DontIgnoreBuyPrice = 4,
+    ClassifyAsCaster = 8,
+    ClassifyAsPhysical = 16,
+    EveryoneCanRollNeed = 32,
+    NoTradeBindOnAcquire = 64,
+    CanTradeBindOnAcquire = 128,
+    CanOnlyRollGreed = 256,
+    CasterWeapon = 512,
+    DeleteOnLogin = 1024,
+    InternalItem = 2048,
+    NoVendorValue = 4096,
+    ShowBeforeDiscovered = 8192,
+    OverrideGoldCost = 16384,
+    IgnoreDefaultRatedBgRestrictions = 32768,
+    NotUsableInRatedBg = 65536,
+    BnetAccountTradeOk = 131072,
+    ConfirmBeforeUse = 262144,
+    ReevaluateBondingOnTransform = 524288,
+    NoTransformOnChargeDepletion = 1048576,
+    NoAlterItemVisual = 2097152,
+    NoSourceForItemVisual = 4194304,
+    IgnoreQualityForItemVisualSource = 8388608,
+    NoDurability = 16777216,
+    RoleTank = 33554432,
+    RoleHealer = 67108864,
+    RoleDamage = 134217728,
+    CanDropInChallengeMode = 268435456,
+    NeverStackInLootUi = 536870912,
+    DisenchantToLootTable = 1073741824,
+    UsedInATradeskill = 2147483648,
+}
+

@@ -78,6 +78,8 @@ internal static class Program
             Vanilla.ModulePath(), "World");
         WriteFiles(schema.World, schema.TbcUpdateMask, Tbc.ToObjectVersionsWorld(), Tbc.Module(),
             Tbc.ModulePath(), "World");
+        WriteFiles(schema.World, schema.WrathUpdateMask, Wrath.ToObjectVersionsWorld(), Wrath.Module(),
+            Wrath.ModulePath(), "World");
         Console.WriteLine("Wrote all world files");
     }
 

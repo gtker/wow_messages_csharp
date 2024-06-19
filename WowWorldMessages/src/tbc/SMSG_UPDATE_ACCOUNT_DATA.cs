@@ -34,17 +34,18 @@ public class SMSG_UPDATE_ACCOUNT_DATA: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_UPDATE_ACCOUNT_DATA> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var dataType = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var decompressedSize = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var compressedData = new List<byte>();
-        while (size <= bodySize) {
+        while (__size <= bodySize) {
             compressedData.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
-            size += 1;
+            __size += 1;
         }
 
         return new SMSG_UPDATE_ACCOUNT_DATA {

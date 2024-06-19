@@ -71,48 +71,49 @@ public class SMSG_GROUP_LIST: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_GROUP_LIST> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var groupType = (Tbc.GroupType)await r.ReadByte(cancellationToken).ConfigureAwait(false);
-        size += 1;
+        __size += 1;
 
         var battlegroundGroup = await r.ReadBool8(cancellationToken).ConfigureAwait(false);
-        size += 1;
+        __size += 1;
 
         var groupId = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-        size += 1;
+        __size += 1;
 
         var flags = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-        size += 1;
+        __size += 1;
 
         var group = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-        size += 8;
+        __size += 8;
 
         // ReSharper disable once UnusedVariable.Compiler
         var amountOfMembers = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var members = new List<GroupListMember>();
         for (var i = 0; i < amountOfMembers; ++i) {
             members.Add(await Tbc.GroupListMember.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
-            size += members[^1].Size();
+            __size += members[^1].Size();
         }
 
         var leader = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-        size += 8;
+        __size += 8;
 
         OptionalGroupNotEmpty? optionalGroupNotEmpty = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var lootSetting = (Tbc.GroupLootSetting)await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var masterLoot = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-            size += 8;
+            __size += 8;
 
             var lootThreshold = (Tbc.ItemQuality)await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             var difficulty = (Tbc.DungeonDifficulty)await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             optionalGroupNotEmpty = new OptionalGroupNotEmpty {
                 LootSetting = lootSetting,

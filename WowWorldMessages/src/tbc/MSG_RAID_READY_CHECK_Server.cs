@@ -37,14 +37,15 @@ public class MSG_RAID_READY_CHECK_Server: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<MSG_RAID_READY_CHECK_Server> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         OptionalStateCheck? optionalStateCheck = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-            size += 8;
+            __size += 8;
 
             var state = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             optionalStateCheck = new OptionalStateCheck {
                 Guid = guid,

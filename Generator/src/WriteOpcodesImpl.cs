@@ -64,8 +64,8 @@ public static class WriteOpcodesImpl
                 }, ";");
             });
 
-        WriteWorldExpected(s, versionClass, module, EncryptOrDecrypt.Encrypt);
-        WriteWorldExpected(s, versionClass, module, EncryptOrDecrypt.Decrypt);
+        WriteWorldExpected(s, versionClass, module, side, EncryptOrDecrypt.Encrypt);
+        WriteWorldExpected(s, versionClass, module, side, EncryptOrDecrypt.Decrypt);
 
 
         s.ClosingCurly(); // public class ServerOpcodeReader
@@ -73,11 +73,14 @@ public static class WriteOpcodesImpl
         return s;
     }
 
-    private static void WriteWorldExpected(Writer s, string versionClass, string module, EncryptOrDecrypt encrypt)
+    private static void WriteWorldExpected(Writer s, string versionClass, string module, string side,
+        EncryptOrDecrypt encrypt)
     {
+        var isWrath = module == "Wrath";
         var encrypted = encrypt == EncryptOrDecrypt.Encrypt;
         var functionName = encrypted ? "Encrypted" : "Unencrypted";
-        var extraArgument = encrypted ? $", {module}Decryption decrypter" : "";
+        var extraSide = isWrath ? side : "";
+        var extraArgument = encrypted ? $", {module}{extraSide}Decryption decrypter" : "";
         var extraParameter = encrypted ? ", decrypter" : "";
 
         s.Wln("/// <summary>");
@@ -100,8 +103,10 @@ public static class WriteOpcodesImpl
         EncryptOrDecrypt encrypt)
     {
         var encrypted = encrypt == EncryptOrDecrypt.Encrypt;
+        var isWrath = module == "Wrath";
         var functionName = encrypted ? "Encrypted" : "Unencrypted";
-        var extraArgument = encrypted ? $", {module}Decryption decrypter" : "";
+        var extraSide = isWrath ? side : "";
+        var extraArgument = encrypted ? $", {module}{extraSide}Decryption decrypter" : "";
 
         s.Body(
             $"public static async Task<{versionClass}> Read{functionName}Async(Stream r{extraArgument}, CancellationToken cancellationToken = default)",
@@ -109,7 +114,7 @@ public static class WriteOpcodesImpl
             {
                 if (!encrypted)
                 {
-                    if (module == "Wrath")
+                    if (isWrath)
                     {
                         s.Wln("var decrypter = new NullCrypterWrath();");
                     }

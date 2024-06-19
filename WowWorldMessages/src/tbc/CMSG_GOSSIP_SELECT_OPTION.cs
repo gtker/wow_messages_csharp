@@ -43,20 +43,21 @@ public class CMSG_GOSSIP_SELECT_OPTION: TbcClientMessage, IWorldMessage {
     }
 
     public static async Task<CMSG_GOSSIP_SELECT_OPTION> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var guid = await r.ReadULong(cancellationToken).ConfigureAwait(false);
-        size += 8;
+        __size += 8;
 
         var menuId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         var gossipListId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         OptionalUnknown? optionalUnknown = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var code = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += code.Length + 1;
+            __size += code.Length + 1;
 
             optionalUnknown = new OptionalUnknown {
                 Code = code,

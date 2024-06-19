@@ -100,62 +100,63 @@ public class SMSG_CREATURE_QUERY_RESPONSE: TbcServerMessage, IWorldMessage {
     }
 
     public static async Task<SMSG_CREATURE_QUERY_RESPONSE> ReadBodyAsync(Stream r, uint bodySize, CancellationToken cancellationToken = default) {
-        var size = 0;
+        // ReSharper disable once InconsistentNaming
+        var __size = 0;
         var creatureEntry = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-        size += 4;
+        __size += 4;
 
         OptionalFound? optionalFound = null;
-        if (size < bodySize) {
+        if (__size < bodySize) {
             var name1 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name1.Length + 1;
+            __size += name1.Length + 1;
 
             var name2 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name2.Length + 1;
+            __size += name2.Length + 1;
 
             var name3 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name3.Length + 1;
+            __size += name3.Length + 1;
 
             var name4 = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += name4.Length + 1;
+            __size += name4.Length + 1;
 
             var subName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += subName.Length + 1;
+            __size += subName.Length + 1;
 
             var description = await r.ReadCString(cancellationToken).ConfigureAwait(false);
-            size += description.Length + 1;
+            __size += description.Length + 1;
 
             var typeFlags = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var creatureType = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var creatureFamily = (Tbc.CreatureFamily)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var creatureRank = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var unknown0 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var spellDataId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var displayIds = new uint[OptionalFound.DisplayIdsLength];
             for (var i = 0; i < OptionalFound.DisplayIdsLength; ++i) {
                 displayIds[i] = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-                size += 4;
+                __size += 4;
             }
 
             var healthMultiplier = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var manaMultiplier = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
-            size += 4;
+            __size += 4;
 
             var racialLeader = await r.ReadByte(cancellationToken).ConfigureAwait(false);
-            size += 1;
+            __size += 1;
 
             optionalFound = new OptionalFound {
                 Name1 = name1,
