@@ -1,4 +1,5 @@
 using WowSrp.Header;
+using WowWorldMessages.All;
 
 namespace WowWorldMessages.Tbc;
 
@@ -61,7 +62,7 @@ public class SMSG_MONSTER_MOVE_TRANSPORT: TbcServerMessage, IWorldMessage {
 
         await w.WriteUInt(Duration, cancellationToken).ConfigureAwait(false);
 
-        await ReadUtils.TbcWriteMonsterMoveSpline(w, Splines, cancellationToken).ConfigureAwait(false);
+        await ReadUtils.WriteMonsterMoveSpline(w, Splines, cancellationToken).ConfigureAwait(false);
 
     }
 
@@ -117,7 +118,7 @@ public class SMSG_MONSTER_MOVE_TRANSPORT: TbcServerMessage, IWorldMessage {
 
         var duration = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var splines = await ReadUtils.TbcReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);
+        var splines = await ReadUtils.ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);
 
         return new SMSG_MONSTER_MOVE_TRANSPORT {
             Guid = guid,
@@ -174,7 +175,7 @@ public class SMSG_MONSTER_MOVE_TRANSPORT: TbcServerMessage, IWorldMessage {
         size += 4;
 
         // splines: Generator.Generated.DataTypeMonsterMoveSpline
-        size += ReadUtils.TbcMonsterMoveSplineLength(Splines);
+        size += ReadUtils.MonsterMoveSplineLength(Splines);
 
         return size;
     }

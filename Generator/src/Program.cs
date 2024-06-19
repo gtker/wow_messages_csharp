@@ -10,6 +10,11 @@ internal static class Program
 {
     private static string? _lazyValue;
 
+    public static readonly ObjectVersionsWorld All = new()
+    {
+        VersionType = new WorldVersionsAll()
+    };
+
     public static readonly WorldVersion Vanilla = new() { Major = 1, Minor = 12, Patch = 1, Build = 5875 };
     public static readonly WorldVersion Tbc = new() { Major = 2, Minor = 4, Patch = 3, Build = 8606 };
     public static readonly WorldVersion Wrath = new() { Major = 3, Minor = 3, Patch = 5, Build = 12340 };
@@ -68,6 +73,7 @@ internal static class Program
 
         Console.WriteLine("Wrote all login files");
 
+        WriteFiles(schema.World, null, All, "All", "all", "World");
         WriteFiles(schema.World, schema.VanillaUpdateMask, Vanilla.ToObjectVersionsWorld(), Vanilla.Module(),
             Vanilla.ModulePath(), "World");
         WriteFiles(schema.World, schema.TbcUpdateMask, Tbc.ToObjectVersionsWorld(), Tbc.Module(),
@@ -95,6 +101,7 @@ internal static class Program
     {
         var tests = new Writer();
         WriteTests.TestHeader(tests, project, module);
+        var shouldWriteTests = false;
         foreach (var e in containers)
         {
             if (e.Tags.Version_.ShouldNotWriteObject(version) || e.ShouldSkip())
@@ -108,8 +115,14 @@ internal static class Program
 
             if (e.ObjectType is not ObjectTypeStruct)
             {
+                shouldWriteTests = true;
                 WriteTests.WriteTest(tests, e);
             }
+        }
+
+        if (!shouldWriteTests)
+        {
+            return;
         }
 
         WriteTests.TestFooter(tests);

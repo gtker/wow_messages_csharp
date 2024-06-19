@@ -71,6 +71,43 @@ public static class ContainerExtensions
             };
     }
 
+    public static bool RequiresAllModule(this Container e)
+    {
+        if (e.Tags.Version_.IsVersionAll())
+        {
+            return true;
+        }
+
+        foreach (var d in e.AllDefinitions())
+        {
+            switch (d.DataType)
+            {
+                case DataTypeArray array:
+                    switch (array.InnerType)
+                    {
+                        case ArrayTypeStruct arrayTypeStruct:
+                            if (arrayTypeStruct.StructData.Tags.Version_.IsVersionAll())
+                            {
+                                return true;
+                            }
+
+                            break;
+                    }
+
+                    break;
+                case DataTypeStruct s:
+                    if (s.StructData.Tags.Version_.IsVersionAll())
+                    {
+                        return true;
+                    }
+
+                    break;
+            }
+        }
+
+        return false;
+    }
+
     public static bool NeedsBodySize(this Container e) =>
         (e.IsWorld() && e.AllDefinitions().Any(d => d.IsCompressed() || d.IsEndlessArray())) || e.Optional is not null;
 

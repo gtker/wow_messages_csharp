@@ -1,4 +1,5 @@
 using WowSrp.Header;
+using WowWorldMessages.All;
 
 namespace WowWorldMessages.Vanilla;
 
@@ -67,7 +68,7 @@ public class MonsterMove {
 
             await w.WriteUInt(monsterMoveTypeNormalsds.Duration, cancellationToken).ConfigureAwait(false);
 
-            await ReadUtils.VanillaWriteMonsterMoveSpline(w, monsterMoveTypeNormalsds.Splines, cancellationToken).ConfigureAwait(false);
+            await ReadUtils.WriteMonsterMoveSpline(w, monsterMoveTypeNormalsds.Splines, cancellationToken).ConfigureAwait(false);
 
         }
         else if (MoveType.Value is MonsterMove.MonsterMoveTypeFacingSpot monsterMoveTypeFacingSpotsds) {
@@ -75,7 +76,7 @@ public class MonsterMove {
 
             await w.WriteUInt(monsterMoveTypeFacingSpotsds.Duration, cancellationToken).ConfigureAwait(false);
 
-            await ReadUtils.VanillaWriteMonsterMoveSpline(w, monsterMoveTypeFacingSpotsds.Splines, cancellationToken).ConfigureAwait(false);
+            await ReadUtils.WriteMonsterMoveSpline(w, monsterMoveTypeFacingSpotsds.Splines, cancellationToken).ConfigureAwait(false);
 
         }
         else if (MoveType.Value is MonsterMove.MonsterMoveTypeFacingTarget monsterMoveTypeFacingTargetsds) {
@@ -83,7 +84,7 @@ public class MonsterMove {
 
             await w.WriteUInt(monsterMoveTypeFacingTargetsds.Duration, cancellationToken).ConfigureAwait(false);
 
-            await ReadUtils.VanillaWriteMonsterMoveSpline(w, monsterMoveTypeFacingTargetsds.Splines, cancellationToken).ConfigureAwait(false);
+            await ReadUtils.WriteMonsterMoveSpline(w, monsterMoveTypeFacingTargetsds.Splines, cancellationToken).ConfigureAwait(false);
 
         }
         else if (MoveType.Value is MonsterMove.MonsterMoveTypeFacingAngle monsterMoveTypeFacingAnglesds) {
@@ -91,7 +92,7 @@ public class MonsterMove {
 
             await w.WriteUInt(monsterMoveTypeFacingAnglesds.Duration, cancellationToken).ConfigureAwait(false);
 
-            await ReadUtils.VanillaWriteMonsterMoveSpline(w, monsterMoveTypeFacingAnglesds.Splines, cancellationToken).ConfigureAwait(false);
+            await ReadUtils.WriteMonsterMoveSpline(w, monsterMoveTypeFacingAnglesds.Splines, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -131,7 +132,7 @@ public class MonsterMove {
 
             moveTypeIfDuration = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-            moveTypeIfSplines = await ReadUtils.VanillaReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);
+            moveTypeIfSplines = await ReadUtils.ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);
 
         }
         else if (moveType.Value is Vanilla.MonsterMoveType.FacingSpot) {
@@ -139,7 +140,7 @@ public class MonsterMove {
 
             moveTypeIfDuration = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-            moveTypeIfSplines = await ReadUtils.VanillaReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);
+            moveTypeIfSplines = await ReadUtils.ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);
 
         }
         else if (moveType.Value is Vanilla.MonsterMoveType.FacingTarget) {
@@ -147,7 +148,7 @@ public class MonsterMove {
 
             moveTypeIfDuration = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-            moveTypeIfSplines = await ReadUtils.VanillaReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);
+            moveTypeIfSplines = await ReadUtils.ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);
 
         }
         else if (moveType.Value is Vanilla.MonsterMoveType.FacingAngle) {
@@ -155,7 +156,7 @@ public class MonsterMove {
 
             moveTypeIfDuration = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-            moveTypeIfSplines = await ReadUtils.VanillaReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);
+            moveTypeIfSplines = await ReadUtils.ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);
 
         }
 
@@ -235,7 +236,7 @@ public class MonsterMove {
             size += 4;
 
             // splines: Generator.Generated.DataTypeMonsterMoveSpline
-            size += ReadUtils.VanillaMonsterMoveSplineLength(monsterMoveTypeNormalsds.Splines);
+            size += ReadUtils.MonsterMoveSplineLength(monsterMoveTypeNormalsds.Splines);
 
         }
         else if (MoveType.Value is MonsterMove.MonsterMoveTypeFacingSpot monsterMoveTypeFacingSpotsds) {
@@ -246,7 +247,7 @@ public class MonsterMove {
             size += 4;
 
             // splines: Generator.Generated.DataTypeMonsterMoveSpline
-            size += ReadUtils.VanillaMonsterMoveSplineLength(monsterMoveTypeFacingSpotsds.Splines);
+            size += ReadUtils.MonsterMoveSplineLength(monsterMoveTypeFacingSpotsds.Splines);
 
         }
         else if (MoveType.Value is MonsterMove.MonsterMoveTypeFacingTarget monsterMoveTypeFacingTargetsds) {
@@ -257,7 +258,7 @@ public class MonsterMove {
             size += 4;
 
             // splines: Generator.Generated.DataTypeMonsterMoveSpline
-            size += ReadUtils.VanillaMonsterMoveSplineLength(monsterMoveTypeFacingTargetsds.Splines);
+            size += ReadUtils.MonsterMoveSplineLength(monsterMoveTypeFacingTargetsds.Splines);
 
         }
         else if (MoveType.Value is MonsterMove.MonsterMoveTypeFacingAngle monsterMoveTypeFacingAnglesds) {
@@ -268,7 +269,7 @@ public class MonsterMove {
             size += 4;
 
             // splines: Generator.Generated.DataTypeMonsterMoveSpline
-            size += ReadUtils.VanillaMonsterMoveSplineLength(monsterMoveTypeFacingAnglesds.Splines);
+            size += ReadUtils.MonsterMoveSplineLength(monsterMoveTypeFacingAnglesds.Splines);
 
         }
 

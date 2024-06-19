@@ -21,6 +21,11 @@ public static class WriteOpcodesImpl
     public static Writer? WriteWorldOpcodes(IList<Container> containers, string module, string project,
         string side)
     {
+        if (containers.Count == 0)
+        {
+            return null;
+        }
+
         var s = new Writer();
 
         s.Wln("using WowSrp.Header;");

@@ -58,7 +58,7 @@ public static class DefinitionExtensions
             DataTypeNamedGuid => $"{prefix}{name}.Length()",
             DataTypeUpdateMask => $"{prefix}{name}.Length()",
 
-            DataTypeMonsterMoveSpline => $"ReadUtils.{module}MonsterMoveSplineLength({prefix}{name})",
+            DataTypeMonsterMoveSpline => $"ReadUtils.MonsterMoveSplineLength({prefix}{name})",
 
             DataTypeAuraMask => $"{prefix}{name}.Length();",
 

@@ -1,4 +1,5 @@
 using System.Text;
+using WowWorldMessages.All;
 
 namespace WowWorldMessages;
 
@@ -140,7 +141,7 @@ internal static class ReadUtils
     internal static uint UIntFromBytes(byte first, byte second, byte third, byte fourth) =>
         BitConverter.ToUInt32([first, second, third, fourth]);
 
-    internal static int VanillaMonsterMoveSplineLength(IList<Vanilla.Vector3d> splines)
+    internal static int MonsterMoveSplineLength(IList<Vector3d> splines)
     {
         if (splines.Count == 0)
         {
@@ -155,37 +156,41 @@ internal static class ReadUtils
         return 4 + 12 + (splines.Count - 1) * 4;
     }
 
-    internal static async Task<List<Vanilla.Vector3d>> VanillaReadMonsterMoveSpline(Stream stream, CancellationToken cancellationToken)
+    internal static async Task<List<Vector3d>> ReadMonsterMoveSpline(Stream stream,
+        CancellationToken cancellationToken)
     {
         var amountOfSplines = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var splines = new List<Vanilla.Vector3d>();
+        var splines = new List<Vector3d>();
         for (var i = 0; i < amountOfSplines; i++)
         {
             if (i == 0)
             {
-                splines.Add(await Vanilla.Vector3d.ReadBodyAsync(stream, cancellationToken).ConfigureAwait(false));
+                splines.Add(await Vector3d.ReadBodyAsync(stream, cancellationToken).ConfigureAwait(false));
             }
             else
             {
                 var packed = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
-                splines.Add(VanillaVector3dFromPacked(packed));
+                splines.Add(Vector3dFromPacked(packed));
             }
         }
 
         return splines;
     }
 
-    private static Vanilla.Vector3d VanillaVector3dFromPacked(uint p)
+    private static Vector3d Vector3dFromPacked(uint p)
     {
+        // ReSharper disable once PossibleLossOfFraction
         var x = (float)((p & 0x7FF) / 4);
+        // ReSharper disable once PossibleLossOfFraction
         var y = (float)(((p >> 11) & 0x7FF) / 4);
+        // ReSharper disable once PossibleLossOfFraction
         var z = (float)(((p >> 22) & 0x3FF) / 4);
 
-        return new Vanilla.Vector3d { X = x, Y = y, Z = z };
+        return new Vector3d { X = x, Y = y, Z = z };
     }
 
-    private static uint VanillaPackedFromVector3d(Vanilla.Vector3d v)
+    private static uint PackedFromVector3d(Vector3d v)
     {
         uint packed = 0;
         packed |= (uint)(v.X / 0.25f) & 0x7FF;
@@ -194,7 +199,7 @@ internal static class ReadUtils
         return packed;
     }
 
-    internal static async Task VanillaWriteMonsterMoveSpline(Stream stream, IList<Vanilla.Vector3d> splines,
+    internal static async Task WriteMonsterMoveSpline(Stream stream, IList<Vector3d> splines,
         CancellationToken cancellationToken)
     {
         await stream.WriteUInt((uint)splines.Count, cancellationToken).ConfigureAwait(false);
@@ -207,79 +212,7 @@ internal static class ReadUtils
             }
             else
             {
-                await stream.WriteUInt(VanillaPackedFromVector3d(splines[i]), cancellationToken).ConfigureAwait(false);
-            }
-        }
-    }
-
-    internal static int TbcMonsterMoveSplineLength(IList<Tbc.Vector3d> splines)
-    {
-        if (splines.Count == 0)
-        {
-            return 4;
-        }
-
-        if (splines.Count == 1)
-        {
-            return 4 + 12;
-        }
-
-        return 4 + 12 + (splines.Count - 1) * 4;
-    }
-
-    internal static async Task<List<Tbc.Vector3d>> TbcReadMonsterMoveSpline(Stream stream, CancellationToken cancellationToken)
-    {
-        var amountOfSplines = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
-
-        var splines = new List<Tbc.Vector3d>();
-        for (var i = 0; i < amountOfSplines; i++)
-        {
-            if (i == 0)
-            {
-                splines.Add(await Tbc.Vector3d.ReadBodyAsync(stream, cancellationToken).ConfigureAwait(false));
-            }
-            else
-            {
-                var packed = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
-                splines.Add(TbcVector3dFromPacked(packed));
-            }
-        }
-
-        return splines;
-    }
-
-    private static Tbc.Vector3d TbcVector3dFromPacked(uint p)
-    {
-        var x = (float)((p & 0x7FF) / 4);
-        var y = (float)(((p >> 11) & 0x7FF) / 4);
-        var z = (float)(((p >> 22) & 0x3FF) / 4);
-
-        return new Tbc.Vector3d { X = x, Y = y, Z = z };
-    }
-
-    private static uint TbcPackedFromVector3d(Tbc.Vector3d v)
-    {
-        uint packed = 0;
-        packed |= (uint)(v.X / 0.25f) & 0x7FF;
-        packed |= ((uint)(v.Y / 0.25f) & 0x7FF) << 11;
-        packed |= ((uint)(v.Z / 0.25f) & 0x3FF) << 22;
-        return packed;
-    }
-
-    internal static async Task TbcWriteMonsterMoveSpline(Stream stream, IList<Tbc.Vector3d> splines,
-        CancellationToken cancellationToken)
-    {
-        await stream.WriteUInt((uint)splines.Count, cancellationToken).ConfigureAwait(false);
-
-        for (var i = 0; i < splines.Count; i++)
-        {
-            if (i == 0)
-            {
-                await splines[i].WriteBodyAsync(stream, cancellationToken).ConfigureAwait(false);
-            }
-            else
-            {
-                await stream.WriteUInt(TbcPackedFromVector3d(splines[i]), cancellationToken).ConfigureAwait(false);
+                await stream.WriteUInt(PackedFromVector3d(splines[i]), cancellationToken).ConfigureAwait(false);
             }
         }
     }

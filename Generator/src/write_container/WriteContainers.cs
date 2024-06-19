@@ -257,6 +257,10 @@ public static class WriteContainers
         if (e.IsWorld())
         {
             s.Wln("using WowSrp.Header;");
+            if (e.RequiresAllModule())
+            {
+                s.Wln("using WowWorldMessages.All;");
+            }
             s.Newline();
         }
 

@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Folder Include="src\all\"/>
         <Folder Include="src\tbc\"/>
         <Folder Include="src\wrath\"/>
     </ItemGroup>

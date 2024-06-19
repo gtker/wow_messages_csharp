@@ -1,6 +1,7 @@
 using WowSrp.Header;
+using WowWorldMessages.All;
 
-namespace WowWorldMessages.Tbc;
+namespace WowWorldMessages.All;
 
 [System.CodeDom.Compiler.GeneratedCode("WoWM", "0.1.0")]
 public class Vector3d {
