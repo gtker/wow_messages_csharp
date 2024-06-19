@@ -428,7 +428,7 @@ public static class WriteReadImplementation
 
                         break;
                     case ArrayTypePackedGuid:
-                        throw new NotImplementedException();
+                        s.Wln($"__size += {d.VariableName()}[^1].PackedGuidLength();");
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
