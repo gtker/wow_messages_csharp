@@ -100,7 +100,7 @@ public class CMSG_GMTICKET_CREATE: WrathClientMessage, IWorldMessage {
 
         var decompressed = new byte[decompressedLength];
         var remaining = new byte[bodySize - __size];
-        r.ReadExactly(remaining);
+        await r.ReadExactlyAsync(remaining, cancellationToken).ConfigureAwait(false);
 
         var zlib = new System.IO.Compression.ZLibStream(new MemoryStream(remaining), System.IO.Compression.CompressionMode.Decompress);
         zlib.ReadAtLeast(decompressed, remaining.Length);

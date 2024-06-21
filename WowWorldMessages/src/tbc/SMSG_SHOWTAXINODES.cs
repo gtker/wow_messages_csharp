@@ -52,7 +52,7 @@ public class SMSG_SHOWTAXINODES: TbcServerMessage, IWorldMessage {
         __size += 4;
 
         var nodes = new List<uint>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             nodes.Add(await r.ReadUInt(cancellationToken).ConfigureAwait(false));
             __size += 4;
         }

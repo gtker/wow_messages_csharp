@@ -37,7 +37,7 @@ public class SMSG_SPELL_COOLDOWN: VanillaServerMessage, IWorldMessage {
         __size += 8;
 
         var cooldowns = new List<SpellCooldownStatus>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             cooldowns.Add(await Vanilla.SpellCooldownStatus.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
             __size += 8;
         }

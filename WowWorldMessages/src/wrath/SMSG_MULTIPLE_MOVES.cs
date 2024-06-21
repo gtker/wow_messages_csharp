@@ -37,7 +37,7 @@ public class SMSG_MULTIPLE_MOVES: WrathServerMessage, IWorldMessage {
         __size += 4;
 
         var moves = new List<MiniMoveMessage>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             moves.Add(await Wrath.MiniMoveMessage.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
             __size += moves[^1].Size();
         }

@@ -59,21 +59,22 @@ public static class WriteTests
                 s.Wln("var w = new MemoryStream();");
                 s.Wln($"await c.Write{crypt}{writeSide}Async(w);");
 
-                if (!e.AllDefinitions().Any(d => d.IsCompressed()))
+                if (e.AllDefinitions().Any(d => d.IsCompressed()) || e.Tags.Compressed is true)
+                {
+                    s.Wln("w.Seek(0, SeekOrigin.Begin);");
+                    s.Wln($"var s = ({e.Name})await {side}OpcodeReader.Read{crypt}Async(w);");
+                    s.Wln("var jsonOptions = new System.Text.Json.JsonSerializerOptions { Converters = { new OneOf.Serialization.SystemTextJson.OneOfJsonConverter() }};");
+                    s.Wln("var cJson = System.Text.Json.JsonSerializer.Serialize(c, jsonOptions);");
+                    s.Wln("var sJson = System.Text.Json.JsonSerializer.Serialize(s, jsonOptions);");
+                    s.Wln("Assert.That(cJson, Is.EqualTo(sJson));");
+                }
+                else
                 {
                     s.Body("Assert.Multiple(() =>", s =>
                     {
                         s.Wln("Assert.That(w.Position, Is.EqualTo(r.Position));");
                         s.Wln("Assert.That(r, Is.EqualTo(w));");
                     }, ");");
-                }
-                else
-                {
-                    s.Wln("w.Seek(0, SeekOrigin.Begin);");
-                    s.Wln($"var s = ({e.Name})await {side}OpcodeReader.Read{crypt}Async(w);");
-                    s.Wln("var cJson = System.Text.Json.JsonSerializer.Serialize(c);");
-                    s.Wln("var sJson = System.Text.Json.JsonSerializer.Serialize(s);");
-                    s.Wln("Assert.That(cJson, Is.EqualTo(sJson));");
                 }
             });
 

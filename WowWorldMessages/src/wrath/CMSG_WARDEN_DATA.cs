@@ -31,7 +31,7 @@ public class CMSG_WARDEN_DATA: WrathClientMessage, IWorldMessage {
         // ReSharper disable once InconsistentNaming
         var __size = 0;
         var encryptedData = new List<byte>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             encryptedData.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
             __size += 1;
         }

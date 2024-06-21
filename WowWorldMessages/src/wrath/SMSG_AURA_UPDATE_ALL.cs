@@ -37,7 +37,7 @@ public class SMSG_AURA_UPDATE_ALL: WrathServerMessage, IWorldMessage {
         __size += unit.PackedGuidLength();
 
         var auraUpdates = new List<AuraUpdate>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             auraUpdates.Add(await Wrath.AuraUpdate.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
             __size += auraUpdates[^1].Size();
         }

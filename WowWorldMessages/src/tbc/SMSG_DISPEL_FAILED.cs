@@ -43,7 +43,7 @@ public class SMSG_DISPEL_FAILED: TbcServerMessage, IWorldMessage {
         __size += 8;
 
         var spells = new List<uint>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             spells.Add(await r.ReadUInt(cancellationToken).ConfigureAwait(false));
             __size += 4;
         }

@@ -1375,8 +1375,9 @@ public class Vanilla {
         await c.WriteUnencryptedClientAsync(w);
         w.Seek(0, SeekOrigin.Begin);
         var s = (CMSG_AUTH_SESSION)await ClientOpcodeReader.ReadUnencryptedAsync(w);
-        var cJson = System.Text.Json.JsonSerializer.Serialize(c);
-        var sJson = System.Text.Json.JsonSerializer.Serialize(s);
+        var jsonOptions = new System.Text.Json.JsonSerializerOptions { Converters = { new OneOf.Serialization.SystemTextJson.OneOfJsonConverter() }};
+        var cJson = System.Text.Json.JsonSerializer.Serialize(c, jsonOptions);
+        var sJson = System.Text.Json.JsonSerializer.Serialize(s, jsonOptions);
         Assert.That(cJson, Is.EqualTo(sJson));
     }
 
@@ -1504,8 +1505,9 @@ public class Vanilla {
         await c.WriteUnencryptedClientAsync(w);
         w.Seek(0, SeekOrigin.Begin);
         var s = (CMSG_UPDATE_ACCOUNT_DATA)await ClientOpcodeReader.ReadUnencryptedAsync(w);
-        var cJson = System.Text.Json.JsonSerializer.Serialize(c);
-        var sJson = System.Text.Json.JsonSerializer.Serialize(s);
+        var jsonOptions = new System.Text.Json.JsonSerializerOptions { Converters = { new OneOf.Serialization.SystemTextJson.OneOfJsonConverter() }};
+        var cJson = System.Text.Json.JsonSerializer.Serialize(c, jsonOptions);
+        var sJson = System.Text.Json.JsonSerializer.Serialize(s, jsonOptions);
         Assert.That(cJson, Is.EqualTo(sJson));
     }
 
@@ -1521,8 +1523,9 @@ public class Vanilla {
         await c.WriteUnencryptedClientAsync(w);
         w.Seek(0, SeekOrigin.Begin);
         var s = (CMSG_UPDATE_ACCOUNT_DATA)await ClientOpcodeReader.ReadUnencryptedAsync(w);
-        var cJson = System.Text.Json.JsonSerializer.Serialize(c);
-        var sJson = System.Text.Json.JsonSerializer.Serialize(s);
+        var jsonOptions = new System.Text.Json.JsonSerializerOptions { Converters = { new OneOf.Serialization.SystemTextJson.OneOfJsonConverter() }};
+        var cJson = System.Text.Json.JsonSerializer.Serialize(c, jsonOptions);
+        var sJson = System.Text.Json.JsonSerializer.Serialize(s, jsonOptions);
         Assert.That(cJson, Is.EqualTo(sJson));
     }
 
@@ -1732,6 +1735,42 @@ public class Vanilla {
             Assert.That(w.Position, Is.EqualTo(r.Position));
             Assert.That(r, Is.EqualTo(w));
         });
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task SMSG_COMPRESSED_MOVES0() {
+        var r = new MemoryStream([0, 50, 251, 2, 46, 0, 0, 0, 120, 1, 211, 189, 203, 192, 40, 145, 183, 154, 251, 216, 186, 88, 230, 195, 43, 212, 151, 59, 49, 32, 3, 70, 32, 167, 100, 57, 247, 177, 245, 239, 95, 29, 58, 121, 102, 137, 19, 0, 38, 30, 14, 73, ]);
+
+        var c = (SMSG_COMPRESSED_MOVES)await ServerOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedServerAsync(w);
+        w.Seek(0, SeekOrigin.Begin);
+        var s = (SMSG_COMPRESSED_MOVES)await ServerOpcodeReader.ReadUnencryptedAsync(w);
+        var jsonOptions = new System.Text.Json.JsonSerializerOptions { Converters = { new OneOf.Serialization.SystemTextJson.OneOfJsonConverter() }};
+        var cJson = System.Text.Json.JsonSerializer.Serialize(c, jsonOptions);
+        var sJson = System.Text.Json.JsonSerializer.Serialize(s, jsonOptions);
+        Assert.That(cJson, Is.EqualTo(sJson));
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task SMSG_COMPRESSED_MOVES1() {
+        var r = new MemoryStream([0, 70, 251, 2, 59, 0, 0, 0, 120, 1, 179, 186, 203, 112, 59, 95, 198, 65, 220, 224, 99, 245, 27, 177, 35, 215, 23, 55, 31, 109, 80, 148, 113, 210, 87, 100, 0, 2, 70, 6, 134, 99, 28, 12, 12, 204, 64, 102, 235, 107, 177, 35, 92, 229, 205, 71, 21, 183, 203, 58, 49, 20, 0, 5, 12, 24, 24, 0, 88, 227, 17, 4, ]);
+
+        var c = (SMSG_COMPRESSED_MOVES)await ServerOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedServerAsync(w);
+        w.Seek(0, SeekOrigin.Begin);
+        var s = (SMSG_COMPRESSED_MOVES)await ServerOpcodeReader.ReadUnencryptedAsync(w);
+        var jsonOptions = new System.Text.Json.JsonSerializerOptions { Converters = { new OneOf.Serialization.SystemTextJson.OneOfJsonConverter() }};
+        var cJson = System.Text.Json.JsonSerializer.Serialize(c, jsonOptions);
+        var sJson = System.Text.Json.JsonSerializer.Serialize(s, jsonOptions);
+        Assert.That(cJson, Is.EqualTo(sJson));
     }
 
     [Test]

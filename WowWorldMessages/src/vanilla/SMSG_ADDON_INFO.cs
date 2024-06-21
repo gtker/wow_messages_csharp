@@ -31,7 +31,7 @@ public class SMSG_ADDON_INFO: VanillaServerMessage, IWorldMessage {
         // ReSharper disable once InconsistentNaming
         var __size = 0;
         var addons = new List<Addon>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             addons.Add(await Vanilla.Addon.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
             __size += addons[^1].Size();
         }

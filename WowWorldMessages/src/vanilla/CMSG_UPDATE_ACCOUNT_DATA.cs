@@ -61,7 +61,7 @@ public class CMSG_UPDATE_ACCOUNT_DATA: VanillaClientMessage, IWorldMessage {
 
         var decompressed = new byte[decompressedLength];
         var remaining = new byte[bodySize - __size];
-        r.ReadExactly(remaining);
+        await r.ReadExactlyAsync(remaining, cancellationToken).ConfigureAwait(false);
 
         var zlib = new System.IO.Compression.ZLibStream(new MemoryStream(remaining), System.IO.Compression.CompressionMode.Decompress);
         zlib.ReadAtLeast(decompressed, remaining.Length);

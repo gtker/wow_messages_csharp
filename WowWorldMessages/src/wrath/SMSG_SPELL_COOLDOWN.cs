@@ -43,7 +43,7 @@ public class SMSG_SPELL_COOLDOWN: WrathServerMessage, IWorldMessage {
         __size += 1;
 
         var cooldowns = new List<SpellCooldownStatus>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             cooldowns.Add(await Wrath.SpellCooldownStatus.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
             __size += 8;
         }

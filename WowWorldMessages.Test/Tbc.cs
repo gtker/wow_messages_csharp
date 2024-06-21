@@ -479,8 +479,9 @@ public class Tbc {
         await c.WriteUnencryptedClientAsync(w);
         w.Seek(0, SeekOrigin.Begin);
         var s = (CMSG_AUTH_SESSION)await ClientOpcodeReader.ReadUnencryptedAsync(w);
-        var cJson = System.Text.Json.JsonSerializer.Serialize(c);
-        var sJson = System.Text.Json.JsonSerializer.Serialize(s);
+        var jsonOptions = new System.Text.Json.JsonSerializerOptions { Converters = { new OneOf.Serialization.SystemTextJson.OneOfJsonConverter() }};
+        var cJson = System.Text.Json.JsonSerializer.Serialize(c, jsonOptions);
+        var sJson = System.Text.Json.JsonSerializer.Serialize(s, jsonOptions);
         Assert.That(cJson, Is.EqualTo(sJson));
     }
 
@@ -528,8 +529,9 @@ public class Tbc {
         await c.WriteUnencryptedClientAsync(w);
         w.Seek(0, SeekOrigin.Begin);
         var s = (CMSG_UPDATE_ACCOUNT_DATA)await ClientOpcodeReader.ReadUnencryptedAsync(w);
-        var cJson = System.Text.Json.JsonSerializer.Serialize(c);
-        var sJson = System.Text.Json.JsonSerializer.Serialize(s);
+        var jsonOptions = new System.Text.Json.JsonSerializerOptions { Converters = { new OneOf.Serialization.SystemTextJson.OneOfJsonConverter() }};
+        var cJson = System.Text.Json.JsonSerializer.Serialize(c, jsonOptions);
+        var sJson = System.Text.Json.JsonSerializer.Serialize(s, jsonOptions);
         Assert.That(cJson, Is.EqualTo(sJson));
     }
 
@@ -545,8 +547,9 @@ public class Tbc {
         await c.WriteUnencryptedClientAsync(w);
         w.Seek(0, SeekOrigin.Begin);
         var s = (CMSG_UPDATE_ACCOUNT_DATA)await ClientOpcodeReader.ReadUnencryptedAsync(w);
-        var cJson = System.Text.Json.JsonSerializer.Serialize(c);
-        var sJson = System.Text.Json.JsonSerializer.Serialize(s);
+        var jsonOptions = new System.Text.Json.JsonSerializerOptions { Converters = { new OneOf.Serialization.SystemTextJson.OneOfJsonConverter() }};
+        var cJson = System.Text.Json.JsonSerializer.Serialize(c, jsonOptions);
+        var sJson = System.Text.Json.JsonSerializer.Serialize(s, jsonOptions);
         Assert.That(cJson, Is.EqualTo(sJson));
     }
 

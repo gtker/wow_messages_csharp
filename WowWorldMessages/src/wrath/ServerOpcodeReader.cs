@@ -301,6 +301,7 @@ public static class ServerOpcodeReader {
             754 => await SMSG_PARTY_MEMBER_STATS_FULL.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             756 => await SMSG_WEATHER.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             762 => await SMSG_RAID_INSTANCE_MESSAGE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            763 => await SMSG_COMPRESSED_MOVES.ReadBodyAsync(r, header.Size, cancellationToken).ConfigureAwait(false),
             765 => await SMSG_CHAT_RESTRICTED.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             766 => await SMSG_SPLINE_SET_RUN_SPEED.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             767 => await SMSG_SPLINE_SET_RUN_BACK_SPEED.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),

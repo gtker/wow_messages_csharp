@@ -43,7 +43,7 @@ public class SMSG_LFG_JOIN_RESULT: WrathServerMessage, IWorldMessage {
         __size += 4;
 
         var players = new List<LfgJoinPlayer>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             players.Add(await Wrath.LfgJoinPlayer.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
             __size += players[^1].Size();
         }

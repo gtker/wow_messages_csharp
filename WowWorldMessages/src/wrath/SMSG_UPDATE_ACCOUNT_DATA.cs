@@ -43,7 +43,7 @@ public class SMSG_UPDATE_ACCOUNT_DATA: WrathServerMessage, IWorldMessage {
         __size += 4;
 
         var compressedData = new List<byte>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             compressedData.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
             __size += 1;
         }

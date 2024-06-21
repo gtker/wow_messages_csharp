@@ -232,7 +232,7 @@ public class CMSG_GUILD_BANK_SWAP_ITEMS: WrathClientMessage, IWorldMessage {
 
 
         var unknown5 = new List<byte>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             unknown5.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
             __size += 1;
         }

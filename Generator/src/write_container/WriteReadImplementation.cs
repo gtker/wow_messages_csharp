@@ -13,6 +13,27 @@ public static class WriteReadImplementation
             $"public static async Task<{e.Name}> Read{functionName}Async(Stream r,{bodySize} CancellationToken cancellationToken = default)",
             s =>
             {
+                if (e.Tags.Compressed is true)
+                {
+                    s.Wln("var decompressedLength = await r.ReadUInt(cancellationToken).ConfigureAwait(false);");
+                    s.Wln("bodySize -= 4;");
+                    s.Newline();
+
+                    s.Wln("var decompressed = new byte[decompressedLength];");
+                    s.Wln("var remaining = new byte[bodySize];");
+                    s.Wln("await r.ReadExactlyAsync(remaining, cancellationToken).ConfigureAwait(false);");
+                    s.Newline();
+
+                    s.Wln(
+                        "var zlib = new System.IO.Compression.ZLibStream(new MemoryStream(remaining), System.IO.Compression.CompressionMode.Decompress);");
+                    s.Wln("zlib.ReadAtLeast(decompressed, int.Min((int)bodySize, (int)decompressedLength));");
+                    s.Newline();
+
+                    s.Wln("r = new MemoryStream(decompressed);");
+                    s.Wln("bodySize = decompressedLength;");
+                    s.Newline();
+                }
+
                 if (e.NeedsBodySize())
                 {
                     s.Wln("// ReSharper disable once InconsistentNaming");
@@ -317,7 +338,7 @@ public static class WriteReadImplementation
 
             s.Wln("var decompressed = new byte[decompressedLength];");
             s.Wln("var remaining = new byte[bodySize - __size];");
-            s.Wln("r.ReadExactly(remaining);");
+            s.Wln("await r.ReadExactlyAsync(remaining, cancellationToken).ConfigureAwait(false);");
             s.Newline();
 
             s.Wln(
@@ -346,7 +367,7 @@ public static class WriteReadImplementation
         {
             ArraySizeFixed => $"for (var i = 0; i < {memberLength}; ++i)",
             ArraySizeVariable v => $"for (var i = 0; i < {v.Size.ToCamelCase()}; ++i)",
-            ArraySizeEndless => array.Compressed ? "while (r.Position < r.Length)" : "while (__size <= bodySize)",
+            ArraySizeEndless => array.Compressed ? "while (r.Position < r.Length)" : "while (__size < bodySize)",
             _ => throw new ArgumentOutOfRangeException()
         };
 

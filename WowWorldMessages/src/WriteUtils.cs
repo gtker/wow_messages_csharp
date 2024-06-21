@@ -93,7 +93,7 @@ public static class WriteUtils
         var value = 0;
         for (var i = 0; i < 8; i++)
         {
-            if (v >> (i * 8) != 0)
+            if ((v >> (i * 8) & 0xFF) != 0)
             {
                 value |= 1 << i;
             }

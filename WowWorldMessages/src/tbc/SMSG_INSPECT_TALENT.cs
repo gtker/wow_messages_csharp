@@ -37,7 +37,7 @@ public class SMSG_INSPECT_TALENT: TbcServerMessage, IWorldMessage {
         __size += player.PackedGuidLength();
 
         var talentData = new List<byte>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             talentData.Add(await r.ReadByte(cancellationToken).ConfigureAwait(false));
             __size += 1;
         }

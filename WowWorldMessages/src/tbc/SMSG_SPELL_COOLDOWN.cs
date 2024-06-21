@@ -43,7 +43,7 @@ public class SMSG_SPELL_COOLDOWN: TbcServerMessage, IWorldMessage {
         __size += 1;
 
         var cooldowns = new List<SpellCooldownStatus>();
-        while (__size <= bodySize) {
+        while (__size < bodySize) {
             cooldowns.Add(await Tbc.SpellCooldownStatus.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
             __size += 8;
         }

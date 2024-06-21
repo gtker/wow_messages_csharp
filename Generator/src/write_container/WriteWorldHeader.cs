@@ -38,6 +38,8 @@ public static class WriteWorldHeader
         var encrypted = encryptOrDecrypt == EncryptOrDecrypt.Encrypt;
         var encrypt = encrypted ? "Encrypted" : "Unencrypted";
         var arguments = encrypted ? $", I{side}Encrypter encrypter" : "";
+        var compressed = e.Tags.Compressed is true;
+
         s.Body(
             $"public async Task Write{encrypt}{side}Async(Stream w{arguments}, CancellationToken cancellationToken = default)",
             s =>
@@ -55,11 +57,34 @@ public static class WriteWorldHeader
                     s.Wln($"var encrypter = new NullCrypter{wrath}();");
                 }
 
+                if (compressed)
+                {
+                    size = $"(uint)compressedOutput.Length + 4 + {e.HeaderSize(isServer)}";
+
+                    s.Wln("var output = new MemoryStream();");
+                    s.Wln("await WriteBodyAsync(output, cancellationToken).ConfigureAwait(false);");
+
+                    s.Wln("var compressedOutput = new MemoryStream();");
+                    s.Wln(
+                        "var zlib = new System.IO.Compression.ZLibStream(compressedOutput, System.IO.Compression.CompressionMode.Compress);");
+                    s.Wln("zlib.Write(output.ToArray());");
+                    s.Wln("zlib.Flush();");
+                    s.Newline();
+                }
+
                 s.Wln(
                     $"await encrypter.Write{side}HeaderAsync(w, {size}, {opcode}, cancellationToken).ConfigureAwait(false);");
                 s.Newline();
 
-                s.Wln("await WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);");
+                if (!compressed)
+                {
+                    s.Wln("await WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);");
+                }
+                else
+                {
+                    s.Wln("await w.WriteUInt((uint)output.Length, cancellationToken).ConfigureAwait(false);");
+                    s.Wln("await w.WriteAsync(compressedOutput.ToArray(), cancellationToken).ConfigureAwait(false);");
+                }
             });
         s.Newline();
     }
