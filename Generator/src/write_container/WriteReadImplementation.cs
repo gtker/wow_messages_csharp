@@ -171,7 +171,7 @@ public static class WriteReadImplementation
 
         var isWorld = module is "Vanilla" or "Tbc" or "Wrath";
 
-        var prefix = d.UsedInIf && d.DataType is DataTypeEnum ? $"{d.CsTypeName()}Type" : "var";
+        var prefix = d is { UsedInIf: true, DataType: DataTypeEnum } ? $"{d.CsTypeName()}Type" : "var";
         var variable = variableNameOverride is not null
             ? $"{variableNameOverride}{d.MemberName()}"
             : $"{prefix} {d.VariableName()}";
@@ -267,43 +267,16 @@ public static class WriteReadImplementation
                     $"{variable} = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);");
                 break;
 
-            case DataTypeNamedGuid:
-                s.Wln($"{variable} = await NamedGuid.ReadAsync(cancellationToken).ConfigureAwait(false);");
-                break;
-
-            case DataTypeUpdateMask:
-                s.Wln($"{variable} = await UpdateMask.ReadAsync(cancellationToken).ConfigureAwait(false);");
-                break;
-
             case DataTypeMonsterMoveSpline:
                 s.Wln(
                     $"{variable} = await ReadUtils.ReadMonsterMoveSpline(r, cancellationToken).ConfigureAwait(false);");
                 break;
 
-            case DataTypeAuraMask:
+            case DataTypeAddonArray or DataTypeCacheMask or DataTypeVariableItemRandomProperty
+                or DataTypeInspectTalentGearMask or DataTypeEnchantMask or DataTypeAuraMask or DataTypeUpdateMask
+                or DataTypeNamedGuid:
                 s.Wln(
-                    $"{variable} = await AuraMask.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
-                break;
-            case DataTypeEnchantMask:
-                s.Wln(
-                    $"{variable} = await EnchantMask.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
-                break;
-
-            case DataTypeInspectTalentGearMask:
-                s.Wln(
-                    $"{variable} = await InspectTalentGearMask.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
-                break;
-            case DataTypeVariableItemRandomProperty:
-                s.Wln(
-                    $"{variable} = await VariableItemRandomProperty.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
-                break;
-            case DataTypeCacheMask:
-                s.Wln(
-                    $"{variable} = await CacheMask.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
-                break;
-            case DataTypeAddonArray:
-                s.Wln(
-                    $"{variable} = await AddonArray.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
+                    $"{variable} = await {d.CsTypeName()}.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
                 break;
 
             case DataTypeAchievementDoneArray:
@@ -371,9 +344,9 @@ public static class WriteReadImplementation
 
         var loopHeader = array.Size switch
         {
-            ArraySizeFixed v => $"for (var i = 0; i < {memberLength}; ++i)",
+            ArraySizeFixed => $"for (var i = 0; i < {memberLength}; ++i)",
             ArraySizeVariable v => $"for (var i = 0; i < {v.Size.ToCamelCase()}; ++i)",
-            ArraySizeEndless v => array.Compressed ? "while (r.Position < r.Length)" : "while (__size <= bodySize)",
+            ArraySizeEndless => array.Compressed ? "while (r.Position < r.Length)" : "while (__size <= bodySize)",
             _ => throw new ArgumentOutOfRangeException()
         };
 
@@ -407,48 +380,38 @@ public static class WriteReadImplementation
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (array.FixedSize())
+            s.Wln(array.FixedSize() ? $"{d.VariableName()}[i] = {item};" : $"{d.VariableName()}.Add({item});");
+
+            if (!needsSize)
             {
-                s.Wln($"{d.VariableName()}[i] = {item};");
-            }
-            else
-            {
-                s.Wln($"{d.VariableName()}.Add({item});");
+                return;
             }
 
-            if (needsSize)
+            switch (array.InnerType)
             {
-                switch (array.InnerType)
-                {
-                    case ArrayTypeCstring:
-                        s.Wln($"__size += {d.VariableName()}[^1].Length + 1;");
-                        break;
-                    case ArrayTypeGuid:
-                        s.Wln("__size += 8;");
-                        break;
-                    case ArrayTypeSpell:
-                        s.Wln("__size += 4;");
-                        break;
-                    case ArrayTypeInteger arrayTypeInteger:
-                        s.Wln($"__size += {arrayTypeInteger.IntegerType.SizeBytes()};");
-                        break;
-                    case ArrayTypeStruct arrayTypeStruct:
-                        if (arrayTypeStruct.StructData.Sizes.ConstantSized)
-                        {
-                            s.Wln($"__size += {arrayTypeStruct.StructData.Sizes.MinimumSize};");
-                        }
-                        else
-                        {
-                            s.Wln($"__size += {d.VariableName()}[^1].Size();");
-                        }
+                case ArrayTypeCstring:
+                    s.Wln($"__size += {d.VariableName()}[^1].Length + 1;");
+                    break;
+                case ArrayTypeGuid:
+                    s.Wln("__size += 8;");
+                    break;
+                case ArrayTypeSpell:
+                    s.Wln("__size += 4;");
+                    break;
+                case ArrayTypeInteger arrayTypeInteger:
+                    s.Wln($"__size += {arrayTypeInteger.IntegerType.SizeBytes()};");
+                    break;
+                case ArrayTypeStruct arrayTypeStruct:
+                    s.Wln(arrayTypeStruct.StructData.Sizes.ConstantSized
+                        ? $"__size += {arrayTypeStruct.StructData.Sizes.MinimumSize};"
+                        : $"__size += {d.VariableName()}[^1].Size();");
 
-                        break;
-                    case ArrayTypePackedGuid:
-                        s.Wln($"__size += {d.VariableName()}[^1].PackedGuidLength();");
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                    break;
+                case ArrayTypePackedGuid:
+                    s.Wln($"__size += {d.VariableName()}[^1].PackedGuidLength();");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         });
     }

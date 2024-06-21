@@ -170,36 +170,12 @@ public static class WriteWriteImplementation
                 s.Wln($"await w.WritePackedGuid({value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
-            case DataTypeNamedGuid:
-                s.Wln($"await {value}.WriteAsync(cancellationToken).ConfigureAwait(false);");
-                break;
-
-            case DataTypeUpdateMask:
-                s.Wln($"await {value}.WriteAsync(cancellationToken).ConfigureAwait(false);");
-                break;
-
             case DataTypeMonsterMoveSpline:
                 s.Wln($"await ReadUtils.WriteMonsterMoveSpline(w, {value}, cancellationToken).ConfigureAwait(false);");
                 break;
 
-            case DataTypeAuraMask:
-                s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
-                break;
-
-            case DataTypeEnchantMask:
-                s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
-                break;
-            case DataTypeInspectTalentGearMask:
-                s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
-                break;
-
-            case DataTypeVariableItemRandomProperty:
-                s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
-                break;
-            case DataTypeCacheMask:
-                s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
-                break;
-            case DataTypeAddonArray:
+            case DataTypeCacheMask or DataTypeAddonArray or DataTypeVariableItemRandomProperty
+                or DataTypeInspectTalentGearMask or DataTypeEnchantMask or DataTypeAuraMask or DataTypeUpdateMask or DataTypeNamedGuid:
                 s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
                 break;
 
