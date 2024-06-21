@@ -199,6 +199,9 @@ public static class WriteWriteImplementation
             case DataTypeCacheMask:
                 s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
                 break;
+            case DataTypeAddonArray:
+                s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
+                break;
 
             case DataTypeAchievementDoneArray:
                 s.Wln(
@@ -213,8 +216,6 @@ public static class WriteWriteImplementation
                 WriteWriteForArray(s, d, array, prefix);
                 break;
 
-            case DataTypeAddonArray dataTypeAddonArray:
-                throw new NotImplementedException();
             default:
                 throw new ArgumentOutOfRangeException();
         }

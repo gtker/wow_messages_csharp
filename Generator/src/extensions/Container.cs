@@ -50,7 +50,6 @@ public static class ContainerExtensions
                 _ => throw new ArgumentOutOfRangeException()
             },
             DataTypeStruct s => s.StructData.ShouldSkip(),
-            DataTypeAddonArray => true,
             _ => false
         };
 
