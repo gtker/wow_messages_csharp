@@ -51,7 +51,6 @@ public static class ContainerExtensions
             },
             DataTypeStruct s => s.StructData.ShouldSkip(),
             DataTypeAddonArray => true,
-            DataTypeVariableItemRandomProperty => true,
             DataTypeCacheMask => true,
             _ => false
         };

@@ -375,6 +375,7 @@ public static class ServerOpcodeReader {
             967 => await SMSG_COMPLAIN_RESULT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             968 => await SMSG_FEATURE_SYSTEM_STATUS.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             980 => await SMSG_CHANNEL_MEMBER_COUNT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            999 => await SMSG_GUILD_BANK_LIST.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             1005 => await MSG_GUILD_BANK_LOG_QUERY_Server.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             1007 => await SMSG_USERLIST_ADD.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             1008 => await SMSG_USERLIST_REMOVE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),

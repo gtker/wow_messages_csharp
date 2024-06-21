@@ -293,7 +293,10 @@ public static class WriteReadImplementation
                 s.Wln(
                     $"{variable} = await InspectTalentGearMask.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
                 break;
-
+            case DataTypeVariableItemRandomProperty:
+                s.Wln(
+                    $"{variable} = await VariableItemRandomProperty.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
+                break;
 
             case DataTypeAchievementDoneArray:
                 s.Wln(
@@ -312,8 +315,6 @@ public static class WriteReadImplementation
             case DataTypeAddonArray dataTypeAddonArray:
                 throw new NotImplementedException();
             case DataTypeCacheMask dataTypeCacheMask:
-                throw new NotImplementedException();
-            case DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty:
                 throw new NotImplementedException();
             default:
                 throw new ArgumentOutOfRangeException();

@@ -44,10 +44,10 @@ public static class DataTypeExtension
         DataTypeAchievementInProgressArray => "List<AchievementInProgress>",
         DataTypeEnchantMask => "EnchantMask",
         DataTypeInspectTalentGearMask => "InspectTalentGearMask",
+        DataTypeVariableItemRandomProperty => "VariableItemRandomProperty",
 
         // Wrath/Tbc
         DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
-        DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty => throw new NotImplementedException(),
         DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
 
         _ => throw new ArgumentOutOfRangeException(nameof(d))
