@@ -2,8 +2,8 @@ namespace WowWorldMessages.Vanilla;
 
 public class AuraMask
 {
+    public const int AuraArraySize = 32;
     private readonly ushort[] _auras;
-    private const int AuraArraySize = 32;
 
     public AuraMask(ushort[] auras)
     {

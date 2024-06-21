@@ -189,6 +189,9 @@ public static class WriteWriteImplementation
             case DataTypeEnchantMask:
                 s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
                 break;
+            case DataTypeInspectTalentGearMask:
+                s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
+                break;
 
             case DataTypeAchievementDoneArray:
                 s.Wln(
@@ -206,8 +209,6 @@ public static class WriteWriteImplementation
             case DataTypeAddonArray dataTypeAddonArray:
                 throw new NotImplementedException();
             case DataTypeCacheMask dataTypeCacheMask:
-                throw new NotImplementedException();
-            case DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask:
                 throw new NotImplementedException();
             case DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty:
                 throw new NotImplementedException();

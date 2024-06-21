@@ -2,7 +2,7 @@ namespace WowWorldMessages.Tbc;
 
 public class AuraMask(Aura?[] auras)
 {
-    private const int AuraArraySize = 32;
+    public const int AuraArraySize = 32;
 
     public Aura? Aura(int index) => auras[index];
 

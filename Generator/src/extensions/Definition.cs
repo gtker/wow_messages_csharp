@@ -66,11 +66,12 @@ public static class DefinitionExtensions
             DataTypeAchievementInProgressArray => $"{prefix}{name}.Sum(e => e.Size())",
             DataTypeEnchantMask => $"{prefix}{name}.Length();",
 
+            DataTypeInspectTalentGearMask => $"{prefix}{name}.Length()",
+
             DataTypeArray array => array.ArraySize(d, name, prefix),
 
             DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
             DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
-            DataTypeInspectTalentGearMask dataTypeInspectTalentGearMask => throw new NotImplementedException(),
             DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty =>
                 throw new NotImplementedException(),
             _ => throw new ArgumentOutOfRangeException(nameof(d))

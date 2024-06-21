@@ -1,34 +1,34 @@
 namespace WowWorldMessages.Wrath;
 
-public class AuraMask(Aura?[] auras)
+public class InspectTalentGearMask(InspectTalentGear?[] auras)
 {
-    public const int AuraArraySize = 64;
+    public const int InnerArraySize = 64;
 
-    public Aura? Aura(int index) => auras[index];
+    public InspectTalentGear? InspectTalentGear(int index) => auras[index];
 
-    public void SetAura(int index, Aura value) => auras[index] = value;
+    public void SetInspectTalentGear(int index, InspectTalentGear value) => auras[index] = value;
 
-    internal static async Task<AuraMask> ReadAsync(Stream stream, CancellationToken cancellationToken)
+    internal static async Task<InspectTalentGearMask> ReadAsync(Stream stream, CancellationToken cancellationToken)
     {
         var mask = await stream.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var auras = new Aura?[AuraArraySize];
+        var auras = new InspectTalentGear?[InnerArraySize];
 
-        for (var i = 0; i < AuraArraySize; i++)
+        for (var i = 0; i < InnerArraySize; i++)
         {
             if ((mask & (1 << i)) != 0)
             {
-                auras[i] = await Wrath.Aura.ReadBodyAsync(stream, cancellationToken).ConfigureAwait(false);
+                auras[i] = await Wrath.InspectTalentGear.ReadBodyAsync(stream, cancellationToken).ConfigureAwait(false);
             }
         }
 
-        return new AuraMask(auras);
+        return new InspectTalentGearMask(auras);
     }
 
     internal async Task WriteAsync(Stream stream, CancellationToken cancellationToken)
     {
         ulong mask = 0;
-        for (var i = 0; i < AuraArraySize; i++)
+        for (var i = 0; i < InnerArraySize; i++)
         {
             if (auras[i] != null)
             {
@@ -51,11 +51,11 @@ public class AuraMask(Aura?[] auras)
     {
         var size = 8;
 
-        for (var i = 0; i < AuraArraySize; i++)
+        for (var i = 0; i < InnerArraySize; i++)
         {
-            if (auras[i] != null)
+            if (auras[i] is {} aura)
             {
-                size += 5;
+                size += aura.Size();
             }
         }
 
