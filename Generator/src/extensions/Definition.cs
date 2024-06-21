@@ -68,11 +68,11 @@ public static class DefinitionExtensions
 
             DataTypeInspectTalentGearMask => $"{prefix}{name}.Length()",
             DataTypeVariableItemRandomProperty => $"{prefix}{name}.Length()",
+            DataTypeCacheMask => $"{prefix}{name}.Length()",
 
             DataTypeArray array => array.ArraySize(d, name, prefix),
 
             DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
-            DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
             _ => throw new ArgumentOutOfRangeException(nameof(d))
         };
     }

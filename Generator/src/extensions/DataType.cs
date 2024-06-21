@@ -45,10 +45,10 @@ public static class DataTypeExtension
         DataTypeEnchantMask => "EnchantMask",
         DataTypeInspectTalentGearMask => "InspectTalentGearMask",
         DataTypeVariableItemRandomProperty => "VariableItemRandomProperty",
+        DataTypeCacheMask => "CacheMask",
 
         // Wrath/Tbc
         DataTypeAddonArray dataTypeAddonArray => throw new NotImplementedException(),
-        DataTypeCacheMask dataTypeCacheMask => throw new NotImplementedException(),
 
         _ => throw new ArgumentOutOfRangeException(nameof(d))
     };

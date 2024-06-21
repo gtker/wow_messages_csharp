@@ -2,7 +2,7 @@ namespace WowWorldMessages.Wrath;
 
 public class InspectTalentGearMask(InspectTalentGear?[] auras)
 {
-    public const int InnerArraySize = 64;
+    public const int InnerArraySize = 32;
 
     public InspectTalentGear? InspectTalentGear(int index) => auras[index];
 
@@ -49,11 +49,11 @@ public class InspectTalentGearMask(InspectTalentGear?[] auras)
 
     internal int Length()
     {
-        var size = 8;
+        var size = 4;
 
         for (var i = 0; i < InnerArraySize; i++)
         {
-            if (auras[i] is {} aura)
+            if (auras[i] is { } aura)
             {
                 size += aura.Size();
             }

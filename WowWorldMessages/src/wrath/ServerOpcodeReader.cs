@@ -206,6 +206,7 @@ public static class ServerOpcodeReader {
             515 => await SMSG_REMOVED_SPELL.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             518 => await SMSG_GMTICKET_CREATE.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             520 => await SMSG_GMTICKET_UPDATETEXT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
+            521 => await SMSG_ACCOUNT_DATA_TIMES.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             524 => await SMSG_UPDATE_ACCOUNT_DATA.ReadBodyAsync(r, header.Size, cancellationToken).ConfigureAwait(false),
             530 => await SMSG_GMTICKET_GETTICKET.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),
             532 => await SMSG_UPDATE_INSTANCE_ENCOUNTER_UNIT.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false),

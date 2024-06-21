@@ -297,6 +297,10 @@ public static class WriteReadImplementation
                 s.Wln(
                     $"{variable} = await VariableItemRandomProperty.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
                 break;
+            case DataTypeCacheMask:
+                s.Wln(
+                    $"{variable} = await CacheMask.ReadAsync(r, cancellationToken).ConfigureAwait(false);");
+                break;
 
             case DataTypeAchievementDoneArray:
                 s.Wln(
@@ -313,8 +317,6 @@ public static class WriteReadImplementation
 
 
             case DataTypeAddonArray dataTypeAddonArray:
-                throw new NotImplementedException();
-            case DataTypeCacheMask dataTypeCacheMask:
                 throw new NotImplementedException();
             default:
                 throw new ArgumentOutOfRangeException();

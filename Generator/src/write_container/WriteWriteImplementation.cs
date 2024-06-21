@@ -193,7 +193,10 @@ public static class WriteWriteImplementation
                 s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
                 break;
 
-            case DataTypeVariableItemRandomProperty dataTypeVariableItemRandomProperty:
+            case DataTypeVariableItemRandomProperty:
+                s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
+                break;
+            case DataTypeCacheMask:
                 s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
                 break;
 
@@ -211,8 +214,6 @@ public static class WriteWriteImplementation
                 break;
 
             case DataTypeAddonArray dataTypeAddonArray:
-                throw new NotImplementedException();
-            case DataTypeCacheMask dataTypeCacheMask:
                 throw new NotImplementedException();
             default:
                 throw new ArgumentOutOfRangeException();
