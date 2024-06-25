@@ -469,6 +469,38 @@ public class Vanilla {
 
     [Test]
     [Timeout(1000)]
+    public async Task SMSG_UPDATE_OBJECT0() {
+        var r = new MemoryStream([0, 97, 169, 0, 1, 0, 0, 0, 0, 3, 1, 4, 4, 49, 0, 0, 0, 0, 0, 0, 0, 0, 205, 215, 11, 198, 53, 126, 4, 195, 249, 15, 167, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 224, 64, 0, 0, 144, 64, 0, 0, 0, 0, 0, 0, 0, 0, 219, 15, 73, 64, 1, 0, 0, 0, 2, 7, 0, 64, 0, 16, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 25, 0, 0, 0, 100, 0, 0, 0, 1, 1, 1, 1, ]);
+
+        var c = (SMSG_UPDATE_OBJECT)await ServerOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedServerAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task SMSG_UPDATE_OBJECT1() {
+        var r = new MemoryStream([0, 133, 169, 0, 1, 0, 0, 0, 0, 3, 1, 4, 4, 49, 0, 0, 0, 0, 0, 0, 0, 0, 205, 215, 11, 198, 53, 126, 4, 195, 249, 15, 167, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 224, 64, 0, 0, 144, 64, 0, 0, 0, 0, 0, 0, 0, 0, 219, 15, 73, 64, 1, 0, 0, 0, 5, 23, 0, 64, 16, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 25, 0, 0, 0, 0, 0, 128, 63, 100, 0, 0, 0, 100, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 50, 0, 0, 0, 50, 0, 0, 0, ]);
+
+        var c = (SMSG_UPDATE_OBJECT)await ServerOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedServerAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
     public async Task SMSG_DESTROY_OBJECT0() {
         var r = new MemoryStream([0, 10, 170, 0, 6, 0, 0, 0, 0, 0, 0, 0, ]);
 
@@ -477,6 +509,22 @@ public class Vanilla {
 
         var w = new MemoryStream();
         await c.WriteUnencryptedServerAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task CMSG_USE_ITEM0() {
+        var r = new MemoryStream([0, 9, 171, 0, 0, 0, 255, 24, 0, 0, 0, ]);
+
+        var c = (CMSG_USE_ITEM)await ClientOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedClientAsync(w);
         Assert.Multiple(() => {
             Assert.That(w.Position, Is.EqualTo(r.Position));
             Assert.That(r, Is.EqualTo(w));
@@ -1141,6 +1189,22 @@ public class Vanilla {
 
     [Test]
     [Timeout(1000)]
+    public async Task CMSG_CAST_SPELL0() {
+        var r = new MemoryStream([0, 10, 46, 1, 0, 0, 120, 80, 0, 0, 0, 0, ]);
+
+        var c = (CMSG_CAST_SPELL)await ClientOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedClientAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
     public async Task CMSG_CANCEL_CAST0() {
         var r = new MemoryStream([0, 8, 47, 1, 0, 0, 120, 80, 0, 0, ]);
 
@@ -1459,6 +1523,24 @@ public class Vanilla {
             Assert.That(w.Position, Is.EqualTo(r.Position));
             Assert.That(r, Is.EqualTo(w));
         });
+    }
+
+    [Test]
+    [Timeout(1000)]
+    public async Task SMSG_COMPRESSED_UPDATE_OBJECT0() {
+        var r = new MemoryStream([0, 137, 246, 1, 60, 1, 0, 0, 120, 1, 99, 97, 96, 96, 96, 100, 58, 236, 17, 120, 64, 158, 53, 8, 200, 134, 3, 191, 51, 13, 14, 140, 64, 222, 195, 39, 172, 12, 140, 242, 206, 10, 140, 30, 129, 32, 185, 3, 242, 138, 64, 18, 194, 110, 176, 63, 206, 205, 192, 160, 1, 228, 131, 20, 242, 3, 113, 10, 16, 51, 29, 47, 217, 192, 132, 110, 218, 81, 225, 147, 246, 40, 166, 1, 213, 0, 213, 66, 76, 131, 176, 113, 153, 198, 222, 130, 97, 218, 231, 154, 9, 168, 110, 3, 170, 129, 155, 6, 97, 55, 216, 95, 199, 234, 182, 192, 45, 24, 166, 45, 157, 177, 21, 213, 109, 64, 53, 112, 211, 32, 108, 236, 110, 3, 0, 54, 76, 48, 33, ]);
+
+        var c = (SMSG_COMPRESSED_UPDATE_OBJECT)await ServerOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedServerAsync(w);
+        w.Seek(0, SeekOrigin.Begin);
+        var s = (SMSG_COMPRESSED_UPDATE_OBJECT)await ServerOpcodeReader.ReadUnencryptedAsync(w);
+        var jsonOptions = new System.Text.Json.JsonSerializerOptions { Converters = { new OneOf.Serialization.SystemTextJson.OneOfJsonConverter() }};
+        var cJson = System.Text.Json.JsonSerializer.Serialize(c, jsonOptions);
+        var sJson = System.Text.Json.JsonSerializer.Serialize(s, jsonOptions);
+        Assert.That(cJson, Is.EqualTo(sJson));
     }
 
     [Test]

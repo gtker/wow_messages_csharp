@@ -55,6 +55,15 @@ internal static class ReadUtils
                ((ulong)b[7] << 56);
     }
 
+    internal static async Task<ulong> ReadU48(this Stream r, CancellationToken cancellationToken)
+    {
+        var b = new byte[6];
+        await r.ReadExactlyAsync(b, cancellationToken).ConfigureAwait(false);
+
+        return b[0] | ((ulong)b[1] << 8) | ((ulong)b[2] << 16) | ((ulong)b[3] << 24) | ((ulong)b[4] << 32) |
+               ((ulong)b[5] << 40);
+    }
+
     internal static async Task<bool> ReadBool8(this Stream r, CancellationToken cancellationToken) =>
         await ReadByte(r, cancellationToken).ConfigureAwait(false) switch
         {

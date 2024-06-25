@@ -34,7 +34,7 @@ public static class UpdateMaskUtils
     {
         var highestKey = values.Keys.Max();
         var amountOfBlocks = highestKey / 32;
-        if (amountOfBlocks % 32 != 0)
+        if (amountOfBlocks < 32 || amountOfBlocks % 32 != 0)
         {
             amountOfBlocks += 1;
         }

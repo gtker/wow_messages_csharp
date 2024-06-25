@@ -15,17 +15,9 @@ public static class IfStatementExtensions
                 case StructMemberDefinition:
                     break;
                 case StructMemberIfStatement innerStatement:
-                    foreach (var member in innerStatement.StructMemberContent.Members)
+                    foreach (var member in innerStatement.StructMemberContent.AllMembers())
                     {
                         yield return member;
-                    }
-
-                    foreach (var elseif in innerStatement.StructMemberContent.ElseIfStatements)
-                    {
-                        foreach (var member in elseif.AllMembers())
-                        {
-                            yield return member;
-                        }
                     }
 
                     break;
@@ -33,10 +25,36 @@ public static class IfStatementExtensions
                     throw new ArgumentOutOfRangeException(nameof(m));
             }
         }
+
+        foreach (var elseif in statement.ElseIfStatements)
+        {
+            foreach (var member in elseif.AllMembers())
+            {
+                yield return member;
+            }
+        }
     }
 
     public static string SeparateIfStatementNamePrefix(this IfStatement statement) =>
         $"{statement.VariableName.ToVariableName()}If";
+
+
+    public static HashSet<string> AllEnumeratorsAsSet(this IfStatement statement)
+    {
+        var set = new HashSet<string>();
+
+        foreach (var value in statement.Values)
+        {
+            set.Add(value);
+        }
+
+        foreach (var elseif in statement.ElseIfStatements)
+        {
+            set.UnionWith(elseif.AllEnumeratorsAsSet());
+        }
+
+        return set;
+    }
 
     public static IEnumerable<Definition> AllDefinitions(this IfStatement statement)
     {

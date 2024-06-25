@@ -138,7 +138,7 @@ public static class WriteReadImplementation
                 var d = definition.StructMemberContent;
                 var po = e.FindPreparedObject(d.Name);
 
-                WriteReadForType(s, d, po, e.NeedsBodySize(), module, objectPrefix, variableNameOverride);
+                WriteReadForType(s, d, e, po, e.NeedsBodySize(), module, objectPrefix, variableNameOverride);
                 break;
             }
             case StructMemberIfStatement statement:
@@ -155,7 +155,8 @@ public static class WriteReadImplementation
                     (s, d, members, enumerator, usedEnumerator) =>
                     {
                         var po = e.FindPreparedObject(d.Name);
-                        WriteEnd(s, d, members, enumerator, statement.StructMemberContent.IsFlag() && po.DefinerType is DefinerType.Flag, e,
+                        WriteEnd(s, d, members, enumerator,
+                            statement.StructMemberContent.IsFlag() && po.DefinerType is DefinerType.Flag, e,
                             str => str.ToVariableName(), usedEnumerator);
                     },
                     false, "");
@@ -184,7 +185,8 @@ public static class WriteReadImplementation
         }, ";");
     }
 
-    private static void WriteReadForType(Writer s, Definition d, PreparedObject po, bool needsSize, string module,
+    private static void WriteReadForType(Writer s, Definition d, Container e, PreparedObject po, bool needsSize,
+        string module,
         string objectPrefix,
         string? variableNameOverride)
     {
@@ -195,7 +197,7 @@ public static class WriteReadImplementation
 
         var isWorld = module is "Vanilla" or "Tbc" or "Wrath";
 
-        var prefix = po.IsEnumFromFlag(d) ? po.EnumName(d) :
+        var prefix = po.IsEnumFromFlag(d) ? po.EnumName(e) :
             d is { UsedInIf: true, DataType: DataTypeEnum } ? $"{d.CsTypeName()}Type" : "var";
         var variable = variableNameOverride is not null
             ? $"{variableNameOverride}{d.MemberName()}"
@@ -404,6 +406,7 @@ public static class WriteReadImplementation
                     {
                         module = "All";
                     }
+
                     item =
                         $"await {module}.{e.StructData.Name}.Read{body}Async(r, cancellationToken).ConfigureAwait(false)";
                     break;

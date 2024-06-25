@@ -181,6 +181,22 @@ public class Wrath {
 
     [Test]
     [Timeout(1000)]
+    public async Task SMSG_UPDATE_OBJECT0() {
+        var r = new MemoryStream([0, 115, 169, 0, 1, 0, 0, 0, 3, 1, 8, 4, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 205, 215, 11, 198, 53, 126, 4, 195, 249, 15, 167, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 140, 66, 0, 0, 144, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 208, 15, 73, 64, 0, 0, 0, 0, 3, 7, 0, 0, 0, 0, 0, 128, 0, 24, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 25, 0, 0, 0, 1, 0, 0, 0, 12, 77, 0, 0, 12, 77, 0, 0, ]);
+
+        var c = (SMSG_UPDATE_OBJECT)await ServerOpcodeReader.ReadUnencryptedAsync(r);
+        Assert.That(r.Position, Is.EqualTo(r.Length));
+
+        var w = new MemoryStream();
+        await c.WriteUnencryptedServerAsync(w);
+        Assert.Multiple(() => {
+            Assert.That(w.Position, Is.EqualTo(r.Position));
+            Assert.That(r, Is.EqualTo(w));
+        });
+    }
+
+    [Test]
+    [Timeout(1000)]
     public async Task MSG_MOVE_TELEPORT_ACK_Client0() {
         var r = new MemoryStream([0, 13, 199, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 38, ]);
 

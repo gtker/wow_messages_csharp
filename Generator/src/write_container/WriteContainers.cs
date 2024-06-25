@@ -20,7 +20,7 @@ public static class WriteContainers
             newline = true;
 
             var d = e.FindDefinitionByName(po.Name);
-            s.W($"using {po.EnumName(d)} = OneOf.OneOf<");
+            s.W($"using {po.EnumName(e)} = OneOf.OneOf<");
 
             foreach (var (enumerator, members) in po.Enumerators)
             {
@@ -123,7 +123,7 @@ public static class WriteContainers
         var po = e.FindPreparedObject(d.Name);
         if (po.IsEnumFromFlag(d))
         {
-            typeName = po.EnumName(d);
+            typeName = po.EnumName(e);
         }
 
         s.Wln($"public required {typeName} {d.MemberName()} {{ get; set; }}");
@@ -168,11 +168,6 @@ public static class WriteContainers
                         {
                             var d = e.FindDefinitionByName(member.Name);
                             WriteMemberDefinition(s, e, d, module);
-
-                            if (e.Name == "MovementBlock" && member.Name == "spline_flags")
-                            {
-                                int a;
-                            }
 
                             WriteEnumValue(s, member, d, e, module);
                         }
@@ -338,10 +333,17 @@ public static class WriteContainers
         var dot = isWrite && typeExists ? "" : ".";
 
         var po = e.FindPreparedObject(statement.VariableName);
+        var d = e.FindDefinitionByName(statement.VariableName);
 
         switch (statement.DefinerType)
         {
             case DefinerType.Flag:
+                if (po.DefinerType is DefinerType.Enum_ && d.DataType is DataTypeFlag &&
+                    !po.IsInMultipleStatements(e) && !isWrite)
+                {
+                    return $" & {module}.{originalType}.{enumerator.ToEnumerator()}) != 0";
+                }
+
                 if (po.DefinerType is DefinerType.Enum_ || po.IsElseifFlag)
                 {
                     if (isWrite)
@@ -349,7 +351,7 @@ public static class WriteContainers
                         return $" is {originalType}{enumerator.ToEnumerator()} {variablePrefix}";
                     }
 
-                    return $" is {module}.{originalType}.{enumerator.ToEnumerator()}";
+                    return $".HasFlag({module}.{originalType}.{enumerator.ToEnumerator()})";
                 }
 
                 if (isWrite)
@@ -417,7 +419,11 @@ public static class WriteContainers
             var usedEnumerator = primaryName ?? enumerator;
             var value = isEnumForFlag && isWrite ? $".{usedEnumerator.ToMemberName()}.Value" :
                 flag ? isWrite ? $".{usedEnumerator.ToMemberName()}" : ".Inner" : ".Value";
-            var ifHeader = $"{prefix}if ({variablePrefix}{transform(statement.VariableName)}{value}{cond})";
+            var flagEnumPrefix = po.IsEnumFromFlag(d) && !po.IsInMultipleStatements(e) && !isWrite
+                ? $"(({module}.{d.CsTypeName()})"
+                : "";
+            var ifHeader =
+                $"{prefix}if ({flagEnumPrefix}{variablePrefix}{transform(statement.VariableName)}{value}{cond})";
 
             s.Body(ifHeader, s =>
             {
@@ -427,7 +433,7 @@ public static class WriteContainers
                     invocation(s, e, member, enumerator, $"{newVariablePrefix}.", objectPrefix);
                 }
 
-                var members = !po.IsElseifFlag ? po.Enumerators[enumerator] : po.Enumerators.Take(1).First().Value;
+                var members = po.GetMembersForEnumerator(enumerator);
 
                 if (members.Any(po => e.FindDefinitionByName(po.Name).IsInType()))
                 {

@@ -52,8 +52,7 @@ public static class ContainerExtensions
             c switch
             {
                 StructMemberDefinition d => HasInvalidDefinition(d.StructMemberContent),
-                StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition) ||
-                                                     statement.StructMemberContent.IsElseIfFlag,
+                StructMemberIfStatement statement => statement.AllDefinitions().Any(HasInvalidDefinition),
                 _ => throw new ArgumentOutOfRangeException(nameof(c))
             };
     }
@@ -96,7 +95,8 @@ public static class ContainerExtensions
     }
 
     public static bool NeedsBodySize(this Container e) =>
-        (e.IsWorld() && e.AllDefinitions().Any(d => d.IsCompressed() || d.IsEndlessArray())) || e.Optional is not null;
+        (e.IsWorld() && e.AllDefinitions().Any(d => d.IsCompressed() || d.IsEndlessArray())) ||
+        e.Optional is not null || e.Tags.Compressed is true;
 
     public static IEnumerable<StructMember> AllMembers(this Container e)
     {
@@ -227,7 +227,6 @@ public static class ContainerExtensions
 
         foreach (var po in e.AllPreparedObjects())
         {
-            var d = e.FindDefinitionByName(po.Name);
             if (po.Enumerators == null || po.DefinerType is not DefinerType.Enum_ ||
                 po.Enumerators.Count == 0)
             {
@@ -251,7 +250,6 @@ public static class ContainerExtensions
     {
         foreach (var po in e.AllPreparedObjects())
         {
-            var d = e.FindDefinitionByName(po.Name);
             if (po.Enumerators == null || po.DefinerType is not DefinerType.Flag ||
                 po.Enumerators.Count == 0)
             {

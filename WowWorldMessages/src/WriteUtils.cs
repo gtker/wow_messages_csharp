@@ -54,6 +54,20 @@ public static class WriteUtils
         await w.WriteAsync(b, cancellationToken).ConfigureAwait(false);
     }
 
+    public static async Task WriteU48(this Stream w, ulong v, CancellationToken cancellationToken)
+    {
+        var b = new byte[6];
+
+        b[0] = (byte)(v & 0xFF);
+        b[1] = (byte)((v >> 8) & 0xFF);
+        b[2] = (byte)((v >> 16) & 0xFF);
+        b[3] = (byte)((v >> 24) & 0xFF);
+        b[4] = (byte)((v >> 32) & 0xFF);
+        b[5] = (byte)((v >> 40) & 0xFF);
+
+        await w.WriteAsync(b, cancellationToken).ConfigureAwait(false);
+    }
+
     public static async Task WriteCString(this Stream w, string v, CancellationToken cancellationToken)
     {
         await w.WriteAsync(Encoding.UTF8.GetBytes(v), cancellationToken).ConfigureAwait(false);
@@ -93,7 +107,7 @@ public static class WriteUtils
         var value = 0;
         for (var i = 0; i < 8; i++)
         {
-            if ((v >> (i * 8) & 0xFF) != 0)
+            if (((v >> (i * 8)) & 0xFF) != 0)
             {
                 value |= 1 << i;
             }
