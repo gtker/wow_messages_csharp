@@ -36,4 +36,32 @@ public static class PreparedObjectExtensions
 
         return s;
     }
+
+    public static bool IsFakeElseIf(this PreparedObject po, IList<PreparedObject> members) =>
+        po.IsElseifFlag && members.Count == 1 && members[0].DefinerType is DefinerType.Enum_;
+
+    private static string FirstEnumerator(this PreparedObject po)
+    {
+        var first = po.Enumerators.First().Key;
+        foreach (var (enumerator, _) in po.Enumerators)
+        {
+            if (string.CompareOrdinal(enumerator, first) > 1)
+            {
+                first = enumerator;
+            }
+        }
+
+        return first.ToMemberName();
+    }
+
+    public static string EnumName(this PreparedObject po, Definition d)
+    {
+        var isEnumInsideFlag = d.DataType is DataTypeFlag && po.DefinerType is DefinerType.Enum_;
+        if (isEnumInsideFlag)
+        {
+            return $"{d.CsTypeName()}{po.FirstEnumerator()}Multi";
+        }
+
+        return $"{d.CsTypeName()}Type";
+    }
 }

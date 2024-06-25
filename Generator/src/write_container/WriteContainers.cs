@@ -20,7 +20,7 @@ public static class WriteContainers
             newline = true;
 
             var d = e.FindDefinitionByName(po.Name);
-            s.W($"using {d.CsTypeName()}Type = OneOf.OneOf<");
+            s.W($"using {po.EnumName(d)} = OneOf.OneOf<");
 
             foreach (var (enumerator, members) in po.Enumerators)
             {
@@ -119,7 +119,14 @@ public static class WriteContainers
 
         var prefix = d.DataType is DataTypeEnum or DataTypeFlag && !d.UsedInIf ? $"{module}." : "";
 
-        s.Wln($"public required {prefix}{d.CsTypeName()}{postfix} {d.MemberName()} {{ get; set; }}");
+        var typeName = $"{prefix}{d.CsTypeName()}{postfix}";
+        var po = e.FindPreparedObject(d.Name);
+        if (po.IsElseifFlag)
+        {
+            typeName = po.Enumerators.First().Value[0].EnumName(d);
+        }
+
+        s.Wln($"public required {typeName} {d.MemberName()} {{ get; set; }}");
     }
 
     private static void WriteEnumValue(Writer s, PreparedObject po, Definition d, Container e, string module)
@@ -182,17 +189,22 @@ public static class WriteContainers
             {
                 s.Wln($"public required {d.CsTypeName()} Inner;");
 
-                foreach (var (enumerator, _) in po.Enumerators)
+                foreach (var (enumerator, members) in po.Enumerators)
                 {
+                    var typeName = d.PreparedObjectTypeName(enumerator);
+                    if (po.IsFakeElseIf(members))
+                    {
+                        typeName = $"{typeName}Multi";
+                    }
+
                     s.Wln(
-                        $"public {d.PreparedObjectTypeName(enumerator)}? {enumerator.ToEnumerator()};");
+                        $"public {typeName}? {enumerator.ToEnumerator()};");
                 }
             });
 
             foreach (var (enumerator, members) in po.Enumerators)
             {
-                var isFakeElseIf = po.IsElseifFlag && members.Count == 1 && members[0].DefinerType is DefinerType.Enum_;
-                if (isFakeElseIf)
+                if (po.IsFakeElseIf(members))
                 {
                     continue;
                 }
@@ -272,6 +284,7 @@ public static class WriteContainers
             {
                 s.Wln("using WowWorldMessages.All;");
             }
+
             s.Newline();
         }
 

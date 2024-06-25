@@ -211,6 +211,14 @@ public static class ContainerExtensions
                 yield return po;
             }
         }
+
+        if (e.Optional is { } optional)
+        {
+            foreach (var po in optional.PreparedObjects)
+            {
+                yield return po;
+            }
+        }
     }
 
     public static IEnumerable<PreparedObject> AllEnumsWithMembers(this Container e)
