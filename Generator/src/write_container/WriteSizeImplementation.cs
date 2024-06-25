@@ -56,7 +56,7 @@ public class WriteSizeImplementation
                     {
                         WriteSizeMember(s, e, member, module, variablePrefix);
                     },
-                    (_, _, _, _) => { },
+                    (_, _, _, _, _) => { },
                     true, prefix);
 
                 break;

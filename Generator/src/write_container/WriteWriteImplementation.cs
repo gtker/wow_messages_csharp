@@ -59,7 +59,7 @@ public static class WriteWriteImplementation
         switch (member)
         {
             case StructMemberDefinition d:
-                WriteWriteForType(s, d.StructMemberContent, prefix, module);
+                WriteWriteForType(s, d.StructMemberContent, prefix, e);
                 s.Newline();
                 break;
             case StructMemberIfStatement statement:
@@ -68,7 +68,7 @@ public static class WriteWriteImplementation
                     {
                         WriteWriteMember(s, e, member, module, variablePrefix);
                     },
-                    (_, _, _, _) => { },
+                    (_, _, _, _, _) => { },
                     true, prefix);
                 break;
             default:
@@ -76,7 +76,7 @@ public static class WriteWriteImplementation
         }
     }
 
-    private static void WriteWriteForType(Writer s, Definition d, string prefix, string module)
+    private static void WriteWriteForType(Writer s, Definition d, string prefix, Container e)
     {
         var value = $"{prefix}{d.MemberName()}";
         if (d.SizeOfFieldsBeforeSize is not null)
@@ -110,7 +110,12 @@ public static class WriteWriteImplementation
                     $"await w.{i.IntegerType.WriteFunction()}(({i.IntegerType.CsType()}){value}, cancellationToken).ConfigureAwait(false);");
                 break;
             case DataTypeFlag i:
-                if (d.UsedInIf)
+                var po = e.FindPreparedObject(d.Name);
+                if (po.DefinerType is DefinerType.Enum_)
+                {
+                    value += "Value";
+                }
+                else if (d.UsedInIf)
                 {
                     value += ".Inner";
                 }
@@ -175,7 +180,8 @@ public static class WriteWriteImplementation
                 break;
 
             case DataTypeCacheMask or DataTypeAddonArray or DataTypeVariableItemRandomProperty
-                or DataTypeInspectTalentGearMask or DataTypeEnchantMask or DataTypeAuraMask or DataTypeUpdateMask or DataTypeNamedGuid:
+                or DataTypeInspectTalentGearMask or DataTypeEnchantMask or DataTypeAuraMask or DataTypeUpdateMask
+                or DataTypeNamedGuid:
                 s.Wln($"await {value}.WriteAsync(w, cancellationToken).ConfigureAwait(false);");
                 break;
 

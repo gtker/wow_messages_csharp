@@ -100,7 +100,7 @@ public static class WriteReadImplementation
                                 s =>
                                 {
                                     WriteEnd(s, d, members, enumerator, false, e,
-                                        str => $"{d.Name.ToVariableName()}If{str.ToMemberName()}");
+                                        str => $"{d.Name.ToVariableName()}If{str.ToMemberName()}", enumerator);
                                 });
                         }
                     }
@@ -136,8 +136,9 @@ public static class WriteReadImplementation
             case StructMemberDefinition definition:
             {
                 var d = definition.StructMemberContent;
+                var po = e.FindPreparedObject(d.Name);
 
-                WriteReadForType(s, d, e.NeedsBodySize(), module, objectPrefix, variableNameOverride);
+                WriteReadForType(s, d, po, e.NeedsBodySize(), module, objectPrefix, variableNameOverride);
                 break;
             }
             case StructMemberIfStatement statement:
@@ -151,10 +152,11 @@ public static class WriteReadImplementation
 
                         WriteReadMember(s, e, member, module, objectPrefix, variableNameOverride);
                     },
-                    (s, d, members, enumerator) =>
+                    (s, d, members, enumerator, usedEnumerator) =>
                     {
-                        WriteEnd(s, d, members, enumerator, statement.StructMemberContent.IsFlag(), e,
-                            str => str.ToVariableName());
+                        var po = e.FindPreparedObject(d.Name);
+                        WriteEnd(s, d, members, enumerator, statement.StructMemberContent.IsFlag() && po.DefinerType is DefinerType.Flag, e,
+                            str => str.ToVariableName(), usedEnumerator);
                     },
                     false, "");
                 break;
@@ -164,9 +166,9 @@ public static class WriteReadImplementation
     }
 
     private static void WriteEnd(Writer s, Definition d, IList<PreparedObject> members, string enumerator, bool isFlag,
-        Container e, Func<string, string> variableName)
+        Container e, Func<string, string> variableName, string usedEnumerator)
     {
-        var flagExtra = isFlag ? $".{enumerator.ToMemberName()}" : "";
+        var flagExtra = isFlag ? $".{usedEnumerator.ToMemberName()}" : "";
         s.Body($"{d.VariableName()}{flagExtra} = new {d.PreparedObjectTypeName(enumerator)}", s =>
         {
             foreach (var member in members)
@@ -182,7 +184,8 @@ public static class WriteReadImplementation
         }, ";");
     }
 
-    private static void WriteReadForType(Writer s, Definition d, bool needsSize, string module, string objectPrefix,
+    private static void WriteReadForType(Writer s, Definition d, PreparedObject po, bool needsSize, string module,
+        string objectPrefix,
         string? variableNameOverride)
     {
         if (d.IsNotInType())
@@ -192,7 +195,8 @@ public static class WriteReadImplementation
 
         var isWorld = module is "Vanilla" or "Tbc" or "Wrath";
 
-        var prefix = d is { UsedInIf: true, DataType: DataTypeEnum } ? $"{d.CsTypeName()}Type" : "var";
+        var prefix = po.IsEnumFromFlag(d) ? po.EnumName(d) :
+            d is { UsedInIf: true, DataType: DataTypeEnum } ? $"{d.CsTypeName()}Type" : "var";
         var variable = variableNameOverride is not null
             ? $"{variableNameOverride}{d.MemberName()}"
             : $"{prefix} {d.VariableName()}";
@@ -212,7 +216,12 @@ public static class WriteReadImplementation
             case DataTypeFlag dataTypeFlag:
                 var read =
                     $"({dataTypeFlag.CsType()})await r.{dataTypeFlag.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false)";
-                if (d.UsedInIf)
+                if (po.DefinerType is DefinerType.Enum_)
+                {
+                    s.Wln(
+                        $"{variable} = ({module}.{dataTypeFlag.CsType()})await r.{dataTypeFlag.IntegerType.ReadFunction()}(cancellationToken).ConfigureAwait(false);");
+                }
+                else if (d.UsedInIf)
                 {
                     s.Body($"{variable} = new {d.CsTypeName()}Type", s => { s.Wln($"Inner = {read},"); },
                         ";");
@@ -391,6 +400,10 @@ public static class WriteReadImplementation
                     break;
                 case ArrayTypeStruct e:
                     var body = e.StructData.IsWorld() ? "Body" : "";
+                    if (e.StructData.Tags.Version_.IsVersionAll())
+                    {
+                        module = "All";
+                    }
                     item =
                         $"await {module}.{e.StructData.Name}.Read{body}Async(r, cancellationToken).ConfigureAwait(false)";
                     break;

@@ -169,6 +169,11 @@ public static class WriteContainers
                             var d = e.FindDefinitionByName(member.Name);
                             WriteMemberDefinition(s, e, d, module);
 
+                            if (e.Name == "MovementBlock" && member.Name == "spline_flags")
+                            {
+                                int a;
+                            }
+
                             WriteEnumValue(s, member, d, e, module);
                         }
                     });
@@ -201,6 +206,7 @@ public static class WriteContainers
                         typeName = $"{typeName}?";
                     }
 
+
                     s.Wln(
                         $"public {typeName} {enumerator.ToEnumerator()};");
                 }
@@ -220,7 +226,13 @@ public static class WriteContainers
                         var d = e.FindDefinitionByName(member.Name);
                         WriteMemberDefinition(s, e, d, module);
 
-                        WriteEnumValue(s, member, d, e, module);
+                        var newMember = member;
+                        if (member.IsElseifFlag)
+                        {
+                            newMember = member.Enumerators.First().Value[0];
+                        }
+
+                        WriteEnumValue(s, newMember, d, e, module);
                     }
                 });
             }
@@ -330,9 +342,14 @@ public static class WriteContainers
         switch (statement.DefinerType)
         {
             case DefinerType.Flag:
-                if ((po.DefinerType is DefinerType.Enum_ || po.IsElseifFlag) && isWrite)
+                if (po.DefinerType is DefinerType.Enum_ || po.IsElseifFlag)
                 {
-                    return $" is {originalType}{enumerator.ToEnumerator()} {variablePrefix}";
+                    if (isWrite)
+                    {
+                        return $" is {originalType}{enumerator.ToEnumerator()} {variablePrefix}";
+                    }
+
+                    return $" is {module}.{originalType}.{enumerator.ToEnumerator()}";
                 }
 
                 if (isWrite)
@@ -378,10 +395,11 @@ public static class WriteContainers
 
     public static void WriteIfStatement(Writer s, Container e, IfStatement statement, string module,
         Action<Writer, Container, StructMember, string, string, string> invocation,
-        Action<Writer, Definition, IList<PreparedObject>, string> end,
-        bool isWrite, string variablePrefix, bool isElseIf = false)
+        Action<Writer, Definition, IList<PreparedObject>, string, string> end,
+        bool isWrite, string variablePrefix, string? primaryName = null)
     {
         Func<string, string> transform = isWrite ? Utils.SnakeCaseToPascalCase : Utils.SnakeCaseToCamelCase;
+        var isElseIf = primaryName != null;
 
         foreach (var (i, enumerator) in statement.Values
                      .Select((v, i) => (i, v)))
@@ -394,7 +412,11 @@ public static class WriteContainers
                 enumerator, newVariablePrefix, e);
             var flag = po.DefinerType is DefinerType.Flag;
             var prefix = i != 0 || isElseIf ? "else " : "";
-            var value = flag ? isWrite ? $".{enumerator.ToMemberName()}" : ".Inner" : ".Value";
+            var isEnumForFlag = (flag && po.IsElseifFlag && statement.ElseIfStatements.Count != 0) ||
+                                (isElseIf && po.IsElseifFlag);
+            var usedEnumerator = primaryName ?? enumerator;
+            var value = isEnumForFlag && isWrite ? $".{usedEnumerator.ToMemberName()}.Value" :
+                flag ? isWrite ? $".{usedEnumerator.ToMemberName()}" : ".Inner" : ".Value";
             var ifHeader = $"{prefix}if ({variablePrefix}{transform(statement.VariableName)}{value}{cond})";
 
             s.Body(ifHeader, s =>
@@ -411,7 +433,7 @@ public static class WriteContainers
                 {
                     if (!statement.PartOfSeparateIfStatement)
                     {
-                        end(s, d, members, enumerator);
+                        end(s, d, members, enumerator, usedEnumerator);
                     }
                 }
             });
@@ -419,7 +441,7 @@ public static class WriteContainers
 
         foreach (var elseif in statement.ElseIfStatements)
         {
-            WriteIfStatement(s, e, elseif, module, invocation, end, isWrite, variablePrefix, true);
+            WriteIfStatement(s, e, elseif, module, invocation, end, isWrite, variablePrefix, statement.Values[0]);
         }
 
         if (!isElseIf)
