@@ -186,6 +186,12 @@ public static class WriteContainers
 
             foreach (var (enumerator, members) in po.Enumerators)
             {
+                var isFakeElseIf = po.IsElseifFlag && members.Count == 1 && members[0].DefinerType is DefinerType.Enum_;
+                if (isFakeElseIf)
+                {
+                    continue;
+                }
+
                 s.Body($"public class {d.PreparedObjectTypeName(enumerator)}", s =>
                 {
                     foreach (var member in members)
