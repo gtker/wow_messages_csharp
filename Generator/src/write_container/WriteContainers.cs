@@ -173,6 +173,11 @@ public static class WriteContainers
         {
             var d = e.FindDefinitionByName(po.Name);
 
+            if (po.IsElseifFlag && po.Enumerators is not null && po.Enumerators.Count == 1)
+            {
+                continue;
+            }
+
             s.Body($"public class {d.CsTypeName()}Type", s =>
             {
                 s.Wln($"public required {d.CsTypeName()} Inner;");
