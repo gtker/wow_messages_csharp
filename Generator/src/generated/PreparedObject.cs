@@ -33,6 +33,6 @@ namespace Generator.Generated
         /// </summary>
         [JsonPropertyName("enumerators")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public IDictionary<string, IList<PreparedObject>> Enumerators { get; set; }
+        public IDictionary<string, IList<PreparedObject>>? Enumerators { get; set; }
     }
 }

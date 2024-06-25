@@ -12,6 +12,7 @@ jtd-codegen --csharp-system-text-out ${GENERATOR_DIR}/src/generated --csharp-sys
 
 # Member function can not have same name as object
 sed -i 's/public string Value { get; set; }/public string value { get; set; }/' ${GENERATOR_DIR}/src/generated/Value.cs
+sed -i 's/public IDictionary<string, IList<PreparedObject>>/public IDictionary<string, IList<PreparedObject>>?/' ${GENERATOR_DIR}/src/generated/PreparedObject.cs
 
 dotnet run --project ${GENERATOR_DIR}
 
