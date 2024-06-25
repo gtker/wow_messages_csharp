@@ -220,7 +220,7 @@ public static class ContainerExtensions
         foreach (var po in e.AllPreparedObjects())
         {
             var d = e.FindDefinitionByName(po.Name);
-            if (po.Enumerators == null || d.DataType is not DataTypeEnum ||
+            if (po.Enumerators == null || po.DefinerType is not DefinerType.Enum_ ||
                 po.Enumerators.Count == 0)
             {
                 continue;
@@ -244,7 +244,7 @@ public static class ContainerExtensions
         foreach (var po in e.AllPreparedObjects())
         {
             var d = e.FindDefinitionByName(po.Name);
-            if (po.Enumerators == null || d.DataType is not DataTypeFlag ||
+            if (po.Enumerators == null || po.DefinerType is not DefinerType.Flag ||
                 po.Enumerators.Count == 0)
             {
                 continue;

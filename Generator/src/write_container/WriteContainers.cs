@@ -126,7 +126,7 @@ public static class WriteContainers
     {
         if (po.Enumerators is { } enumerators)
         {
-            if (d.DataType is DataTypeEnum)
+            if (po.DefinerType is DefinerType.Enum_)
             {
                 s.Wln(
                     $"internal {d.CsTypeName()} {d.MemberName()}Value => {d.MemberName()}.Match(");
