@@ -64,17 +64,14 @@ public class Mail {
             await w.WriteUInt(mailTypeGameobject.SenderId, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (MessageType.Value is Mail.MailTypeAuction mailTypeAuction) {
             await w.WriteUInt(mailTypeAuction.AuctionId, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (MessageType.Value is Mail.MailTypeItem mailTypeItem) {
             await w.WriteUInt(mailTypeItem.Item, cancellationToken).ConfigureAwait(false);
 
         }
-
 
         await w.WriteUInt(CashOnDelivery, cancellationToken).ConfigureAwait(false);
 
@@ -131,7 +128,6 @@ public class Mail {
                 SenderId = senderId,
             };
         }
-
         else if (messageType.Value is Wrath.MailType.Auction) {
             var auctionId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -139,7 +135,6 @@ public class Mail {
                 AuctionId = auctionId,
             };
         }
-
         else if (messageType.Value is Wrath.MailType.Item) {
             var item = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -147,7 +142,6 @@ public class Mail {
                 Item = item,
             };
         }
-
 
         var cashOnDelivery = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -218,19 +212,16 @@ public class Mail {
             size += 4;
 
         }
-
         else if (MessageType.Value is Mail.MailTypeAuction mailTypeAuction) {
             // auction_id: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
-
         else if (MessageType.Value is Mail.MailTypeItem mailTypeItem) {
             // item: Generator.Generated.DataTypeItem
             size += 4;
 
         }
-
 
         // cash_on_delivery: Generator.Generated.DataTypeGold
         size += 4;

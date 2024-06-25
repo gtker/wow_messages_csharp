@@ -44,7 +44,6 @@ public class SMSG_AUTH_RESPONSE: WrathServerMessage, IWorldMessage {
 
         }
 
-
     }
 
     public async Task WriteEncryptedServerAsync(Stream w, IServerEncrypter encrypter, CancellationToken cancellationToken = default) {
@@ -90,7 +89,6 @@ public class SMSG_AUTH_RESPONSE: WrathServerMessage, IWorldMessage {
             };
         }
 
-
         return new SMSG_AUTH_RESPONSE {
             Result = result,
         };
@@ -124,7 +122,6 @@ public class SMSG_AUTH_RESPONSE: WrathServerMessage, IWorldMessage {
             size += 1;
 
         }
-
 
         return size;
     }

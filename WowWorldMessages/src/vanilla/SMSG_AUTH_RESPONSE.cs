@@ -38,7 +38,6 @@ public class SMSG_AUTH_RESPONSE: VanillaServerMessage, IWorldMessage {
 
         }
 
-
     }
 
     public async Task WriteEncryptedServerAsync(Stream w, IServerEncrypter encrypter, CancellationToken cancellationToken = default) {
@@ -78,7 +77,6 @@ public class SMSG_AUTH_RESPONSE: VanillaServerMessage, IWorldMessage {
             };
         }
 
-
         return new SMSG_AUTH_RESPONSE {
             Result = result,
         };
@@ -106,7 +104,6 @@ public class SMSG_AUTH_RESPONSE: VanillaServerMessage, IWorldMessage {
             size += 4;
 
         }
-
 
         return size;
     }

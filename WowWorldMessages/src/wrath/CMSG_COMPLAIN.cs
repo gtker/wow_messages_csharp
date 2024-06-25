@@ -53,7 +53,6 @@ public class CMSG_COMPLAIN: WrathClientMessage, IWorldMessage {
 
         }
 
-
     }
 
     public async Task WriteEncryptedClientAsync(Stream w, IClientEncrypter encrypter, CancellationToken cancellationToken = default) {
@@ -107,7 +106,6 @@ public class CMSG_COMPLAIN: WrathClientMessage, IWorldMessage {
             };
         }
 
-
         return new CMSG_COMPLAIN {
             ComplaintType = complaintType,
             Offender = offender,
@@ -151,7 +149,6 @@ public class CMSG_COMPLAIN: WrathClientMessage, IWorldMessage {
             size += spamTypeChat.Description.Length + 1;
 
         }
-
 
         return size;
     }

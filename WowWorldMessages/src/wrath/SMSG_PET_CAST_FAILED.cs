@@ -99,21 +99,18 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
             await w.WriteUInt((uint)spellCastResultRequiresArea.Area, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultTotems spellCastResultTotems) {
             foreach (var v in spellCastResultTotems.Totems) {
                 await w.WriteUInt(v, cancellationToken).ConfigureAwait(false);
             }
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultTotemCategory spellCastResultTotemCategory) {
             foreach (var v in spellCastResultTotemCategory.TotemCategories) {
                 await w.WriteUInt(v, cancellationToken).ConfigureAwait(false);
             }
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultEquippedItemClass spellCastResultEquippedItemClass) {
             await w.WriteUInt(spellCastResultEquippedItemClass.ItemClass, cancellationToken).ConfigureAwait(false);
 
@@ -132,51 +129,42 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
             await w.WriteUInt(spellCastResultEquippedItemClassMainhand.ItemSubClass, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultTooManyOfItem spellCastResultTooManyOfItem) {
             await w.WriteUInt(spellCastResultTooManyOfItem.ItemLimitCategory, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultCustomError spellCastResultCustomError) {
             await w.WriteUInt(spellCastResultCustomError.CustomError, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultReagents spellCastResultReagents) {
             await w.WriteUInt(spellCastResultReagents.MissingItem, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultPreventedByMechanic spellCastResultPreventedByMechanic) {
             await w.WriteUInt(spellCastResultPreventedByMechanic.Mechanic, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultNeedExoticAmmo spellCastResultNeedExoticAmmo) {
             await w.WriteUInt(spellCastResultNeedExoticAmmo.EquippedItemSubClass, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultNeedMoreItems spellCastResultNeedMoreItems) {
             await w.WriteUInt(spellCastResultNeedMoreItems.Item, cancellationToken).ConfigureAwait(false);
 
             await w.WriteUInt(spellCastResultNeedMoreItems.Count, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultMinSkill spellCastResultMinSkill) {
             await w.WriteUInt((uint)spellCastResultMinSkill.Skill, cancellationToken).ConfigureAwait(false);
 
             await w.WriteUInt(spellCastResultMinSkill.SkillRequired, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultFishingTooLow spellCastResultFishingTooLow) {
             await w.WriteUInt(spellCastResultFishingTooLow.FishingSkillRequired, cancellationToken).ConfigureAwait(false);
 
         }
-
 
     }
 
@@ -216,7 +204,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
                 Area = area,
             };
         }
-
         else if (result.Value is Wrath.SpellCastResult.Totems) {
             var totems = new uint[SpellCastResultTotems.TotemsLength];
             for (var i = 0; i < SpellCastResultTotems.TotemsLength; ++i) {
@@ -227,7 +214,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
                 Totems = totems,
             };
         }
-
         else if (result.Value is Wrath.SpellCastResult.TotemCategory) {
             var totemCategories = new uint[SpellCastResultTotemCategory.TotemCategoriesLength];
             for (var i = 0; i < SpellCastResultTotemCategory.TotemCategoriesLength; ++i) {
@@ -238,7 +224,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
                 TotemCategories = totemCategories,
             };
         }
-
         else if (result.Value is Wrath.SpellCastResult.EquippedItemClass) {
             var itemClass = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -269,7 +254,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
                 ItemSubClass = itemSubClass,
             };
         }
-
         else if (result.Value is Wrath.SpellCastResult.TooManyOfItem) {
             var itemLimitCategory = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -277,7 +261,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
                 ItemLimitCategory = itemLimitCategory,
             };
         }
-
         else if (result.Value is Wrath.SpellCastResult.CustomError) {
             var customError = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -285,7 +268,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
                 CustomError = customError,
             };
         }
-
         else if (result.Value is Wrath.SpellCastResult.Reagents) {
             var missingItem = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -293,7 +275,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
                 MissingItem = missingItem,
             };
         }
-
         else if (result.Value is Wrath.SpellCastResult.PreventedByMechanic) {
             var mechanic = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -301,7 +282,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
                 Mechanic = mechanic,
             };
         }
-
         else if (result.Value is Wrath.SpellCastResult.NeedExoticAmmo) {
             var equippedItemSubClass = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -309,7 +289,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
                 EquippedItemSubClass = equippedItemSubClass,
             };
         }
-
         else if (result.Value is Wrath.SpellCastResult.NeedMoreItems) {
             var item = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -320,7 +299,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
                 Item = item,
             };
         }
-
         else if (result.Value is Wrath.SpellCastResult.MinSkill) {
             var skill = (Wrath.Skill)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -331,7 +309,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
                 SkillRequired = skillRequired,
             };
         }
-
         else if (result.Value is Wrath.SpellCastResult.FishingTooLow) {
             var fishingSkillRequired = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -339,7 +316,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
                 FishingSkillRequired = fishingSkillRequired,
             };
         }
-
 
         return new SMSG_PET_CAST_FAILED {
             CastCount = castCount,
@@ -374,19 +350,16 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
             size += 4;
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultTotems spellCastResultTotems) {
             // totems: Generator.Generated.DataTypeArray
             size += spellCastResultTotems.Totems.Sum(e => 4);
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultTotemCategory spellCastResultTotemCategory) {
             // totem_categories: Generator.Generated.DataTypeArray
             size += spellCastResultTotemCategory.TotemCategories.Sum(e => 4);
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultEquippedItemClass spellCastResultEquippedItemClass) {
             // item_class: Generator.Generated.DataTypeInteger
             size += 4;
@@ -411,37 +384,31 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
             size += 4;
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultTooManyOfItem spellCastResultTooManyOfItem) {
             // item_limit_category: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultCustomError spellCastResultCustomError) {
             // custom_error: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultReagents spellCastResultReagents) {
             // missing_item: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultPreventedByMechanic spellCastResultPreventedByMechanic) {
             // mechanic: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultNeedExoticAmmo spellCastResultNeedExoticAmmo) {
             // equipped_item_sub_class: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultNeedMoreItems spellCastResultNeedMoreItems) {
             // item: Generator.Generated.DataTypeItem
             size += 4;
@@ -450,7 +417,6 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
             size += 4;
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultMinSkill spellCastResultMinSkill) {
             // skill: Generator.Generated.DataTypeEnum
             size += 4;
@@ -459,13 +425,11 @@ public class SMSG_PET_CAST_FAILED: WrathServerMessage, IWorldMessage {
             size += 4;
 
         }
-
         else if (Result.Value is SMSG_PET_CAST_FAILED.SpellCastResultFishingTooLow spellCastResultFishingTooLow) {
             // fishing_skill_required: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
-
 
         return size;
     }

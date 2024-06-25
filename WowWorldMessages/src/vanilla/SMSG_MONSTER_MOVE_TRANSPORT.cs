@@ -51,12 +51,10 @@ public class SMSG_MONSTER_MOVE_TRANSPORT: VanillaServerMessage, IWorldMessage {
             await w.WriteFloat(monsterMoveTypeFacingAngle.Angle, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (MoveType.Value is SMSG_MONSTER_MOVE_TRANSPORT.MonsterMoveTypeFacingSpot monsterMoveTypeFacingSpot) {
             await monsterMoveTypeFacingSpot.Position.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
 
         }
-
 
         await w.WriteUInt((uint)SplineFlags, cancellationToken).ConfigureAwait(false);
 
@@ -104,7 +102,6 @@ public class SMSG_MONSTER_MOVE_TRANSPORT: VanillaServerMessage, IWorldMessage {
                 Angle = angle,
             };
         }
-
         else if (moveType.Value is Vanilla.MonsterMoveType.FacingSpot) {
             var position = await Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
 
@@ -112,7 +109,6 @@ public class SMSG_MONSTER_MOVE_TRANSPORT: VanillaServerMessage, IWorldMessage {
                 Position = position,
             };
         }
-
 
         var splineFlags = (SplineFlag)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -160,13 +156,11 @@ public class SMSG_MONSTER_MOVE_TRANSPORT: VanillaServerMessage, IWorldMessage {
             size += 4;
 
         }
-
         else if (MoveType.Value is SMSG_MONSTER_MOVE_TRANSPORT.MonsterMoveTypeFacingSpot monsterMoveTypeFacingSpot) {
             // position: Generator.Generated.DataTypeStruct
             size += 12;
 
         }
-
 
         // spline_flags: Generator.Generated.DataTypeFlag
         size += 4;

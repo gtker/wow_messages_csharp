@@ -62,7 +62,6 @@ public class SMSG_ARENA_TEAM_EVENT: WrathServerMessage, IWorldMessage {
             await w.WriteULong(arenaTeamEventLeave.Leaver, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventRemove arenaTeamEventRemove) {
             await w.WriteCString(arenaTeamEventRemove.KickedPlayerName, cancellationToken).ConfigureAwait(false);
 
@@ -71,7 +70,6 @@ public class SMSG_ARENA_TEAM_EVENT: WrathServerMessage, IWorldMessage {
             await w.WriteCString(arenaTeamEventRemove.KickerName, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeaderIs arenaTeamEventLeaderIs) {
             await w.WriteCString(arenaTeamEventLeaderIs.LeaderName, cancellationToken).ConfigureAwait(false);
 
@@ -84,14 +82,12 @@ public class SMSG_ARENA_TEAM_EVENT: WrathServerMessage, IWorldMessage {
             await w.WriteCString(arenaTeamEventDisbanded.ArenaTeamName3, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeaderChanged arenaTeamEventLeaderChanged) {
             await w.WriteCString(arenaTeamEventLeaderChanged.OldLeader, cancellationToken).ConfigureAwait(false);
 
             await w.WriteCString(arenaTeamEventLeaderChanged.NewLeader, cancellationToken).ConfigureAwait(false);
 
         }
-
 
         await w.WriteByte((byte)StringValue.Count, cancellationToken).ConfigureAwait(false);
 
@@ -140,7 +136,6 @@ public class SMSG_ARENA_TEAM_EVENT: WrathServerMessage, IWorldMessage {
                 LeaverName = leaverName,
             };
         }
-
         else if (eventValue.Value is Wrath.ArenaTeamEvent.Remove) {
             var kickedPlayerName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
@@ -154,7 +149,6 @@ public class SMSG_ARENA_TEAM_EVENT: WrathServerMessage, IWorldMessage {
                 KickerName = kickerName,
             };
         }
-
         else if (eventValue.Value is Wrath.ArenaTeamEvent.LeaderIs) {
             var leaderName = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
@@ -175,7 +169,6 @@ public class SMSG_ARENA_TEAM_EVENT: WrathServerMessage, IWorldMessage {
                 LeaderName = leaderName,
             };
         }
-
         else if (eventValue.Value is Wrath.ArenaTeamEvent.LeaderChanged) {
             var oldLeader = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
@@ -186,7 +179,6 @@ public class SMSG_ARENA_TEAM_EVENT: WrathServerMessage, IWorldMessage {
                 OldLeader = oldLeader,
             };
         }
-
 
         // ReSharper disable once UnusedVariable.Compiler
         var amountOfStrings = await r.ReadByte(cancellationToken).ConfigureAwait(false);
@@ -227,7 +219,6 @@ public class SMSG_ARENA_TEAM_EVENT: WrathServerMessage, IWorldMessage {
             size += 8;
 
         }
-
         else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventRemove arenaTeamEventRemove) {
             // kicked_player_name: Generator.Generated.DataTypeCstring
             size += arenaTeamEventRemove.KickedPlayerName.Length + 1;
@@ -239,7 +230,6 @@ public class SMSG_ARENA_TEAM_EVENT: WrathServerMessage, IWorldMessage {
             size += arenaTeamEventRemove.KickerName.Length + 1;
 
         }
-
         else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeaderIs arenaTeamEventLeaderIs) {
             // leader_name: Generator.Generated.DataTypeCstring
             size += arenaTeamEventLeaderIs.LeaderName.Length + 1;
@@ -256,7 +246,6 @@ public class SMSG_ARENA_TEAM_EVENT: WrathServerMessage, IWorldMessage {
             size += arenaTeamEventDisbanded.ArenaTeamName3.Length + 1;
 
         }
-
         else if (EventValue.Value is SMSG_ARENA_TEAM_EVENT.ArenaTeamEventLeaderChanged arenaTeamEventLeaderChanged) {
             // old_leader: Generator.Generated.DataTypeCstring
             size += arenaTeamEventLeaderChanged.OldLeader.Length + 1;
@@ -265,7 +254,6 @@ public class SMSG_ARENA_TEAM_EVENT: WrathServerMessage, IWorldMessage {
             size += arenaTeamEventLeaderChanged.NewLeader.Length + 1;
 
         }
-
 
         // amount_of_strings: Generator.Generated.DataTypeInteger
         size += 1;

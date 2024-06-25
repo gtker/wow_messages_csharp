@@ -35,7 +35,6 @@ public class MSG_RAID_TARGET_UPDATE_Server: VanillaServerMessage, IWorldMessage 
 
         }
 
-
     }
 
     public async Task WriteEncryptedServerAsync(Stream w, IServerEncrypter encrypter, CancellationToken cancellationToken = default) {
@@ -72,7 +71,6 @@ public class MSG_RAID_TARGET_UPDATE_Server: VanillaServerMessage, IWorldMessage 
             };
         }
 
-
         return new MSG_RAID_TARGET_UPDATE_Server {
             UpdateType = updateType,
         };
@@ -94,7 +92,6 @@ public class MSG_RAID_TARGET_UPDATE_Server: VanillaServerMessage, IWorldMessage 
             size += 9;
 
         }
-
 
         return size;
     }

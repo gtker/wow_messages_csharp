@@ -422,6 +422,9 @@ public static class WriteContainers
             WriteIfStatement(s, e, elseif, module, invocation, end, isWrite, variablePrefix, true);
         }
 
-        s.Newline();
+        if (!isElseIf)
+        {
+            s.Newline();
+        }
     }
 }

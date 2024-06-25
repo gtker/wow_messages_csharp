@@ -51,7 +51,6 @@ public class GuildLogEvent {
 
         }
 
-
         await w.WriteUInt(UnixTime, cancellationToken).ConfigureAwait(false);
 
     }
@@ -89,7 +88,6 @@ public class GuildLogEvent {
                 NewRank = newRank,
             };
         }
-
 
         var unixTime = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -129,7 +127,6 @@ public class GuildLogEvent {
             size += 1;
 
         }
-
 
         // unix_time: Generator.Generated.DataTypeInteger
         size += 4;

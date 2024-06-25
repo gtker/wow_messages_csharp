@@ -69,14 +69,12 @@ public class SMSG_BATTLEFIELD_STATUS: TbcServerMessage, IWorldMessage {
             await w.WriteUInt(statusIdWaitJoin.TimeToRemoveInQueueInMs, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (StatusId.Value is SMSG_BATTLEFIELD_STATUS.StatusIdInProgress statusIdInProgress) {
             await w.WriteUInt(statusIdInProgress.TimeToBgAutoleaveInMs, cancellationToken).ConfigureAwait(false);
 
             await w.WriteUInt(statusIdInProgress.TimeToBgStartInMs, cancellationToken).ConfigureAwait(false);
 
         }
-
 
     }
 
@@ -127,7 +125,6 @@ public class SMSG_BATTLEFIELD_STATUS: TbcServerMessage, IWorldMessage {
                 TimeToRemoveInQueueInMs = timeToRemoveInQueueInMs,
             };
         }
-
         else if (statusId.Value is Tbc.StatusId.InProgress) {
             var timeToBgAutoleaveInMs = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -138,7 +135,6 @@ public class SMSG_BATTLEFIELD_STATUS: TbcServerMessage, IWorldMessage {
                 TimeToBgStartInMs = timeToBgStartInMs,
             };
         }
-
 
         return new SMSG_BATTLEFIELD_STATUS {
             QueueSlot = queueSlot,
@@ -192,7 +188,6 @@ public class SMSG_BATTLEFIELD_STATUS: TbcServerMessage, IWorldMessage {
             size += 4;
 
         }
-
         else if (StatusId.Value is SMSG_BATTLEFIELD_STATUS.StatusIdInProgress statusIdInProgress) {
             // time_to_bg_autoleave_in_ms: Generator.Generated.DataTypeInteger
             size += 4;
@@ -201,7 +196,6 @@ public class SMSG_BATTLEFIELD_STATUS: TbcServerMessage, IWorldMessage {
             size += 4;
 
         }
-
 
         return size;
     }

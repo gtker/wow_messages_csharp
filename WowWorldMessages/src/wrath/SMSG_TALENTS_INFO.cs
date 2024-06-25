@@ -46,7 +46,6 @@ public class SMSG_TALENTS_INFO: WrathServerMessage, IWorldMessage {
 
         }
 
-
     }
 
     public async Task WriteEncryptedServerAsync(Stream w, IServerEncrypter encrypter, CancellationToken cancellationToken = default) {
@@ -97,7 +96,6 @@ public class SMSG_TALENTS_INFO: WrathServerMessage, IWorldMessage {
             };
         }
 
-
         return new SMSG_TALENTS_INFO {
             TalentType = talentType,
             PointsLeft = pointsLeft,
@@ -132,7 +130,6 @@ public class SMSG_TALENTS_INFO: WrathServerMessage, IWorldMessage {
             size += talentInfoTypePlayer.Specs.Sum(e => e.Size());
 
         }
-
 
         return size;
     }

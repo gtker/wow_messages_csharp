@@ -74,12 +74,10 @@ public class Mail {
             await w.WriteUInt(mailTypeGameobject.SenderId, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (MessageType.Value is Mail.MailTypeAuction mailTypeAuction) {
             await w.WriteUInt(mailTypeAuction.AuctionId, cancellationToken).ConfigureAwait(false);
 
         }
-
 
         await w.WriteCString(Subject, cancellationToken).ConfigureAwait(false);
 
@@ -143,7 +141,6 @@ public class Mail {
                 SenderId = senderId,
             };
         }
-
         else if (messageType.Value is Vanilla.MailType.Auction) {
             var auctionId = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -151,7 +148,6 @@ public class Mail {
                 AuctionId = auctionId,
             };
         }
-
 
         var subject = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
@@ -234,13 +230,11 @@ public class Mail {
             size += 4;
 
         }
-
         else if (MessageType.Value is Mail.MailTypeAuction mailTypeAuction) {
             // auction_id: Generator.Generated.DataTypeInteger
             size += 4;
 
         }
-
 
         // subject: Generator.Generated.DataTypeCstring
         size += Subject.Length + 1;

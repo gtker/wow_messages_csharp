@@ -264,7 +264,6 @@ public class SMSG_SEND_MAIL_RESULT: WrathServerMessage, IWorldMessage {
 
             }
 
-
         }
         else if (Action.Value is SMSG_SEND_MAIL_RESULT.MailActionSend mailActionSend) {
             await w.WriteUInt((uint)mailActionSend.Result2Value, cancellationToken).ConfigureAwait(false);
@@ -311,7 +310,6 @@ public class SMSG_SEND_MAIL_RESULT: WrathServerMessage, IWorldMessage {
             }
 
         }
-
 
     }
 
@@ -474,7 +472,6 @@ public class SMSG_SEND_MAIL_RESULT: WrathServerMessage, IWorldMessage {
                 };
             }
 
-
             action = new MailActionItemTaken {
                 Result = result,
             };
@@ -554,7 +551,6 @@ public class SMSG_SEND_MAIL_RESULT: WrathServerMessage, IWorldMessage {
                 Result2 = result2,
             };
         }
-
 
         return new SMSG_SEND_MAIL_RESULT {
             MailId = mailId,
@@ -685,7 +681,6 @@ public class SMSG_SEND_MAIL_RESULT: WrathServerMessage, IWorldMessage {
 
             }
 
-
         }
         else if (Action.Value is SMSG_SEND_MAIL_RESULT.MailActionSend mailActionSend) {
             // result2: Generator.Generated.DataTypeEnum
@@ -742,7 +737,6 @@ public class SMSG_SEND_MAIL_RESULT: WrathServerMessage, IWorldMessage {
             }
 
         }
-
 
         return size;
     }

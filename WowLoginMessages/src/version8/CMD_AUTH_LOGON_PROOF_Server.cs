@@ -101,7 +101,6 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version8ServerMessage, ILoginMessage {
 
         }
 
-
     }
 
     public static async Task<CMD_AUTH_LOGON_PROOF_Server> ReadAsync(Stream r, CancellationToken cancellationToken = default) {
@@ -206,7 +205,6 @@ public class CMD_AUTH_LOGON_PROOF_Server: Version8ServerMessage, ILoginMessage {
             var padding = await r.ReadUShort(cancellationToken).ConfigureAwait(false);
 
         }
-
 
         return new CMD_AUTH_LOGON_PROOF_Server {
             Result = result,

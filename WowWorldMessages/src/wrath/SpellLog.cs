@@ -127,14 +127,12 @@ public class SpellLog {
             await w.WriteUInt(spellEffectAddExtraAttacks.ExtraAttacks, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectInterruptCast spellEffectInterruptCast) {
             await w.WritePackedGuid(spellEffectInterruptCast.Target5, cancellationToken).ConfigureAwait(false);
 
             await w.WriteUInt(spellEffectInterruptCast.InterruptedSpell, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectDurabilityDamage spellEffectDurabilityDamage) {
             await w.WritePackedGuid(spellEffectDurabilityDamage.Target6, cancellationToken).ConfigureAwait(false);
 
@@ -143,7 +141,6 @@ public class SpellLog {
             await w.WriteUInt(spellEffectDurabilityDamage.Unknown5, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectOpenLock spellEffectOpenLock) {
             await w.WritePackedGuid(spellEffectOpenLock.LockTarget, cancellationToken).ConfigureAwait(false);
 
@@ -152,7 +149,6 @@ public class SpellLog {
             await w.WritePackedGuid(spellEffectOpenLockItem.LockTarget, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectCreateItem spellEffectCreateItem) {
             await w.WriteUInt(spellEffectCreateItem.Item, cancellationToken).ConfigureAwait(false);
 
@@ -161,7 +157,6 @@ public class SpellLog {
             await w.WriteUInt(spellEffectCreateItem2.Item, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectSummon spellEffectSummon) {
             await w.WritePackedGuid(spellEffectSummon.SummonTarget, cancellationToken).ConfigureAwait(false);
 
@@ -202,17 +197,14 @@ public class SpellLog {
             await w.WritePackedGuid(spellEffectSummonObjectSlot4.SummonTarget, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectFeedPet spellEffectFeedPet) {
             await w.WritePackedGuid(spellEffectFeedPet.PetFeedGuid, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectDismissPet spellEffectDismissPet) {
             await w.WritePackedGuid(spellEffectDismissPet.PetDismissGuid, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectResurrect spellEffectResurrect) {
             await w.WritePackedGuid(spellEffectResurrect.ResurrectGuid, cancellationToken).ConfigureAwait(false);
 
@@ -221,7 +213,6 @@ public class SpellLog {
             await w.WritePackedGuid(spellEffectResurrectNew.ResurrectGuid, cancellationToken).ConfigureAwait(false);
 
         }
-
 
     }
 
@@ -257,7 +248,6 @@ public class SpellLog {
                 Target4 = target4,
             };
         }
-
         else if (effect.Value is Wrath.SpellEffect.InterruptCast) {
             var target5 = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
 
@@ -268,7 +258,6 @@ public class SpellLog {
                 Target5 = target5,
             };
         }
-
         else if (effect.Value is Wrath.SpellEffect.DurabilityDamage) {
             var target6 = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
 
@@ -282,7 +271,6 @@ public class SpellLog {
                 Unknown5 = unknown5,
             };
         }
-
         else if (effect.Value is Wrath.SpellEffect.OpenLock) {
             var lockTarget = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
 
@@ -297,7 +285,6 @@ public class SpellLog {
                 LockTarget = lockTarget,
             };
         }
-
         else if (effect.Value is Wrath.SpellEffect.CreateItem) {
             var item = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -312,7 +299,6 @@ public class SpellLog {
                 Item = item,
             };
         }
-
         else if (effect.Value is Wrath.SpellEffect.Summon) {
             var summonTarget = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
 
@@ -383,7 +369,6 @@ public class SpellLog {
                 SummonTarget = summonTarget,
             };
         }
-
         else if (effect.Value is Wrath.SpellEffect.FeedPet) {
             var petFeedGuid = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
 
@@ -391,7 +376,6 @@ public class SpellLog {
                 PetFeedGuid = petFeedGuid,
             };
         }
-
         else if (effect.Value is Wrath.SpellEffect.DismissPet) {
             var petDismissGuid = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
 
@@ -399,7 +383,6 @@ public class SpellLog {
                 PetDismissGuid = petDismissGuid,
             };
         }
-
         else if (effect.Value is Wrath.SpellEffect.Resurrect) {
             var resurrectGuid = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
 
@@ -414,7 +397,6 @@ public class SpellLog {
                 ResurrectGuid = resurrectGuid,
             };
         }
-
 
         return new SpellLog {
             Effect = effect,
@@ -452,7 +434,6 @@ public class SpellLog {
             size += 4;
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectInterruptCast spellEffectInterruptCast) {
             // target5: Generator.Generated.DataTypePackedGuid
             size += spellEffectInterruptCast.Target5.PackedGuidLength();
@@ -461,7 +442,6 @@ public class SpellLog {
             size += 4;
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectDurabilityDamage spellEffectDurabilityDamage) {
             // target6: Generator.Generated.DataTypePackedGuid
             size += spellEffectDurabilityDamage.Target6.PackedGuidLength();
@@ -473,7 +453,6 @@ public class SpellLog {
             size += 4;
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectOpenLock spellEffectOpenLock) {
             // lock_target: Generator.Generated.DataTypePackedGuid
             size += spellEffectOpenLock.LockTarget.PackedGuidLength();
@@ -484,7 +463,6 @@ public class SpellLog {
             size += spellEffectOpenLockItem.LockTarget.PackedGuidLength();
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectCreateItem spellEffectCreateItem) {
             // item: Generator.Generated.DataTypeItem
             size += 4;
@@ -495,7 +473,6 @@ public class SpellLog {
             size += 4;
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectSummon spellEffectSummon) {
             // summon_target: Generator.Generated.DataTypePackedGuid
             size += spellEffectSummon.SummonTarget.PackedGuidLength();
@@ -546,19 +523,16 @@ public class SpellLog {
             size += spellEffectSummonObjectSlot4.SummonTarget.PackedGuidLength();
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectFeedPet spellEffectFeedPet) {
             // pet_feed_guid: Generator.Generated.DataTypePackedGuid
             size += spellEffectFeedPet.PetFeedGuid.PackedGuidLength();
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectDismissPet spellEffectDismissPet) {
             // pet_dismiss_guid: Generator.Generated.DataTypePackedGuid
             size += spellEffectDismissPet.PetDismissGuid.PackedGuidLength();
 
         }
-
         else if (Effect.Value is SpellLog.SpellEffectResurrect spellEffectResurrect) {
             // resurrect_guid: Generator.Generated.DataTypePackedGuid
             size += spellEffectResurrect.ResurrectGuid.PackedGuidLength();
@@ -569,7 +543,6 @@ public class SpellLog {
             size += spellEffectResurrectNew.ResurrectGuid.PackedGuidLength();
 
         }
-
 
         return size;
     }

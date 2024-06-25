@@ -77,14 +77,12 @@ public class SMSG_UPDATE_INSTANCE_ENCOUNTER_UNIT: WrathServerMessage, IWorldMess
             await w.WriteByte(encounterFrameDisableObjective.Parameter2, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Frame.Value is SMSG_UPDATE_INSTANCE_ENCOUNTER_UNIT.EncounterFrameUpdateObjective encounterFrameUpdateObjective) {
             await w.WriteByte(encounterFrameUpdateObjective.Parameter3, cancellationToken).ConfigureAwait(false);
 
             await w.WriteByte(encounterFrameUpdateObjective.Parameter4, cancellationToken).ConfigureAwait(false);
 
         }
-
 
     }
 
@@ -155,7 +153,6 @@ public class SMSG_UPDATE_INSTANCE_ENCOUNTER_UNIT: WrathServerMessage, IWorldMess
                 Parameter2 = parameter2,
             };
         }
-
         else if (frame.Value is Wrath.EncounterFrame.UpdateObjective) {
             var parameter3 = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
@@ -166,7 +163,6 @@ public class SMSG_UPDATE_INSTANCE_ENCOUNTER_UNIT: WrathServerMessage, IWorldMess
                 Parameter4 = parameter4,
             };
         }
-
 
         return new SMSG_UPDATE_INSTANCE_ENCOUNTER_UNIT {
             Frame = frame,
@@ -218,7 +214,6 @@ public class SMSG_UPDATE_INSTANCE_ENCOUNTER_UNIT: WrathServerMessage, IWorldMess
             size += 1;
 
         }
-
         else if (Frame.Value is SMSG_UPDATE_INSTANCE_ENCOUNTER_UNIT.EncounterFrameUpdateObjective encounterFrameUpdateObjective) {
             // parameter3: Generator.Generated.DataTypeInteger
             size += 1;
@@ -227,7 +222,6 @@ public class SMSG_UPDATE_INSTANCE_ENCOUNTER_UNIT: WrathServerMessage, IWorldMess
             size += 1;
 
         }
-
 
         return size;
     }

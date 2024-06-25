@@ -41,7 +41,6 @@ public class SMSG_AUTH_RESPONSE: TbcServerMessage, IWorldMessage {
 
         }
 
-
     }
 
     public async Task WriteEncryptedServerAsync(Stream w, IServerEncrypter encrypter, CancellationToken cancellationToken = default) {
@@ -84,7 +83,6 @@ public class SMSG_AUTH_RESPONSE: TbcServerMessage, IWorldMessage {
             };
         }
 
-
         return new SMSG_AUTH_RESPONSE {
             Result = result,
         };
@@ -115,7 +113,6 @@ public class SMSG_AUTH_RESPONSE: TbcServerMessage, IWorldMessage {
             size += 4;
 
         }
-
 
         return size;
     }

@@ -103,9 +103,7 @@ public class CMSG_GUILD_BANK_SWAP_ITEMS: TbcClientMessage, IWorldMessage {
 
             }
 
-
         }
-
 
         foreach (var v in Unknown5) {
             await w.WriteByte(v, cancellationToken).ConfigureAwait(false);
@@ -221,7 +219,6 @@ public class CMSG_GUILD_BANK_SWAP_ITEMS: TbcClientMessage, IWorldMessage {
                 };
             }
 
-
             source = new BankSwapSourceInventory {
                 BankSlot = bankSlot,
                 BankTab = bankTab,
@@ -229,7 +226,6 @@ public class CMSG_GUILD_BANK_SWAP_ITEMS: TbcClientMessage, IWorldMessage {
                 Mode = mode,
             };
         }
-
 
         var unknown5 = new List<byte>();
         while (__size < bodySize) {
@@ -318,9 +314,7 @@ public class CMSG_GUILD_BANK_SWAP_ITEMS: TbcClientMessage, IWorldMessage {
 
             }
 
-
         }
-
 
         // unknown5: Generator.Generated.DataTypeArray
         size += Unknown5.Sum(e => 1);

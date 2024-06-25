@@ -95,7 +95,6 @@ public class AuraLog {
             await w.WriteUInt(auraTypeObsModHealth.Damage2, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (AuraType.Value is AuraLog.AuraTypeObsModMana auraTypeObsModMana) {
             await w.WriteUInt(auraTypeObsModMana.MiscValue1, cancellationToken).ConfigureAwait(false);
 
@@ -108,7 +107,6 @@ public class AuraLog {
             await w.WriteUInt(auraTypePeriodicEnergize.Damage3, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (AuraType.Value is AuraLog.AuraTypePeriodicManaLeech auraTypePeriodicManaLeech) {
             await w.WriteUInt(auraTypePeriodicManaLeech.MiscValue2, cancellationToken).ConfigureAwait(false);
 
@@ -117,7 +115,6 @@ public class AuraLog {
             await w.WriteFloat(auraTypePeriodicManaLeech.GainMultiplier, cancellationToken).ConfigureAwait(false);
 
         }
-
 
     }
 
@@ -170,7 +167,6 @@ public class AuraLog {
                 Damage2 = damage2,
             };
         }
-
         else if (auraType.Value is Vanilla.AuraType.ObsModMana) {
             var miscValue1 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -191,7 +187,6 @@ public class AuraLog {
                 MiscValue1 = miscValue1,
             };
         }
-
         else if (auraType.Value is Vanilla.AuraType.PeriodicManaLeech) {
             var miscValue2 = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -205,7 +200,6 @@ public class AuraLog {
                 MiscValue2 = miscValue2,
             };
         }
-
 
         return new AuraLog {
             AuraType = auraType,
@@ -256,7 +250,6 @@ public class AuraLog {
             size += 4;
 
         }
-
         else if (AuraType.Value is AuraLog.AuraTypeObsModMana auraTypeObsModMana) {
             // misc_value1: Generator.Generated.DataTypeInteger
             size += 4;
@@ -273,7 +266,6 @@ public class AuraLog {
             size += 4;
 
         }
-
         else if (AuraType.Value is AuraLog.AuraTypePeriodicManaLeech auraTypePeriodicManaLeech) {
             // misc_value2: Generator.Generated.DataTypeInteger
             size += 4;
@@ -285,7 +277,6 @@ public class AuraLog {
             size += 4;
 
         }
-
 
         return size;
     }

@@ -60,7 +60,6 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
             await w.WriteUInt(tradeStatusCloseWindow.ItemLimitCategoryId, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusOnlyConjured tradeStatusOnlyConjured) {
             await w.WriteByte(tradeStatusOnlyConjured.Slot, cancellationToken).ConfigureAwait(false);
 
@@ -69,7 +68,6 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
             await w.WriteByte(tradeStatusNotOnTaplist.Slot, cancellationToken).ConfigureAwait(false);
 
         }
-
 
     }
 
@@ -109,7 +107,6 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
                 TargetError = targetError,
             };
         }
-
         else if (status.Value is Vanilla.TradeStatus.OnlyConjured) {
             var slot = await r.ReadByte(cancellationToken).ConfigureAwait(false);
 
@@ -124,7 +121,6 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
                 Slot = slot,
             };
         }
-
 
         return new SMSG_TRADE_STATUS {
             Status = status,
@@ -153,7 +149,6 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
             size += 4;
 
         }
-
         else if (Status.Value is SMSG_TRADE_STATUS.TradeStatusOnlyConjured tradeStatusOnlyConjured) {
             // slot: Generator.Generated.DataTypeInteger
             size += 1;
@@ -164,7 +159,6 @@ public class SMSG_TRADE_STATUS: VanillaServerMessage, IWorldMessage {
             size += 1;
 
         }
-
 
         return size;
     }

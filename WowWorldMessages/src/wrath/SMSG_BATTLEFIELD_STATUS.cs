@@ -90,7 +90,6 @@ public class SMSG_BATTLEFIELD_STATUS: WrathServerMessage, IWorldMessage {
             await w.WriteUInt(statusIdWaitJoin.TimeToRemoveInQueueInMs, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (StatusId.Value is SMSG_BATTLEFIELD_STATUS.StatusIdInProgress statusIdInProgress) {
             await w.WriteUInt((uint)statusIdInProgress.Map2, cancellationToken).ConfigureAwait(false);
 
@@ -103,7 +102,6 @@ public class SMSG_BATTLEFIELD_STATUS: WrathServerMessage, IWorldMessage {
             await w.WriteByte((byte)statusIdInProgress.Faction, cancellationToken).ConfigureAwait(false);
 
         }
-
 
     }
 
@@ -164,7 +162,6 @@ public class SMSG_BATTLEFIELD_STATUS: WrathServerMessage, IWorldMessage {
                 Unknown2 = unknown2,
             };
         }
-
         else if (statusId.Value is Wrath.StatusId.InProgress) {
             var map2 = (Wrath.Map)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -184,7 +181,6 @@ public class SMSG_BATTLEFIELD_STATUS: WrathServerMessage, IWorldMessage {
                 Unknown3 = unknown3,
             };
         }
-
 
         return new SMSG_BATTLEFIELD_STATUS {
             QueueSlot = queueSlot,
@@ -252,7 +248,6 @@ public class SMSG_BATTLEFIELD_STATUS: WrathServerMessage, IWorldMessage {
             size += 4;
 
         }
-
         else if (StatusId.Value is SMSG_BATTLEFIELD_STATUS.StatusIdInProgress statusIdInProgress) {
             // map2: Generator.Generated.DataTypeEnum
             size += 4;
@@ -270,7 +265,6 @@ public class SMSG_BATTLEFIELD_STATUS: WrathServerMessage, IWorldMessage {
             size += 1;
 
         }
-
 
         return size;
     }

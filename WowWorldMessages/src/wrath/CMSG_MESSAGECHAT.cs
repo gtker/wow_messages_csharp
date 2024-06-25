@@ -36,7 +36,6 @@ public class CMSG_MESSAGECHAT: WrathClientMessage, IWorldMessage {
 
         }
 
-
         await w.WriteCString(Message, cancellationToken).ConfigureAwait(false);
 
     }
@@ -74,7 +73,6 @@ public class CMSG_MESSAGECHAT: WrathClientMessage, IWorldMessage {
             };
         }
 
-
         var message = await r.ReadCString(cancellationToken).ConfigureAwait(false);
 
         return new CMSG_MESSAGECHAT {
@@ -103,7 +101,6 @@ public class CMSG_MESSAGECHAT: WrathClientMessage, IWorldMessage {
             size += chatTypeChannel.Channel.Length + 1;
 
         }
-
 
         // message: Generator.Generated.DataTypeCstring
         size += Message.Length + 1;

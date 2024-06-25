@@ -51,7 +51,6 @@ public class SMSG_CAST_RESULT: VanillaServerMessage, IWorldMessage {
                 await w.WriteUInt((uint)castFailureReasonRequiresArea.Area, cancellationToken).ConfigureAwait(false);
 
             }
-
             else if (simpleSpellCastResultSuccess.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonEquippedItemClass castFailureReasonEquippedItemClass) {
                 await w.WriteUInt(castFailureReasonEquippedItemClass.EquippedItemClass, cancellationToken).ConfigureAwait(false);
 
@@ -60,7 +59,6 @@ public class SMSG_CAST_RESULT: VanillaServerMessage, IWorldMessage {
                 await w.WriteUInt(castFailureReasonEquippedItemClass.EquippedItemInventoryTypeMask, cancellationToken).ConfigureAwait(false);
 
             }
-
 
         }
 
@@ -101,7 +99,6 @@ public class SMSG_CAST_RESULT: VanillaServerMessage, IWorldMessage {
                     Area = area,
                 };
             }
-
             else if (reason.Value is Vanilla.CastFailureReason.EquippedItemClass) {
                 var equippedItemClass = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -115,7 +112,6 @@ public class SMSG_CAST_RESULT: VanillaServerMessage, IWorldMessage {
                     EquippedItemSubclassMask = equippedItemSubclassMask,
                 };
             }
-
 
             result = new SimpleSpellCastResultSuccess {
                 Reason = reason,
@@ -151,7 +147,6 @@ public class SMSG_CAST_RESULT: VanillaServerMessage, IWorldMessage {
                 size += 4;
 
             }
-
             else if (simpleSpellCastResultSuccess.Reason.Value is SMSG_CAST_RESULT.CastFailureReasonEquippedItemClass castFailureReasonEquippedItemClass) {
                 // equipped_item_class: Generator.Generated.DataTypeInteger
                 size += 4;
@@ -163,7 +158,6 @@ public class SMSG_CAST_RESULT: VanillaServerMessage, IWorldMessage {
                 size += 4;
 
             }
-
 
         }
 

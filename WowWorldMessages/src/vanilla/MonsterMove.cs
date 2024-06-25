@@ -56,12 +56,10 @@ public class MonsterMove {
             await w.WriteFloat(monsterMoveTypeFacingAnglea.Angle, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (MoveType.Value is MonsterMove.MonsterMoveTypeFacingSpot monsterMoveTypeFacingSpotp) {
             await monsterMoveTypeFacingSpotp.Position.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
 
         }
-
 
         if (MoveType.Value is MonsterMove.MonsterMoveTypeNormal monsterMoveTypeNormalsds) {
             await w.WriteUInt((uint)monsterMoveTypeNormalsds.SplineFlags, cancellationToken).ConfigureAwait(false);
@@ -120,12 +118,10 @@ public class MonsterMove {
             moveTypeIfAngle = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (moveType.Value is Vanilla.MonsterMoveType.FacingSpot) {
             moveTypeIfPosition = await Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
 
         }
-
 
         if (moveType.Value is Vanilla.MonsterMoveType.Normal) {
             moveTypeIfSplineFlags = (SplineFlag)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
@@ -220,13 +216,11 @@ public class MonsterMove {
             size += 4;
 
         }
-
         else if (MoveType.Value is MonsterMove.MonsterMoveTypeFacingSpot monsterMoveTypeFacingSpotp) {
             // position: Generator.Generated.DataTypeStruct
             size += 12;
 
         }
-
 
         if (MoveType.Value is MonsterMove.MonsterMoveTypeNormal monsterMoveTypeNormalsds) {
             // spline_flags: Generator.Generated.DataTypeFlag

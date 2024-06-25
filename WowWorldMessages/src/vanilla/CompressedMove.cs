@@ -40,14 +40,12 @@ public class CompressedMove {
             await compressedMoveOpcodeSmsgMonsterMove.MonsterMove.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Opcode.Value is CompressedMove.CompressedMoveOpcodeSmsgMonsterMoveTransport compressedMoveOpcodeSmsgMonsterMoveTransport) {
             await w.WritePackedGuid(compressedMoveOpcodeSmsgMonsterMoveTransport.Transport, cancellationToken).ConfigureAwait(false);
 
             await compressedMoveOpcodeSmsgMonsterMoveTransport.MonsterMoveTransport.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
 
         }
-
 
     }
 
@@ -73,7 +71,6 @@ public class CompressedMove {
                 MonsterMove = monsterMove,
             };
         }
-
         else if (opcode.Value is Vanilla.CompressedMoveOpcode.SmsgMonsterMoveTransport) {
             var transport = await r.ReadPackedGuid(cancellationToken).ConfigureAwait(false);
 
@@ -84,7 +81,6 @@ public class CompressedMove {
                 Transport = transport,
             };
         }
-
 
         return new CompressedMove {
             Opcode = opcode,
@@ -114,7 +110,6 @@ public class CompressedMove {
             size += compressedMoveOpcodeSmsgMonsterMove.MonsterMove.Size();
 
         }
-
         else if (Opcode.Value is CompressedMove.CompressedMoveOpcodeSmsgMonsterMoveTransport compressedMoveOpcodeSmsgMonsterMoveTransport) {
             // transport: Generator.Generated.DataTypePackedGuid
             size += compressedMoveOpcodeSmsgMonsterMoveTransport.Transport.PackedGuidLength();
@@ -123,7 +118,6 @@ public class CompressedMove {
             size += compressedMoveOpcodeSmsgMonsterMoveTransport.MonsterMoveTransport.Size();
 
         }
-
 
         return size;
     }

@@ -53,21 +53,18 @@ public class SMSG_CAST_FAILED: TbcServerMessage, IWorldMessage {
             await w.WriteUInt((uint)spellCastResultRequiresArea.Area, cancellationToken).ConfigureAwait(false);
 
         }
-
         else if (Result.Value is SMSG_CAST_FAILED.SpellCastResultTotems spellCastResultTotems) {
             foreach (var v in spellCastResultTotems.Totems) {
                 await w.WriteUInt(v, cancellationToken).ConfigureAwait(false);
             }
 
         }
-
         else if (Result.Value is SMSG_CAST_FAILED.SpellCastResultTotemCategory spellCastResultTotemCategory) {
             foreach (var v in spellCastResultTotemCategory.TotemCategories) {
                 await w.WriteUInt(v, cancellationToken).ConfigureAwait(false);
             }
 
         }
-
         else if (Result.Value is SMSG_CAST_FAILED.SpellCastResultEquippedItemClass spellCastResultEquippedItemClass) {
             await w.WriteUInt(spellCastResultEquippedItemClass.ItemClass, cancellationToken).ConfigureAwait(false);
 
@@ -76,7 +73,6 @@ public class SMSG_CAST_FAILED: TbcServerMessage, IWorldMessage {
             await w.WriteUInt(spellCastResultEquippedItemClass.ItemInventoryType, cancellationToken).ConfigureAwait(false);
 
         }
-
 
     }
 
@@ -114,7 +110,6 @@ public class SMSG_CAST_FAILED: TbcServerMessage, IWorldMessage {
                 Area = area,
             };
         }
-
         else if (result.Value is Tbc.SpellCastResult.Totems) {
             var totems = new uint[SpellCastResultTotems.TotemsLength];
             for (var i = 0; i < SpellCastResultTotems.TotemsLength; ++i) {
@@ -125,7 +120,6 @@ public class SMSG_CAST_FAILED: TbcServerMessage, IWorldMessage {
                 Totems = totems,
             };
         }
-
         else if (result.Value is Tbc.SpellCastResult.TotemCategory) {
             var totemCategories = new uint[SpellCastResultTotemCategory.TotemCategoriesLength];
             for (var i = 0; i < SpellCastResultTotemCategory.TotemCategoriesLength; ++i) {
@@ -136,7 +130,6 @@ public class SMSG_CAST_FAILED: TbcServerMessage, IWorldMessage {
                 TotemCategories = totemCategories,
             };
         }
-
         else if (result.Value is Tbc.SpellCastResult.EquippedItemClass) {
             var itemClass = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -150,7 +143,6 @@ public class SMSG_CAST_FAILED: TbcServerMessage, IWorldMessage {
                 ItemSubClass = itemSubClass,
             };
         }
-
 
         return new SMSG_CAST_FAILED {
             Id = id,
@@ -181,19 +173,16 @@ public class SMSG_CAST_FAILED: TbcServerMessage, IWorldMessage {
             size += 4;
 
         }
-
         else if (Result.Value is SMSG_CAST_FAILED.SpellCastResultTotems spellCastResultTotems) {
             // totems: Generator.Generated.DataTypeArray
             size += spellCastResultTotems.Totems.Sum(e => 4);
 
         }
-
         else if (Result.Value is SMSG_CAST_FAILED.SpellCastResultTotemCategory spellCastResultTotemCategory) {
             // totem_categories: Generator.Generated.DataTypeArray
             size += spellCastResultTotemCategory.TotemCategories.Sum(e => 4);
 
         }
-
         else if (Result.Value is SMSG_CAST_FAILED.SpellCastResultEquippedItemClass spellCastResultEquippedItemClass) {
             // item_class: Generator.Generated.DataTypeInteger
             size += 4;
@@ -205,7 +194,6 @@ public class SMSG_CAST_FAILED: TbcServerMessage, IWorldMessage {
             size += 4;
 
         }
-
 
         return size;
     }

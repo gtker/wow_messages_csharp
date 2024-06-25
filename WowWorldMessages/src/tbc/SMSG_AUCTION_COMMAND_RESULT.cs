@@ -78,7 +78,6 @@ public class SMSG_AUCTION_COMMAND_RESULT: TbcServerMessage, IWorldMessage {
                 await w.WriteByte((byte)auctionCommandResultErrInventory.InventoryResult, cancellationToken).ConfigureAwait(false);
 
             }
-
             else if (auctionCommandActionBidPlaced.Result.Value is SMSG_AUCTION_COMMAND_RESULT.AuctionCommandResultErrHigherBid auctionCommandResultErrHigherBid) {
                 await w.WriteULong(auctionCommandResultErrHigherBid.HigherBidder, cancellationToken).ConfigureAwait(false);
 
@@ -87,7 +86,6 @@ public class SMSG_AUCTION_COMMAND_RESULT: TbcServerMessage, IWorldMessage {
                 await w.WriteUInt(auctionCommandResultErrHigherBid.AuctionOutbid2, cancellationToken).ConfigureAwait(false);
 
             }
-
 
         }
         else if (Action.Value is SMSG_AUCTION_COMMAND_RESULT.AuctionCommandActionStarted auctionCommandActionStarted) {
@@ -106,7 +104,6 @@ public class SMSG_AUCTION_COMMAND_RESULT: TbcServerMessage, IWorldMessage {
 
             }
 
-
         }
         else if (Action.Value is SMSG_AUCTION_COMMAND_RESULT.AuctionCommandActionRemoved auctionCommandActionRemoved) {
             await w.WriteUInt((uint)auctionCommandActionRemoved.Result2Value, cancellationToken).ConfigureAwait(false);
@@ -124,9 +121,7 @@ public class SMSG_AUCTION_COMMAND_RESULT: TbcServerMessage, IWorldMessage {
 
             }
 
-
         }
-
 
     }
 
@@ -165,7 +160,6 @@ public class SMSG_AUCTION_COMMAND_RESULT: TbcServerMessage, IWorldMessage {
                     InventoryResult = inventoryResult,
                 };
             }
-
             else if (result.Value is Tbc.AuctionCommandResult.ErrHigherBid) {
                 var higherBidder = await r.ReadULong(cancellationToken).ConfigureAwait(false);
 
@@ -179,7 +173,6 @@ public class SMSG_AUCTION_COMMAND_RESULT: TbcServerMessage, IWorldMessage {
                     NewBid = newBid,
                 };
             }
-
 
             action = new AuctionCommandActionBidPlaced {
                 Result = result,
@@ -209,7 +202,6 @@ public class SMSG_AUCTION_COMMAND_RESULT: TbcServerMessage, IWorldMessage {
                 };
             }
 
-
             action = new AuctionCommandActionStarted {
                 Result2 = result2,
             };
@@ -238,12 +230,10 @@ public class SMSG_AUCTION_COMMAND_RESULT: TbcServerMessage, IWorldMessage {
                 };
             }
 
-
             action = new AuctionCommandActionRemoved {
                 Result2 = result2,
             };
         }
-
 
         return new SMSG_AUCTION_COMMAND_RESULT {
             AuctionId = auctionId,
@@ -274,7 +264,6 @@ public class SMSG_AUCTION_COMMAND_RESULT: TbcServerMessage, IWorldMessage {
                 size += 1;
 
             }
-
             else if (auctionCommandActionBidPlaced.Result.Value is SMSG_AUCTION_COMMAND_RESULT.AuctionCommandResultErrHigherBid auctionCommandResultErrHigherBid) {
                 // higher_bidder: Generator.Generated.DataTypeGuid
                 size += 8;
@@ -286,7 +275,6 @@ public class SMSG_AUCTION_COMMAND_RESULT: TbcServerMessage, IWorldMessage {
                 size += 4;
 
             }
-
 
         }
         else if (Action.Value is SMSG_AUCTION_COMMAND_RESULT.AuctionCommandActionStarted auctionCommandActionStarted) {
@@ -310,7 +298,6 @@ public class SMSG_AUCTION_COMMAND_RESULT: TbcServerMessage, IWorldMessage {
 
             }
 
-
         }
         else if (Action.Value is SMSG_AUCTION_COMMAND_RESULT.AuctionCommandActionRemoved auctionCommandActionRemoved) {
             // result2: Generator.Generated.DataTypeEnum
@@ -333,9 +320,7 @@ public class SMSG_AUCTION_COMMAND_RESULT: TbcServerMessage, IWorldMessage {
 
             }
 
-
         }
-
 
         return size;
     }
