@@ -289,49 +289,15 @@ public static class ContainerExtensions
         {
             if (preparedObject.Name == variableName)
             {
+                if (preparedObject is { IsElseifFlag: true, Enumerators: { Count: 1 } enumerators })
+                {
+                    return enumerators.First().Value[0];
+                }
+
                 return preparedObject;
             }
         }
 
         throw new UnreachableException();
-    }
-
-    public static string GetPrefixForPreparedObject(this Container e, string variableName)
-    {
-        foreach (var preparedObject in e.PreparedObjects)
-        {
-            if (GetPrefix(e, preparedObject, "") is { } ret)
-            {
-                return ret;
-            }
-        }
-
-        throw new UnreachableException();
-
-        string? GetPrefix(Container e, PreparedObject po, string prefix)
-        {
-            if (po.Name == variableName)
-            {
-                return prefix;
-            }
-
-            var d = e.FindDefinitionByName(po.Name);
-            if (po.Enumerators is { } enumerators)
-            {
-                foreach (var (enumerator, members) in enumerators)
-                {
-                    foreach (var member in members)
-                    {
-                        if (GetPrefix(e, member, $"{prefix}{d.PreparedObjectTypeName(enumerator)}.") is
-                            { } ret)
-                        {
-                            return ret;
-                        }
-                    }
-                }
-            }
-
-            return null;
-        }
     }
 }

@@ -54,10 +54,12 @@ public static class PreparedObjectExtensions
         return first.ToMemberName();
     }
 
+    public static bool IsEnumFromFlag(this PreparedObject po, Definition d) =>
+        d.DataType is DataTypeFlag && po.DefinerType is DefinerType.Enum_;
+
     public static string EnumName(this PreparedObject po, Definition d)
     {
-        var isEnumInsideFlag = d.DataType is DataTypeFlag && po.DefinerType is DefinerType.Enum_;
-        if (isEnumInsideFlag)
+        if (po.IsEnumFromFlag(d))
         {
             return $"{d.CsTypeName()}{po.FirstEnumerator()}Multi";
         }

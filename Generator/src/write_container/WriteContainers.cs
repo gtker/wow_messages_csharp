@@ -121,9 +121,9 @@ public static class WriteContainers
 
         var typeName = $"{prefix}{d.CsTypeName()}{postfix}";
         var po = e.FindPreparedObject(d.Name);
-        if (po.IsElseifFlag)
+        if (po.IsEnumFromFlag(d))
         {
-            typeName = po.Enumerators.First().Value[0].EnumName(d);
+            typeName = po.EnumName(d);
         }
 
         s.Wln($"public required {typeName} {d.MemberName()} {{ get; set; }}");
@@ -196,9 +196,13 @@ public static class WriteContainers
                     {
                         typeName = $"{typeName}Multi";
                     }
+                    else
+                    {
+                        typeName = $"{typeName}?";
+                    }
 
                     s.Wln(
-                        $"public {typeName}? {enumerator.ToEnumerator()};");
+                        $"public {typeName} {enumerator.ToEnumerator()};");
                 }
             });
 
@@ -315,15 +319,22 @@ public static class WriteContainers
     }
 
     private static string GetConditional(IfStatement statement, bool isWrite, string originalType,
-        string containerName, string module, string enumerator, string variablePrefix)
+        string containerName, string module, string enumerator, string variablePrefix, Container e)
     {
         var typeExists = statement.Members.Any(d => d.AllDefinitions().Any(d => d.IsInType()));
         var modulePrefix = isWrite && typeExists ? containerName : module;
         var dot = isWrite && typeExists ? "" : ".";
 
+        var po = e.FindPreparedObject(statement.VariableName);
+
         switch (statement.DefinerType)
         {
             case DefinerType.Flag:
+                if ((po.DefinerType is DefinerType.Enum_ || po.IsElseifFlag) && isWrite)
+                {
+                    return $" is {originalType}{enumerator.ToEnumerator()} {variablePrefix}";
+                }
+
                 if (isWrite)
                 {
                     return $" is {{}} {variablePrefix}";
@@ -380,8 +391,8 @@ public static class WriteContainers
 
             var newVariablePrefix = GetIfStatementVariablePrefix(d, enumerator, statement);
             var cond = GetConditional(statement, isWrite, statement.OriginalType.CsType(), e.Name, module,
-                enumerator, newVariablePrefix);
-            var flag = statement.OriginalType is DataTypeFlag;
+                enumerator, newVariablePrefix, e);
+            var flag = po.DefinerType is DefinerType.Flag;
             var prefix = i != 0 || isElseIf ? "else " : "";
             var value = flag ? isWrite ? $".{enumerator.ToMemberName()}" : ".Inner" : ".Value";
             var ifHeader = $"{prefix}if ({variablePrefix}{transform(statement.VariableName)}{value}{cond})";
