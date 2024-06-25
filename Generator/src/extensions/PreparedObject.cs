@@ -21,4 +21,19 @@ public static class PreparedObjectExtensions
             }
         }
     }
+
+    public static string UniqueString(this PreparedObject po)
+    {
+        var s = $"{po.Name}";
+        foreach (var (enumerator, members) in po.Enumerators)
+        {
+            s += enumerator;
+            foreach (var member in members)
+            {
+                s += member.Name;
+            }
+        }
+
+        return s;
+    }
 }

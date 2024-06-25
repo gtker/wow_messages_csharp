@@ -9,7 +9,6 @@ public static class ContainerExtensions
 
     public static bool ShouldSkip(this Container e)
     {
-
         if (e.AllMembers().Any(HasInvalidMember))
         {
             Console.WriteLine($"Skipping {e.Name} because it has unimplemented statements");
@@ -233,7 +232,7 @@ public static class ContainerExtensions
                 continue;
             }
 
-            if (existingEnums.Add(po.Name))
+            if (existingEnums.Add(po.UniqueString()))
             {
                 yield return po;
             }
