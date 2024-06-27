@@ -1,4 +1,4 @@
-﻿namespace WowWorldMessages;
+namespace WowWorldMessages;
 
 public interface IWorldMessage
 {

@@ -1,0 +1,18 @@
+name: Test
+
+on: [push, pull_request]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+      - run: dotnet build
+      - run: dotnet format WowLoginMessages --verify-no-changes --exclude WowLoginMessages/src/all WowLoginMessages/src/version2 WowLoginMessages/src/version3 WowLoginMessages/src/version4 WowLoginMessages/src/version5 WowLoginMessages/src/version6 WowLoginMessages/src/version7 WowLoginMessages/src/version8
+      - run: dotnet format WowWorldMessages --verify-no-changes --exclude WowWorldMessages/src/all WowWorldMessages/src/vanilla WowWorldMessages/src/tbc WowWorldMessages/src/wrath
+      - run: dotnet test
