@@ -40,7 +40,9 @@ public static class Server
                 }
             });
 
-            while (true) {}
+            while (true)
+            {
+            }
         }
         catch (SocketException e)
         {
@@ -49,6 +51,7 @@ public static class Server
         finally
         {
             auth?.Stop();
+            world?.Stop();
         }
     }
 }

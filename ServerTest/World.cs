@@ -3,6 +3,7 @@ using WowSrp;
 using WowSrp.Header;
 using WowWorldMessages.All;
 using WowWorldMessages.Vanilla;
+using Object = WowWorldMessages.Vanilla.Object;
 
 namespace ServerTest;
 
@@ -12,7 +13,6 @@ public static class World
     {
         Console.WriteLine("Connected to world");
         var cts = new CancellationTokenSource();
-        cts.CancelAfter(3500);
         try
         {
             using (client)
@@ -70,7 +70,7 @@ public static class World
                     [
                         new Character
                         {
-                            Guid = 0,
+                            Guid = 4,
                             Name = "Name",
                             Race = Race.Human,
                             ClassType = Class.Warrior,
@@ -199,7 +199,101 @@ public static class World
 
                 Console.WriteLine("Sent char enum");
 
-                while (await ClientOpcodeReader.ReadEncryptedAsync(client.GetStream(), decrypter) is not null)
+
+                if (await ClientOpcodeReader.ExpectEncryptedOpcode<CMSG_PLAYER_LOGIN>(client.GetStream(), decrypter,
+                        cts.Token) is not { } login)
+                {
+                    return;
+                }
+
+                Console.WriteLine("Received login");
+
+                await new SMSG_LOGIN_VERIFY_WORLD
+                {
+                    Map = Map.EasternKingdoms,
+                    Position = new Vector3d
+                    {
+                        X = -8949.95f,
+                        Y = -132.493f,
+                        Z = 83.5312f
+                    },
+                    Orientation = 0
+                }.WriteEncryptedServerAsync(client.GetStream(), encrypter, cts.Token);
+                Console.WriteLine("Sent login verify world");
+
+                var tutorialData = new uint[SMSG_TUTORIAL_FLAGS.TutorialDataLength];
+
+                for (var i = 0; i < tutorialData.Length; i++)
+                {
+                    tutorialData[i] = 0xFF_FF_FF_FF;
+                }
+
+                await new SMSG_TUTORIAL_FLAGS
+                {
+                    TutorialData = tutorialData
+                }.WriteEncryptedServerAsync(client.GetStream(), encrypter, cts.Token);
+
+                Console.WriteLine("Sent tutorial data");
+
+                var updateMask = new UpdateMask();
+                updateMask.SetObjectGuid(login.Guid);
+                updateMask.SetObjectType(25);
+                updateMask.SetUnitHealth(100);
+                updateMask.SetUnitBytes0(Race.Human, Class.Warrior, Gender.Male, Power.Rage);
+
+                await new SMSG_UPDATE_OBJECT
+                {
+                    HasTransport = 0,
+                    Objects =
+                    [
+                        new Object
+                        {
+                            UpdateType = new Object.UpdateTypeCreateObject2
+                            {
+                                Guid3 = login.Guid,
+                                Mask2 = updateMask,
+                                Movement2 = new MovementBlock
+                                {
+                                    UpdateFlag = new MovementBlock.UpdateFlagType
+                                    {
+                                        Inner = UpdateFlag.Living | UpdateFlag.All | UpdateFlag.Self,
+                                        All = new MovementBlock.UpdateFlagAll
+                                        {
+                                            Unknown1 = 0
+                                        },
+                                        Living = new MovementBlock.UpdateFlagLiving
+                                        {
+                                            BackwardsRunningSpeed = 4.5f,
+                                            BackwardsSwimmingSpeed = 0,
+                                            FallTime = 0,
+                                            Flags = new MovementBlock.MovementFlagsType
+                                            {
+                                                Inner = MovementFlags.None
+                                            },
+                                            LivingOrientation = 0,
+                                            LivingPosition = new Vector3d
+                                            {
+                                                X = -8949.95f,
+                                                Y = -132.493f,
+                                                Z = 83.5312f
+                                            },
+                                            RunningSpeed = 7,
+                                            SwimmingSpeed = 0,
+                                            Timestamp = 0,
+                                            TurnRate = (float)Math.PI,
+                                            WalkingSpeed = 1
+                                        }
+                                    }
+                                },
+                                ObjectType = ObjectType.Player
+                            }
+                        }
+                    ]
+                }.WriteEncryptedServerAsync(client.GetStream(), encrypter, cts.Token);
+
+                Console.WriteLine("Sent update object");
+
+                while (true)
                 {
                 }
             }
