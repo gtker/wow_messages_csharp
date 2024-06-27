@@ -1,6 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <Authors>Gtker</Authors>
+        <Version>0.1.0</Version>
+        <Title>WoW World Messages</Title>
+        <Description>
+            Library for World of Warcraft 1.0 through to 3.3.5 world (game) messages.
+        </Description>
+        <PackageTags>WorldOfWarcraft;WoW;Blizzard;TCP;Network;Messages;CMSG;SMSG;MSG</PackageTags>
+        <PackageLicenseExpression>MIT OR Apache-2.0</PackageLicenseExpression>
+        <Copyright>Copyright (c) Gtker 2024</Copyright>
+
+        <RepositoryUrl>https://github.com/gtker/wow_messages_csharp</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <RootNamespace>WowLoginMessages</RootNamespace>
+
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -18,4 +32,23 @@
         <PackageReference Include="OneOf.Extended" Version="3.0.271"/>
     </ItemGroup>
 
+    <!-- Documentation and Debug info -->
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <EmbedAllSources>true</EmbedAllSources>
+        <DebugType>embedded</DebugType>
+        <!-- CS1591 is required XML doc -->
+        <NoWarn>1701;1702;CS1591</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Unsure if this is even necessary, but it was in release notes https://devblogs.microsoft.com/nuget/add-a-readme-to-your-nuget-package/ -->
+        <None Include="../README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
 </Project>
