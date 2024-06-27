@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>Generator</RootNamespace>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
 </Project>
