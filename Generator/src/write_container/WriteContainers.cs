@@ -13,30 +13,7 @@ public static class WriteContainers
         s.Wln($"namespace Wow{project}Messages.{module};");
         s.Newline();
 
-        var newline = false;
-
-        foreach (var po in e.AllEnumsWithMembers())
-        {
-            newline = true;
-
-            var d = e.FindDefinitionByName(po.Name);
-            s.W($"using {po.EnumName(e)} = OneOf.OneOf<");
-
-            foreach (var (enumerator, members) in po.Enumerators)
-            {
-                if (members.Any(m => e.FindDefinitionByName(m.Name).IsInType()))
-                {
-                    s.WNoIndentation($"{e.Name}.{d.PreparedObjectTypeName(enumerator)}, ");
-                }
-            }
-
-            s.WlnNoIndentation($"{d.CsTypeName()}>;");
-        }
-
-        if (newline)
-        {
-            s.Newline();
-        }
+        WriteEnumDefinitions(e, s);
 
         s.Wln("[System.CodeDom.Compiler.GeneratedCode(\"WoWM\", \"0.1.0\")]");
         if (e.Name.Contains('_'))
@@ -90,6 +67,33 @@ public static class WriteContainers
         s.Newline();
 
         return s;
+    }
+
+    private static void WriteEnumDefinitions(Container e, Writer s)
+    {
+        var newline = false;
+        foreach (var po in e.AllEnumsWithMembers())
+        {
+            newline = true;
+
+            var d = e.FindDefinitionByName(po.Name);
+            s.W($"using {po.EnumName(e)} = OneOf.OneOf<");
+
+            foreach (var (enumerator, members) in po.Enumerators)
+            {
+                if (members.Any(m => e.FindDefinitionByName(m.Name).IsInType()))
+                {
+                    s.WNoIndentation($"{e.Name}.{d.PreparedObjectTypeName(enumerator)}, ");
+                }
+            }
+
+            s.WlnNoIndentation($"{d.CsTypeName()}>;");
+        }
+
+        if (newline)
+        {
+            s.Newline();
+        }
     }
 
     private static void WriteMemberDefinition(Writer s, Container e, Definition d, string module)
