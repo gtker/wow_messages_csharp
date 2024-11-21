@@ -4,7 +4,7 @@ namespace Generator.Extensions;
 
 public static class BuiltIn
 {
-    public static ObjectVersionsLogin ToLoginVersion(this byte v) => v == 0
+    public static ObjectVersionsLogin ToLoginVersion(this byte v) => v == Program.LoginVersionAll
         ? new ObjectVersionsLogin
         {
             VersionType = new LoginVersionsAll()

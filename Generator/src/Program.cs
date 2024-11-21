@@ -8,6 +8,7 @@ namespace Generator;
 
 internal static class Program
 {
+    public const byte LoginVersionAll = 0xFF;
     private static string? _lazyValue;
 
     public static readonly ObjectVersionsWorld All = new()
@@ -64,7 +65,7 @@ internal static class Program
             Environment.Exit(1);
         }
 
-        WriteLoginFiles(schema.Login, 0);
+        WriteLoginFiles(schema.Login, LoginVersionAll);
 
         foreach (var version in schema.DistinctLoginVersionsOtherThanAll)
         {
@@ -165,12 +166,12 @@ internal static class Program
     {
         var module = version switch
         {
-            0 => "All",
+            LoginVersionAll => "All",
             _ => $"Version{version}"
         };
         var modulePath = version switch
         {
-            0 => "all",
+            LoginVersionAll => "all",
             _ => $"version{version}"
         };
 
