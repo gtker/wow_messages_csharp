@@ -33,6 +33,11 @@ internal static class StreamReadExtensions
         return (uint)(b[0] | (b[1] << 8) | (b[2] << 16) | (b[3] << 24));
     }
 
+    internal static async Task<int> ReadInt(this Stream r, CancellationToken cancellationToken)
+    {
+        return (int)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+    }
+
     internal static async Task<ulong> ReadULong(this Stream r, CancellationToken cancellationToken)
     {
         var b = new byte[8];

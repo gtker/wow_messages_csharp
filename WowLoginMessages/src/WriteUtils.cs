@@ -34,6 +34,11 @@ internal static class WriteUtils
         await w.WriteAsync(b, cancellationToken).ConfigureAwait(false);
     }
 
+    public static async Task WriteInt(this Stream w, int v, CancellationToken cancellationToken)
+    {
+        await w.WriteUInt((uint)v, cancellationToken).ConfigureAwait(false);
+    }
+
     public static async Task WriteULong(this Stream w, ulong v, CancellationToken cancellationToken)
     {
         var b = new byte[8];

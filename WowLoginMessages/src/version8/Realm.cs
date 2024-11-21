@@ -13,7 +13,7 @@ public class Realm {
         public required Version Version { get; set; }
     }
     /// <summary>
-    /// vmangos: this is the second column in Cfg_Configs.dbc
+    /// vmangos: this is the second column in `Cfg_Configs.dbc`
     /// </summary>
     public required Version8.RealmType RealmType { get; set; }
     public required bool Locked { get; set; }

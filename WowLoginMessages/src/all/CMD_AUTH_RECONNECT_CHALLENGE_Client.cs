@@ -15,7 +15,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client: AllClientMessage, ILoginMessag
     /// <summary>
     /// Offset in minutes from UTC time. 180 would be UTC+3
     /// </summary>
-    public required uint UtcTimezoneOffset { get; set; }
+    public required int UtcTimezoneOffset { get; set; }
     public required uint ClientIpAddress { get; set; }
     /// <summary>
     /// Real clients can send a maximum of 16 UTF-8 characters. This is not necessarily 16 bytes since one character can be more than one byte.
@@ -42,7 +42,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client: AllClientMessage, ILoginMessag
 
         await w.WriteUInt((uint)Locale, cancellationToken).ConfigureAwait(false);
 
-        await w.WriteUInt(UtcTimezoneOffset, cancellationToken).ConfigureAwait(false);
+        await w.WriteInt(UtcTimezoneOffset, cancellationToken).ConfigureAwait(false);
 
         await w.WriteUInt(ClientIpAddress, cancellationToken).ConfigureAwait(false);
 
@@ -67,7 +67,7 @@ public class CMD_AUTH_RECONNECT_CHALLENGE_Client: AllClientMessage, ILoginMessag
 
         var locale = (All.Locale)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var utcTimezoneOffset = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+        var utcTimezoneOffset = await r.ReadInt(cancellationToken).ConfigureAwait(false);
 
         var clientIpAddress = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 

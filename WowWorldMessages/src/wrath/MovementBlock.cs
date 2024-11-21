@@ -35,6 +35,7 @@ public class MovementBlock {
         public required float Orientation1 { get; set; }
         public required Vector3d Position1 { get; set; }
         public required ulong TransportGuid { get; set; }
+        public required Vector3d TransportOffset { get; set; }
     }
     public class MovementFlagsOnTransport {
         public required TransportInfo Transport { get; set; }
@@ -115,8 +116,12 @@ public class MovementBlock {
     }
     public class MovementFlagsSplineEnabled {
         public required uint Duration { get; set; }
+        public required float DurationMod { get; set; }
+        public required float DurationModNext { get; set; }
+        public required float EffectStartTime { get; set; }
         public required Vector3d FinalNode { get; set; }
         public required uint Id { get; set; }
+        public required byte Mode { get; set; }
         public required List<Vector3d> Nodes { get; set; }
         public required SplineFlagFinalAngleMulti SplineFlags { get; set; }
         internal SplineFlag SplineFlagsValue => SplineFlags.Match(
@@ -126,6 +131,7 @@ public class MovementBlock {
             v => v
         );
         public required uint TimePassed { get; set; }
+        public required float VerticalAcceleration { get; set; }
     }
     public required UpdateFlagType UpdateFlag { get; set; }
 
@@ -223,11 +229,21 @@ public class MovementBlock {
 
                 await w.WriteUInt(movementFlagsSplineEnabled.Id, cancellationToken).ConfigureAwait(false);
 
+                await w.WriteFloat(movementFlagsSplineEnabled.DurationMod, cancellationToken).ConfigureAwait(false);
+
+                await w.WriteFloat(movementFlagsSplineEnabled.DurationModNext, cancellationToken).ConfigureAwait(false);
+
+                await w.WriteFloat(movementFlagsSplineEnabled.VerticalAcceleration, cancellationToken).ConfigureAwait(false);
+
+                await w.WriteFloat(movementFlagsSplineEnabled.EffectStartTime, cancellationToken).ConfigureAwait(false);
+
                 await w.WriteUInt((uint)movementFlagsSplineEnabled.Nodes.Count, cancellationToken).ConfigureAwait(false);
 
                 foreach (var v in movementFlagsSplineEnabled.Nodes) {
                     await v.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
                 }
+
+                await w.WriteByte(movementFlagsSplineEnabled.Mode, cancellationToken).ConfigureAwait(false);
 
                 await movementFlagsSplineEnabled.FinalNode.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
 
@@ -238,6 +254,8 @@ public class MovementBlock {
             await w.WritePackedGuid(updateFlagPosition.TransportGuid, cancellationToken).ConfigureAwait(false);
 
             await updateFlagPosition.Position1.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
+
+            await updateFlagPosition.TransportOffset.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
 
             await w.WriteFloat(updateFlagPosition.Orientation1, cancellationToken).ConfigureAwait(false);
 
@@ -417,6 +435,14 @@ public class MovementBlock {
 
                 var id = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
+                var durationMod = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
+
+                var durationModNext = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
+
+                var verticalAcceleration = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
+
+                var effectStartTime = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
+
                 // ReSharper disable once UnusedVariable.Compiler
                 var amountOfNodes = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
@@ -425,15 +451,22 @@ public class MovementBlock {
                     nodes.Add(await All.Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
                 }
 
+                var mode = await r.ReadByte(cancellationToken).ConfigureAwait(false);
+
                 var finalNode = await Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
 
                 flags.SplineEnabled = new MovementFlagsSplineEnabled {
                     Duration = duration,
+                    DurationMod = durationMod,
+                    DurationModNext = durationModNext,
+                    EffectStartTime = effectStartTime,
                     FinalNode = finalNode,
                     Id = id,
+                    Mode = mode,
                     Nodes = nodes,
                     SplineFlags = splineFlags,
                     TimePassed = timePassed,
+                    VerticalAcceleration = verticalAcceleration,
                 };
             }
 
@@ -459,6 +492,8 @@ public class MovementBlock {
 
             var position1 = await Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
 
+            var transportOffset = await Vector3d.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false);
+
             var orientation1 = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
 
             var corpseOrientation = await r.ReadFloat(cancellationToken).ConfigureAwait(false);
@@ -468,6 +503,7 @@ public class MovementBlock {
                 Orientation1 = orientation1,
                 Position1 = position1,
                 TransportGuid = transportGuid,
+                TransportOffset = transportOffset,
             };
         }
         else if (updateFlag.Inner.HasFlag(Wrath.UpdateFlag.HasPosition)) {
@@ -666,11 +702,26 @@ public class MovementBlock {
                 // id: Generator.Generated.DataTypeInteger
                 size += 4;
 
+                // duration_mod: Generator.Generated.DataTypeFloatingPoint
+                size += 4;
+
+                // duration_mod_next: Generator.Generated.DataTypeFloatingPoint
+                size += 4;
+
+                // vertical_acceleration: Generator.Generated.DataTypeFloatingPoint
+                size += 4;
+
+                // effect_start_time: Generator.Generated.DataTypeFloatingPoint
+                size += 4;
+
                 // amount_of_nodes: Generator.Generated.DataTypeInteger
                 size += 4;
 
                 // nodes: Generator.Generated.DataTypeArray
                 size += movementFlagsSplineEnabled.Nodes.Sum(e => 12);
+
+                // mode: Generator.Generated.DataTypeInteger
+                size += 1;
 
                 // final_node: Generator.Generated.DataTypeStruct
                 size += 12;
@@ -683,6 +734,9 @@ public class MovementBlock {
             size += updateFlagPosition.TransportGuid.PackedGuidLength();
 
             // position1: Generator.Generated.DataTypeStruct
+            size += 12;
+
+            // transport_offset: Generator.Generated.DataTypeStruct
             size += 12;
 
             // orientation1: Generator.Generated.DataTypeFloatingPoint
