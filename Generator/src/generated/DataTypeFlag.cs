@@ -12,6 +12,9 @@ namespace Generator.Generated
         [JsonPropertyName("integer_type")]
         public IntegerType IntegerType { get; set; }
 
+        [JsonPropertyName("tags")]
+        public ObjectTags Tags { get; set; }
+
         [JsonPropertyName("type_name")]
         public string TypeName { get; set; }
 

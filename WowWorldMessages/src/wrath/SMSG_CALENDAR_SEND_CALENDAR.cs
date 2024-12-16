@@ -12,7 +12,7 @@ public class SMSG_CALENDAR_SEND_CALENDAR: WrathServerMessage, IWorldMessage {
     public required List<SendCalendarInstance> Instances { get; set; }
     public required uint RelativeTime { get; set; }
     public required List<SendCalendarResetTime> ResetTimes { get; set; }
-    public required uint AmountOfHolidays { get; set; }
+    public required List<SendCalendarHoliday> Holidays { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteUInt((uint)Invites.Count, cancellationToken).ConfigureAwait(false);
@@ -45,7 +45,11 @@ public class SMSG_CALENDAR_SEND_CALENDAR: WrathServerMessage, IWorldMessage {
             await v.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
         }
 
-        await w.WriteUInt(AmountOfHolidays, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt((uint)Holidays.Count, cancellationToken).ConfigureAwait(false);
+
+        foreach (var v in Holidays) {
+            await v.WriteBodyAsync(w, cancellationToken).ConfigureAwait(false);
+        }
 
     }
 
@@ -101,7 +105,13 @@ public class SMSG_CALENDAR_SEND_CALENDAR: WrathServerMessage, IWorldMessage {
             resetTimes.Add(await Wrath.SendCalendarResetTime.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
         }
 
+        // ReSharper disable once UnusedVariable.Compiler
         var amountOfHolidays = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
+
+        var holidays = new List<SendCalendarHoliday>();
+        for (var i = 0; i < amountOfHolidays; ++i) {
+            holidays.Add(await Wrath.SendCalendarHoliday.ReadBodyAsync(r, cancellationToken).ConfigureAwait(false));
+        }
 
         return new SMSG_CALENDAR_SEND_CALENDAR {
             Invites = invites,
@@ -111,7 +121,7 @@ public class SMSG_CALENDAR_SEND_CALENDAR: WrathServerMessage, IWorldMessage {
             Instances = instances,
             RelativeTime = relativeTime,
             ResetTimes = resetTimes,
-            AmountOfHolidays = amountOfHolidays,
+            Holidays = holidays,
         };
     }
 
@@ -153,6 +163,9 @@ public class SMSG_CALENDAR_SEND_CALENDAR: WrathServerMessage, IWorldMessage {
 
         // amount_of_holidays: Generator.Generated.DataTypeInteger
         size += 4;
+
+        // holidays: Generator.Generated.DataTypeArray
+        size += Holidays.Sum(e => e.Size());
 
         return size;
     }

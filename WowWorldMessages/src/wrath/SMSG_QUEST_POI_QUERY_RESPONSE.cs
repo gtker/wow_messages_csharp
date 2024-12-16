@@ -50,7 +50,7 @@ public class SMSG_QUEST_POI_QUERY_RESPONSE: WrathServerMessage, IWorldMessage {
         size += 4;
 
         // quests: Generator.Generated.DataTypeArray
-        size += Quests.Sum(e => 8);
+        size += Quests.Sum(e => e.Size());
 
         return size;
     }
