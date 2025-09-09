@@ -10,7 +10,6 @@ public class WhoPlayer {
     public required Vanilla.Class ClassType { get; set; }
     public required Vanilla.Race Race { get; set; }
     public required Vanilla.Area Area { get; set; }
-    public required uint PartyStatus { get; set; }
 
     public async Task WriteBodyAsync(Stream w, CancellationToken cancellationToken = default) {
         await w.WriteCString(Name, cancellationToken).ConfigureAwait(false);
@@ -19,13 +18,11 @@ public class WhoPlayer {
 
         await w.WriteUInt(Level, cancellationToken).ConfigureAwait(false);
 
-        await w.WriteByte((byte)ClassType, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt((uint)ClassType, cancellationToken).ConfigureAwait(false);
 
-        await w.WriteByte((byte)Race, cancellationToken).ConfigureAwait(false);
+        await w.WriteUInt((uint)Race, cancellationToken).ConfigureAwait(false);
 
         await w.WriteUInt((uint)Area, cancellationToken).ConfigureAwait(false);
-
-        await w.WriteUInt(PartyStatus, cancellationToken).ConfigureAwait(false);
 
     }
 
@@ -36,13 +33,11 @@ public class WhoPlayer {
 
         var level = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var classType = (Vanilla.Class)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var classType = (Vanilla.Class)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
-        var race = (Vanilla.Race)await r.ReadByte(cancellationToken).ConfigureAwait(false);
+        var race = (Vanilla.Race)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         var area = (Vanilla.Area)await r.ReadUInt(cancellationToken).ConfigureAwait(false);
-
-        var partyStatus = await r.ReadUInt(cancellationToken).ConfigureAwait(false);
 
         return new WhoPlayer {
             Name = name,
@@ -51,7 +46,6 @@ public class WhoPlayer {
             ClassType = classType,
             Race = race,
             Area = area,
-            PartyStatus = partyStatus,
         };
     }
 
@@ -68,15 +62,12 @@ public class WhoPlayer {
         size += 4;
 
         // class_type: Generator.Generated.DataTypeEnum
-        size += 1;
-
-        // race: Generator.Generated.DataTypeEnum
-        size += 1;
-
-        // area: Generator.Generated.DataTypeEnum
         size += 4;
 
-        // party_status: Generator.Generated.DataTypeInteger
+        // race: Generator.Generated.DataTypeEnum
+        size += 4;
+
+        // area: Generator.Generated.DataTypeEnum
         size += 4;
 
         return size;
