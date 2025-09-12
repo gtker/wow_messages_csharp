@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
+    /// <summary>
+    /// 32-bit floating point.
+    /// </summary>
     public class DataTypeFloatingPoint : DataType
     {
         [JsonPropertyName("data_type_tag")]

@@ -4,14 +4,17 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
+    /// <summary>
+    /// Arrays that always have an exact amount of elements.
+    /// </summary>
     public class ArraySizeFixed : ArraySize
     {
         [JsonPropertyName("array_size_tag")]
         public string ArraySizeTag { get => "Fixed"; }
 
         /// <summary>
-        /// JSON Typedef does not support integers larger than unsigned 32 bit,
-        /// so this is a string
+        /// Amount of elements in the array. JSON Typedef does not support
+        /// integers larger than unsigned 32 bit, so this is a string.
         /// </summary>
         [JsonPropertyName("size")]
         public string Size { get; set; }

@@ -7,24 +7,44 @@ namespace Generator.Generated
 {
     public class IfStatement
     {
+        /// <summary>
+        /// Flag or enum. Flag means that more values can be active at the same
+        /// time. Enum means that only a single can be active at the same time.
+        /// </summary>
         [JsonPropertyName("definer_type")]
         public DefinerType DefinerType { get; set; }
 
         [JsonPropertyName("else_if_statements")]
         public IList<IfStatement> ElseIfStatements { get; set; }
 
+        /// <summary>
+        /// Is definer type flag and has else if statements. This is significant
+        /// since from a normal flag since it means that some bits should not be
+        /// able to be set at the same time.
+        /// </summary>
         [JsonPropertyName("is_else_if_flag")]
         public bool IsElseIfFlag { get; set; }
 
         [JsonPropertyName("members")]
         public IList<StructMember> Members { get; set; }
 
+        /// <summary>
+        /// Original type used in the if statement.
+        /// </summary>
         [JsonPropertyName("original_type")]
         public DataType OriginalType { get; set; }
 
+        /// <summary>
+        /// The same definer has multiple disconnected if statements in the same
+        /// body. This is significant since it means that a definer can be more
+        /// than just one enumerator.
+        /// </summary>
         [JsonPropertyName("part_of_separate_if_statement")]
         public bool PartOfSeparateIfStatement { get; set; }
 
+        /// <summary>
+        /// Enumerators that apply to this if statement.
+        /// </summary>
         [JsonPropertyName("values")]
         public IList<string> Values { get; set; }
 

@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
+    /// <summary>
+    /// 32-bit integer.
+    /// </summary>
     public class DataTypeItem : DataType
     {
         [JsonPropertyName("data_type_tag")]

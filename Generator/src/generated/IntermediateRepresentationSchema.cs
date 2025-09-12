@@ -7,30 +7,58 @@ namespace Generator.Generated
 {
     public class IntermediateRepresentationSchema
     {
+        /// <summary>
+        /// List of login versions that have messages, except for all.
+        /// </summary>
         [JsonPropertyName("distinct_login_versions_other_than_all")]
         public IList<byte> DistinctLoginVersionsOtherThanAll { get; set; }
 
+        /// <summary>
+        /// List of integer sizes used and amount of bits. Will be removed in
+        /// the future.
+        /// </summary>
         [JsonPropertyName("integer_type_information")]
         public IDictionary<string, IntermediateRepresentationSchemaIntegerTypeInformation> IntegerTypeInformation { get; set; }
 
+        /// <summary>
+        /// Objects used for login messages.
+        /// </summary>
         [JsonPropertyName("login")]
         public Objects Login { get; set; }
 
+        /// <summary>
+        /// Map of login opcodes and message names.
+        /// </summary>
         [JsonPropertyName("login_version_opcodes")]
         public IDictionary<string, byte> LoginVersionOpcodes { get; set; }
 
+        /// <summary>
+        /// UpdateMask type definitions for 2.4.3.
+        /// </summary>
         [JsonPropertyName("tbc_update_mask")]
         public IList<UpdateMask> TbcUpdateMask { get; set; }
 
+        /// <summary>
+        /// UpdateMask type definitions for 1.12.
+        /// </summary>
         [JsonPropertyName("vanilla_update_mask")]
         public IList<UpdateMask> VanillaUpdateMask { get; set; }
 
+        /// <summary>
+        /// Version of schema.
+        /// </summary>
         [JsonPropertyName("version")]
         public SchemaVersion Version_ { get; set; }
 
+        /// <summary>
+        /// Objects used for world messages.
+        /// </summary>
         [JsonPropertyName("world")]
         public Objects World { get; set; }
 
+        /// <summary>
+        /// UpdateMask type definitions for 3.3.5.
+        /// </summary>
         [JsonPropertyName("wrath_update_mask")]
         public IList<UpdateMask> WrathUpdateMask { get; set; }
     }

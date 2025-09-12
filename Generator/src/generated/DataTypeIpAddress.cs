@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
+    /// <summary>
+    /// 32-bit big endian integer.
+    /// </summary>
     public class DataTypeIpAddress : DataType
     {
         [JsonPropertyName("data_type_tag")]

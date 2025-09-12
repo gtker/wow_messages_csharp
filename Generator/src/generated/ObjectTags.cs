@@ -9,22 +9,39 @@ namespace Generator.Generated
         [JsonPropertyName("version")]
         public ObjectVersions Version_ { get; set; }
 
+        /// <summary>
+        /// Explanatory comment for object.
+        /// </summary>
         [JsonPropertyName("comment")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Comment { get; set; }
 
+        /// <summary>
+        /// Object body consists of uint32 with decompressed size followed by
+        /// compressed bytes of members.
+        /// </summary>
         [JsonPropertyName("compressed")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? Compressed { get; set; }
 
+        /// <summary>
+        /// Not sent in a network message but used in e.g. a DBC file or
+        /// otherwise in the client.
+        /// </summary>
         [JsonPropertyName("non_network_type")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? NonNetworkType { get; set; }
 
+        /// <summary>
+        /// Object isn't implemented. Unused.
+        /// </summary>
         [JsonPropertyName("unimplemented")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? Unimplemented { get; set; }
 
+        /// <summary>
+        /// Object is used by UpdateMask type.
+        /// </summary>
         [JsonPropertyName("used_in_update_mask")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? UsedInUpdateMask { get; set; }

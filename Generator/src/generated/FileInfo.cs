@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
+    /// <summary>
+    /// File information about the original .wowm definition.
+    /// </summary>
     public class FileInfo
     {
         [JsonPropertyName("end_position")]

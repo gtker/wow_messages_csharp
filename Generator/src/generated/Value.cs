@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
+    /// <summary>
+    /// Literal integer value.
+    /// </summary>
     public class Value
     {
         [JsonPropertyName("original_string")]

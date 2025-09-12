@@ -4,6 +4,10 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
+    /// <summary>
+    /// Arrays that have a variable amount of elements, determined by if there
+    /// are still unread bytes remaining.
+    /// </summary>
     public class ArraySizeEndless : ArraySize
     {
         [JsonPropertyName("array_size_tag")]

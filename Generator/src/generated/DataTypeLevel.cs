@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
+    /// <summary>
+    /// Level serialized as 8-bit value.
+    /// </summary>
     public class DataTypeLevel : DataType
     {
         [JsonPropertyName("data_type_tag")]

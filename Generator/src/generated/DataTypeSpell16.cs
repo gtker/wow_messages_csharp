@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
+    /// <summary>
+    /// 16-bit integer.
+    /// </summary>
     public class DataTypeSpell16 : DataType
     {
         [JsonPropertyName("data_type_tag")]

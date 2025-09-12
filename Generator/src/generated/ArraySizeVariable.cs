@@ -4,6 +4,10 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
+    /// <summary>
+    /// Arrays that have a variable amount of elements, determined by the value
+    /// in a previous variable.
+    /// </summary>
     public class ArraySizeVariable : ArraySize
     {
         [JsonPropertyName("array_size_tag")]

@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
+    /// <summary>
+    /// Login message sent by the client.
+    /// </summary>
     public class ObjectTypeClogin : ObjectType
     {
         [JsonPropertyName("container_type_tag")]

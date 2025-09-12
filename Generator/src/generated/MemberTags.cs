@@ -6,10 +6,16 @@ namespace Generator.Generated
 {
     public class MemberTags
     {
+        /// <summary>
+        /// Explanatory comment for member.
+        /// </summary>
         [JsonPropertyName("comment")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Comment { get; set; }
 
+        /// <summary>
+        /// Pretty printed string of definer enumerator.
+        /// </summary>
         [JsonPropertyName("display")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Display { get; set; }

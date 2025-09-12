@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Generator.Generated
 {
+    /// <summary>
+    /// World message sent by either the server or the client.
+    /// </summary>
     public class ObjectTypeMsg : ObjectType
     {
         [JsonPropertyName("container_type_tag")]

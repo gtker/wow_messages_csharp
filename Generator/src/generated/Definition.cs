@@ -6,6 +6,10 @@ namespace Generator.Generated
 {
     public class Definition
     {
+        /// <summary>
+        /// This is set if the field is ignored by the client or can only have a
+        /// single value.
+        /// </summary>
         [JsonPropertyName("constant_value")]
         public Value? ConstantValue { get; set; }
 
@@ -21,9 +25,16 @@ namespace Generator.Generated
         [JsonPropertyName("tags")]
         public MemberTags Tags { get; set; }
 
+        /// <summary>
+        /// This is set if the variable is used as the size in an array
+        /// variable.
+        /// </summary>
         [JsonPropertyName("used_as_size_in")]
         public string UsedAsSizeIn { get; set; }
 
+        /// <summary>
+        /// This is set if the variable is as the definer in an if statement.
+        /// </summary>
         [JsonPropertyName("used_in_if")]
         public bool UsedInIf { get; set; }
     }
